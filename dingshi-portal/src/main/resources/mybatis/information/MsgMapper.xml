@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.information.dao.MsgDao">
+<mapper namespace="com.dingshi.information.dao.MsgDao">
 
-	<select id="get" resultType="com.yinwang.information.domain.MsgDO">
+	<select id="get" resultType="com.dingshi.information.domain.MsgDO">
 		select 
 		`id`,`name`,`type`,`for_names`,`for_ids`,`for_type`,`for_details`,
 		`add_time`,date_format(add_time, '%Y-%m-%d %H:%i:%s') as addTime1,`update_time`,`delete_flag` 
 		from t_msg where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.information.domain.MsgDO">
+	<select id="list" resultType="com.dingshi.information.domain.MsgDO">
 		select `id`,`name`,`type`,`for_names`,`for_ids`,`for_type`,`for_details`,`add_time`,`update_time`,`delete_flag` from t_msg
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -67,7 +67,7 @@
 	 <select id="msgId" resultType="int">
 		select nextval('msg_sql') from dual
 	</select>
-	<insert id="save" parameterType="com.yinwang.information.domain.MsgDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.dingshi.information.domain.MsgDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_msg
 		(
 			id,
@@ -96,7 +96,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.information.domain.MsgDO">
+	<update id="update" parameterType="com.dingshi.information.domain.MsgDO">
 		update t_msg 
 		<set>
 			<if test="name != null">`name` = #{name}, </if>
@@ -111,7 +111,7 @@
 		</set>
 		where id = #{id}
 	</update>
-	<update id="updateUserMsg" parameterType="com.yinwang.information.domain.MsgDO">
+	<update id="updateUserMsg" parameterType="com.dingshi.information.domain.MsgDO">
 		update t_msg_user  set statue = 1 where id = #{value}
 	</update>
 	

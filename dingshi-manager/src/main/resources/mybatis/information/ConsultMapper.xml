@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.information.dao.ConsultDao">
+<mapper namespace="com.dingshi.information.dao.ConsultDao">
 
-	<select id="get" resultType="com.yinwang.information.domain.ConsultDO">
+	<select id="get" resultType="com.dingshi.information.domain.ConsultDO">
 		select `id`,`type`,`for_names`,`for_ids`,`title`,`url`,`is_disabled`,`details`,`browse_num`,`add_time`,`update_time`,`delete_flag` from t_consult where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.information.domain.ConsultDO">
+	<select id="list" resultType="com.dingshi.information.domain.ConsultDO">
 		select `id`,`type`,`for_names`,`for_ids`,`title`,`url`,`is_disabled`,`details`,`browse_num`,`add_time`,`update_time`,`delete_flag` from t_consult
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -68,7 +68,7 @@
 	<select id="consultId" resultType="int">
 		select nextval('consult_sql') from dual
 	</select>
-	<insert id="save" parameterType="com.yinwang.information.domain.ConsultDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.dingshi.information.domain.ConsultDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_consult
 		(
 			id,
@@ -101,7 +101,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.information.domain.ConsultDO">
+	<update id="update" parameterType="com.dingshi.information.domain.ConsultDO">
 		update t_consult 
 		<set>
 			<if test="type != null">`type` = #{type}, </if>

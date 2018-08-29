@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.information.dao.OrderDao">
+<mapper namespace="com.dingshi.information.dao.OrderDao">
 
-	<select id="get" resultType="com.yinwang.information.domain.OrderDO">
+	<select id="get" resultType="com.dingshi.information.domain.OrderDO">
 		select `id`,`order_no`,`out_order_no`,`total_fee`,`body`,`attach`,`create_time`,`create_user`,`pay_time`,`pay_way`,`trade_type`,`status`,`trade_no`,`spbill_create_ip`,`notify_url`,`queue_key`,`appid`,`mch_id`,`call_request_body`,`group` from pay_order where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.information.domain.OrderDO">
+	<select id="list" resultType="com.dingshi.information.domain.OrderDO">
 		select
 		po.id,
 		po.body as body,
@@ -53,7 +53,7 @@
 		 </where>
 	</select>
 	 
-	<insert id="save" parameterType="com.yinwang.information.domain.OrderDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.dingshi.information.domain.OrderDO" useGeneratedKeys="true" keyProperty="id">
 		insert into pay_order
 		(
 			`order_no`, 
@@ -100,7 +100,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.information.domain.OrderDO">
+	<update id="update" parameterType="com.dingshi.information.domain.OrderDO">
 		update pay_order 
 		<set>
 			<if test="orderNo != null">`order_no` = #{orderNo}, </if>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.owneruser.dao.OwnerUserDao">
+<mapper namespace="com.dingshi.owneruser.dao.OwnerUserDao">
 
-	<select id="get" resultType="com.yinwang.owneruser.domain.OwnerUserDO">
+	<select id="get" resultType="com.dingshi.owneruser.domain.OwnerUserDO">
 		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag` from t_user where id = #{value}
 	</select>
 	
-	<select id="getbyname" resultType="com.yinwang.owneruser.domain.OwnerUserDO">
+	<select id="getbyname" resultType="com.dingshi.owneruser.domain.OwnerUserDO">
 		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag` from t_user where username = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.owneruser.domain.OwnerUserDO">
+	<select id="list" resultType="com.dingshi.owneruser.domain.OwnerUserDO">
 		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag` from t_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -71,7 +71,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.yinwang.owneruser.domain.OwnerUserDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.dingshi.owneruser.domain.OwnerUserDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_user
 		(
 			`open_id`, 
@@ -116,7 +116,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.owneruser.domain.OwnerUserDO">
+	<update id="update" parameterType="com.dingshi.owneruser.domain.OwnerUserDO">
 		update t_user 
 		<set>
 			<if test="openId != null">`open_id` = #{openId}, </if>

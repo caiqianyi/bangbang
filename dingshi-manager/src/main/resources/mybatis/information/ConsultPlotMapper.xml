@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.information.dao.ConsultPlotDao">
+<mapper namespace="com.dingshi.information.dao.ConsultPlotDao">
 
-	<select id="get" resultType="com.yinwang.information.domain.ConsultPlotDO">
+	<select id="get" resultType="com.dingshi.information.domain.ConsultPlotDO">
 		select `id`,`consult_id`,`plot_id` from t_consult_plot where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.information.domain.ConsultPlotDO">
+	<select id="list" resultType="com.dingshi.information.domain.ConsultPlotDO">
 		select `id`,`consult_id`,`plot_id` from t_consult_plot
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -36,7 +36,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.yinwang.information.domain.ConsultPlotDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.dingshi.information.domain.ConsultPlotDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_consult_plot
 		(
 			`consult_id`, 
@@ -49,7 +49,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.information.domain.ConsultPlotDO">
+	<update id="update" parameterType="com.dingshi.information.domain.ConsultPlotDO">
 		update t_consult_plot 
 		<set>
 			<if test="consultId != null">`consult_id` = #{consultId}, </if>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.information.dao.RepairUserDao">
+<mapper namespace="com.dingshi.information.dao.RepairUserDao">
 
-	<select id="get" resultType="com.yinwang.information.domain.RepairUserDO">
+	<select id="get" resultType="com.dingshi.information.domain.RepairUserDO">
 		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username` from t_repair_user where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.information.domain.RepairUserDO">
+	<select id="list" resultType="com.dingshi.information.domain.RepairUserDO">
 		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username` from t_repair_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -68,7 +68,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.yinwang.information.domain.RepairUserDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.dingshi.information.domain.RepairUserDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_repair_user
 		(
 			`open_id`, 
@@ -113,7 +113,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.information.domain.RepairUserDO">
+	<update id="update" parameterType="com.dingshi.information.domain.RepairUserDO">
 		update t_repair_user 
 		<set>
 			<if test="openId != null">`open_id` = #{openId}, </if>

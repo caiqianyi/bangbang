@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.information.dao.TopicDao">
+<mapper namespace="com.dingshi.information.dao.TopicDao">
 
-	<select id="get" resultType="com.yinwang.information.domain.TopicDO">
+	<select id="get" resultType="com.dingshi.information.domain.TopicDO">
 		select `id`,`questionnaire_id`,`name`,`details`,`is_radio`,`add_time`,`update_time`,`delete_flag` from t_topic where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.information.domain.TopicDO">
+	<select id="list" resultType="com.dingshi.information.domain.TopicDO">
 		select `id`,`questionnaire_id`,`name`,`details`,`is_radio`,`add_time`,`update_time`,`delete_flag` from t_topic
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -46,7 +46,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.yinwang.information.domain.TopicDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.dingshi.information.domain.TopicDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_topic
 		(
 			`questionnaire_id`, 
@@ -69,7 +69,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.information.domain.TopicDO">
+	<update id="update" parameterType="com.dingshi.information.domain.TopicDO">
 		update t_topic 
 		<set>
 			<if test="questionnaireId != null">`questionnaire_id` = #{questionnaireId}, </if>

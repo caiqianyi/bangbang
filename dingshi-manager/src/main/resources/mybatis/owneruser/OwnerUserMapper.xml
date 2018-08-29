@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.owneruser.dao.OwnerUserDao">
+<mapper namespace="com.dingshi.owneruser.dao.OwnerUserDao">
 
-	<select id="get" resultType="com.yinwang.owneruser.domain.OwnerUserDO">
+	<select id="get" resultType="com.dingshi.owneruser.domain.OwnerUserDO">
 				SELECT
 	t.`id`,
 	t.`open_id`,
@@ -31,7 +31,7 @@ FROM
 LEFT JOIN t_user_plot tp ON t.id = tp.user_id where t.id = #{value}
 	</select>
 	
-		<select id="getup" resultType="com.yinwang.owneruser.domain.OwnerUserDO">
+		<select id="getup" resultType="com.dingshi.owneruser.domain.OwnerUserDO">
 				SELECT
 	t.`id`,
 	t.`open_id`,
@@ -60,7 +60,7 @@ FROM
 LEFT JOIN t_user_plot tp ON t.id = tp.user_id where t.id = #{id} and tp.address = #{address}
 	</select>
 	
-	<select id="list" resultType="com.yinwang.owneruser.domain.OwnerUserDO">
+	<select id="list" resultType="com.dingshi.owneruser.domain.OwnerUserDO">
 		SELECT
 	t.`id`,
 	t.`open_id`,
@@ -209,7 +209,7 @@ LEFT JOIN t_user_plot tp ON t.id = tp.user_id
 		</if>
 	</select>
 	
-	<update id="update" parameterType="com.yinwang.owneruser.domain.OwnerUserDO">
+	<update id="update" parameterType="com.dingshi.owneruser.domain.OwnerUserDO">
 			update t_user_plot
 		<set>
 			<if test="wuyefei != null">`wuyefei` = #{wuyefei}, </if>

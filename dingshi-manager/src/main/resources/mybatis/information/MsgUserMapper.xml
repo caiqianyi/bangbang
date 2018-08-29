@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.information.dao.MsgUserDao">
+<mapper namespace="com.dingshi.information.dao.MsgUserDao">
 
-	<select id="get" resultType="com.yinwang.information.domain.MsgUserDO">
+	<select id="get" resultType="com.dingshi.information.domain.MsgUserDO">
 		select `id`,`user_id`,`msg_id`,`statue`,`add_time`,`update_time` from t_msg_user where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.information.domain.MsgUserDO">
+	<select id="list" resultType="com.dingshi.information.domain.MsgUserDO">
 		select `id`,`user_id`,`msg_id`,`statue`,`add_time`,`update_time` from t_msg_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -42,7 +42,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.yinwang.information.domain.MsgUserDO">
+	<insert id="save" parameterType="com.dingshi.information.domain.MsgUserDO">
 		insert into t_msg_user
 		(
 			`user_id`, 
@@ -61,7 +61,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.information.domain.MsgUserDO">
+	<update id="update" parameterType="com.dingshi.information.domain.MsgUserDO">
 		update t_msg_user 
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>

@@ -1,14 +1,14 @@
-yinwang:
+dingshi:
   uploadPath: /var/uploaded_files/
 logging:
   level:
     root: error
-    com.yinwang: info
+    com.dingshi: info
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yinwang?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/dingshi?useUnicode=true&characterEncoding=utf8
     username: root
     password: tmn521hjj
     initialSize: 1

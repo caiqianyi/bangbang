@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.information.dao.ComplaintDao">
+<mapper namespace="com.dingshi.information.dao.ComplaintDao">
 
-	<select id="get" resultType="com.yinwang.information.domain.ComplaintDO">
+	<select id="get" resultType="com.dingshi.information.domain.ComplaintDO">
 		select `id`,`type`,`title`,`content`,`plot_id`,`user_id`,`statue` from t_complaint where id = #{value}
 	</select>
 
@@ -55,7 +55,7 @@
 	<select id="complaintId" resultType="int">
 		select nextval('complaint_sql') from dual
 	</select>
-	<insert id="save" parameterType="com.yinwang.information.domain.ComplaintDO">
+	<insert id="save" parameterType="com.dingshi.information.domain.ComplaintDO">
 		insert into t_complaint
 		(
 			`id`, 
@@ -80,7 +80,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.information.domain.ComplaintDO">
+	<update id="update" parameterType="com.dingshi.information.domain.ComplaintDO">
 		update t_complaint 
 		<set>
 			<if test="type != null">`type` = #{type}, </if>

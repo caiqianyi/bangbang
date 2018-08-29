@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.system.dao.RoleDao">
+<mapper namespace="com.dingshi.system.dao.RoleDao">
 
-	<select id="get" resultType="com.yinwang.system.domain.RoleDO">
+	<select id="get" resultType="com.dingshi.system.domain.RoleDO">
 		select
 		`role_id`,`role_name`,`role_sign`,`remark`,`user_id_create`,`gmt_create`,`gmt_modified`
 		from sys_role where role_id = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.system.domain.RoleDO">
+	<select id="list" resultType="com.dingshi.system.domain.RoleDO">
 		select
 		`role_id`,`role_name`,`role_sign`,`remark`,`user_id_create`,`gmt_create`,`gmt_modified`,`status`
 		from sys_role
@@ -49,7 +49,7 @@
 		</where>
 	</select>
 
-	<insert id="save" parameterType="com.yinwang.system.domain.RoleDO"
+	<insert id="save" parameterType="com.dingshi.system.domain.RoleDO"
 		useGeneratedKeys="true" keyProperty="roleId">
 		insert into sys_role
 		(
@@ -71,7 +71,7 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="com.yinwang.system.domain.RoleDO">
+	<update id="update" parameterType="com.dingshi.system.domain.RoleDO">
 		update sys_role
 		<set>
 			<if test="roleName != null">`role_name` = #{roleName}, </if>

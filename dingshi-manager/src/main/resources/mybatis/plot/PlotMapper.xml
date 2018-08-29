@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.plot.dao.PlotDao">
+<mapper namespace="com.dingshi.plot.dao.PlotDao">
 
-	<select id="get" resultType="com.yinwang.plot.domain.PlotDO">
+	<select id="get" resultType="com.dingshi.plot.domain.PlotDO">
 		select `id`,`name`,`user_name`,`phone`,`user_id`,`province`,`city`,`address`,`detailed_address`,`longitude`,`tower_num`,`unit_num`,`tier_num`,`property_fee`,`add_time`,`update_time`,`dalete_flag` from t_plot where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.yinwang.plot.domain.PlotDO">
+	<select id="list" resultType="com.dingshi.plot.domain.PlotDO">
 		select `id`,`name`,`user_name`,`phone`,`user_id`,`province`,`city`,`address`,`detailed_address`,`longitude`,`tower_num`,`unit_num`,`tier_num`,`property_fee`,`add_time`,`update_time`,`dalete_flag` from t_plot
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -64,7 +64,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.yinwang.plot.domain.PlotDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.dingshi.plot.domain.PlotDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_plot
 		(
 			`name`, 
@@ -105,7 +105,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.plot.domain.PlotDO">
+	<update id="update" parameterType="com.dingshi.plot.domain.PlotDO">
 		update t_plot 
 		<set>
 			<if test="name != null">`name` = #{name}, </if>
@@ -139,7 +139,7 @@
 		</foreach>
 	</delete>
 	
-	  <select id="listArea" resultType="com.yinwang.plot.domain.TArea">
+	  <select id="listArea" resultType="com.dingshi.plot.domain.TArea">
 		select `id`,`code`,`area_short`,`area_name`,`area_level`,`parent_code`,`tel_code`,`lng`,`lat`,`pinyin`,`merger_name` from t_area
         <where>  
 		  		  <if test="areaLevel != null and areaLevel != ''"> and area_level = #{areaLevel} </if>

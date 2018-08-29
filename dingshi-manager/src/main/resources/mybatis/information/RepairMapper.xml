@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yinwang.information.dao.RepairDao">
+<mapper namespace="com.dingshi.information.dao.RepairDao">
 
-	<select id="get" resultType="com.yinwang.information.domain.RepairDO">
+	<select id="get" resultType="com.dingshi.information.domain.RepairDO">
 		select `id`,`user_id`,`add_id`,`type_id`,`category_id`,`repair_time`,`details`,`add_time`,`money`,`statue` from t_repair where id = #{value}
 	</select>
 	<select id="getRepair" resultType="java.util.Map">
@@ -99,7 +99,7 @@
 		<if test="rendTime != null and rendTime != ''"> and tr.repair_time &lt;= #{rendTime} </if>
 	</select>
 	 
-	<insert id="save" parameterType="com.yinwang.information.domain.RepairDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.dingshi.information.domain.RepairDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_repair
 		(
 			`user_id`, 
@@ -126,7 +126,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.yinwang.information.domain.RepairDO">
+	<update id="update" parameterType="com.dingshi.information.domain.RepairDO">
 		update t_repair 
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>
