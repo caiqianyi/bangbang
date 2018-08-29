@@ -53,6 +53,22 @@ public class OwnerUserDO implements Serializable {
     //小区
     private List<Long> plotIds;
 
+	//车牌号
+	private String carNum;
+	//货车类型
+	private String carType;
+	//车大小
+	private String carSize;
+	//0:空载  1：非空载
+	private Integer carStatus;
+	//备注
+	private String desc;
+	//司机城市
+	private String address;
+	//拒单率
+	private Double refuse;
+	//准时率
+	private Double ontime;
 	/**
 	 * 设置：id
 	 */
@@ -290,6 +306,117 @@ public class OwnerUserDO implements Serializable {
 	public void setFileImg(MultipartFile fileImg) {
 		this.fileImg = fileImg;
 	}
-	
-	
+
+
+	/**
+	 * 获取: 车牌号
+	 */
+	public String getCarNum() {
+		return this.carNum;
+	}
+
+	/**
+	 * 设置: 车牌号
+	 */
+	public void setCarNum(String carNum) {
+		this.carNum = carNum;
+	}
+
+	/**
+	 * 获取: 货车类型
+	 */
+	public String getCarType() {
+		return this.carType;
+	}
+
+	/**
+	 * 设置: 货车类型
+	 */
+	public void setCarType(String carType) {
+		this.carType = carType;
+	}
+
+	/**
+	 * 获取: 车大小
+	 */
+	public String getCarSize() {
+		return this.carSize;
+	}
+
+	/**
+	 * 设置: 车大小
+	 */
+	public void setCarSize(String carSize) {
+		this.carSize = carSize;
+	}
+
+	/**
+	 * 获取: 0:空载  1：非空载
+	 */
+	public Integer getCarStatus() {
+		return this.carStatus;
+	}
+
+	/**
+	 * 设置: 0:空载  1：非空载
+	 */
+	public void setCarStatus(Integer carStatus) {
+		this.carStatus = carStatus;
+	}
+
+	/**
+	 * 获取: 备注
+	 */
+	public String getDesc() {
+		return this.desc;
+	}
+
+	/**
+	 * 设置: 备注
+	 */
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	/**
+	 * 获取: 司机城市
+	 */
+	public String getAddress() {
+		return this.address;
+	}
+
+	/**
+	 * 设置: 司机城市
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	/**
+	 * 获取: 拒单率
+	 */
+	public Double getRefuse() {
+		return this.refuse;
+	}
+
+	/**
+	 * 设置: 拒单率
+	 */
+	public void setRefuse(Double refuse) {
+		this.refuse = refuse;
+	}
+
+	/**
+	 * 获取: 准时率
+	 */
+	public Double getOntime() {
+		return this.ontime;
+	}
+
+	/**
+	 * 设置: 准时率
+	 */
+	public void setOntime(Double ontime) {
+		this.ontime = ontime;
+	}
 }
