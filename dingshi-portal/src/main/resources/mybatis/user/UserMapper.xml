@@ -4,11 +4,11 @@
 <mapper namespace="com.dingshi.owneruser.dao.OwnerUserDao">
 
 	<select id="get" resultType="com.dingshi.owneruser.domain.OwnerUserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag` from t_user where id = #{value}
+		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where id = #{value}
 	</select>
 	
 	<select id="getbyname" resultType="com.dingshi.owneruser.domain.OwnerUserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag` from t_user where username = #{value}
+		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where username = #{value}
 	</select>
 
 	<select id="list" resultType="com.dingshi.owneruser.domain.OwnerUserDO">
@@ -135,7 +135,16 @@
 			<if test="loginTime != null">`login_time` = #{loginTime}, </if>
 			<if test="addTime != null">`add_time` = #{addTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
-			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}</if>
+			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag},</if>
+			<if test="username != null">`username` = #{username},</if>
+			<if test="carNum != null">`car_num` = #{carNum},</if>
+			<if test="carType != null">`car_type` = #{carType},</if>
+			<if test="carSize != null">`car_size` = #{carSize},</if>
+			<if test="carStatus != null">`car_status` = #{carStatus},</if>
+			<if test="desc != null">`desc` = #{desc},</if>
+			<if test="address != null">`address` = #{address},</if>
+			<if test="refuse != null">`refuse` = #{refuse},</if>
+			<if test="ontime != null">`ontime` = #{ontime},</if>
 		</set>
 		where id = #{id}
 	</update>

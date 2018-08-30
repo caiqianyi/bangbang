@@ -2,12 +2,7 @@ package com.dingshi.owneruser.controller;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -17,18 +12,11 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.dingshi.common.annotation.Log;
 import com.dingshi.common.controller.BaseController;
-import com.dingshi.common.utils.MD5Utils;
-import com.dingshi.common.utils.R;
 import com.dingshi.common.utils.ShiroUtils;
-import com.dingshi.information.domain.NoticeDO;
 import com.dingshi.information.service.NoticeService;
 import com.dingshi.owneruser.comment.SMSContent;
 import com.dingshi.owneruser.comment.SMSPlatform;
@@ -38,211 +26,160 @@ import com.dingshi.owneruser.service.OwnerUserService;
 import com.dingshi.smsservice.service.ISMSService;
 
 
-@Controller
+@RestController
 public class LoginController extends BaseController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	private NoticeService noticeService;
-	@Autowired
-	OwnerUserService userService;
-	@Autowired
-	private ISMSService sMSService;
-	
-	@Log("请求访问主页")
-	@GetMapping({ "" })
-	String indexs(Model model) {
-		Map<String, Object> paramsNotice = new HashMap<String, Object>();
-		OwnerUserDO udo = this.getUser();
-		if(udo != null)
-			paramsNotice.put("user_id", this.getUserId());
-		List<NoticeDO> noticeList = noticeService.list(paramsNotice);
+    @Autowired
+    private NoticeService noticeService;
+    @Autowired
+    OwnerUserService userService;
+    @Autowired
+    private ISMSService sMSService;
 
-		model.addAttribute("noticeList", noticeList);
-		return "index";
-	}
-	
-	@Log("请求访问主页")
-	@GetMapping({ "/index" })
-	String index(Model model) {
-		
-		Map<String, Object> paramsNotice = new HashMap<String, Object>();
-		OwnerUserDO udo = this.getUser();
-		if(udo != null)
-			paramsNotice.put("user_id", this.getUserId());
-		List<NoticeDO> noticeList = noticeService.list(paramsNotice);
 
-		model.addAttribute("noticeList", noticeList);
-		return "index";
-	}	
-	
-	@GetMapping({ "/jieshao" })
-	String jieshao(Model model) {
-		return "jieshao";
-	}
+    /**
+     * @param phone 手机号
+     * @param type  类型 0：注册   1：登录
+     * @说明 发送验证码
+     */
+    @Log("发送验证码")
+    @PostMapping("/captcha")
+    Map<String, String> captcha(String phone, String type) {
+        Map<String, String> message = new HashMap<>();
+        try {
+            if (phone == null || "".equals(phone)) {
+                message.put("msg", "手机号码不能为空");
+            } else {
+                SMSTemplate contentType = SMSContent.ZHUCE;
+                if ("0".equals(type)) {
+                    contentType = SMSContent.ZHUCE;//注册
+                }
+                if ("1".equals(type)) {
+                    contentType = SMSContent.LOGIN;//登录
+                }
 
-	@GetMapping("/login")
-	String login() {
-		return "user/denglu";
-	}
-	@GetMapping("/zhuce")
-	String zhuce() {
-		return "user/zhuce";
-	}
-	@GetMapping("/wangjimima")
-	String wangjimima() {
-		return "user/wangjimima";
-	}
+                Map<String, Object> map = sMSService.sendCodeNumber(SMSPlatform.dingshi, phone, contentType);
+                if (map == null) {
+                    message.put("msg", "验证码发送出现问题,请三分钟后再试");
+                } else {
+                    String code = map.get("randomCode").toString();
+                    Subject subject = SecurityUtils.getSubject();
+                    subject.getSession().setAttribute("sys.login.check.code", phone + code);
+                    message.put("msg", "发送成功");
+                }
+            }
+        } catch (Exception e) {
+            logger.info("SMS==================验证码发送出现问题========" + phone + "======");
+            message.put("msg", "验证码发送出现问题,请三分钟后再试");
+        }
+        return message;
+    }
 
-	@Log("登录")
-	@PostMapping("/login")
-	@ResponseBody
-	R ajaxLogin(String username, String password) {
-		password = MD5Utils.encrypt(username, password);
-		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-		Subject subject = SecurityUtils.getSubject();
-		try {
-			Map<String, Object> mapP = new HashMap<String, Object>();
-			mapP.put("username", username);
-			boolean flag = userService.exit(mapP);
-			if (!flag) {
-				return R.error("该手机号码未注册");
-			}
-			OwnerUserDO udo= userService.getbyname(username);
-			if(udo.getDeleteFlag()==1){
-				return R.error("禁止登录，请联系客服");
-			}
-			subject.login(token);
-			udo.setLoginTime(new Date());
-			userService.update(udo);
-			return R.ok();
-		} catch (AuthenticationException e) {
-			return R.error("用户或密码错误");
-		}
-	}
-	@Log("注册")
-	@PostMapping("/zhuce")
-	@ResponseBody
-	R ajaxZhuce(String username, String password, String nickname, String codenum) {
-		if (StringUtils.isBlank(username)) {
-			return R.error("手机号码不能为空");
-		}
-		password = MD5Utils.encrypt(username, password);
-		OwnerUserDO udo= new OwnerUserDO();
-		Subject subject = SecurityUtils.getSubject();
-		String captcha =subject.getSession().getAttribute("sys.login.check.code").toString();
-		if (captcha == null || "".equals(captcha)) {
-			return R.error("验证码已失效，请重新点击发送验证码");
-		}
-		// session中存放的验证码是手机号+验证码
-		if (!captcha.equalsIgnoreCase(username + codenum)) {
-			return R.error("手机验证码错误");
-		}
-		Map<String, Object> mapP = new HashMap<String, Object>();
-		mapP.put("username", username);
-		boolean flag = userService.exit(mapP);
-		if (flag) {
-			return R.error("手机号码已存在");
-		}
-		udo.setUsername(username);
-		udo.setPhone(username);
-		udo.setPassword(password);
-		udo.setNickname(nickname);
-		udo.setBalance(0.00);
-		udo.setDeleteFlag(0);
-		udo.setRegisterTime(new Date());
-		if (userService.save(udo) > 0) {
-			return R.ok();
-		}
-		return R.error();
-	}
-	@Log("忘记密码")
-	@PostMapping("/retpwd")
-	@ResponseBody
-	R retpwd(String username, String password,  String codenum) {
-		if (StringUtils.isBlank(username)) {
-			return R.error("手机号码不能为空");
-		}
-		Map<String, Object> mapP = new HashMap<String, Object>();
-		mapP.put("username", username);
-		boolean flag = userService.exit(mapP);
-		if (!flag) {
-			return R.error("该手机号码未注册");
-		}
-		password = MD5Utils.encrypt(username, password);
-		OwnerUserDO udo= userService.getbyname(username);
-		Subject subject = SecurityUtils.getSubject();
-		String captcha =subject.getSession().getAttribute("sys.login.check.code").toString();
-		if (captcha == null || "".equals(captcha)) {
-			return R.error("验证码已失效，请重新点击发送验证码");
-		}
-		// session中存放的验证码是手机号+验证码
-		if (!captcha.equalsIgnoreCase(username + codenum)) {
-			return R.error("手机验证码错误");
-		}
-		udo.setPassword(password);
-		if (userService.update(udo) > 0) {
-			return R.ok();
-		}
-		return R.error();
-	}
-	@GetMapping("/logout")
-	String logout() {
-		ShiroUtils.logout();
-		return "redirect:/login";
-	}
+    @Log("用户注册")
+    @PostMapping("/register")
+    Map<String, String> register(String phone, String codenum) {
+        Map<String, String> message = new HashMap<>();
+        String msg = "";
+        if (StringUtils.isBlank(phone)) {
+            message.put("msg", "手机号码不能为空");
+        } else {
+            Subject subject = SecurityUtils.getSubject();
+            Object object = subject.getSession().getAttribute("sys.login.check.code");
+            if (object != null) {
+                String captcha = object.toString();
+                if (captcha == null || "".equals(captcha)) {
+                    message.put("msg", "验证码已失效，请重新点击发送验证码");
+                } else {
+                    // session中存放的验证码是手机号+验证码
+                    if (!captcha.equalsIgnoreCase(phone + codenum)) {
+                        message.put("msg", "手机验证码错误");
+                    } else {
+                        Map<String, Object> mapP = new HashMap<String, Object>();
+                        mapP.put("username", phone);
+                        boolean flag = userService.exit(mapP);
+                        if (flag) {
+                            message.put("msg", "手机号码已存在");
+                        } else {
+                            OwnerUserDO udo = new OwnerUserDO();
+                            udo.setUsername(phone);
+                            udo.setPhone(phone);
+                            udo.setPassword("123456");
+                            udo.setNickname(phone);
+                            udo.setBalance(0.00);
+                            udo.setDeleteFlag(0);
+                            udo.setRegisterTime(new Date());
+                            if (userService.save(udo) > 0) {
+                                message.put("msg", "注册成功");
+                            } else {
+                                message.put("msg", "注册失败");
+                            }
+                        }
+                    }
+                }
+            } else {
+                message.put("msg", "手机验证码错误");
+            }
+        }
+        return message;
+    }
 
-	@GetMapping("/main")
-	String main() {
-		return "main";
-	}
-	
-	/**
-	 * @说明 发送验证码
-	 * 暂时只有注册
-	 * @author tmn
-	 * @update tmn
-	 * @param phone		手机号
-	 * @param type		类型 0：注册   1实名认证   
-	 * @param request
-	 * @param response
-	 */
-	@PostMapping("/verificationcodeNumber")
-	@ResponseBody
-	   R verificationcodeNumber(String phone,String type) {
-		if (phone == null || "".equals(phone)) {
-			return R.error("手机号码不能为空");
-		}
-		
-		//短信内容
-		SMSTemplate contentType = SMSContent.ZHUCE;
-		//短信内容
-		if("0".equals(type)){
-			contentType = SMSContent.ZHUCE;//注册
-		}
-		if("1".equals(type)){
-			contentType = SMSContent.ZHAOHUI_LOGIN;//找回密码
-			Map<String, Object> mapP = new HashMap<String, Object>();
-			mapP.put("username", phone);
-			boolean flag = userService.exit(mapP);
-			if (!flag) {
-				return R.error("该手机号码未注册");
-			}
-		}
-		
-		try {
-				Map<String, Object> map = sMSService.sendCodeNumber(SMSPlatform.dingshi, phone, contentType);
-				if(map == null){
-					return R.error("验证码发送出现问题,请三分钟再试");
-				}
-				String code = map.get("randomCode").toString();
-				Subject subject = SecurityUtils.getSubject();
-				subject.getSession().setAttribute("sys.login.check.code", phone + code);
-				
-				return R.ok();
-		} catch (Exception e) {
-			logger.info("SMS==================验证码发送出现问题========" + phone + "======");
-			return R.error("验证码发送出现问题,请三分钟再试");
-		}
-	}
+    @Log("登录")
+    @PostMapping("/login")
+    Map<String, Object> login(String phone, String password, String codenum) {
+        Map<String, Object> message = new HashMap<>();
+        String msg = "";
+        UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
+        Subject subject = SecurityUtils.getSubject();
+        Object object = subject.getSession().getAttribute("sys.login.check.code");
+        try {
+            if (object != null) {
+                String captcha = object.toString();
+                if (captcha == null || "".equals(captcha)) {
+                    message.put("msg", "验证码已失效，请重新点击发送验证码");
+                } else {
+                    // session中存放的验证码是手机号+验证码
+                    if (!captcha.equalsIgnoreCase(phone + codenum)) {
+                        message.put("msg", "手机验证码错误");
+                    } else {
+                        Map<String, Object> mapP = new HashMap<String, Object>();
+                        mapP.put("username", phone);
+                        boolean flag = userService.exit(mapP);
+                        if (!flag) {
+                            message.put("msg", "该手机号码未注册");
+                        } else {
+                            OwnerUserDO udo = userService.getbyname(phone);
+                            if (udo.getDeleteFlag() == 1) {
+                                message.put("msg", "禁止登录，请联系客服");
+                            } else {
+                                subject.login(token);
+                                udo.setLoginTime(new Date());
+                                userService.update(udo);
+                                message.put("id", udo.getId());
+                                message.put("nickname", udo.getNickname());
+                                message.put("heardUrl", udo.getHeardUrl());
+                                message.put("loginTime", udo.getLoginTime());
+                                message.put("msg", "登录成功");
+                            }
+                        }
+                    }
+                }
+            } else {
+                message.put("msg", "手机验证码错误");
+            }
+        } catch (AuthenticationException e) {
+            message.put("msg", "手机号或验证码错误");
+        }
+        return message;
+    }
+
+    @Log("登出")
+    @GetMapping("/logout")
+    Map<String, String> logout() {
+        Map<String, String> message = new HashMap<>();
+        ShiroUtils.logout();
+        message.put("msg", "登出成功");
+        return message;
+    }
+
 }

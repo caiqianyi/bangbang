@@ -7,10 +7,13 @@ package com.dingshi.owneruser.comment;
  */
 public enum SMSContent implements SMSTemplate{
 
-	ZHUCE("欢迎您注册「银网物业」，您本次的注册验证码为：#randomCode#。请您妥善保存用户名及密码信息，勿向他人泄露。","注册"),
+	ZHUCE("欢迎您注册「鼎石物流」，您本次的注册验证码为：#randomCode#。请您妥善保存验证码，勿向他人泄露。","注册"),
 	
 	
-	ZHAOHUI_LOGIN("您正在进行密码找回操作，您本次的验证码为：#randomCode#。请您妥善保存用户名及密码信息，勿向他人泄露。", "找回登陆密码");
+	ZHAOHUI_LOGIN("您正在进行密码找回操作，您本次的验证码为：#randomCode#。请您妥善保存验证码，勿向他人泄露。", "找回登陆密码"),
+
+
+	LOGIN("欢迎您登录「鼎石物流」，您本次的验证码为：#randomCode#。请您妥善保存验证码，勿向他人泄露。", "登陆");
 	
 
 	private String content;

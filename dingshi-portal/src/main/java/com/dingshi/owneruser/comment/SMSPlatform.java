@@ -6,7 +6,7 @@ package com.dingshi.owneruser.comment;
  * @create 2017-4-13
  */
 public enum SMSPlatform {
-	dingshi(1,"【银网物业】","username=1111&password=xy-11111","name=bjywhy&password=123qaz789");// 腾信、快用云账号配置
+	dingshi(1,"【鼎石物流】","username=1111&password=xy-11111","name=bjywhy&password=123qaz789");// 腾信、快用云账号配置
 
 	public int code;
 	public String qianming;

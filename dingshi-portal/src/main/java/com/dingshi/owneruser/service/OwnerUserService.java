@@ -11,7 +11,7 @@ import com.dingshi.owneruser.domain.OwnerUserDO;
 
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
+
 public interface OwnerUserService {
 	OwnerUserDO get(Long id);
 	

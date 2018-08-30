@@ -37,7 +37,7 @@ import com.dingshi.smsservice.service.ISMSService;
  */
 @Service("sMSService")
 public class SMSServiceImpl implements ISMSService{
-	
+
 	private Logger logger = LoggerFactory.getLogger(SMSServiceImpl.class);
 	private static String RANDOM_CODE = "SYS_RANDOM_CODE";
 	private static String RANDOM_CODE_DAY = "SYS_RANDOM_CODE_DAY";
@@ -46,10 +46,10 @@ public class SMSServiceImpl implements ISMSService{
 	private static int RANDOM_CODE_COUNT_MAX = 20;
 	private static String validateKey = "sys.sms.validate.code";
 	private static HashSet<String> whiteList = new HashSet<String>();
-	
+
 	@Resource
 	 RedisManager redisManager = new RedisManager();
-	
+
 	static{
 		  String _limit="3";
 		  String _max = "10";
@@ -68,7 +68,7 @@ public class SMSServiceImpl implements ISMSService{
 			  }
 		  }
 	}
-	
+
 	@Override
 	public boolean sendTongzhi(SMSPlatform gateway, String mobile,SMSTemplate contentType,Object... objs) {
 		String content = contentType.getContent();
@@ -81,7 +81,7 @@ public class SMSServiceImpl implements ISMSService{
 		System.out.println("==gateway=="+gateway+"==mobile=="+mobile+"==content=="+content);
 		return sendSMS(gateway, mobile, content);
 	}
-	
+
 	public int sendNumber(String key){
 		int number = 10;
 		/*Object obj = redisManager.get(key);
@@ -92,11 +92,11 @@ public class SMSServiceImpl implements ISMSService{
 		}*/
 		return number;
 	}
-	
+
 	public Map<String, Object> sendCodeNumber(SMSPlatform gateway, String mobile,SMSTemplate contentType){
 		return sendCodeNumber(gateway, mobile, contentType, (new Random()).nextInt(899999) + 100000);// 最大值位999999
 	}
-	
+
 	public Map<String, Object> sendCodeNumber(SMSPlatform gateway, String mobile,SMSTemplate contentType,int randomCode){
 		Map<String, Object> map = new HashMap<String, Object>();
 		setRandomCode(mobile, randomCode+"");
@@ -116,14 +116,14 @@ public class SMSServiceImpl implements ISMSService{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String sendCode(SMSPlatform gateway, String mobile, SMSTemplate contentType) {
 		return sendCode(gateway, mobile, contentType, (new Random()).nextInt(899999) + 100000);// 最大值位999999
 	}
-	
-	
-	
+
+
+
 	@Override
 	public String sendCode(SMSPlatform gateway, String mobile, SMSTemplate contentType,int randomCode) {
 		//更新redis
@@ -134,48 +134,61 @@ public class SMSServiceImpl implements ISMSService{
 		if(sendSMS(gateway, mobile, content)){
 			logger.info("您的验证码是:"+randomCode);
 			//添加验证码到redis中
-			
+
 			return randomCode+"";
 		}
 		return "";
 	}
-	
+
 	//发送短信
 	private boolean sendSMS(final SMSPlatform gateway, final String mobile, final String content) {
 		boolean isSendSuccess = false;
 		try {
-			
-				Date date = new Date();  
-		        String send = null;  
-				DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");  
-				send = sdf.format(date); 
-				String password = MD5.MD5(MD5.MD5("123qaz789")+send);
-				String kuaiyongyun = "http://210.51.191.35:8080/eums/sms/send.do?name=bjywhy&seed="+send+"&key="+password+"&dest=#MOBILES#&content=#SMS_CONTENT#";
+
+				Date date = new Date();
+		        String send = null;
+				DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+				send = sdf.format(date);
+				//String password = MD5.MD5(MD5.MD5("123qaz789")+send);
+				String kuaiyongyun = "https://sdk2.028lk.com/sdk2/BatchSend2.aspx?CorpID=sjzjs004976&Pwd=zm0513@&Mobile=#MOBILES#&Content=#SMS_CONTENT#&Cell=&SendTime=";
+			//https://sdk2.028lk.com/sdk2/BatchSend2.aspx?CorpID=*&Pwd=*&Mobile=*&Content=*&Cell=&SendTime=
 				kuaiyongyun =kuaiyongyun
 						.replaceAll("#MOBILES#", URLEncoder.encode(mobile,"GBK"))
 						.replaceAll("#SMS_CONTENT#", URLEncoder.encode(content,"GBK"))
 						.replaceAll("#.*#", "");
 				logger.info("kuaiyongyun->" + kuaiyongyun);
 				URL smsurl = new URL(kuaiyongyun);
-				URLConnection UConn = smsurl.openConnection();  
+				URLConnection UConn = smsurl.openConnection();
 				BufferedReader breader = new BufferedReader(new InputStreamReader(UConn.getInputStream()));
-				 
+
 				String str=breader.readLine();
 				str = URLDecoder.decode(str,"GBK");
-				if(str.toLowerCase().startsWith("success")){
+				int result =Integer.parseInt(str);
+				/*if(str.toLowerCase().startsWith("success")){
 					isSendSuccess = true;
 					logger.info("[快用科技]短信发送成功:"+content+"==>>"+mobile);
 				}else{
 					str = "[快用科技]短信发送失败。mobile===>>:"+mobile+"  内容===>>:"+content+"  失败原因："+str.split(":")[1];
 					logger.info(str);
-				}
-		} catch (Exception ex) {
+				}*/
+				if(result>0){
+                    isSendSuccess = true;
+                    logger.info("[快用科技]短信发送成功:"+content+"==>>"+mobile);
+                }else{
+                    str = "[快用科技]短信发送失败。mobile===>>:"+mobile+"  内容===>>:"+content+"  失败原因："+str.split(":")[1];
+                    logger.info(str);
+                }
+		} catch (NumberFormatException ex){
+            logger.error("短信通道发送短信时,出现异常:"+ex.getMessage());
+            //清除redis记录
+            removeRandomCode(mobile);
+        }catch (Exception ex) {
 			logger.error("短信通道发送短信时,出现异常:"+ex.getMessage());
 			//清除redis记录
 			removeRandomCode(mobile);
 		}
 
-		return isSendSuccess;
+        return isSendSuccess;
 	}
 /*	// 解析下发response
 	public String xmlMt(String response) {
@@ -195,9 +208,9 @@ public class SMSServiceImpl implements ISMSService{
 		return result;
 	}
 	*/
-	
-	
-	
+
+
+
 	@Override
 	public String getRandomCode(String mobile) {
 		/*if(StringUtils.isNotBlank(mobile))
@@ -238,7 +251,7 @@ public class SMSServiceImpl implements ISMSService{
 		redisCache.set(RANDOM_CODE+mobile, randomCode, 60*3*1000);
 		redisCache.set(RANDOM_CODE_COUNT+mobile, count==null? 1 : count+1 , time);*/
 	}
-	
+
 	@Override
 	public boolean isRandomOk(Integer randomcode) {
 /*		Integer uuid = (Integer)redisCache.get(validateKey+WebContext.getSession().getId());
@@ -247,10 +260,10 @@ public class SMSServiceImpl implements ISMSService{
 		}*/
 		return false;
 	}
-	
+
 	public static void main(String[] args) {
 		new SMSServiceImpl().sendTongzhi(SMSPlatform.dingshi,"15210858517", SMSContent.ZHUCE,"1");
- 
+
 	}
 
 }

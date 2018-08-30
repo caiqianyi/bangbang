@@ -65,7 +65,7 @@ public class ShiroConfig {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 		shiroFilterFactoryBean.setLoginUrl("/login");
-		shiroFilterFactoryBean.setSuccessUrl("/index");
+		//shiroFilterFactoryBean.setSuccessUrl("/index");
 		shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 		filterChainDefinitionMap.put("/css/**", "anon");
@@ -81,8 +81,8 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/information/consult/queryMsgDetails", "anon");
 		filterChainDefinitionMap.put("/information/notice", "anon");
 		filterChainDefinitionMap.put("/information/consult", "anon");
-		filterChainDefinitionMap.put("/zhuce", "anon");
-		filterChainDefinitionMap.put("/verificationcodeNumber", "anon");
+		filterChainDefinitionMap.put("/register", "anon");
+		filterChainDefinitionMap.put("/captcha", "anon");
 		filterChainDefinitionMap.put("/retpwd", "anon");
 		filterChainDefinitionMap.put("/wangjimima", "anon");
 		filterChainDefinitionMap.put("/jiaofei/wuye/notifycallback", "anon");
