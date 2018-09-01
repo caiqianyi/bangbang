@@ -18,7 +18,7 @@ public interface ConsultDao {
 
 	ConsultDO get(Integer id);
 	
-	List<Map<Object, String>> list(Map<String,Object> map);
+	List<Map<String,Object>> list(Map<String,Object> map);
 	
 	int count(Map<String,Object> map);
 	

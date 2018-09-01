@@ -4,17 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dingshi.common.annotation.Log;
+import com.dingshi.common.domain.LogDO;
+import com.dingshi.common.domain.PageDO;
+import com.dingshi.common.utils.Query;
+import com.dingshi.common.utils.R;
+import com.dingshi.common.utils.StringUtils;
+import com.dingshi.information.domain.ConsultDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import com.dingshi.common.config.BootdoConfig;
 import com.dingshi.common.controller.BaseController;
-import com.dingshi.information.domain.ConsultDO;
 import com.dingshi.information.service.ConsultService;
-import com.dingshi.owneruser.domain.OwnerUserDO;
 
 /**
  * 交易表
@@ -24,38 +26,34 @@ import com.dingshi.owneruser.domain.OwnerUserDO;
  * @date 2018-04-13 14:42:52
  */
  
-@Controller
+@RestController
 @RequestMapping("/information/consult")
 public class ConsultController extends BaseController{
 	@Autowired
 	private ConsultService consultService;
-	@Autowired
-	private BootdoConfig bootdoConfig;
 
 	
-	
-	@GetMapping()
-	String Consult(int type,Model model){
-		Map<String, Object> param = new HashMap<String, Object>();
-		OwnerUserDO user = this.getUser();
-		if(user != null)
-			param.put("userId", this.getUserId());
-		param.put("type", type);
-		List<Map<Object, String>> consultList = consultService.list(param);
-		model.addAttribute("consultList", consultList);
-		model.addAttribute("type", type);
-		return "information/consult/xinwengonggao";
+	@Log("消息列表")
+	@GetMapping("/msgList")
+	Map<String, Object> msgList(@RequestParam Map<String, Object> params){
+		Map<String, Object> map = new HashMap<String, Object>();
+		params.put("deleteFlag", 1);
+		Query query = new Query(params);
+		PageDO<Map<String,Object>> page = consultService.list(query);
+		map.put("msg",page);
+		return map;
 	}
-	
-
-	@GetMapping("/queryMsgDetails")
-	String queryMsgDetails(Integer id,Model model){
+	@Log("阅读消息")
+	@PostMapping("/editMsg")
+	Map<String, Object>  editMsg(Integer id){
+		Map<String, Object> map = new HashMap<String, Object>();
 		ConsultDO consult = consultService.get(id);
-		int num = consult.getBrowseNum() == null ? 0 : consult.getBrowseNum();
-		consult.setBrowseNum(num + 1);
-		consultService.update(consult);
-		model.addAttribute("consult", consult);
-		return "information/consult/xinwenxiangqing";
+		if(consult!=null){
+			int num = consult.getBrowseNum() == null ? 0 : consult.getBrowseNum();
+			consult.setBrowseNum(num + 1);
+			consultService.update(consult);
+		}
+		map.put("msg","success");
+		return map;
 	}
-		
 }

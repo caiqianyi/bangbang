@@ -1,6 +1,9 @@
 package com.dingshi.information.service;
 
+import com.dingshi.common.domain.PageDO;
+import com.dingshi.common.utils.Query;
 import com.dingshi.information.domain.ConsultDO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +18,8 @@ import java.util.Map;
 public interface ConsultService {
 	
 	ConsultDO get(Integer id);
-	
-	List<Map<Object, String>> list(Map<String,Object> map);
+
+	PageDO<Map<String,Object>> list(Query query);
 	
 	int count(Map<String, Object> map);
 	

@@ -1,6 +1,10 @@
 package com.dingshi.information.service.impl;
 
+import com.dingshi.common.domain.LogDO;
+import com.dingshi.common.domain.PageDO;
+import com.dingshi.common.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +27,13 @@ public class ConsultServiceImpl implements ConsultService {
 	}
 	
 	@Override
-	public List<Map<Object, String>> list(Map<String,Object> map){
-		return consultDao.list(map);
+	public PageDO<Map<String,Object>> list(Query query){
+        int total = consultDao.count(query);
+        List<Map<String,Object>> list = consultDao.list(query);
+        PageDO<Map<String,Object>> page = new PageDO<>();
+        page.setTotal(total);
+        page.setRows(list);
+        return page;
 	}
 	
 	@Override

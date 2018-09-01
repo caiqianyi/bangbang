@@ -3,7 +3,7 @@
 
 <mapper namespace="com.dingshi.information.dao.ConsultDao">
 
-	<select id="get" resultType="com.dingshi.information.domain.ConsultDO">
+    <select id="get" resultType="com.dingshi.information.domain.ConsultDO">
 		select 
 		`id`,`type`,`for_names`,`for_ids`,`title`,`url`,`is_disabled`,
 		`details`,`browse_num`,`add_time`,date_format(add_time, '%Y-%m-%d %H:%i:%s') as addTime1,
@@ -11,36 +11,54 @@
 		from t_consult where id = #{value}
 	</select>
 
-	<select id="list" resultType="java.util.Map">
-		select distinct
-			tc.id,
-			tc.title,
-			date_format(tc.add_time, '%Y-%m-%d %H:%i:%s') as addTime,
-			tc.url
-		from t_consult tc,t_consult_plot tcp,t_user_plot tup
-		where tc.id = tcp.consult_id and tcp.plot_id = tup.plot_id
-		and tc.type = #{type}
-		and tc.is_disabled = 0
-		<if test="userId != null">and tup.user_id = #{userId} </if>
-		ORDER BY tc.add_time DESC
-	</select>
-	
-	<update id="update" parameterType="com.dingshi.information.domain.ConsultDO">
-		update t_consult 
-		<set>
-			<if test="type != null">`type` = #{type}, </if>
-			<if test="forNames != null">`for_names` = #{forNames}, </if>
-			<if test="forIds != null">`for_ids` = #{forIds}, </if>
-			<if test="title != null">`title` = #{title}, </if>
-			<if test="url != null">`url` = #{url}, </if>
-			<if test="isDisabled != null">`is_disabled` = #{isDisabled}, </if>
-			<if test="details != null">`details` = #{details}, </if>
-			<if test="browseNum != null">`browse_num` = #{browseNum}, </if>
-			<if test="addTime != null">`add_time` = #{addTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
-			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}</if>
-		</set>
-		where id = #{id}
-	</update>
-	
+    <select id="list" resultType="java.util.Map">
+        select
+        tc.id,tc.type,tc.for_names,tc.for_ids,tc.title,tc.url,tc.is_disabled,tc.
+        details,tc.browse_num,tc.add_time,date_format(tc.add_time,'%Y-%m-%d %H:%i:%s') as addTime1,tc.
+        update_time,tc.delete_flag,tc.user_id,tu.nickname
+        from t_consult tc left join t_user tu on tu.id = tc.user_id
+        <where>
+            <if test="deleteFlag != null and deleteFlag != ''">and tc.delete_flag = #{deleteFlag}</if>
+            <if test="type != null and type != ''">and tc.type = #{type}</if>
+        </where>
+        ORDER BY tc.add_time DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <update id="update" parameterType="com.dingshi.information.domain.ConsultDO">
+        update t_consult
+        <set>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="forNames != null">`for_names` = #{forNames},</if>
+            <if test="forIds != null">`for_ids` = #{forIds},</if>
+            <if test="title != null">`title` = #{title},</if>
+            <if test="url != null">`url` = #{url},</if>
+            <if test="isDisabled != null">`is_disabled` = #{isDisabled},</if>
+            <if test="details != null">`details` = #{details},</if>
+            <if test="browseNum != null">`browse_num` = #{browseNum},</if>
+            <if test="addTime != null">`add_time` = #{addTime},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime},</if>
+            <if test="deleteFlag != null">`delete_flag` = #{deleteFlag}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="count" resultType="int">
+        select count(*) from t_consult
+        <where>
+            <if test="type != null">and type = #{type}</if>
+            <if test="forNames != null">and for_names = #{forNames}</if>
+            <if test="forIds != null">and for_ids = #{forIds}</if>
+            <if test="title != null">and title = #{title}</if>
+            <if test="url != null">and url = #{url}</if>
+            <if test="isDisabled != null">and is_disabled = #{isDisabled}</if>
+            <if test="details != null">and details = #{details}</if>
+            <if test="browseNum != null">and browse_num = #{browseNum}</if>
+            <if test="addTime != null">and add_time = #{addTime}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
 </mapper>
