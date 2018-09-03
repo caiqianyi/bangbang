@@ -27,10 +27,10 @@ public class ConsultServiceImpl implements ConsultService {
 	}
 	
 	@Override
-	public PageDO<Map<String,Object>> list(Query query){
+	public PageDO<ConsultDO> list(Query query){
         int total = consultDao.count(query);
-        List<Map<String,Object>> list = consultDao.list(query);
-        PageDO<Map<String,Object>> page = new PageDO<>();
+        List<ConsultDO> list = consultDao.list(query);
+        PageDO<ConsultDO> page = new PageDO<>();
         page.setTotal(total);
         page.setRows(list);
         return page;

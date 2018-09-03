@@ -11,17 +11,17 @@
 		from t_consult where id = #{value}
 	</select>
 
-    <select id="list" resultType="java.util.Map">
+    <select id="list" resultType="com.dingshi.information.domain.ConsultDO">
         select
-        tc.id,tc.type,tc.for_names,tc.for_ids,tc.title,tc.url,tc.is_disabled,tc.
-        details,tc.browse_num,tc.add_time,date_format(tc.add_time,'%Y-%m-%d %H:%i:%s') as addTime1,tc.
-        update_time,tc.delete_flag,tc.user_id,tu.nickname
-        from t_consult tc left join t_user tu on tu.id = tc.user_id
+        id,type,for_names,for_ids,title,url,is_disabled,
+        details,browse_num,add_time,date_format(add_time,'%Y-%m-%d %H:%i:%s') as addTime1,
+        update_time,delete_flag,user_id
+        from t_consult
         <where>
-            <if test="deleteFlag != null and deleteFlag != ''">and tc.delete_flag = #{deleteFlag}</if>
-            <if test="type != null and type != ''">and tc.type = #{type}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+            <if test="type != null and type != ''">and type = #{type}</if>
         </where>
-        ORDER BY tc.add_time DESC
+        ORDER BY add_time DESC
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>

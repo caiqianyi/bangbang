@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dingshi.information.dao.OrderDao">
+
+
+    <select id="listByDriver" resultType="com.dingshi.information.domain.OrderDO">
+        select
+        id,order_num,order_money,pay_type,order_type,
+        order_details,user_id,linkman,phone,s_adress,e_adress,
+        car_size,car_type,goods_type,goods_weight,
+        start_time,add_time,update_time,driver_id,driver_phone,delete_flg
+        from t_order
+        <where>
+            <if test="orderNum != null">and order_num = #{orderNum}</if>
+            <if test="orderMoney != null">and order_money = #{orderMoney}</if>
+            <if test="payType != null">and pay_type = #{payType}</if>
+            <if test="orderType != null">and order_type = #{orderType}</if>
+            <if test="orderDetails != null">and order_details = #{orderDetails}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="linkman != null">and linkman = #{linkman}</if>
+            <if test="phone != null">and phone = #{phone}</if>
+            <if test="sAdress != null">and s_adress = #{sAdress}</if>
+            <if test="eAdress != null">and e_adress = #{eAdress}</if>
+            <if test="carSize != null">and car_size = #{carSize}</if>
+            <if test="carType != null">and car_type = #{carType}</if>
+            <if test="goodsType != null">and goods_type = #{goodsType}</if>
+            <if test="goodsWeight != null">and goods_weight = #{goodsWeight}</if>
+            <if test="startTime != null">and start_time = #{startTime}</if>
+            <if test="addTime != null">and add_time = #{addTime}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="driverId != null">and driver_id = #{driverId}</if>
+            <if test="driverPhone != null">and driver_phone = #{driverPhone}</if>
+            <if test="deleteFlag != null">and delete_flg = #{deleteFlag}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                ORDER BY add_time DESC
+            </otherwise>
+        </choose>
+
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from t_order
+        <where>
+            <if test="orderNum != null">and order_num = #{orderNum}</if>
+            <if test="orderMoney != null">and order_money = #{orderMoney}</if>
+            <if test="payType != null">and pay_type = #{payType}</if>
+            <if test="orderType != null">and order_type = #{orderType}</if>
+            <if test="orderDetails != null">and order_details = #{orderDetails}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="linkman != null">and linkman = #{linkman}</if>
+            <if test="phone != null">and phone = #{phone}</if>
+            <if test="sAdress != null">and s_adress = #{sAdress}</if>
+            <if test="eAdress != null">and e_adress = #{eAdress}</if>
+            <if test="carSize != null">and car_size = #{carSize}</if>
+            <if test="carType != null">and car_type = #{carType}</if>
+            <if test="goodsType != null">and goods_type = #{goodsType}</if>
+            <if test="goodsWeight != null">and goods_weight = #{goodsWeight}</if>
+            <if test="startTime != null">and start_time = #{startTime}</if>
+            <if test="addTime != null">and add_time = #{addTime}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="driverId != null">and driver_id = #{driverId}</if>
+            <if test="driverPhone != null">and driver_phone = #{driverPhone}</if>
+            <if test="deleteFlag != null">and delete_flg = #{deleteFlag}</if>
+        </where>
+    </select>
+    <select id="get" resultType="com.dingshi.information.domain.OrderDO">
+  select
+        id,order_num,order_money,pay_type,order_type,
+        order_details,user_id,linkman,phone,s_adress,e_adress,
+        car_size,car_type,goods_type,goods_weight,
+        start_time,add_time,update_time,driver_id,driver_phone,delete_flg
+        from t_order where id = #{value}
+    </select>
+
+</mapper>

@@ -39,7 +39,7 @@ public class ConsultController extends BaseController{
 		Map<String, Object> map = new HashMap<String, Object>();
 		params.put("deleteFlag", 1);
 		Query query = new Query(params);
-		PageDO<Map<String,Object>> page = consultService.list(query);
+		PageDO<ConsultDO> page = consultService.list(query);
 		map.put("msg",page);
 		return map;
 	}

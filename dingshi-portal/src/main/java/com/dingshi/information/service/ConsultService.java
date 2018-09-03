@@ -19,7 +19,7 @@ public interface ConsultService {
 	
 	ConsultDO get(Integer id);
 
-	PageDO<Map<String,Object>> list(Query query);
+	PageDO<ConsultDO> list(Query query);
 	
 	int count(Map<String, Object> map);
 	
