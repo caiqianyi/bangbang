@@ -3,9 +3,6 @@ package com.dingshi.information.controller;
 import java.util.List;
 import java.util.Map;
 
-import com.dingshi.common.annotation.Log;
-import com.dingshi.owneruser.domain.OwnerUserDO;
-import com.dingshi.owneruser.service.OwnerUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,8 +33,6 @@ import com.dingshi.common.utils.R;
 public class OrderController {
 	@Autowired
 	private OrderService orderService;
-	@Autowired
-	OwnerUserService userService;
 
 	@GetMapping("/user")
 	String user(Model model) {
@@ -127,11 +121,11 @@ public class OrderController {
 
 	@GetMapping("/edit/{id}/{address}")
 	String edit1(Model model, @PathVariable("id") Long id, @PathVariable("address") String address) {
-		OwnerUserDO user = new OwnerUserDO();
-		user.setId(id);
-		user.setAddress(address);
-		OwnerUserDO userDO = userService.getup(user);
-		model.addAttribute("user", userDO);
+//		OwnerUserDO user = new OwnerUserDO();
+//		user.setId(id);
+//		user.setAddress(address);
+//		OwnerUserDO userDO = userService.getup(user);
+//		model.addAttribute("user", userDO);
 		return "/information/owneruser/edit";
 	}
 
