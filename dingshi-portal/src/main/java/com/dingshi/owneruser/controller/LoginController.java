@@ -63,7 +63,8 @@ public class LoginController extends BaseController {
                 if (map == null) {
                     message.put("msg", "验证码发送出现问题,请三分钟后再试");
                 } else {
-                    String code = map.get("randomCode").toString();
+                String code = map.get("randomCode").toString();
+                //String code = "666666";
                     Subject subject = SecurityUtils.getSubject();
                     subject.getSession().setAttribute("sys.login.check.code", phone + code);
                     message.put("msg", "发送成功");
@@ -145,11 +146,11 @@ public class LoginController extends BaseController {
                         Map<String, Object> mapP = new HashMap<String, Object>();
                         mapP.put("username", phone);
                         boolean flag = userService.exit(mapP);
-                        if (!flag) {
+                        if (flag) {
                             message.put("msg", "该手机号码未注册");
                         } else {
                             OwnerUserDO udo = userService.getbyname(phone);
-                            if (udo.getDeleteFlag() == 1) {
+                            if (udo==null||udo.getDeleteFlag() == 1) {
                                 message.put("msg", "禁止登录，请联系客服");
                             } else {
                                 subject.login(token);
