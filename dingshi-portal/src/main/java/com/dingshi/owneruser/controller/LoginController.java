@@ -108,7 +108,7 @@ public class LoginController extends BaseController {
                             udo.setPassword("123456");
                             udo.setNickname(phone);
                             udo.setBalance(0.00);
-                            udo.setDeleteFlag(0);
+                            udo.setDeleteFlag(1);
                             udo.setRegisterTime(new Date());
                             if (userService.save(udo) > 0) {
                                 message.put("msg", "注册成功");
@@ -146,11 +146,11 @@ public class LoginController extends BaseController {
                         Map<String, Object> mapP = new HashMap<String, Object>();
                         mapP.put("username", phone);
                         boolean flag = userService.exit(mapP);
-                        if (flag) {
+                        if (!flag) {
                             message.put("msg", "该手机号码未注册");
                         } else {
                             OwnerUserDO udo = userService.getbyname(phone);
-                            if (udo==null||udo.getDeleteFlag() == 1) {
+                            if (udo==null||udo.getDeleteFlag() == 0) {
                                 message.put("msg", "禁止登录，请联系客服");
                             } else {
                                 subject.login(token);
