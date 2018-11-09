@@ -25,4 +25,8 @@ public class MD5Utils {
 		//System.out.println(MD5Utils.encrypt("admin", "1"));
 	}
 
+	
+
+	
+
 }
