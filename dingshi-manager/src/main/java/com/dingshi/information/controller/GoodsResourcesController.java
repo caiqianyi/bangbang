@@ -98,6 +98,28 @@ public class GoodsResourcesController {
 	}
 	
 	/**
+	 * 请输入司机手机号
+	 */
+	
+	@GetMapping("/siji/{id}")
+	@RequiresPermissions("information:goodsResources:add")
+	String addsiji(@PathVariable("id") Integer id, Model model){
+		model.addAttribute("id",id);
+	    return "information/goodsresources/siji";
+	}
+	
+	/**
+	 *保存司机的手机号
+	 */
+	@ResponseBody
+	@RequestMapping("/saveDriver")
+	@RequiresPermissions("information:goodsResources:edit")
+	public R saveDriver( GoodsResourcesDO goodsResourcesDO){
+		goodsResourcesService.update(goodsResourcesDO);
+		return R.ok();
+	}
+	
+	/**
 	 * 删除
 	 */
 	@PostMapping( "/remove")

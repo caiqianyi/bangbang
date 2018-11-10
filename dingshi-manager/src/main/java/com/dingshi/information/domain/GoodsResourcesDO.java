@@ -79,7 +79,7 @@ public class GoodsResourcesDO implements Serializable {
 	private Integer driverId;
 	//司机号码
 	private String driverPhone;
-
+	
 	/**
 	 * 设置：id
 	 */

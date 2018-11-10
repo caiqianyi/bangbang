@@ -165,10 +165,6 @@ function load() {
 									title : '货物重量' 
 								},
 																{
-									field : 'driverId', 
-									title : '司机ID' 
-								},
-																{
 									field : 'driverPhone', 
 									title : '司机号码' 
 								},
@@ -183,16 +179,27 @@ function load() {
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="取消"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
+										var f = '<a class="btn btn-success btn-sm" href="#" title="请输入司机手机号"  mce_href="#" onclick="confim(\''
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
-										return e + d ;
+										return e + d +f;
 									}
 								} ]
 					});
 }
 function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
+}
+
+function confim(id){
+	layer.open({
+		type : 2,
+		title : '司机手机号',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '800px', '520px' ],
+		content : prefix + '/siji/'+id // iframe的url
+	});
 }
 function add() {
 	layer.open({
