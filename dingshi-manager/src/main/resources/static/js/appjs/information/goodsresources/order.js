@@ -197,7 +197,7 @@ function confim(id){
 		title : '司机手机号',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '800px', '300px' ],
 		content : prefix + '/siji/'+id // iframe的url
 	});
 }
