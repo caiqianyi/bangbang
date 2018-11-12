@@ -33,7 +33,7 @@ public class OrderController extends BaseController {
     Map<String, Object> msgList(@RequestParam Map<String, Object> params){
         Map<String, Object> map = new HashMap<String, Object>();
         params.put("deleteFlag", 1);
-        params.put("driverId",getUserId());
+        params.put("driverPhone",getUser().getPhone());
         Query query = new Query(params);
         PageDO<OrderDO> page = orderService.listByDriver(query);
         map.put("msg",page);
