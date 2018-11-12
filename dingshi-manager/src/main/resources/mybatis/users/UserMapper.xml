@@ -7,6 +7,10 @@
 		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where id = #{value}
 	</select>
 
+	<select id="getidbyphone" resultType="com.dingshi.users.domain.UserDO">
+		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where phone = #{value}
+	</select>
+
 	<select id="list" resultType="com.dingshi.users.domain.UserDO">
 		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user
         <where>  

@@ -25,6 +25,8 @@ import com.dingshi.common.utils.Query;
 import com.dingshi.common.utils.R;
 import com.dingshi.information.domain.ConsultDO;
 import com.dingshi.information.service.ConsultService;
+import com.dingshi.users.domain.UserDO;
+import com.dingshi.users.service.UserService;
 
 /**
  * 咨询表
@@ -41,6 +43,8 @@ public class ConsultController extends BaseController{
 	private ConsultService consultService;
 	@Autowired
 	private BootdoConfig bootdoConfig;
+	@Autowired
+	private UserService userService;
 
 	
 	
@@ -110,11 +114,12 @@ public class ConsultController extends BaseController{
 	@RequiresPermissions("information:consult:add")
 	public R save( ConsultDO consult){
 		
-		String fileName = consult.getImgFile().getOriginalFilename();
-		fileName = FileUtil.renameToUUID(fileName);
 		try {
-			FileUtil.uploadFile(consult.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-			consult.setUrl("/files/" + fileName);
+			UserDO udo = userService.getidbyphone(consult.getForIds());
+			if(udo!=null){
+				consult.setUserId(Long.parseLong(udo.getId()+""));
+			}
+			consult.setDeleteFlag(1);
 			consult.setAddTime(new Date());
 			consult.setUpdateTime(new Date());
 			consult.setUserId(this.getUserId());
@@ -136,18 +141,6 @@ public class ConsultController extends BaseController{
 	@RequestMapping("/update")
 	@RequiresPermissions("information:consult:edit")
 	public R update( ConsultDO consult){
-		if(consult.getImgFile() != null && consult.getImgFile().getSize() > 0){
-			String fileName = consult.getImgFile().getOriginalFilename();
-			fileName = FileUtil.renameToUUID(fileName);
-			try {
-				FileUtil.uploadFile(consult.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-				consult.setUrl("/files/" + fileName);
-				consult.setUpdateTime(new Date());
-				consult.setUserId(this.getUserId());
-			} catch (Exception e) {
-				return R.error();
-			}
-		}
 		consultService.update(consult);
 		return R.ok();
 	}

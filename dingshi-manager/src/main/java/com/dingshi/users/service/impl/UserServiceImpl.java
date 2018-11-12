@@ -31,6 +31,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public UserDO getidbyphone(String phone){
+		return userDao.getidbyphone(phone);
+	}
+	
+	@Override
 	public List<UserDO> list(Map<String, Object> map){
 		return userDao.list(map);
 	}

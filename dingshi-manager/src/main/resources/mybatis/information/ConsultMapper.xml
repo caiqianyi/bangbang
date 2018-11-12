@@ -82,7 +82,8 @@
 			`browse_num`, 
 			`add_time`, 
 			`update_time`, 
-			`delete_flag`
+			`delete_flag`,
+			`user_id`
 		)
 		values
 		(
@@ -97,7 +98,8 @@
 			#{browseNum}, 
 			#{addTime}, 
 			#{updateTime}, 
-			#{deleteFlag}
+			#{deleteFlag},
+			#{userId}
 		)
 	</insert>
 	 

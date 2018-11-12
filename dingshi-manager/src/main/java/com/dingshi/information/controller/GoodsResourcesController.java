@@ -81,6 +81,7 @@ public class GoodsResourcesController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:goodsResources:add")
 	public R save( GoodsResourcesDO goodsResourcesDO){
+		goodsResourcesDO.setOrderType(2);
 		if(goodsResourcesService.save(goodsResourcesDO)>0){
 			return R.ok();
 		}
@@ -93,6 +94,9 @@ public class GoodsResourcesController {
 	@RequestMapping("/update")
 	@RequiresPermissions("information:goodsResources:edit")
 	public R update( GoodsResourcesDO goodsResourcesDO){
+		if(goodsResourcesDO.getDriverPhone()!=null){
+			goodsResourcesDO.setOrderType(0);
+		}
 		goodsResourcesService.update(goodsResourcesDO);
 		return R.ok();
 	}
@@ -115,6 +119,7 @@ public class GoodsResourcesController {
 	@RequestMapping("/saveDriver")
 	@RequiresPermissions("information:goodsResources:edit")
 	public R saveDriver( GoodsResourcesDO goodsResourcesDO){
+		goodsResourcesDO.setOrderType(0);
 		goodsResourcesService.update(goodsResourcesDO);
 		return R.ok();
 	}

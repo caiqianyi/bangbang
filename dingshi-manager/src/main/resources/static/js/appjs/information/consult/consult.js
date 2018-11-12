@@ -52,16 +52,8 @@ function load() {
 									title : 'id' 
 								},
 								{
-									field : 'forNames', 
-									title : '推送小区' 
-								},
-								{
-									field : 'url', 
-									title : '图片',
-									formatter : function(value, row, index) {
-										var e = '<div class="image"><img width="90" height="100" alt="image" class="img-responsive" src="' + value + '"></div>'
-										return e;
-									}
+									field : 'title', 
+									title : '标题' 
 								},
 								{
 									field : 'type', 
@@ -70,13 +62,13 @@ function load() {
 										//0：物业动态；1：小区广告；2：小区新闻
 										var str = '未知';
 										if(value == 0){
-											str = '物业动态';
+											str = '交易';
 										}
 										if(value == 1){
-											str = '小区广告';
+											str = '资讯';
 										}
 										if(value == 2){
-											str = '小区新闻';
+											str = '系统';
 										}
 										return str ;
 									}
@@ -84,29 +76,6 @@ function load() {
 								{
 									field : 'addTime', 
 									title : '添加时间' 
-								},
-								{
-									field : 'isDisabled', 
-									title : '是否禁用' ,
-									formatter : function(value, row, index) {
-										var str = '';
-										
-										str +=' <div class="switch onoffswitch col-sm-1"> ';
-											str +=' <div class="onoffswitch"> ';
-												str +=' <input name="allowComment" '; 
-												//启用状态 0：是；1：否
-												if(row.isDisabled == 0)
-													str += ' checked="" ';
-													
-												str +=' type="checkbox" onchange="updateEnable(' +row.id+ ',this)" value="' +row.id+ '" class="onoffswitch-checkbox" id="example1' +row.id+ '">  ';
-												str +=' <label class="onoffswitch-label" for="example1' +row.id+ '">  ';
-													str +=' <span class="onoffswitch-inner"></span> ';
-													str +=' <span class="onoffswitch-switch"></span> ';
-														str +=' </label> ';
-											str +=' </div>';
-										str +=' </div>';
-										return str;
-									}
 								},
 								{
 									field : 'browseNum', 

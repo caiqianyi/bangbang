@@ -23,6 +23,9 @@ public interface UserService {
 	
 	UserDO get(Integer id);
 	
+	UserDO getidbyphone(String phone);
+	
+	
 	List<UserDO> list(Map<String, Object> map);
 	
 	int count(Map<String, Object> map);
