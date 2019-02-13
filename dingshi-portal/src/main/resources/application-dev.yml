@@ -1,9 +1,9 @@
-dingshi:
+zhenjiu:
   uploadPath: /www/uploaded_files/
 logging:
   level:
     root: info
-    com.dingshi: debug
+    com.zhenjiu: debug
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource

@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.dingshi</groupId>
-    <artifactId>dingshi-portal</artifactId>
+    <groupId>com.zhenjiu</groupId>
+    <artifactId>zhenjiu-portal</artifactId>
     <version>1.6.9</version>
     <packaging>jar</packaging>
 
-    <name>dingshi-portal</name>
+    <name>zhenjiu-portal</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>

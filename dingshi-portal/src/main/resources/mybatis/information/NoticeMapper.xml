@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.dingshi.information.dao.NoticeDao">
+<mapper namespace="com.zhenjiu.information.dao.NoticeDao">
 
-	<select id="get" resultType="com.dingshi.information.domain.NoticeDO">
+	<select id="get" resultType="com.zhenjiu.information.domain.NoticeDO">
 		select `id`,`title`,`for_names`,`for_ids`,`details`,`for_num`,`num`,
 		`add_time`,date_format(add_time, '%Y-%m-%d %H:%i:%s') as addTime1,`update_time`,`dalete_flag` 
 		from t_notice where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.dingshi.information.domain.NoticeDO">
+	<select id="list" resultType="com.zhenjiu.information.domain.NoticeDO">
 		SELECT
 			DISTINCT
 			tn.id,
@@ -18,7 +18,7 @@
 		where tn.id = tnp.notice_id and tnp.plot_id = tup.plot_id
 		<if test="user_id != null">and tup.user_id = #{user_id} </if>
 	</select>
-	<update id="update" parameterType="com.dingshi.information.domain.NoticeDO">
+	<update id="update" parameterType="com.zhenjiu.information.domain.NoticeDO">
 		update t_notice 
 		<set>
 			<if test="title != null">`title` = #{title}, </if>

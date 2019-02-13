@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.dingshi.information.dao.FilesDao">
+<mapper namespace="com.zhenjiu.information.dao.FilesDao">
 
-	<select id="get" resultType="com.dingshi.information.domain.FilesDO">
+	<select id="get" resultType="com.zhenjiu.information.domain.FilesDO">
 		select `id`,`type`,`table_id`,`url`,`statue`,`add_time` from t_files where id = #{value}
 	</select>
 
-	<select id="list" resultType="com.dingshi.information.domain.FilesDO">
+	<select id="list" resultType="com.zhenjiu.information.domain.FilesDO">
 		select `id`,`type`,`table_id`,`url`,`statue`,`add_time` from t_files
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -42,7 +42,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.dingshi.information.domain.FilesDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.zhenjiu.information.domain.FilesDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_files
 		(
 			`type`, 
@@ -61,7 +61,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.dingshi.information.domain.FilesDO">
+	<update id="update" parameterType="com.zhenjiu.information.domain.FilesDO">
 		update t_files 
 		<set>
 			<if test="type != null">`type` = #{type}, </if>

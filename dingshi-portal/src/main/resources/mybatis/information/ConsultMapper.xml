@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.dingshi.information.dao.ConsultDao">
+<mapper namespace="com.zhenjiu.information.dao.ConsultDao">
 
-    <select id="get" resultType="com.dingshi.information.domain.ConsultDO">
+    <select id="get" resultType="com.zhenjiu.information.domain.ConsultDO">
 		select 
 		`id`,`type`,`for_names`,`for_ids`,`title`,`url`,`is_disabled`,
 		`details`,`browse_num`,`add_time`,date_format(add_time, '%Y-%m-%d %H:%i:%s') as addTime1,
@@ -11,7 +11,7 @@
 		from t_consult where id = #{value}
 	</select>
 
-    <select id="list" resultType="com.dingshi.information.domain.ConsultDO">
+    <select id="list" resultType="com.zhenjiu.information.domain.ConsultDO">
         select
         id,type,for_names,for_ids,title,url,is_disabled,
         details,browse_num,add_time,date_format(add_time,'%Y-%m-%d %H:%i:%s') as addTime1,
@@ -27,7 +27,7 @@
         </if>
     </select>
 
-    <update id="update" parameterType="com.dingshi.information.domain.ConsultDO">
+    <update id="update" parameterType="com.zhenjiu.information.domain.ConsultDO">
         update t_consult
         <set>
             <if test="type != null">`type` = #{type},</if>
