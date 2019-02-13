@@ -1,1 +1,15 @@
-/target/
+*.classpath
+
+*.project
+
+target
+
+bin
+
+test
+
+*.settings
+*.gitignore
+/yinwang-core/trunk/.settings
+/m2/*
+*.log
