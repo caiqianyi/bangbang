@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhenjiu.information.dao.GoodsResourcesDao">
+
+	<select id="get" resultType="com.zhenjiu.information.domain.GoodsResourcesDO">
+		select t_order.id,t_order.linkman,t_order.type,t_order.order_num,t_order.order_money,t_order.user_id,t_order.owner_id,t_order.linkman,t_order.phone,t_order.plot,t_order.money,t_order.pay_type,t_order.maintain_type,t_order.order_type,t_order.maintain_time,t_order.order_details,t_order.start_time,t_order.add_time,t_order.update_time,t_order.delete_flg,t_order.s_adress,t_order.e_adress,t_order.car_size,t_order.car_type,t_order.goods_type,t_order.goods_weight,t_order.driver_id,t_order.driver_phone from t_order where t_order.id = #{value} 
+	</select>
+
+	<select id="list" resultType="com.zhenjiu.information.domain.GoodsResourcesDO">
+		select t_order.id,t_order.type,t_order.order_num,t_order.order_money,t_order.user_id,t_user.name,t_order.owner_id,t_order.linkman,t_order.phone,t_order.plot,t_order.money,t_order.pay_type,t_order.maintain_type,t_order.order_type,t_order.maintain_time,t_order.order_details,t_order.start_time,t_order.add_time,t_order.update_time,t_order.delete_flg,t_order.s_adress,t_order.e_adress,t_order.car_size,t_order.car_type,t_order.goods_type,t_order.goods_weight,t_order.driver_id,t_order.driver_phone from t_order
+       left join t_user on t_order.phone=t_user.phone
+        <where>  
+         		
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="orderNum != null and orderNum != ''"> and order_num = #{orderNum} </if>
+		  		  <if test="orderMoney != null and orderMoney != ''"> and order_money = #{orderMoney} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="ownerId != null and ownerId != ''"> and owner_id = #{ownerId} </if>
+		  		  <if test="linkman != null and linkman != ''"> and linkman = #{linkman} </if>
+		  		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  		  <if test="plot != null and plot != ''"> and plot = #{plot} </if>
+		  		  <if test="money != null and money != ''"> and money = #{money} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="maintainType != null and maintainType != ''"> and maintain_type = #{maintainType} </if>
+		  		  <if test="orderType != null and orderType != ''"> and order_type = #{orderType} </if>
+		  		  <if test="maintainTime != null and maintainTime != ''"> and maintain_time = #{maintainTime} </if>
+		  		  <if test="orderDetails != null and orderDetails != ''"> and order_details = #{orderDetails} </if>
+		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteFlg != null and deleteFlg != ''"> and delete_flg = #{deleteFlg} </if>
+		  		  <if test="sAdress != null and sAdress != ''"> and s_adress = #{sAdress} </if>
+		  		  <if test="eAdress != null and eAdress != ''"> and e_adress = #{eAdress} </if>
+		  		  <if test="carSize != null and carSize != ''"> and car_size = #{carSize} </if>
+		  		  <if test="carType != null and carType != ''"> and car_type = #{carType} </if>
+		  		  <if test="goodsType != null and goodsType != ''"> and goods_type = #{goodsType} </if>
+		  		  <if test="goodsWeight != null and goodsWeight != ''"> and goods_weight = #{goodsWeight} </if>
+		  		  <if test="driverId != null and driverId != ''"> and driver_id = #{driverId} </if>
+		  		  <if test="driverPhone != null and driverPhone != ''"> and driver_phone = #{driverPhone} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_order
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="orderNum != null and orderNum != ''"> and order_num = #{orderNum} </if>
+		  		  <if test="orderMoney != null and orderMoney != ''"> and order_money = #{orderMoney} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="ownerId != null and ownerId != ''"> and owner_id = #{ownerId} </if>
+		  		  <if test="linkman != null and linkman != ''"> and linkman = #{linkman} </if>
+		  		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  		  <if test="plot != null and plot != ''"> and plot = #{plot} </if>
+		  		  <if test="money != null and money != ''"> and money = #{money} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="maintainType != null and maintainType != ''"> and maintain_type = #{maintainType} </if>
+		  		  <if test="orderType != null and orderType != ''"> and order_type = #{orderType} </if>
+		  		  <if test="maintainTime != null and maintainTime != ''"> and maintain_time = #{maintainTime} </if>
+		  		  <if test="orderDetails != null and orderDetails != ''"> and order_details = #{orderDetails} </if>
+		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteFlg != null and deleteFlg != ''"> and delete_flg = #{deleteFlg} </if>
+		  		  <if test="sAdress != null and sAdress != ''"> and s_adress = #{sAdress} </if>
+		  		  <if test="eAdress != null and eAdress != ''"> and e_adress = #{eAdress} </if>
+		  		  <if test="carSize != null and carSize != ''"> and car_size = #{carSize} </if>
+		  		  <if test="carType != null and carType != ''"> and car_type = #{carType} </if>
+		  		  <if test="goodsType != null and goodsType != ''"> and goods_type = #{goodsType} </if>
+		  		  <if test="goodsWeight != null and goodsWeight != ''"> and goods_weight = #{goodsWeight} </if>
+		  		  <if test="driverId != null and driverId != ''"> and driver_id = #{driverId} </if>
+		  		  <if test="driverPhone != null and driverPhone != ''"> and driver_phone = #{driverPhone} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.zhenjiu.information.domain.GoodsResourcesDO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_order
+		(
+			`type`, 
+			`order_num`, 
+			`order_money`, 
+			`user_id`, 
+			`owner_id`, 
+			`linkman`, 
+			`phone`, 
+			`plot`, 
+			`money`, 
+			`pay_type`, 
+			`maintain_type`, 
+			`order_type`, 
+			`maintain_time`, 
+			`order_details`, 
+			`start_time`, 
+			`add_time`, 
+			`update_time`, 
+			`delete_flg`, 
+			`s_adress`, 
+			`e_adress`, 
+			`car_size`, 
+			`car_type`, 
+			`goods_type`, 
+			`goods_weight`, 
+			`driver_id`, 
+			`driver_phone`
+		)
+		values
+		(
+			#{type}, 
+			#{orderNum}, 
+			#{orderMoney}, 
+			#{userId}, 
+			#{ownerId}, 
+			#{linkman}, 
+			#{phone}, 
+			#{plot}, 
+			#{money}, 
+			#{payType}, 
+			#{maintainType}, 
+			#{orderType}, 
+			#{maintainTime}, 
+			#{orderDetails}, 
+			#{startTime}, 
+			#{addTime}, 
+			#{updateTime}, 
+			#{deleteFlg}, 
+			#{sAdress}, 
+			#{eAdress}, 
+			#{carSize}, 
+			#{carType}, 
+			#{goodsType}, 
+			#{goodsWeight}, 
+			#{driverId}, 
+			#{driverPhone}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.zhenjiu.information.domain.GoodsResourcesDO">
+		update t_order 
+		<set>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="orderNum != null">`order_num` = #{orderNum}, </if>
+			<if test="orderMoney != null">`order_money` = #{orderMoney}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="ownerId != null">`owner_id` = #{ownerId}, </if>
+			<if test="linkman != null">`linkman` = #{linkman}, </if>
+			<if test="phone != null">`phone` = #{phone}, </if>
+			<if test="plot != null">`plot` = #{plot}, </if>
+			<if test="money != null">`money` = #{money}, </if>
+			<if test="payType != null">`pay_type` = #{payType}, </if>
+			<if test="maintainType != null">`maintain_type` = #{maintainType}, </if>
+			<if test="orderType != null">`order_type` = #{orderType}, </if>
+			<if test="maintainTime != null">`maintain_time` = #{maintainTime}, </if>
+			<if test="orderDetails != null">`order_details` = #{orderDetails}, </if>
+			<if test="startTime != null">`start_time` = #{startTime}, </if>
+			<if test="addTime != null">`add_time` = #{addTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="deleteFlg != null">`delete_flg` = #{deleteFlg}, </if>
+			<if test="sAdress != null">`s_adress` = #{sAdress}, </if>
+			<if test="eAdress != null">`e_adress` = #{eAdress}, </if>
+			<if test="carSize != null">`car_size` = #{carSize}, </if>
+			<if test="carType != null">`car_type` = #{carType}, </if>
+			<if test="goodsType != null">`goods_type` = #{goodsType}, </if>
+			<if test="goodsWeight != null">`goods_weight` = #{goodsWeight}, </if>
+			<if test="driverId != null">`driver_id` = #{driverId}, </if>
+			<if test="driverPhone != null">`driver_phone` = #{driverPhone}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from t_order where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
