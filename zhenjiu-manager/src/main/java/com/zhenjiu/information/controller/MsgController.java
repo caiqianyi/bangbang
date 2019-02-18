@@ -69,18 +69,6 @@ public class MsgController {
 	}
 	
 	/**
-	 * 小区and用户集合 
-	 */
-	@ResponseBody
-	@PostMapping("/getUserPlotList")
-	public R getUserPlotList(){
-		List<Map<String, Object>> userPlotList = msgService.getUserPlotList();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userPlotList",userPlotList);
-		return R.ok(map);
-	}
-	
-	/**
 	 * 保存
 	 */
 	@ResponseBody

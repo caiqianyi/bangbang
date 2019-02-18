@@ -47,23 +47,23 @@ function load() {
 								{
 									checkbox : true
 								},
-																{
+								/*								{
 									field : 'id', 
 									title : 'id' 
 								},
-																{
+															{
 									field : 'openId', 
 									title : '微信id' 
 								},
-																{
+								*/								{
 									field : 'nickname', 
 									title : '昵称' 
 								},
-																{
+								/*							{
 									field : 'password', 
 									title : '密码' 
 								},
-																{
+								*/								{
 									field : 'phone', 
 									title : '手机号' 
 								},
@@ -74,12 +74,30 @@ function load() {
 								*/								{
 									field : 'name', 
 									title : '真实姓名' 
+								},	
+																{
+									field : 'sex', 
+									title : '性别', 
+									align : 'center',
+									formatter : function(value, row, index) {
+									    if(value == '1'){
+									    	return '<span class="label">男</span>';
+									    }else if(value == '2'){
+									    	return '<span class="label">女</span>';
+									    	
+									    }
+									}		
 								},
 																{
+									field : 'birthday', 
+									title : '生日' 
+									
+								},
+								/*								{
 									field : 'identityCard', 
 									title : '身份证号' 
 								},
-																{
+								*/							{
 									field : 'registerTime', 
 									title : '注册时间' 
 								},
@@ -103,11 +121,11 @@ function load() {
 									field : 'payTime', 
 									title : '缴费日期' 
 								},
-																{
+								*/								{
 									field : 'loginTime', 
 									title : '最后登录时间' 
 								},
-																{
+								/*								{
 									field : 'addTime', 
 									title : '添加时间' 
 								},
@@ -115,56 +133,13 @@ function load() {
 									field : 'updateTime', 
 									title : '修改时间' 
 								},
-																{
-									field : 'deleteFlag', 
-									title : '0：是；1：否' 
-								},
+								
 																{
 									field : 'username', 
 									title : '' 
 								},
-								*/								{
-									field : 'carNum', 
-									title : '车牌号' 
-								},
-																{
-									field : 'carType', 
-									title : '货车类型' 
-								},
-																{
-									field : 'carSize', 
-									title : '车大小' 
-								},
-																{
-									field : 'carStatus', 
-									title : '是否空载' ,
-									align : 'center',	
-									formatter : function(value, row, index) {
-									   	if(value == '0'){
-									   		return '<span>是</span>';
-									   	}else if(value == '1'){
-									   		return '<span>否</span>';									    		
-									   	}
-									}
-								},
-																{
-									field : 'desc', 
-									title : '备注' 
-								},
-																{
-									field : 'address', 
-									title : '司机城市' 
-								},
-								/*								{
-									field : 'refuse', 
-									title : '拒单率' 
-								},
-																{
-									field : 'ontime', 
-									title : '准时率' 
-								},
 								*/
-								{
+																{
 									field : 'deleteFlag', 
 									title : '状态' ,
 									align : 'center',
@@ -177,11 +152,13 @@ function load() {
 								    	}
 								    }			
 								},
-																{
+								
+															{
 									title : '操作',
 									field : 'id',
 									align : 'center',
 									formatter : function(value, row, index) {
+										
 										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
 												+ row.id
 												+ '\')"><i class="fa fa-edit"></i></a> ';
@@ -192,6 +169,7 @@ function load() {
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d ;
+										
 									}
 								} ]
 					});

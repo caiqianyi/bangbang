@@ -1,23 +1,14 @@
 package com.zhenjiu.users.service.impl;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zhenjiu.common.domain.Tree;
-import com.zhenjiu.common.utils.BuildTree;
-import com.zhenjiu.system.domain.DeptDO;
 import com.zhenjiu.users.dao.UserDao;
 import com.zhenjiu.users.domain.UserDO;
 import com.zhenjiu.users.service.UserService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
 
 
 @Service("UserService")

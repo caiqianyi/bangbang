@@ -4,15 +4,11 @@
 <mapper namespace="com.zhenjiu.users.dao.UserDao">
 
 	<select id="get" resultType="com.zhenjiu.users.domain.UserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where id = #{value}
-	</select>
-
-	<select id="getidbyphone" resultType="com.zhenjiu.users.domain.UserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where phone = #{value}
+		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,date_format(t_user.birthday, '%Y-%m-%d') AS birthday1 from t_user where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.zhenjiu.users.domain.UserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user
+		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
@@ -33,14 +29,8 @@
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
 		  		  <if test="username != null and username != ''"> and username = #{username} </if>
-		  		  <if test="carNum != null and carNum != ''"> and car_num = #{carNum} </if>
-		  		  <if test="carType != null and carType != ''"> and car_type = #{carType} </if>
-		  		  <if test="carSize != null and carSize != ''"> and car_size = #{carSize} </if>
-		  		  <if test="carStatus != null and carStatus != ''"> and car_status = #{carStatus} </if>
-		  		  <if test="desc != null and desc != ''"> and desc = #{desc} </if>
-		  		  <if test="address != null and address != ''"> and address = #{address} </if>
-		  		  <if test="refuse != null and refuse != ''"> and refuse = #{refuse} </if>
-		  		  <if test="ontime != null and ontime != ''"> and ontime = #{ontime} </if>
+		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
+		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -77,14 +67,8 @@
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
 		  		  <if test="username != null and username != ''"> and username = #{username} </if>
-		  		  <if test="carNum != null and carNum != ''"> and car_num = #{carNum} </if>
-		  		  <if test="carType != null and carType != ''"> and car_type = #{carType} </if>
-		  		  <if test="carSize != null and carSize != ''"> and car_size = #{carSize} </if>
-		  		  <if test="carStatus != null and carStatus != ''"> and car_status = #{carStatus} </if>
-		  		  <if test="desc != null and desc != ''"> and desc = #{desc} </if>
-		  		  <if test="address != null and address != ''"> and address = #{address} </if>
-		  		  <if test="refuse != null and refuse != ''"> and refuse = #{refuse} </if>
-		  		  <if test="ontime != null and ontime != ''"> and ontime = #{ontime} </if>
+		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
+		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
 		  		</where>
 	</select>
 	 
@@ -108,15 +92,9 @@
 			`add_time`, 
 			`update_time`, 
 			`delete_flag`, 
-			`username`, 
-			`car_num`, 
-			`car_type`, 
-			`car_size`, 
-			`car_status`, 
-			`desc`, 
-			`address`, 
-			`refuse`, 
-			`ontime`
+			`username`,
+			`sex`,
+			`birthday`
 		)
 		values
 		(
@@ -137,15 +115,9 @@
 			#{addTime}, 
 			#{updateTime}, 
 			#{deleteFlag}, 
-			#{username}, 
-			#{carNum}, 
-			#{carType}, 
-			#{carSize}, 
-			#{carStatus}, 
-			#{desc}, 
-			#{address}, 
-			#{refuse}, 
-			#{ontime}
+			#{username},
+			#{sex},
+			#{birthday}
 		)
 	</insert>
 	 
@@ -169,15 +141,9 @@
 			<if test="addTime != null">`add_time` = #{addTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
 			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}, </if>
-			<if test="username != null">`username` = #{username}, </if>
-			<if test="carNum != null">`car_num` = #{carNum}, </if>
-			<if test="carType != null">`car_type` = #{carType}, </if>
-			<if test="carSize != null">`car_size` = #{carSize}, </if>
-			<if test="carStatus != null">`car_status` = #{carStatus}, </if>
-			<if test="desc != null">`desc` = #{desc}, </if>
-			<if test="address != null">`address` = #{address}, </if>
-			<if test="refuse != null">`refuse` = #{refuse}, </if>
-			<if test="ontime != null">`ontime` = #{ontime}</if>
+			<if test="username != null">`username` = #{username},</if>
+			<if test="sex != null">`sex` = #{sex}, </if>
+		    <if test="birthday != null">`birthday` = #{birthday} </if>
 		</set>
 		where id = #{id}
 	</update>
@@ -192,14 +158,18 @@
 			#{id}
 		</foreach>
 	</delete>
+
+	<select id="getidbyphone" resultType="com.zhenjiu.users.domain.UserDO">
+		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where phone = #{value}
+	</select>
 	
-<select id="selectByName" parameterType="com.zhenjiu.users.domain.UserDO" resultType="com.zhenjiu.users.domain.UserDO">
-    select * from t_user
-    <where>
-        <if test="name != null">
-            name like CONCAT('%', '#{name}' , '%')
-        </if>
-    </where>
-</select>
+	<select id="selectByName" parameterType="com.zhenjiu.users.domain.UserDO" resultType="com.zhenjiu.users.domain.UserDO">
+	    select * from t_user
+	    <where>
+	        <if test="name != null">
+	            name like CONCAT('%', '#{name}' , '%')
+	        </if>
+	    </where>
+	</select>
 
 </mapper>

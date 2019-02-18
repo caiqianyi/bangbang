@@ -5,10 +5,6 @@ package com.zhenjiu.users.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
-import com.zhenjiu.common.domain.Tree;
-import com.zhenjiu.system.domain.DeptDO;
 import com.zhenjiu.users.domain.UserDO;
 
 /**
