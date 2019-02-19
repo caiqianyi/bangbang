@@ -8,18 +8,21 @@ $.validator.setDefaults({
 	}
 });
 function save() {
+	var formData = new FormData(document.getElementById("signupForm"));
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : "/information/device/save",
-		data : $('#signupForm').serialize(),// 你的formid
+		data : formData,// 你的formid
+		processData:false,
+		contentType:false,
 		async : false,
 		error : function(request) {
-			parent.layer.alert("Connection error");
+			parent.layer.alert("网络超时");
 		},
 		success : function(data) {
 			if (data.code == 0) {
-				parent.layer.msg("操作成功");
+				parent.layer.msg("设备数据导入成功");
 				parent.reLoad();
 				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);

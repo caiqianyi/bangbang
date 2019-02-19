@@ -1,8 +1,14 @@
 package com.zhenjiu.device.controller;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -15,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zhenjiu.common.config.BootdoConfig;
+import com.zhenjiu.common.utils.FileUtil;
 import com.zhenjiu.common.utils.PageUtils;
 import com.zhenjiu.common.utils.Query;
 import com.zhenjiu.common.utils.R;
@@ -35,6 +43,8 @@ import com.zhenjiu.device.service.DeviceService;
 public class DeviceController {
 	@Autowired
 	private DeviceService deviceService;
+	@Autowired
+	private BootdoConfig bootdoConfig;
 	
 	@GetMapping()
 	@RequiresPermissions("information:device:device")
@@ -48,6 +58,7 @@ public class DeviceController {
 	public PageUtils list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
+        query.put("deviceType",params.get("deviceType"));
 		List<DeviceDO> deviceList = deviceService.list(query);
 		int total = deviceService.count(query);
 		PageUtils pageUtils = new PageUtils(deviceList, total);
@@ -75,9 +86,35 @@ public class DeviceController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:device:add")
 	public R save( DeviceDO device){
-		if(deviceService.save(device)>0){
+		try {
+			XSSFWorkbook wb=null;
+			XSSFSheet sheet=null;
+			
+			if(device.getExcelDevice()!=null &&device.getExcelDevice().getSize()>0){
+				wb= new XSSFWorkbook(device.getExcelDevice().getInputStream());
+			    sheet=wb.getSheetAt(0);
+			    for(int rowNum=1;rowNum<=sheet.getLastRowNum();rowNum++){
+			    	XSSFRow row=sheet.getRow(rowNum);
+			    	if(row==null) continue;
+			    	if(row.getCell(0)!=null)
+			    		device.setIdentity(row.getCell(0).getStringCellValue());//设备号
+			    	if(row.getCell(1)!=null)
+			    		device.setName(row.getCell(1).getStringCellValue());//设备名称
+			    	if(row.getCell(2)!=null)
+			    		device.setMac(row.getCell(2).getStringCellValue());//设备mac地址
+			    	if(row.getCell(3)!=null)
+			    		device.setDeviceType((int) row.getCell(3).getNumericCellValue());//设备类型
+			    	device.setCreateTime(new Date());
+			    	device.setDeleted(0);
+			    	deviceService.save(device);
+			    }
+			}
 			return R.ok();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
 		}
+		
 		return R.error();
 	}
 	/**
@@ -87,6 +124,18 @@ public class DeviceController {
 	@RequestMapping("/update")
 	@RequiresPermissions("information:device:edit")
 	public R update( DeviceDO device){
+		if(device.getIconitems()!= null && device.getIconitems().getSize() > 0){
+			String fileName = device.getIconitems().getOriginalFilename(); 
+			fileName = FileUtil.renameToUUID(fileName);
+			try {
+				FileUtil.uploadFile(device.getIconitems().getBytes(), bootdoConfig.getUploadPath()+"device/", fileName);
+				device.setIcon("/files/device/" + fileName);
+				
+			} catch (Exception e) {
+				return R.error();
+			}
+			
+		}
 		deviceService.update(device);
 		return R.ok();
 	}
@@ -98,7 +147,10 @@ public class DeviceController {
 	@ResponseBody
 	@RequiresPermissions("information:device:remove")
 	public R remove( Integer id){
-		if(deviceService.remove(id)>0){
+		DeviceDO deviceDO = new DeviceDO();
+		deviceDO.setId(id);
+		deviceDO.setDeleted(1);
+		if(deviceService.update(deviceDO)>0){
 		return R.ok();
 		}
 		return R.error();

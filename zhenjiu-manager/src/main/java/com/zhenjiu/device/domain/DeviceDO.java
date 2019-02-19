@@ -3,6 +3,8 @@ package com.zhenjiu.device.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 
 
 /**
@@ -25,6 +27,8 @@ public class DeviceDO implements Serializable {
 	private String identity;
 	//图片
 	private String icon;
+	private MultipartFile iconitems;
+	
 	//名称
 	private String name;
 	//mac物理地址
@@ -33,7 +37,16 @@ public class DeviceDO implements Serializable {
 	private Integer defaultDevice;
 	//0 个人设备  1 非个人设备
 	private Integer deviceType;
+	//excel导入
+	private MultipartFile excelDevice;
+	
+	//删除标志  0已删除   1未删除
+	private Integer deleted;
+	
+	
 
+	
+	
 	/**
 	 * 设置：
 	 */
@@ -141,5 +154,26 @@ public class DeviceDO implements Serializable {
 	 */
 	public Integer getDeviceType() {
 		return deviceType;
+	}
+	
+	public MultipartFile getExcelDevice() {
+		return excelDevice;
+	}
+	public void setExcelDevice(MultipartFile excelDevice) {
+		this.excelDevice = excelDevice;
+	}
+	
+	public MultipartFile getIconitems() {
+		return iconitems;
+	}
+	public void setIconitems(MultipartFile iconitems) {
+		this.iconitems = iconitems;
+	}
+	
+	public Integer getDeleted() {
+		return deleted;
+	}
+	public void setDeleted(Integer deleted) {
+		this.deleted = deleted;
 	}
 }

@@ -4,12 +4,12 @@
 <mapper namespace="com.zhenjiu.device.dao.DeviceDao">
 
 	<select id="get" resultType="com.zhenjiu.device.domain.DeviceDO">
-		select `id`,`account`,`create_time`,`identity`,`icon`,`name`,`mac`,`default_device`,`device_type` from t_device where id = #{value}
+		select `id`,`account`,`create_time`,`identity`,`icon`,`name`,`mac`,`default_device`,`device_type` from t_device where id = #{value} and deleted=0
 	</select>
 
 	<select id="list" resultType="com.zhenjiu.device.domain.DeviceDO">
 		select `id`,`account`,`create_time`,`identity`,`icon`,`name`,`mac`,`default_device`,`device_type` from t_device
-        <where>  
+        where deleted=0  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="account != null and account != ''"> and account = #{account} </if>
 		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
@@ -19,7 +19,7 @@
 		  		  <if test="mac != null and mac != ''"> and mac = #{mac} </if>
 		  		  <if test="defaultDevice != null and defaultDevice != ''"> and default_device = #{defaultDevice} </if>
 		  		  <if test="deviceType != null and deviceType != ''"> and device_type = #{deviceType} </if>
-		  		</where>
+		  	
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
@@ -35,7 +35,7 @@
 	
  	<select id="count" resultType="int">
 		select count(*) from t_device
-		 <where>  
+		 where deleted=0  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="account != null and account != ''"> and account = #{account} </if>
 		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
@@ -45,7 +45,7 @@
 		  		  <if test="mac != null and mac != ''"> and mac = #{mac} </if>
 		  		  <if test="defaultDevice != null and defaultDevice != ''"> and default_device = #{defaultDevice} </if>
 		  		  <if test="deviceType != null and deviceType != ''"> and device_type = #{deviceType} </if>
-		  		</where>
+		  		
 	</select>
 	 
 	<insert id="save" parameterType="com.zhenjiu.device.domain.DeviceDO" useGeneratedKeys="true" keyProperty="id">
@@ -58,7 +58,8 @@
 			`name`, 
 			`mac`, 
 			`default_device`, 
-			`device_type`
+			`device_type`,
+			deleted
 		)
 		values
 		(
@@ -69,7 +70,8 @@
 			#{name}, 
 			#{mac}, 
 			#{defaultDevice}, 
-			#{deviceType}
+			#{deviceType},
+			#{deleted}
 		)
 	</insert>
 	 
@@ -77,6 +79,7 @@
 		update t_device 
 		<set>
 			<if test="account != null">`account` = #{account}, </if>
+			<if test="deleted != null">`deleted` = #{deleted}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="identity != null">`identity` = #{identity}, </if>
 			<if test="icon != null">`icon` = #{icon}, </if>

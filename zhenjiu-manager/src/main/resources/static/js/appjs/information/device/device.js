@@ -32,7 +32,8 @@ function load() {
 							return {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
-								offset:params.offset
+								offset:params.offset,
+								deviceType:$("#deviceType option:selected").val()
 					           // name:$('#searchName').val(),
 					           // username:$('#searchName').val()
 							};
@@ -62,7 +63,11 @@ function load() {
 								},
 																{
 									field : 'icon', 
-									title : '图片' 
+									title : '图片',
+									formatter : function(value, row, index) {
+										var e = '<div class="image"><img width="90" height="100" alt="image" class="img-responsive" src="' + value + '"></div>'
+										return e;
+									}
 								},
 																{
 									field : 'name', 
@@ -78,7 +83,13 @@ function load() {
 								},*/
 																{
 									field : 'deviceType', 
-									title : '设备类型' 
+									title : '设备类型',
+									formatter : function(value, row, index) {
+										if(value==0)
+											return "个人设备";
+										if(value==1)
+											return "机构设备";
+									}
 								},
 								{
 									field : 'createTime', 

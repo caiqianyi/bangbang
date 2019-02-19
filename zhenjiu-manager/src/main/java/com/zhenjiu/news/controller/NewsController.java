@@ -120,7 +120,7 @@ public class NewsController {
 	@RequiresPermissions("information:news:edit")
 	public R update( NewsDO news){
 		if(news.getPicItems()!= null && news.getPicItems().getSize() > 0){
-			String fileName = news.getPicItems().getOriginalFilename();
+			String fileName = news.getPicItems().getOriginalFilename(); 
 			fileName = FileUtil.renameToUUID(fileName);
 			try {
 				FileUtil.uploadFile(news.getPicItems().getBytes(), bootdoConfig.getUploadPath()+"news/", fileName);
