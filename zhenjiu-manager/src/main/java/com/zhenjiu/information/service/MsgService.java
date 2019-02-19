@@ -28,6 +28,4 @@ public interface MsgService {
 	
 	int batchRemove(Integer[] ids);
 	
-	
-	List<Map<String, Object>> getUserPlotList();
 }

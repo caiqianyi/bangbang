@@ -69,8 +69,4 @@ public class MsgServiceImpl implements MsgService {
 		return msgDao.batchRemove(ids);
 	}
 	
-	@Override
-	public List<Map<String, Object>> getUserPlotList(){
-		return msgDao.getUserPlotList();
-	}
 }

@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 
 /**
@@ -11,7 +15,7 @@ import java.util.Date;
  * 
  * @author wjl
  * @email bushuo@163.com
- * @date 2018-09-27 10:18:38
+ * @date 2019-02-15 11:27:19
  */
 public class UserDO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -33,7 +37,8 @@ public class UserDO implements Serializable {
 	//身份证号
 	private String identityCard;
 	//注册时间
-	private Timestamp registerTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date registerTime;
 	//消费金额
 	private Double payNum;
 	//服务次数
@@ -54,23 +59,32 @@ public class UserDO implements Serializable {
 	private Integer deleteFlag;
 	//
 	private String username;
-	//车牌号
-	private String carNum;
-	//货车类型
-	private String carType;
-	//车大小
-	private String carSize;
-	//0:空载  1：非空载
-	private Integer carStatus;
-	//备注
-	private String desc;
-	//司机城市
-	private String address;
-	//拒单率
-	private Double refuse;
-	//准时率
-	private Double ontime;
+	
+	private Integer sex;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Date birthday;
+	private String birthday1;
+	
 
+	
+	public String getBirthday1() {
+		return birthday1;
+	}
+	public void setBirthday1(String birthday1) {
+		this.birthday1 = birthday1;
+	}
+	public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+	public Date getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
 	/**
 	 * 设置：id
 	 */
@@ -170,7 +184,7 @@ public class UserDO implements Serializable {
 	/**
 	 * 设置：注册时间
 	 */
-	public void setRegisterTime(Timestamp registerTime) {
+	public void setRegisterTime(Date registerTime) {
 		this.registerTime = registerTime;
 	}
 	/**
@@ -298,101 +312,5 @@ public class UserDO implements Serializable {
 	 */
 	public String getUsername() {
 		return username;
-	}
-	/**
-	 * 设置：车牌号
-	 */
-	public void setCarNum(String carNum) {
-		this.carNum = carNum;
-	}
-	/**
-	 * 获取：车牌号
-	 */
-	public String getCarNum() {
-		return carNum;
-	}
-	/**
-	 * 设置：货车类型
-	 */
-	public void setCarType(String carType) {
-		this.carType = carType;
-	}
-	/**
-	 * 获取：货车类型
-	 */
-	public String getCarType() {
-		return carType;
-	}
-	/**
-	 * 设置：车大小
-	 */
-	public void setCarSize(String carSize) {
-		this.carSize = carSize;
-	}
-	/**
-	 * 获取：车大小
-	 */
-	public String getCarSize() {
-		return carSize;
-	}
-	/**
-	 * 设置：0:空载  1：非空载
-	 */
-	public void setCarStatus(Integer carStatus) {
-		this.carStatus = carStatus;
-	}
-	/**
-	 * 获取：0:空载  1：非空载
-	 */
-	public Integer getCarStatus() {
-		return carStatus;
-	}
-	/**
-	 * 设置：备注
-	 */
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-	/**
-	 * 获取：备注
-	 */
-	public String getDesc() {
-		return desc;
-	}
-	/**
-	 * 设置：司机城市
-	 */
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	/**
-	 * 获取：司机城市
-	 */
-	public String getAddress() {
-		return address;
-	}
-	/**
-	 * 设置：拒单率
-	 */
-	public void setRefuse(Double refuse) {
-		this.refuse = refuse;
-	}
-	/**
-	 * 获取：拒单率
-	 */
-	public Double getRefuse() {
-		return refuse;
-	}
-	/**
-	 * 设置：准时率
-	 */
-	public void setOntime(Double ontime) {
-		this.ontime = ontime;
-	}
-	/**
-	 * 获取：准时率
-	 */
-	public Double getOntime() {
-		return ontime;
 	}
 }

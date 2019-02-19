@@ -32,5 +32,4 @@ public interface MsgDao {
 	
 	int batchRemove(Integer[] ids);
 	
-	List<Map<String, Object>> getUserPlotList();
 }

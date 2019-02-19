@@ -47,25 +47,36 @@ function load() {
 								{
 									checkbox : true
 								},
-																{
+								/*								{
 									field : 'id', 
 									title : 'id' 
 								},
-																{
+								*/								{
 									field : 'name', 
 									title : '消息名称' 
 								},
 																{
-									field : 'forNames', 
-									title : '推送对象' 
-								},
-																{
 									field : 'forDetails', 
 									title : '推送内容' 
+								},								{
+									field : 'createBy', 
+									title : '发送人' 
+								},
+																{
+									field : 'forIds', 
+									title : '接收人' 
 								},
 																{
 									field : 'addTime', 
 									title : '添加时间' 
+								},
+																{
+									field : 'type', 
+									title : '消息类型' 
+								},
+																{
+									field : 'deleteFlag', 
+									title : '状态' 
 								},
 																{
 									title : '操作',

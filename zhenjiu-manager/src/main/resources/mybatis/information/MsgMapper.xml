@@ -34,23 +34,6 @@
 		</if>
 	</select>
 	
-	<select id="getUserPlotList" resultType="java.util.Map">
-		select CONCAT(tp.id,'p') as id,'0' as pId,tp.`name` from t_plot tp where tp.dalete_flag = 0
-		UNION ALL
-		SELECT DISTINCT tup.user_id as id,CONCAT(tup.plot_id,'p') as pId,
-		CASE
-			WHEN tu.`name` is null || tu.`name` = '' 
-			THEN 
-				CASE
-					WHEN tu.nickname is null || tu.`nickname` = '' THEN tu.phone
-					ELSE tu.`nickname`
-				END 
-			ELSE tu.`name`
-		END as name
-		FROM `t_user_plot` tup,t_user tu,t_plot tp
-		where tup.user_id = tu.id and tup.plot_id = tp.id and tp.dalete_flag = 0
-	</select>
-	
  	<select id="count" resultType="int">
 		select count(*) from t_msg
 		 <where>  
