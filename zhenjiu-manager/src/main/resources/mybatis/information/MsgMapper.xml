@@ -4,11 +4,11 @@
 <mapper namespace="com.zhenjiu.information.dao.MsgDao">
 
 	<select id="get" resultType="com.zhenjiu.information.domain.MsgDO">
-		select `id`,`name`,`type`,`for_names`,`for_ids`,`for_type`,`for_details`,`add_time`,`update_time`,`delete_flag` from t_msg where id = #{value}
+		select `id`,`name`,`type`,`for_names`,`for_ids`,`for_type`,`for_details`,`add_time`,`update_time`,`delete_flag`,`create_by`,date_format(t_msg.add_time, '%Y-%m-%d %h:%m:%s') AS addTime1 from t_msg where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.zhenjiu.information.domain.MsgDO">
-		select `id`,`name`,`type`,`for_names`,`for_ids`,`for_type`,`for_details`,`add_time`,`update_time`,`delete_flag` from t_msg
+		select `id`,`name`,`type`,`for_names`,`for_ids`,`for_type`,`for_details`,`add_time`,`update_time`,`delete_flag`,`create_by` from t_msg
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
@@ -20,6 +20,7 @@
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -47,15 +48,13 @@
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
+		  		  <if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
 		  		</where>
 	</select>
-	<select id="msgId" resultType="int">
-		select nextval('msg_sql') from dual
-	</select>
+	 
 	<insert id="save" parameterType="com.zhenjiu.information.domain.MsgDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_msg
 		(
-			id,
 			`name`, 
 			`type`, 
 			`for_names`, 
@@ -64,11 +63,11 @@
 			`for_details`, 
 			`add_time`, 
 			`update_time`, 
-			`delete_flag`
+			`delete_flag`, 
+			`create_by`
 		)
 		values
 		(
-			#{id},
 			#{name}, 
 			#{type}, 
 			#{forNames}, 
@@ -77,7 +76,8 @@
 			#{forDetails}, 
 			#{addTime}, 
 			#{updateTime}, 
-			#{deleteFlag}
+			#{deleteFlag}, 
+			#{createBy}
 		)
 	</insert>
 	 
@@ -92,7 +92,8 @@
 			<if test="forDetails != null">`for_details` = #{forDetails}, </if>
 			<if test="addTime != null">`add_time` = #{addTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
-			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}</if>
+			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -107,5 +108,12 @@
 			#{id}
 		</foreach>
 	</delete>
+	
+	
+ 	
+	<select id="msgId" resultType="int">
+		select nextval('msg_sql') from dual
+	</select>
+	
 
 </mapper>

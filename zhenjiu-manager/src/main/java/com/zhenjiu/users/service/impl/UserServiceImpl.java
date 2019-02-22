@@ -47,12 +47,12 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public int remove(Integer id){
+	public int remove(Long id){
 		return userDao.remove(id);
 	}
 	
 	@Override
-	public int batchRemove(Integer[] ids){
+	public int batchRemove(Long[] ids){
 		return userDao.batchRemove(ids);
 	}
 

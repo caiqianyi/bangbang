@@ -30,8 +30,8 @@ public interface UserService {
 	
 	int update(UserDO user);
 	
-	int remove(Integer id);
+	int remove(Long id);
 	
-	int batchRemove(Integer[] ids);
+	int batchRemove(Long[] ids);
 
 }

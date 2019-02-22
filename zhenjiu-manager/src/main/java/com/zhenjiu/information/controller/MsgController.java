@@ -77,6 +77,7 @@ public class MsgController {
 	public R save( MsgDO msg){
 		msg.setAddTime(new Date());
 		msg.setUpdateTime(new Date());
+		msg.setType(0);
 		if(msgService.save(msg)>0){
 			return R.ok();
 		}

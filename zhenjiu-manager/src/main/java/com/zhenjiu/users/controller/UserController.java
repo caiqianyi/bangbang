@@ -102,10 +102,10 @@ public class UserController{
 	@PostMapping( "/remove")
 	@ResponseBody
 	@RequiresPermissions("information:user:remove")
-	public R remove( Integer id){
+	public R remove( Long id){
 		
 		UserDO user = new UserDO();
-        user.setId(id); 
+        user.setId(id);
         user.setDeleteFlag(0);
 		userService.update(user);
 		
@@ -123,7 +123,7 @@ public class UserController{
 	@PostMapping( "/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("information:user:batchRemove")
-	public R remove(@RequestParam("ids[]") Integer[] ids){
+	public R remove(@RequestParam("ids[]") Long[] ids){
 		userService.batchRemove(ids);
 		return R.ok();
 	}

@@ -72,11 +72,29 @@ function load() {
 								},
 																{
 									field : 'type', 
-									title : '消息类型' 
+									title : '消息类型',
+									align : 'center',
+									formatter : function(value, row, index) {
+										if(value == '1'){
+									   		return '<span class="label label-danger">个人</span>';
+									   	}else if(value == '0'){
+									   		return '<span class="label label-primary">系统</span>';
+									   		
+									   	}
+									}	
 								},
 																{
 									field : 'deleteFlag', 
-									title : '状态' 
+									title : '状态', 
+									align : 'center',
+									formatter : function(value, row, index) {
+									   	if(value == '1'){
+									   		return '<span class="label label-danger">禁止</span>';
+									   	}else if(value == '0'){
+									   		return '<span class="label label-primary">正常</span>';
+									   		
+									   	}
+									}		
 								},
 																{
 									title : '操作',
@@ -92,7 +110,7 @@ function load() {
 										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
-										return  d ;
+										return  d + e;
 									}
 								} ]
 					});
@@ -112,7 +130,7 @@ function add() {
 	layer.full(addPage);
 }
 function edit(id) {
-	layer.open({
+	var editPage =layer.open({
 		type : 2,
 		title : '编辑',
 		maxmin : true,
@@ -120,6 +138,7 @@ function edit(id) {
 		area : [ '800px', '520px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
+	layer.full(editPage);
 }
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {
