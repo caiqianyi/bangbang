@@ -88,14 +88,16 @@ public class ExpertController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:expert:add")
 	public R save( ExpertDO expert){
-		
-		String fileName = expert.getTouxiang().getOriginalFilename();
-		fileName = FileUtil.renameToUUID(fileName);
 		try {
-			FileUtil.uploadFile(expert.getTouxiang().getBytes(), bootdoConfig.getUploadPath()+"expert/", fileName);
+			if(expert.getTouxiang() != null && expert.getTouxiang().getSize() > 0){
+				String fileName = expert.getTouxiang().getOriginalFilename();
+				fileName = FileUtil.renameToUUID(fileName);
+				FileUtil.uploadFile(expert.getTouxiang().getBytes(), bootdoConfig.getUploadPath()+"expert/", fileName);
+				expert.setHeadshot("/files/expert/" + fileName);
+			}
 			expert.setIsLogin(0);
 			expert.setDeleted(0);
-			expert.setHeadshot("/files/expert/" + fileName);
+			
 			expert.setAddTime(new Date());
 			expert.setUpdateTime(new Date());
 		} catch (Exception e) {

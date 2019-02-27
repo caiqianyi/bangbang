@@ -94,14 +94,17 @@ public class NewsController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:news:add")
 	public R save( NewsDO news){
-		String fileName = news.getPicItems().getOriginalFilename();
-		fileName = FileUtil.renameToUUID(fileName);
+		
 		try {
-			FileUtil.uploadFile(news.getPicItems().getBytes(), bootdoConfig.getUploadPath()+"news/", fileName);
-			
+			if(news.getPicItems()!= null && news.getPicItems().getSize() > 0){
+				String fileName = news.getPicItems().getOriginalFilename();
+				fileName = FileUtil.renameToUUID(fileName);
+				FileUtil.uploadFile(news.getPicItems().getBytes(), bootdoConfig.getUploadPath()+"news/", fileName);
+				news.setTupianurl("/files/news/" + fileName);
+			}
 			news.setDeleted(0);
 			news.setCheckStatus(0);
-			news.setTupianurl("/files/news/" + fileName);
+			
 			news.setCreateTime(new Date());
 			news.setUpdateTime(new Date());
 		} catch (Exception e) {

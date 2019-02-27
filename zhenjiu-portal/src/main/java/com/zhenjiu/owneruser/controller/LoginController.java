@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import com.zhenjiu.common.annotation.Log;
 import com.zhenjiu.common.controller.BaseController;
 import com.zhenjiu.common.utils.ShiroUtils;
-import com.zhenjiu.information.service.NoticeService;
 import com.zhenjiu.owneruser.comment.SMSContent;
 import com.zhenjiu.owneruser.comment.SMSPlatform;
 import com.zhenjiu.owneruser.comment.SMSTemplate;
@@ -30,8 +29,7 @@ import com.zhenjiu.smsservice.service.ISMSService;
 public class LoginController extends BaseController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private NoticeService noticeService;
+   
     @Autowired
     OwnerUserService userService;
     @Autowired

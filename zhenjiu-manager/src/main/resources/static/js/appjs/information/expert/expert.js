@@ -100,7 +100,9 @@ function load() {
 									field : 'headshot', 
 									title : '头像',
 									formatter : function(value, row, index) {
-										var e = '<div class="image"><img width="90" height="100" alt="image" class="img-responsive" src="' + value + '"></div>'
+										var e="-";
+										if(value!=null)
+											e = '<div class="image"><img width="90" height="100" alt="image" class="img-responsive" src="' + value + '"></div>'
 										return e;
 									}
 								},
