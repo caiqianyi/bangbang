@@ -42,15 +42,15 @@ public class MsgServiceImpl implements MsgService {
 	
 	@Override
 	public int save(MsgDO msg){
-		int id = msgDao.msgId();
-		msg.setId(id);
-		if(StringUtils.isNotBlank(msg.getForIds())){
-			String[] ids = msg.getForIds().split(",");
-			for (int i = 0; i < ids.length; i++) {
-				MsgUserDO msgUser = new MsgUserDO(Long.parseLong(ids[i]),(long)id);
-				MsgUserDao.save(msgUser);
-			}
-		}
+//		int id = msgDao.msgId();
+//		msg.setId(id);
+//		if(StringUtils.isNotBlank(msg.getForIds())){
+//			String[] ids = msg.getForIds().split(",");
+//			for (int i = 0; i < ids.length; i++) {
+//				MsgUserDO msgUser = new MsgUserDO(Long.parseLong(ids[i]),(long)id);
+//				MsgUserDao.save(msgUser);
+//			}
+//		}
 		return msgDao.save(msg);
 	}
 	

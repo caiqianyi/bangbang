@@ -21,7 +21,7 @@ public class UserDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//id
-	private Integer id;
+	private Long id;
 	//微信id
 	private String openId;
 	//昵称
@@ -88,13 +88,13 @@ public class UserDO implements Serializable {
 	/**
 	 * 设置：id
 	 */
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：id
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	/**
