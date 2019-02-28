@@ -18,7 +18,7 @@ public class DeviceDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
-	private Integer id;
+	private long id;
 	//用户账号
 	private String account;
 	//日志时间
@@ -33,7 +33,7 @@ public class DeviceDO implements Serializable {
 	private String name;
 	//mac物理地址
 	private String mac;
-	//设备是否连接   0连接中   1 未连接
+	//是否为默认设备   0 不默认  1 默认设备
 	private Integer defaultDevice;
 	//0 个人设备  1 非个人设备
 	private Integer deviceType;
@@ -50,13 +50,13 @@ public class DeviceDO implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setId(Integer id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：
 	 */
-	public Integer getId() {
+	public long getId() {
 		return id;
 	}
 	/**

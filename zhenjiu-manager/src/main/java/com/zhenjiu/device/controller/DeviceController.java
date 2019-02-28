@@ -2,6 +2,7 @@ package com.zhenjiu.device.controller;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -104,8 +105,13 @@ public class DeviceController {
 			    		device.setMac(row.getCell(2).getStringCellValue());//设备mac地址
 			    	if(row.getCell(3)!=null)
 			    		device.setDeviceType((int) row.getCell(3).getNumericCellValue());//设备类型
+			    	device.setDefaultDevice(1);
 			    	device.setCreateTime(new Date());
 			    	device.setDeleted(0);
+			    	Map<String,Object> params = new HashMap<String,Object>();
+			    	params.put("identity", device.getIdentity());
+			    	List<DeviceDO> list = deviceService.list(params);
+			    	if(list.size()>0) continue;
 			    	deviceService.save(device);
 			    }
 			}
@@ -147,6 +153,9 @@ public class DeviceController {
 	@ResponseBody
 	@RequiresPermissions("information:device:remove")
 	public R remove( Integer id){
+		DeviceDO dvo = deviceService.get(id);
+		if(dvo!=null && dvo.getDefaultDevice()==0)
+			return R.error("不可以删除默认设备！");
 		DeviceDO deviceDO = new DeviceDO();
 		deviceDO.setId(id);
 		deviceDO.setDeleted(1);
