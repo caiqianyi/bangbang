@@ -22,6 +22,8 @@ public class UserDO implements Serializable {
 	
 	//id
 	private Long id;
+	//用户id
+	private Long userId;
 	//微信id
 	private String openId;
 	//昵称
@@ -313,4 +315,11 @@ public class UserDO implements Serializable {
 	public String getUsername() {
 		return username;
 	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	
 }

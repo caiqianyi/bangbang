@@ -2,21 +2,27 @@ package com.zhenjiu.owneruser.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 用户信息表
+ * 
+ * @author wjl
+ * @email bushuo@163.com
+ * @date 2019-02-27 09:55:49
+ */
 public class OwnerUserDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//id
 	private Long id;
+	//用户id
+	private Long userId;
 	//微信id
 	private String openId;
 	//昵称
 	private String nickname;
-    // 用户名
-    private String username;
 	//密码
 	private String password;
 	//手机号
@@ -49,26 +55,13 @@ public class OwnerUserDO implements Serializable {
 	private Date updateTime;
 	//0：是；1：否
 	private Integer deleteFlag;
-	
-    //小区
-    private List<Long> plotIds;
+	//
+	private String username;
+	//性别：值为1时是男性，值为2时是女性，值为0时是未知
+	private Integer sex;
+	//出生年月
+	private Date birthday;
 
-	//车牌号
-	private String carNum;
-	//货车类型
-	private String carType;
-	//车大小
-	private String carSize;
-	//0:空载  1：非空载
-	private Integer carStatus;
-	//备注
-	private String desc;
-	//司机城市
-	private String address;
-	//拒单率
-	private Double refuse;
-	//准时率
-	private Double ontime;
 	/**
 	 * 设置：id
 	 */
@@ -80,6 +73,18 @@ public class OwnerUserDO implements Serializable {
 	 */
 	public Long getId() {
 		return id;
+	}
+	/**
+	 * 设置：用户id
+	 */
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	/**
+	 * 获取：用户id
+	 */
+	public Long getUserId() {
+		return userId;
 	}
 	/**
 	 * 设置：微信id
@@ -285,20 +290,41 @@ public class OwnerUserDO implements Serializable {
 	public Integer getDeleteFlag() {
 		return deleteFlag;
 	}
-	public String getUsername() {
-		return username;
-	}
+	/**
+	 * 设置：
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 	/**
-	 * 小区
+	 * 获取：
 	 */
-	public List<Long> getPlotIds() {
-		return plotIds;
+	public String getUsername() {
+		return username;
 	}
-	public void setPlotIds(List<Long> plotIds) {
-		this.plotIds = plotIds;
+	/**
+	 * 设置：性别：值为1时是男性，值为2时是女性，值为0时是未知
+	 */
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+	/**
+	 * 获取：性别：值为1时是男性，值为2时是女性，值为0时是未知
+	 */
+	public Integer getSex() {
+		return sex;
+	}
+	/**
+	 * 设置：出生年月
+	 */
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	/**
+	 * 获取：出生年月
+	 */
+	public Date getBirthday() {
+		return birthday;
 	}
 	public MultipartFile getFileImg() {
 		return fileImg;
@@ -306,117 +332,6 @@ public class OwnerUserDO implements Serializable {
 	public void setFileImg(MultipartFile fileImg) {
 		this.fileImg = fileImg;
 	}
+	
 
-
-	/**
-	 * 获取: 车牌号
-	 */
-	public String getCarNum() {
-		return this.carNum;
-	}
-
-	/**
-	 * 设置: 车牌号
-	 */
-	public void setCarNum(String carNum) {
-		this.carNum = carNum;
-	}
-
-	/**
-	 * 获取: 货车类型
-	 */
-	public String getCarType() {
-		return this.carType;
-	}
-
-	/**
-	 * 设置: 货车类型
-	 */
-	public void setCarType(String carType) {
-		this.carType = carType;
-	}
-
-	/**
-	 * 获取: 车大小
-	 */
-	public String getCarSize() {
-		return this.carSize;
-	}
-
-	/**
-	 * 设置: 车大小
-	 */
-	public void setCarSize(String carSize) {
-		this.carSize = carSize;
-	}
-
-	/**
-	 * 获取: 0:空载  1：非空载
-	 */
-	public Integer getCarStatus() {
-		return this.carStatus;
-	}
-
-	/**
-	 * 设置: 0:空载  1：非空载
-	 */
-	public void setCarStatus(Integer carStatus) {
-		this.carStatus = carStatus;
-	}
-
-	/**
-	 * 获取: 备注
-	 */
-	public String getDesc() {
-		return this.desc;
-	}
-
-	/**
-	 * 设置: 备注
-	 */
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-
-	/**
-	 * 获取: 司机城市
-	 */
-	public String getAddress() {
-		return this.address;
-	}
-
-	/**
-	 * 设置: 司机城市
-	 */
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	/**
-	 * 获取: 拒单率
-	 */
-	public Double getRefuse() {
-		return this.refuse;
-	}
-
-	/**
-	 * 设置: 拒单率
-	 */
-	public void setRefuse(Double refuse) {
-		this.refuse = refuse;
-	}
-
-	/**
-	 * 获取: 准时率
-	 */
-	public Double getOntime() {
-		return this.ontime;
-	}
-
-	/**
-	 * 设置: 准时率
-	 */
-	public void setOntime(Double ontime) {
-		this.ontime = ontime;
-	}
 }

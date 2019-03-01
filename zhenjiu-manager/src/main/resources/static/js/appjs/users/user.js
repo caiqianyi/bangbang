@@ -51,6 +51,10 @@ function load() {
 									field : 'id', 
 									title : 'id' 
 								},
+																{
+									field : 'userId', 
+									title : '用户ID' 
+								},
 															{
 									field : 'openId', 
 									title : '微信id' 
