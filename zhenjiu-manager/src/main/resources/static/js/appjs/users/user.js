@@ -191,6 +191,7 @@ function add() {
 		content : prefix + '/add' // iframe的url
 	});
 }
+
 function edit(id) {
 	layer.open({
 		type : 2,
