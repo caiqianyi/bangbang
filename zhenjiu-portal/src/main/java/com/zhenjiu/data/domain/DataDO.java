@@ -23,7 +23,7 @@ public class DataDO implements Serializable {
 	//治疗时间
 	private Date adddate;
 	//用户
-	private Integer userid;
+	private Long userid;
 
 	/**
 	 * 设置：id
@@ -65,13 +65,13 @@ public class DataDO implements Serializable {
 	/**
 	 * 设置：用户
 	 */
-	public void setUserid(Integer userid) {
+	public void setUserid(Long userid) {
 		this.userid = userid;
 	}
 	/**
 	 * 获取：用户
 	 */
-	public Integer getUserid() {
+	public Long getUserid() {
 		return userid;
 	}
 }

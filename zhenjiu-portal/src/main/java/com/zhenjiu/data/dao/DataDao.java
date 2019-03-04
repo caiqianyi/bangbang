@@ -33,5 +33,5 @@ public interface DataDao {
 	
 	int batchRemove(Integer[] ids);
 
-	List<DataDO> getTreeDataByDate(@Param("userid") int userid, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+	List<DataDO> getTreeDataByDate(@Param("userid") Long userid, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

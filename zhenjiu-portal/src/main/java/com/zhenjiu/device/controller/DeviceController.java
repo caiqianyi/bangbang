@@ -39,7 +39,7 @@ public class DeviceController {
 	@GetMapping("/list")
 	Map<String,Object> list(){
 	   Map<String,Object> params = new HashMap<String,Object>();
-	   params.put("account","账号");
+	   params.put("account",ShiroUtils.getUser().getPhone());
 	   List<DeviceDO> list = deviceService.list(params);
 	   Map<String,Object> map =  new HashMap<String,Object>();
 	   map.put("data", list);
@@ -59,7 +59,7 @@ public class DeviceController {
 			 map.put("msg","设备不存在，添加失败");
 		 else{
 			 DeviceDO deviceDO = new DeviceDO();
-			 deviceDO.setAccount("账号");
+			 deviceDO.setAccount(ShiroUtils.getUser().getPhone());
 			 deviceDO.setIdentity(identity);
 			 if(deviceService.update(deviceDO)>0)
 				 map.put("msg","设备添加成功");
@@ -71,7 +71,7 @@ public class DeviceController {
 	Map<String,Object> delete(String identity){
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("account","账号");
+		params.put("account",ShiroUtils.getUser().getPhone());
 		params.put("identity", identity);
 		params.put("defaultDevice", 0);
 		List<DeviceDO> list = deviceService.list(params);

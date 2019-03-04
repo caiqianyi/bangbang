@@ -53,7 +53,7 @@ public class DataServiceImpl implements DataService {
 	}
 
 	@Override
-	public List<DataDO> getTreeDataByDate(int i, Date startDate, Date endDate) {
+	public List<DataDO> getTreeDataByDate(Long i, Date startDate, Date endDate) {
 		return dataDao.getTreeDataByDate(i,startDate,endDate);
 	}
 	
