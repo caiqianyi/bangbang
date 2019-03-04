@@ -29,6 +29,7 @@ import com.zhenjiu.owneruser.service.OwnerUserService;
 import com.zhenjiu.smsservice.service.ISMSService;
 
 
+
 @RestController
 public class LoginController extends BaseController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -39,14 +40,13 @@ public class LoginController extends BaseController {
     @Autowired
     private ISMSService sMSService;
 	
-
+   
     @Log("密码登录")
 	@PostMapping("/loginP")
     Map<String, Object> loginP(String phone, String password) {
  	    Map<String, Object> message = new HashMap<>();
- 	    password = MD5Utils.encrypt(phone, password);
-	   		UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
-	   		Subject subject = SecurityUtils.getSubject();
+	   	UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
+	   	Subject subject = SecurityUtils.getSubject();
 	   		try {
 	   			Map<String, Object> mapP = new HashMap<String, Object>();
 	   			mapP.put("username", phone);
@@ -114,7 +114,6 @@ public class LoginController extends BaseController {
 	    Map<String, Object> loginC(String phone, String password, String codenum) {
 	        Map<String, Object> message = new HashMap<>();
 	        String msg = "";
-	        password = MD5Utils.encrypt(phone, password);
 	        UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
 	        Subject subject = SecurityUtils.getSubject();
 	        Object object = subject.getSession().getAttribute("sys.login.check.code");
@@ -169,10 +168,8 @@ public class LoginController extends BaseController {
         if (StringUtils.isBlank(phone)) {
             message.put("msg", "手机号码不能为空");
         } else {
-        	password = MD5Utils.encrypt(phone, password);
             Subject subject = SecurityUtils.getSubject();
             Object object = subject.getSession().getAttribute("sys.login.check.code");
-            message.put("sessionId",subject.getSession().getId().toString());
             if (object != null) {
             	String captcha = object.toString();
             	//String captcha = "666666";
@@ -205,15 +202,43 @@ public class LoginController extends BaseController {
                         }
                     }
                 }
-
             } else {
                 message.put("msg", "手机验证码错误");
             }
         }
         return message;
     }
-
-
+    
+    @Log("忘记密码")
+	@PostMapping("/retpwd")
+    Map<String, String> retpwd(String username, String password,  String codenum) {
+        Map<String, String> message = new HashMap<>();
+		if (StringUtils.isBlank(username)) {
+			message.put("msg","手机号码不能为空");
+		}
+		Map<String, Object> mapP = new HashMap<String, Object>();
+		mapP.put("username", username);
+		boolean flag = userService.exit(mapP);
+		if (!flag) {
+			message.put("msg","该手机号码未注册");
+		}
+		OwnerUserDO udo= userService.getbyname(username);
+		Subject subject = SecurityUtils.getSubject();
+		String captcha =subject.getSession().getAttribute("sys.login.check.code").toString();
+		if (captcha == null || "".equals(captcha)) {
+			message.put("msg","验证码已失效，请重新点击发送验证码");
+		}
+		// session中存放的验证码是手机号+验证码
+		if (!captcha.equalsIgnoreCase(username + codenum)) {
+			message.put("msg","手机验证码错误");
+		}
+		udo.setPassword(password);
+		if (userService.update(udo) > 0) {
+			message.put("msg","修改成功");
+		}
+		return message;
+	}
+    
     @Log("登出")
     @GetMapping("/logout")
     Map<String, String> logout() {
