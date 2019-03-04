@@ -32,9 +32,9 @@ public class OwnerUserServiceImpl implements OwnerUserService {
 	}
 	
 	@Override
-	public OwnerUserDO getbyname(String username){
+	public OwnerUserDO getbyname(String phone){
 		
-		OwnerUserDO user = ownerUserMapper.getbyname(username);
+		OwnerUserDO user = ownerUserMapper.getbyname(phone);
 		return user;
 	}
 

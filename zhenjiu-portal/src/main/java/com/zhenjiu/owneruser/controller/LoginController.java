@@ -2,6 +2,7 @@ package com.zhenjiu.owneruser.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,11 +13,14 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.zhenjiu.common.annotation.Log;
 import com.zhenjiu.common.controller.BaseController;
+import com.zhenjiu.common.utils.MD5Utils;
 import com.zhenjiu.common.utils.ShiroUtils;
+import com.zhenjiu.owneruser.comment.GenerateCode;
 import com.zhenjiu.owneruser.comment.SMSContent;
 import com.zhenjiu.owneruser.comment.SMSPlatform;
 import com.zhenjiu.owneruser.comment.SMSTemplate;
@@ -34,8 +38,35 @@ public class LoginController extends BaseController {
     OwnerUserService userService;
     @Autowired
     private ISMSService sMSService;
+	
 
-
+    @Log("密码登录")
+	@PostMapping("/loginP")
+    Map<String, Object> loginP(String phone, String password) {
+ 	    Map<String, Object> message = new HashMap<>();
+ 	    password = MD5Utils.encrypt(phone, password);
+	   		UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
+	   		Subject subject = SecurityUtils.getSubject();
+	   		try {
+	   			Map<String, Object> mapP = new HashMap<String, Object>();
+	   			mapP.put("username", phone);
+	   			boolean flag = userService.exit(mapP);
+	   			if (!flag) {
+	   				message.put("msg","该手机号码未注册");
+	   			}
+	   			OwnerUserDO udo= userService.getbyname(phone);
+	   			if(udo.getDeleteFlag()==0){
+	   				message.put("msg","禁止登录，请联系客服");
+	   			}
+	   			subject.login(token);
+	   			udo.setLoginTime(new Date());
+	   			userService.update(udo);
+	   			message.put("msg","登录成功");
+	   		} catch (AuthenticationException e) {
+	   			message.put("msg","用户或密码错误");
+	   		}
+	    	return message;
+    }
     /**
      * @param phone 手机号
      * @param type  类型 0：注册   1：登录
@@ -56,18 +87,18 @@ public class LoginController extends BaseController {
                 if ("1".equals(type)) {
                     contentType = SMSContent.LOGIN;//登录
                 }
-
-                //Map<String, Object> map = sMSService.sendCodeNumber(SMSPlatform.dingshi, phone, contentType);
-                //if (map == null) {
-                   // message.put("msg", "验证码发送出现问题,请三分钟后再试");
-                //} else {
-                //String code = map.get("randomCode").toString();
-                String code = "666666";
-                    Subject subject = SecurityUtils.getSubject();
-                    subject.getSession().setAttribute("sys.login.check.code", phone + code);
-                    message.put("msg", "发送成功");
-                    message.put("sessionId",subject.getSession().getId().toString());
-               // }
+                
+                Map<String, Object> map = sMSService.sendCodeNumber(SMSPlatform.zhenjiu, phone, contentType);
+                if (map == null) {
+                    message.put("msg", "验证码发送出现问题,请三分钟后再试");
+                } else {
+	                String code = map.get("randomCode").toString();
+                	//String code = "666666";
+	                Subject subject = SecurityUtils.getSubject();
+	                subject.getSession().setAttribute("sys.login.check.code", phone + code);
+	                message.put("msg", "发送成功");
+	                message.put("sessionId",subject.getSession().getId().toString());
+                }
             }
         } catch (Exception e) {
             logger.info("SMS==================验证码发送出现问题========" + phone + "======");
@@ -75,25 +106,81 @@ public class LoginController extends BaseController {
         }
         return message;
     }
+    
+    
+    
+	   @Log("验证码登录")
+	   @PostMapping("/loginC")
+	    Map<String, Object> loginC(String phone, String password, String codenum) {
+	        Map<String, Object> message = new HashMap<>();
+	        String msg = "";
+	        password = MD5Utils.encrypt(phone, password);
+	        UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
+	        Subject subject = SecurityUtils.getSubject();
+	        Object object = subject.getSession().getAttribute("sys.login.check.code");
+	        try {
+	            if (object != null) {
+	                String captcha = object.toString();
+	                if (captcha == null || "".equals(captcha)) {
+	                    message.put("msg", "验证码已失效，请重新点击发送验证码");
+	                } else {
+	                    // session中存放的验证码是手机号+验证码
+	                    if (!captcha.equalsIgnoreCase(phone + codenum)) {
+	                        message.put("msg", "手机验证码错误");
+	                    } else {
+	                        Map<String, Object> mapP = new HashMap<String, Object>();
+	                        mapP.put("username", phone);
+	                        boolean flag = userService.exit(mapP);
+	                        if (!flag) {
+	                            message.put("msg", "该手机号码未注册");
+	                        } else {
+	                            OwnerUserDO udo = userService.getbyname(phone);
+	                            if (udo==null||udo.getDeleteFlag() == 0) {
+	                                message.put("msg", "禁止登录，请联系客服");
+	                            } else {
+	                                subject.login(token);
+	                                udo.setLoginTime(new Date());
+	                                userService.update(udo);
+	                                message.put("id", udo.getId());
+	                                message.put("nickname", udo.getNickname());
+	                                message.put("heardUrl", udo.getHeardUrl());
+	                                message.put("loginTime", udo.getLoginTime());
+	                                message.put("msg", "登录成功");
+	                            }
+	                        }
+	                    }
+	                }
+	            } else {
+	                message.put("msg", "手机验证码错误");
+	            }
+	        } catch (AuthenticationException e) {
+	            message.put("msg", "手机号或验证码错误");
+	        }
+	        return message;
+	    }
+
+ 
 
     @Log("用户注册")
     @PostMapping("/register")
-    Map<String, String> register(String phone, String codenum) {
+    Map<String, String> register(String phone, String codenum,String password) {
         Map<String, String> message = new HashMap<>();
         String msg = "";
         if (StringUtils.isBlank(phone)) {
             message.put("msg", "手机号码不能为空");
         } else {
+        	password = MD5Utils.encrypt(phone, password);
             Subject subject = SecurityUtils.getSubject();
-            //Object object = subject.getSession().getAttribute("sys.login.check.code");
-            //message.put("sessionId",subject.getSession().getId().toString());
-            //if (object != null) {
-                String captcha = "666666";
+            Object object = subject.getSession().getAttribute("sys.login.check.code");
+            message.put("sessionId",subject.getSession().getId().toString());
+            if (object != null) {
+            	String captcha = object.toString();
+            	//String captcha = "666666";
                 if (captcha == null || "".equals(captcha)) {
                     message.put("msg", "验证码已失效，请重新点击发送验证码");
                 } else {
                     // session中存放的验证码是手机号+验证码
-                    if (!captcha.equalsIgnoreCase( codenum)) {
+                    if (!captcha.equalsIgnoreCase(phone + codenum)) {
                         message.put("msg", "手机验证码错误");
                     } else {
                         Map<String, Object> mapP = new HashMap<String, Object>();
@@ -103,11 +190,11 @@ public class LoginController extends BaseController {
                             message.put("msg", "手机号码已存在");
                         } else {
                             OwnerUserDO udo = new OwnerUserDO();
+                            Long userId = GenerateCode.gen16(8);
+                            udo.setUserId(userId);
                             udo.setUsername(phone);
                             udo.setPhone(phone);
-                            udo.setPassword("123456");
-                            udo.setNickname(phone);
-                            udo.setBalance(0.00);
+                            udo.setPassword(password);
                             udo.setDeleteFlag(1);
                             udo.setRegisterTime(new Date());
                             if (userService.save(udo) > 0) {
@@ -118,62 +205,14 @@ public class LoginController extends BaseController {
                         }
                     }
                 }
-            //} else {
-             //   message.put("msg", "手机验证码错误");
-           // }
+
+            } else {
+                message.put("msg", "手机验证码错误");
+            }
         }
         return message;
     }
 
-    @Log("登录")
-    @GetMapping("/login")
-    Map<String, Object> login(String phone, String password, String codenum) {
-        Map<String, Object> message = new HashMap<>();
-        String msg = "";
-        UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
-        Subject subject = SecurityUtils.getSubject();
-        //Object object = subject.getSession().getAttribute("sys.login.check.code");
-        try {
-           // if (object != null) {
-                String captcha = "666666";
-                if (captcha == null || "".equals(captcha)) {
-                    message.put("msg", "验证码已失效，请重新点击发送验证码");
-                } else {
-                    // session中存放的验证码是手机号+验证码
-//                    if (!captcha.equalsIgnoreCase(codenum)) {
- //                       message.put("msg", "手机验证码错误");
- //                   } else {
-                        Map<String, Object> mapP = new HashMap<String, Object>();
-                        mapP.put("username", phone);
-                        boolean flag = userService.exit(mapP);
-                        if (!flag) {
-                            message.put("msg", "该手机号码未注册");
-                        } else {
-                        	phone="13964193900";
-                            OwnerUserDO udo = userService.getbyname(phone);
-                            if (udo==null||udo.getDeleteFlag() == 0) {
-                                message.put("msg", "禁止登录，请联系客服");
-                            } else {
- //                                subject.login(token);
-                                udo.setLoginTime(new Date());
-                                userService.update(udo);
-                                message.put("id", udo.getId());
-                                message.put("nickname", udo.getNickname());
-                                message.put("heardUrl", udo.getHeardUrl());
-                                message.put("loginTime", udo.getLoginTime());
-                                message.put("msg", "登录成功");
-                            }
-                        }
-                    }
- //               }
-          //  } else {
-           //     message.put("msg", "手机验证码错误");
-           // }
-        } catch (AuthenticationException e) {
-            message.put("msg", "手机号或验证码错误");
-        }
-        return message;
-    }
 
     @Log("登出")
     @GetMapping("/logout")

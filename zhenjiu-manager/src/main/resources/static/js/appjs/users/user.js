@@ -51,6 +51,10 @@ function load() {
 									field : 'id', 
 									title : 'id' 
 								},
+																{
+									field : 'userId', 
+									title : '用户ID' 
+								},
 															{
 									field : 'openId', 
 									title : '微信id' 
@@ -187,6 +191,7 @@ function add() {
 		content : prefix + '/add' // iframe的url
 	});
 }
+
 function edit(id) {
 	layer.open({
 		type : 2,

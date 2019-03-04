@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping("/owner")
+@RequestMapping("/user")
 @RestController
 public class OwnerUserController extends BaseController {
     @Autowired
@@ -48,70 +48,46 @@ public class OwnerUserController extends BaseController {
     Map<String, Object> editInfo(OwnerUserDO user) {
         Map<String, Object> map = new HashMap<>();
         OwnerUserDO userd = userService.get(getUserId());
+        if (user.getHeardUrl() != null) {
+            userd.setHeardUrl(user.getHeardUrl());
+        }
         if (user.getNickname() != null) {
             userd.setNickname(user.getNickname());
         }
-        if (user.getName() != null) {
-            userd.setName(user.getName());
+        if (user.getUserId() != null) {
+            userd.setUserId(user.getUserId());
         }
-        if (user.getCarNum() != null) {
-            userd.setCarNum(user.getCarNum());
+        if (user.getSex() != null) {
+            userd.setSex(user.getSex());
         }
-        if (user.getCarType() != null) {
-            userd.setCarType(user.getCarType());
+        if (user.getBirthday() != null) {
+            userd.setBirthday(user.getBirthday());
         }
-        if (user.getCarSize() != null) {
-            userd.setCarSize(user.getCarSize());
+        if (user.getPhone() != null) {
+            userd.setPhone(user.getPhone());
         }
-        if (user.getCarStatus() != null) {
-            userd.setCarStatus(user.getCarStatus());
+        if(user.getFileImg() != null && user.getFileImg().getSize() > 0){
+			MultipartFile sysFile = user.getFileImg();
+			String fileName = sysFile.getOriginalFilename();
+			fileName = FileUtil.renameToUUID(fileName);
+			try {
+				FileUtil.uploadFile(sysFile.getBytes(), bootdoConfig.getUploadPath(), fileName);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			userd.setHeardUrl("/files/" + fileName);
         }
-        if (user.getDesc() != null) {
-            userd.setDesc(user.getDesc());
-        }
-        if (user.getAddress() != null) {
-            userd.setAddress(user.getAddress());
-        }
+        
         if (userService.update(userd) > 0) {
-            map.put("msg", "success");
+            map.put("msg", "保存成功");
         } else {
-            map.put("msg", "error");
+            map.put("msg", "保存失败");
         }
         return map;
     }
 
-    /**
-     * 编辑用户头像
-     *
-     * @return
-     */
-    @Log("编辑用户头像")
-    @PostMapping("/editHeadUrl")
-    Map<String, Object> editHeadUrl(OwnerUserDO user) {
-        Map<String, Object> map = new HashMap<>();
-        OwnerUserDO userd = userService.get(getUserId());
-        if (user.getFileImg() != null && user.getFileImg().getSize() > 0) {
-            MultipartFile sysFile = user.getFileImg();
-            String fileName = sysFile.getOriginalFilename();
-            fileName = FileUtil.renameToUUID(fileName);
-            try {
-                FileUtil.uploadFile(sysFile.getBytes(), bootdoConfig.getUploadPath(), fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            userd.setHeardUrl("/files/" + fileName);
-            if (userService.update(userd) > 0) {
-                map.put("heardUrl", userd.getHeardUrl());
-                map.put("msg", "success");
-            } else {
-                map.put("msg", "error");
-            }
-        }else{
-            map.put("msg", "error");
-        }
-        return map;
-    }
+
 
 }

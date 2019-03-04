@@ -4,13 +4,13 @@
 <mapper namespace="com.zhenjiu.users.dao.UserDao">
 
 	<select id="get" resultType="com.zhenjiu.users.domain.UserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,date_format(t_user.birthday, '%Y-%m-%d') AS birthday1 from t_user where id = #{value}
+		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,date_format(t_user.birthday, '%Y-%m-%d') AS birthday1 from t_user where id = #{value}
 	</select>
-
 	<select id="list" resultType="com.zhenjiu.users.domain.UserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user
+		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
 		  		  <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
 		  		  <if test="password != null and password != ''"> and password = #{password} </if>
@@ -49,6 +49,7 @@
 		select count(*) from t_user
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
 		  		  <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
 		  		  <if test="password != null and password != ''"> and password = #{password} </if>
@@ -75,6 +76,7 @@
 	<insert id="save" parameterType="com.zhenjiu.users.domain.UserDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_user
 		(
+			`user_id`,
 			`open_id`, 
 			`nickname`, 
 			`password`, 
@@ -98,6 +100,7 @@
 		)
 		values
 		(
+			#{userId},
 			#{openId}, 
 			#{nickname}, 
 			#{password}, 
@@ -124,6 +127,7 @@
 	<update id="update" parameterType="com.zhenjiu.users.domain.UserDO">
 		update t_user 
 		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="openId != null">`open_id` = #{openId}, </if>
 			<if test="nickname != null">`nickname` = #{nickname}, </if>
 			<if test="password != null">`password` = #{password}, </if>
@@ -160,7 +164,7 @@
 	</delete>
 
 	<select id="getidbyphone" resultType="com.zhenjiu.users.domain.UserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where phone = #{value}
+		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where phone = #{value}
 	</select>
 	
 	<select id="selectByName" parameterType="com.zhenjiu.users.domain.UserDO" resultType="com.zhenjiu.users.domain.UserDO">
