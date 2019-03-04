@@ -147,9 +147,9 @@ public class DataController {
 		List<AverageData> al = new ArrayList<AverageData>();
 		Map<String,Integer> freMap = new LinkedHashMap<String,Integer>();
 	    Map<String,Integer> treatMap = new LinkedHashMap<String,Integer>();
-	    Map<String,Integer> days = new HashMap<String,Integer>(); 
+//	    Map<String,Integer> days = new HashMap<String,Integer>(); 
 	    Set<String> sett = new HashSet<String>();
-	    int avtime=0,avfre=0;//平均时长和平均次数
+	    int avtime=0,avfre=0,day=0;//平均时长/平均次数/治疗天数
 	    if(list!=null && list.size()>0){
 	    	if(flag==-1){//统计当前三天
 	    		for(DataDO dataDO :list){//初始化
@@ -173,6 +173,7 @@ public class DataController {
 	    		}
 	    	}
 	    	else if(flag==0){//统计本周
+	    		day=7;
 	    		for(int i=0;i<7;i++){//初始化
 	    			freMap.put(String.valueOf(i),0);
 	    			treatMap.put(String.valueOf(i),0);
@@ -199,10 +200,11 @@ public class DataController {
 	    		}
 	    	}
 	    	else if(flag==1){//统计本月
+	    		day=30;
 	    		for(int i=0; i<12;i++){//初始化
 	    			freMap.put(String.valueOf(i),0);
 	    			treatMap.put(String.valueOf(i),0);
-	    			days.put(String.valueOf(i),0);
+//	    			days.put(String.valueOf(i),0);
 	    			
 	    		}
 	    		for(DataDO dataDO :list){
@@ -214,27 +216,28 @@ public class DataController {
 	    			sett.add(new SimpleDateFormat(PARSE_SHORT_STRING).format(dataDO.getAdddate()));
 	    			avtime+=dataDO.getTreatTime();
 	    			avfre++;
-	    			for(String key :days.keySet()){
+	    			/*for(String key :days.keySet()){
 	    				if(key.equals(String.valueOf(km))){
 	    					days.put(key, days.get(key)+1);
 	    					break;
 	    				}
-	    			}
+	    			}*/
 	    		}
 	    		Set<String> set = freMap.keySet();
 	    		for(String str1 : set){
 	    			AverageData a  = new AverageData();
 	    			a.setTime(str1);
-	    			a.setFrequency(freMap.get(str1)==0?0:freMap.get(str1)/days.get(str1));
+	    			a.setFrequency(freMap.get(str1)==0?0:freMap.get(str1)/3);
 	    			a.setAvtreatTime(freMap.get(str1)==0?0:treatMap.get(str1)/freMap.get(str1));
 	    			al.add(a);
 	    		}
 	    	}
 	    	else if(flag==2){//统计本年度
+	    		day=365;
 	    		for(int i=0; i<12; i++){//初始化
 	    			freMap.put(String.valueOf(i),0);
 	    			treatMap.put(String.valueOf(i),0);
-	    			days.put(String.valueOf(i),0);
+//	    			days.put(String.valueOf(i),0);
 	    			
 	    		}
 	    		for(DataDO dataDO :list){
@@ -246,25 +249,27 @@ public class DataController {
 	    			sett.add(new SimpleDateFormat(PARSE_SHORT_STRING).format(dataDO.getAdddate()));
 	    			avtime+=dataDO.getTreatTime();
 	    			avfre++;
-	    			for(String key :days.keySet()){
+	    			
+	    			/*for(String key :days.keySet()){
 	    				if(key.equals(String.valueOf(ky))){
 	    					days.put(key, days.get(key)+1);
 	    					break;
 	    				}
-	    			}
+	    			}*/
 	    		}
 	    		Set<String> set = freMap.keySet();
+	    		
 	    		for(String str1 : set){
 	    			AverageData a  = new AverageData();
 	    			a.setTime(str1);
-	    			a.setFrequency(freMap.get(str1)==0?0:freMap.get(str1)/days.get(str1));
+	    			a.setFrequency(freMap.get(str1)==0?0:freMap.get(str1)/30);
 	    			a.setAvtreatTime(freMap.get(str1)==0?0:treatMap.get(str1)/freMap.get(str1));
 	    			al.add(a);
 	    		}
     		}
 	    	if(flag==0 ||flag==1||flag==2){
 	    		avtime/=list.size();
-	    		avfre/=sett.size();
+	    		avfre/=day;
 	    	}
 	    }
 	    //计算平均次数和平均时长
