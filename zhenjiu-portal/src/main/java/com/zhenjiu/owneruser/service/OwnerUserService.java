@@ -14,7 +14,7 @@ import com.zhenjiu.owneruser.domain.OwnerUserDO;
 public interface OwnerUserService {
 	OwnerUserDO get(Long id);
 	
-	OwnerUserDO getbyname(String phone);
+	OwnerUserDO getbyname(String username);
 
 	List<OwnerUserDO> list(Map<String, Object> map);
 

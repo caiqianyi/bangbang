@@ -4,17 +4,15 @@
 <mapper namespace="com.zhenjiu.owneruser.dao.OwnerUserDao">
 
 	<select id="get" resultType="com.zhenjiu.owneruser.domain.OwnerUserDO">
-		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where id = #{value}
+		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user where id = #{value}	
 	</select>
 	
 	<select id="getbyname" resultType="com.zhenjiu.owneruser.domain.OwnerUserDO">
-
-		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where phone = #{value}
-
+		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user where username = #{value}
 	</select>
 
 	<select id="list" resultType="com.zhenjiu.owneruser.domain.OwnerUserDO">
-		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag` from t_user
+		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
@@ -22,7 +20,6 @@
 		  		  <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
 		  		  <if test="password != null and password != ''"> and password = #{password} </if>
 		  		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
-		  		  <if test="username != null and username != ''"> and phone = #{username} </if>
 		  		  <if test="heardUrl != null and heardUrl != ''"> and heard_url = #{heardUrl} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="identityCard != null and identityCard != ''"> and identity_card = #{identityCard} </if>
@@ -36,6 +33,9 @@
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
+		  		  <if test="username != null and username != ''"> and username = #{username} </if>
+		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
+		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -53,7 +53,7 @@
  	<select id="count" resultType="int">
 		select count(*) from t_user
 		 <where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		 <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
 		  		  <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
@@ -72,13 +72,16 @@
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
+		  		  <if test="username != null and username != ''"> and username = #{username} </if>
+		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
+		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
 		  		</where>
 	</select>
 	 
 	<insert id="save" parameterType="com.zhenjiu.owneruser.domain.OwnerUserDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_user
 		(
-			`user_id`,
+			`user_id`, 
 			`open_id`, 
 			`nickname`, 
 			`password`, 
@@ -95,12 +98,14 @@
 			`login_time`, 
 			`add_time`, 
 			`update_time`, 
-			`delete_flag`,
-			`username`
+			`delete_flag`, 
+			`username`, 
+			`sex`, 
+			`birthday`
 		)
 		values
 		(
-			#{userId},
+			#{userId}, 
 			#{openId}, 
 			#{nickname}, 
 			#{password}, 
@@ -117,8 +122,10 @@
 			#{loginTime}, 
 			#{addTime}, 
 			#{updateTime}, 
-			#{deleteFlag},
-			#{username}
+			#{deleteFlag}, 
+			#{username}, 
+			#{sex}, 
+			#{birthday}
 		)
 	</insert>
 	 
@@ -142,16 +149,10 @@
 			<if test="loginTime != null">`login_time` = #{loginTime}, </if>
 			<if test="addTime != null">`add_time` = #{addTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
-			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag},</if>
-			<if test="username != null">`username` = #{username},</if>
-			<!-- <if test="carNum != null">`car_num` = #{carNum},</if> -->
-			<if test="carType != null">`car_type` = #{carType},</if>
-			<if test="carSize != null">`car_size` = #{carSize},</if>
-			<if test="carStatus != null">`car_status` = #{carStatus},</if>
-			<if test="desc != null">`desc` = #{desc},</if>
-			<if test="address != null">`address` = #{address},</if>
-			<if test="refuse != null">`refuse` = #{refuse},</if>
-			<if test="ontime != null">`ontime` = #{ontime},</if>
+			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}, </if>
+			<if test="username != null">`username` = #{username}, </if>
+			<if test="sex != null">`sex` = #{sex}, </if>
+			<if test="birthday != null">`birthday` = #{birthday}</if>
 		</set>
 		where id = #{id}
 	</update>
