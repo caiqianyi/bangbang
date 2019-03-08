@@ -28,9 +28,9 @@ public interface MsgService {
 	
 	int batchRemove(Integer[] ids);
 	
-	List<Map<Object, String>> queryUserMsgList(Long userId);
-	List<Map<Object, String>> queryUserMsgListNull(Map<String,Object> map);
+	List<MsgDO> queryUserMsgList(Long userId);
+	List<MsgDO> queryUserMsgListNull(Map<String,Object> map);
 
-	MsgDO queryUserMsgId(Long id,Long forIds);
+	MsgDO queryUserMsgId(Long id);
 
 }

@@ -2,7 +2,6 @@ package com.zhenjiu.owneruser.controller;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +12,6 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.zhenjiu.common.annotation.Log;
@@ -215,26 +213,35 @@ public class LoginController extends BaseController {
         Map<String, String> message = new HashMap<>();
 		if (StringUtils.isBlank(username)) {
 			message.put("msg","手机号码不能为空");
-		}
-		Map<String, Object> mapP = new HashMap<String, Object>();
-		mapP.put("username", username);
-		boolean flag = userService.exit(mapP);
-		if (!flag) {
-			message.put("msg","该手机号码未注册");
-		}
-		OwnerUserDO udo= userService.getbyname(username);
-		Subject subject = SecurityUtils.getSubject();
-		String captcha =subject.getSession().getAttribute("sys.login.check.code").toString();
-		if (captcha == null || "".equals(captcha)) {
-			message.put("msg","验证码已失效，请重新点击发送验证码");
-		}
-		// session中存放的验证码是手机号+验证码
-		if (!captcha.equalsIgnoreCase(username + codenum)) {
-			message.put("msg","手机验证码错误");
-		}
-		udo.setPassword(password);
-		if (userService.update(udo) > 0) {
-			message.put("msg","修改成功");
+		}else{
+			OwnerUserDO udo= userService.getbyname(username);
+			Subject subject = SecurityUtils.getSubject();
+			Object object =subject.getSession().getAttribute("sys.login.check.code");
+			if (object != null) {
+	            String captcha = object.toString();
+	            if (captcha == null || "".equals(captcha)) {
+	                message.put("msg", "验证码已失效，请重新点击发送验证码");
+	            } else {
+	                // session中存放的验证码是手机号+验证码
+	                if (!captcha.equalsIgnoreCase(username + codenum)) {
+	                    message.put("msg", "手机验证码错误");
+	                } else {
+	                    Map<String, Object> mapP = new HashMap<String, Object>();
+	                    mapP.put("username", username);
+	                    boolean flag = userService.exit(mapP);
+	                    if (!flag) {
+	                        message.put("msg", "该手机号码未注册");
+	                    }else{
+	                    	udo.setPassword(password);
+	            			if (userService.update(udo) > 0) {
+	            				message.put("msg","修改成功");
+	            			}
+	                    }
+	                }
+	            }
+	        } else {
+	            message.put("msg", "手机验证码错误");
+	        }
 		}
 		return message;
 	}

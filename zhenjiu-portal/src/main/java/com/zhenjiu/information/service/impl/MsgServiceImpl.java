@@ -53,18 +53,20 @@ public class MsgServiceImpl implements MsgService {
 	}
 
 	@Override
-	public List<Map<Object, String>> queryUserMsgList(Long userId) {
-		return msgDao.queryUserMsgList(userId);
+	public List<MsgDO> queryUserMsgList(Long userId) {
+		List<MsgDO> queryUserMsgList = msgDao.queryUserMsgList(userId);
+		return queryUserMsgList;
 	}
 
 	@Override
-	public List<Map<Object, String>> queryUserMsgListNull(Map<String, Object> map) {
-		return msgDao.queryUserMsgListNull(map);
+	public List<MsgDO> queryUserMsgListNull(Map<String, Object> map) {
+		List<MsgDO> userMsgListNull = msgDao.queryUserMsgListNull(map);
+		return userMsgListNull;
 	}
 
 	@Override
-	public MsgDO queryUserMsgId(Long id, Long forIds) {
-		return msgDao.queryUserMsgId(id, forIds);
+	public MsgDO queryUserMsgId(Long id) {
+		return msgDao.queryUserMsgId(id);
 	}
 
 

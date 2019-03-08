@@ -23,7 +23,7 @@
 	<select id="queryUserMsgId" resultType="com.zhenjiu.information.domain.MsgDO">
 		select id,name,date_format(add_time, '%Y-%m-%d %H:%i:%s') as addTime,for_details,type,for_ids,delete_flag 
 		from t_msg
-		where delete_flag=0
+		where delete_flag=0 and id = #{value}
 	</select>
 	<select id="list" resultType="com.zhenjiu.information.domain.MsgDO">
 		select `id`,`name`,`type`,`for_names`,`for_ids`,`for_type`,`for_details`,`add_time`,`update_time`,`delete_flag`,`create_by` from t_msg

@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,25 +37,24 @@ public class MsgController extends BaseController{
 	@GetMapping("/list")
 	 Map<String, Object> list(Model model){
 		Map<String, Object> map = new HashMap<>();
-		List<Map<Object, String>> userMsgList = msgService.queryUserMsgList(getUserId());
-		MsgDO msgDO = new MsgDO();
-		if(msgDO.getForIds() != null){
-			userMsgList = msgService.queryUserMsgList(getUserId());
+		List<MsgDO> userMsgList = msgService.list(map);
+		if(getforIds() != null){
+			userMsgList = msgService.queryUserMsgList(getforIds());
 		}
-		if(msgDO.getForIds() == null){
-			userMsgList = msgService.queryUserMsgListNull(map);
-		}
+		List<MsgDO> userMsgListNull = msgService.queryUserMsgListNull(map);
 		map.put("userMsgList", userMsgList);
+		map.put("userMsgListNull", userMsgListNull);
 		return map;
+
 	}
 	
 	
 	@Log("信息详情")
 	@ResponseBody
-	@GetMapping("/list/info/{id}")
-	Map<String, Object> info(Model model,@PathVariable("id") Long id){
+	@GetMapping("/list/info")
+	Map<String, Object> info(Model model,Long id){
 		Map<String, Object> map = new HashMap<>();
-		MsgDO userMsgId = msgService.queryUserMsgId(id,getUserId());
+		MsgDO userMsgId = msgService.queryUserMsgId(id);
 		map.put("userMsgId", userMsgId);
 		return map;
 	}
