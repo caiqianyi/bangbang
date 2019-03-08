@@ -41,6 +41,8 @@ public class DataController {
 	private static final String PARSE_END_STRING="yyyy-MM-dd 23:59:59";
 	private static final String PARSE_START_STRING="yyyy-MM-dd 00:00:00";
 	private static final String PARSE_SHORT_STRING="yyyy-MM-dd";
+	private static final String[] WEEK={"0","一","二","三","四","五","六","日"};
+	private static final String[] MONTH={"一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"};
 	@Autowired
 	private DataService dataService;
 	/**
@@ -147,17 +149,24 @@ public class DataController {
 		List<AverageData> al = new ArrayList<AverageData>();
 		Map<String,Integer> freMap = new LinkedHashMap<String,Integer>();
 	    Map<String,Integer> treatMap = new LinkedHashMap<String,Integer>();
-	    Map<String,Integer> days = new HashMap<String,Integer>(); 
 	    Set<String> sett = new HashSet<String>();
-	    int avtime=0,avfre=0;//平均时长和平均次数
+	    int avtime=0,avfre=0,day=0;//平均时长/平均次数/治疗天数
 	    if(list!=null && list.size()>0){
 	    	if(flag==-1){//统计当前三天
-	    		for(DataDO dataDO :list){//初始化
-	    			freMap.put(new SimpleDateFormat("MM/dd").format(dataDO.getAdddate()),0);
-	    			treatMap.put(new SimpleDateFormat("MM/dd").format(dataDO.getAdddate()),0);
-	    			avtime+=dataDO.getTreatTime();
-	    			avfre++;
-	    		}
+	    		Calendar calendar = Calendar.getInstance();
+	    		Date nowdate = calendar.getTime();
+	    		freMap.put(new SimpleDateFormat("MM/dd").format(nowdate),0);
+	    		treatMap.put(new SimpleDateFormat("MM/dd").format(nowdate),0);
+	    		calendar.add(Calendar.DAY_OF_YEAR, -1);
+	    		Date yesdate = calendar.getTime();
+	    		freMap.put(new SimpleDateFormat("MM/dd").format(yesdate),0);
+	    		treatMap.put(new SimpleDateFormat("MM/dd").format(yesdate),0);
+	    		calendar.add(Calendar.DAY_OF_YEAR, -1);
+	    		Date tbyesdate = calendar.getTime();
+	    		freMap.put(new SimpleDateFormat("MM/dd").format(tbyesdate),0);
+	    		treatMap.put(new SimpleDateFormat("MM/dd").format(tbyesdate),0);
+	    		
+	    	
 	    		for(DataDO dataDO :list){
 	    			String str = new SimpleDateFormat("MM/dd").format(dataDO.getAdddate());
 	    			freMap.put(str, freMap.get(str)+1);
@@ -168,104 +177,96 @@ public class DataController {
 	    			AverageData a  = new AverageData();
 	    			a.setTime(str1);
 	    			a.setFrequency(freMap.get(str1));
-	    			a.setAvtreatTime(treatMap.get(str1)/a.getFrequency());
+	    			a.setAvtreatTime(treatMap.get(str1)==0?0:treatMap.get(str1)/a.getFrequency());
 	    			al.add(a);
 	    		}
 	    	}
 	    	else if(flag==0){//统计本周
-	    		for(int i=0;i<7;i++){//初始化
-	    			freMap.put(String.valueOf(i),0);
-	    			treatMap.put(String.valueOf(i),0);
+	    		day=7;
+	    		for(int i=1;i<=7;i++){//初始化
+	    			freMap.put(WEEK[i],0);
+	    			treatMap.put(WEEK[i],0);
 	    		
 	    		}
 	    		for(DataDO dataDO :list){
 	    			Calendar calendar = Calendar.getInstance();
 	    			calendar.setTime(dataDO.getAdddate());
 	    			Integer kz = calendar.get(Calendar.DAY_OF_WEEK)-1;
-	    			if(kz==0) kz=6;
-	    			freMap.put(String.valueOf(kz), freMap.get(String.valueOf(kz))+1);
-	    			treatMap.put(String.valueOf(kz),treatMap.get(String.valueOf(kz))+dataDO.getTreatTime());
+	    			if(kz==0) kz=7;
+	    			freMap.put(WEEK[kz], freMap.get(WEEK[kz])+1);
+	    			treatMap.put(WEEK[kz],treatMap.get(WEEK[kz])+dataDO.getTreatTime());
 	    			sett.add(new SimpleDateFormat(PARSE_SHORT_STRING).format(dataDO.getAdddate()));
 	    			avtime+=dataDO.getTreatTime();
 	    			avfre++;
-	    		}
-	    		Set<String> set = freMap.keySet();
-	    		for(String str1 : set){
-	    			AverageData a  = new AverageData();
-	    			a.setTime(str1);//0,1,2,3,4,5,6
-	    			a.setFrequency(freMap.get(str1));
-	    			a.setAvtreatTime(freMap.get(str1)==0?0:treatMap.get(str1)/a.getFrequency());
-	    			al.add(a);
-	    		}
-	    	}
-	    	else if(flag==1){//统计本月
-	    		for(int i=0; i<12;i++){//初始化
-	    			freMap.put(String.valueOf(i),0);
-	    			treatMap.put(String.valueOf(i),0);
-	    			days.put(String.valueOf(i),0);
-	    			
-	    		}
-	    		for(DataDO dataDO :list){
-	    			Calendar calendar = Calendar.getInstance();
-	    			calendar.setTime(dataDO.getAdddate());
-	    			Integer km=(calendar.get(Calendar.DAY_OF_MONTH)-1)/3;
-	    			freMap.put(String.valueOf(km), freMap.get(String.valueOf(km))+1);
-	    			treatMap.put(String.valueOf(km),treatMap.get(String.valueOf(km))+dataDO.getTreatTime());
-	    			sett.add(new SimpleDateFormat(PARSE_SHORT_STRING).format(dataDO.getAdddate()));
-	    			avtime+=dataDO.getTreatTime();
-	    			avfre++;
-	    			for(String key :days.keySet()){
-	    				if(key.equals(String.valueOf(km))){
-	    					days.put(key, days.get(key)+1);
-	    					break;
-	    				}
-	    			}
 	    		}
 	    		Set<String> set = freMap.keySet();
 	    		for(String str1 : set){
 	    			AverageData a  = new AverageData();
 	    			a.setTime(str1);
-	    			a.setFrequency(freMap.get(str1)==0?0:freMap.get(str1)/days.get(str1));
+	    			a.setFrequency(freMap.get(str1));
+	    			a.setAvtreatTime(freMap.get(str1)==0?0:treatMap.get(str1)/a.getFrequency());
+	    			al.add(a);
+	    		}
+	    		avtime/=list.size();
+		    	avfre/=day;
+	    	}
+	    	else if(flag==1){//统计本月
+	    		day=30;
+	    		for(int i=1; i<11;i++){//初始化
+	    			freMap.put(String.valueOf(3*i),0);
+	    			treatMap.put(String.valueOf(3*i),0);
+	    			
+	    		}
+	    		for(DataDO dataDO :list){
+	    			Calendar calendar = Calendar.getInstance();
+	    			calendar.setTime(dataDO.getAdddate());
+	    			Integer km=(calendar.get(Calendar.DAY_OF_MONTH)-1)/3+1;
+	    			if(km==11) km=10;
+	    			freMap.put(String.valueOf(3*km), freMap.get(String.valueOf(3*km))+1);
+	    			treatMap.put(String.valueOf(3*km),treatMap.get(String.valueOf(3*km))+dataDO.getTreatTime());
+	    			sett.add(new SimpleDateFormat(PARSE_SHORT_STRING).format(dataDO.getAdddate()));
+	    			avtime+=dataDO.getTreatTime();
+	    			avfre++;
+	    		}
+	    		Set<String> set = freMap.keySet();
+	    		for(String str1 : set){
+	    			AverageData a  = new AverageData();
+	    			a.setTime(str1);
+	    			a.setFrequency(freMap.get(str1)/3);
 	    			a.setAvtreatTime(freMap.get(str1)==0?0:treatMap.get(str1)/freMap.get(str1));
 	    			al.add(a);
 	    		}
+	    		avtime/=list.size();
+		    	avfre/=day;
 	    	}
 	    	else if(flag==2){//统计本年度
+	    		day=365;
 	    		for(int i=0; i<12; i++){//初始化
-	    			freMap.put(String.valueOf(i),0);
-	    			treatMap.put(String.valueOf(i),0);
-	    			days.put(String.valueOf(i),0);
-	    			
+	    			freMap.put(MONTH[i],0);
+	    			treatMap.put(MONTH[i],0);
 	    		}
 	    		for(DataDO dataDO :list){
 	    			Calendar calendar = Calendar.getInstance();
 	    			calendar.setTime(dataDO.getAdddate());
 	    			Integer ky=calendar.get(Calendar.MONTH);
-	    			freMap.put(String.valueOf(ky), freMap.get(String.valueOf(ky))+1);
-	    			treatMap.put(String.valueOf(ky),treatMap.get(String.valueOf(ky))+dataDO.getTreatTime());
+	    			freMap.put(MONTH[ky], freMap.get(MONTH[ky])+1);
+	    			treatMap.put(MONTH[ky],treatMap.get(MONTH[ky])+dataDO.getTreatTime());
 	    			sett.add(new SimpleDateFormat(PARSE_SHORT_STRING).format(dataDO.getAdddate()));
 	    			avtime+=dataDO.getTreatTime();
 	    			avfre++;
-	    			for(String key :days.keySet()){
-	    				if(key.equals(String.valueOf(ky))){
-	    					days.put(key, days.get(key)+1);
-	    					break;
-	    				}
-	    			}
 	    		}
 	    		Set<String> set = freMap.keySet();
+	    		
 	    		for(String str1 : set){
 	    			AverageData a  = new AverageData();
 	    			a.setTime(str1);
-	    			a.setFrequency(freMap.get(str1)==0?0:freMap.get(str1)/days.get(str1));
+	    			a.setFrequency(freMap.get(str1)/30);
 	    			a.setAvtreatTime(freMap.get(str1)==0?0:treatMap.get(str1)/freMap.get(str1));
 	    			al.add(a);
 	    		}
-    		}
-	    	if(flag==0 ||flag==1||flag==2){
 	    		avtime/=list.size();
-	    		avfre/=sett.size();
-	    	}
+		    	avfre/=day;
+    		}
 	    }
 	    //计算平均次数和平均时长
 	    Map<String,Object> map = new HashMap<String,Object>();
