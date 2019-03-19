@@ -73,7 +73,4 @@ public class OwnerUserServiceImpl implements OwnerUserService {
 		exit = ownerUserMapper.list(params).size() > 0;
 		return exit;
 	}
-
-
-
 }

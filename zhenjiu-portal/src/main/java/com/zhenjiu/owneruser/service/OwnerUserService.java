@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zhenjiu.common.domain.Tree;
 import com.zhenjiu.owneruser.domain.OwnerUserDO;
+import com.zhenjiu.owneruser.domain.SetDO;
 
 
 public interface OwnerUserService {
@@ -27,5 +28,6 @@ public interface OwnerUserService {
 	int remove(Long userId);
 
 	boolean exit(Map<String, Object> params);
+	
 
 }

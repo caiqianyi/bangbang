@@ -101,7 +101,8 @@
 			`delete_flag`, 
 			`username`, 
 			`sex`, 
-			`birthday`
+			`birthday`,
+			flag
 		)
 		values
 		(
@@ -125,10 +126,11 @@
 			#{deleteFlag}, 
 			#{username}, 
 			#{sex}, 
-			#{birthday}
+			#{birthday},
+			#{flag}
 		)
 	</insert>
-	 
+	
 	<update id="update" parameterType="com.zhenjiu.owneruser.domain.OwnerUserDO">
 		update t_user 
 		<set>

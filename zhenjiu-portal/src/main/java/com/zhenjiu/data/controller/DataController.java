@@ -56,7 +56,7 @@ public class DataController {
 			dataDO = new DataDO();
 			dataDO.setAdddate(new Date());
 			dataDO.setTreatTime(treatTime);
-			dataDO.setUserid(ShiroUtils.getUserId());
+			dataDO.setUserid(ShiroUtils.getUser().getUserId());
 			if(dataService.save(dataDO)>0)
 				map.put("msg","保存成功");
 		}
@@ -80,7 +80,7 @@ public class DataController {
        calendar.set(Calendar.MINUTE, 0);
        calendar.set(Calendar.SECOND, 0);
        Date startDate =  calendar.getTime();
-       List<DataDO> list = dataService.getTreeDataByDate(ShiroUtils.getUserId(),startDate,endDate);
+       List<DataDO> list = dataService.getTreeDataByDate(ShiroUtils.getUser().getUserId(),startDate,endDate);
        Map<String,Object> map = getData(list,-1);
        
        return map;
@@ -107,7 +107,7 @@ public class DataController {
 				calendar.setFirstDayOfWeek(Calendar.MONDAY);  
 		        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);  
 				endDate = new SimpleDateFormat(PARSE_DATE_STRING).parse(new SimpleDateFormat(PARSE_END_STRING).format(calendar.getTime()));
-				list = dataService.getTreeDataByDate(ShiroUtils.getUserId(), startDate, endDate);
+				list = dataService.getTreeDataByDate(ShiroUtils.getUser().getUserId(), startDate, endDate);
 				map = getData(list,flag);
 			}
 			else if(flag==1){//月
@@ -119,7 +119,7 @@ public class DataController {
 				calendar.add(Calendar.MONTH, 1); 
 				calendar.add(Calendar.DATE, -1); 
 				endDate = new SimpleDateFormat(PARSE_DATE_STRING).parse(new SimpleDateFormat(PARSE_END_STRING).format(calendar.getTime()));
-				list = dataService.getTreeDataByDate(ShiroUtils.getUserId(), startDate, endDate);
+				list = dataService.getTreeDataByDate(ShiroUtils.getUser().getUserId(), startDate, endDate);
 				map = getData(list,flag);
 			}
 			else if(flag==2){//年
@@ -132,7 +132,7 @@ public class DataController {
 			    calendar.set(Calendar.MONTH,0);
 			    calendar.set(Calendar.DAY_OF_MONTH,1);
 				endDate = new SimpleDateFormat(PARSE_DATE_STRING).parse(new SimpleDateFormat(PARSE_END_STRING).format(calendar.getTime()));
-				list = dataService.getTreeDataByDate(ShiroUtils.getUserId(), startDate, endDate);
+				list = dataService.getTreeDataByDate(ShiroUtils.getUser().getUserId(), startDate, endDate);
 				map = getData(list,flag);
 			}
 		} catch (ParseException e) {

@@ -190,6 +190,7 @@ public class LoginController extends BaseController {
                             udo.setUsername(phone);
                             udo.setPhone(phone);
                             udo.setPassword(password);
+                            udo.setFlag(0);//默认模式
                             udo.setDeleteFlag(1);
                             udo.setRegisterTime(new Date());
                             if (userService.save(udo) > 0) {

@@ -27,6 +27,6 @@ public interface OwnerUserDao {
 	int update(OwnerUserDO user);
 	
 	int remove(Long userId);
-	
+	int updateFlag(OwnerUserDO user);
 
 }
