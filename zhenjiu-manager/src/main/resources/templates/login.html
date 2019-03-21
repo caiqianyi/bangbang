@@ -21,10 +21,51 @@
             window.top.location = window.location;
         }
     </script>
-
+    
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script>
+			 
+			$(function(){
+				$('#test-login').click(function(){
+					$.ajax({
+						type:"POST",
+						url:"http://39.107.78.243:8086/loginP",
+						dataType:"json",
+						data:{
+							phone:'18769354833',
+							password:'111111'
+						},
+						success:function(data){
+							console.log(data);
+						},
+						
+					})
+				})
+			})
+			$(function(){
+				$('#test-info').click(function(){
+					$.ajax({
+						type:"GET",
+						url:"http://39.107.78.243:8086/user/userInfo",
+						dataType:"json",
+						success:function(data){
+							console.log(data);
+						},
+						xhrFields: { 
+							withCredentials: true 
+						}
+					})
+				})
+			})
+		</script>
+		
 </head>
 
 <body class="signin">
+
+<button id="test-login"> 登录 </button>
+<button id="test-info"> 获取用户信息 </button>
+
 <div class="signinpanel">
     <div class="row">
         <div class="col-sm-7">
