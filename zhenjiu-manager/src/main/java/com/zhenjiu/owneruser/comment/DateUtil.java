@@ -1,11 +1,11 @@
-package com.zhenjiu.owneruser.comment;
+﻿package com.zhenjiu.owneruser.comment;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.GregorianCalendar;   
 
 /**
  * 时间工具类
