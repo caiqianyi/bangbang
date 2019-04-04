@@ -54,8 +54,7 @@ function load() {
 																{
 									field : 'userId', 
 									title : '用户ID' 
-								},
-															{
+								},					{
 									field : 'openId', 
 									title : '微信id' 
 								},
@@ -169,10 +168,10 @@ function load() {
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="状态"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
+										var f = '<a class="btn btn-success btn-sm" href="/information/data" title="详情"  mce_href="#" onclick="resetPwd(\''
 												+ row.id
-												+ '\')"><i class="fa fa-key"></i></a> ';
-										return e + d ;
+												+ '\')"><i class="fa fa-list"></i></a> ';
+										return e + d + f;
 										
 									}
 								} ]
