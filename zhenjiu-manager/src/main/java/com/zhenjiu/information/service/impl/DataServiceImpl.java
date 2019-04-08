@@ -75,10 +75,16 @@ public class DataServiceImpl implements DataService {
 	public List<DataDO> selectUsername(Map<String, Object> params) {
 		return null;
 	}
-/*
+	
 	@Override
 	public List<DataDO> selectBytime(DataVO datavo) {
 		return dataDao.selectBytime(datavo);
-	}*/
+	}
+
+	@Override
+	public List<DataDO> lists(Integer id) {
+		return dataDao.lists(id);
+	}
+
 	
 }

@@ -28,12 +28,14 @@
 						<div class="columns pull-right">
 							<button class="btn btn-success" id="select">查询</button>
 						</div>
+						
 						<div class="columns pull-right col-md-2 nopadding ">
 							<input id="endTime" name="endTime" class="form-control" placeholder="结束时间：" type="text">
 						</div>
 						<div class="columns pull-right col-md-2 nopadding">
 							<input id="startTime" name="startTime" class="form-control" placeholder="开始时间：" type="text">
 						</div>
+						
 						
 						
 					</div>
@@ -70,16 +72,16 @@
 	<div th:include="include :: footer"></div>
 	<script type="text/javascript" src="/js/appjs/information/data/data.js"></script>
 	<script type="text/javascript">
-		laydate.render({
-			elem: '#startTime',
-			type: 'datetime'
-			}
-		});
-		laydate.render({
-			elem: '#endTime',
-			type: 'datetime'
-		});
+	laydate.render({
+		elem: '#startTime',
+		type: 'datetime'
+	});
+	laydate.render({
+		elem: '#endTime',
+		type: 'datetime'
+	});
 	</script>
+	
 	
 	
 </body>

@@ -168,9 +168,9 @@ function load() {
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="状态"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="/information/data" title="详情"  mce_href="#" onclick="resetPwd(\''
-												+ row.id
-												+ '\')"><i class="fa fa-list"></i></a> ';
+										var f = '<a class="btn btn-success btn-sm" href="#" title="详情"  mce_href="#" onclick="details(\''
+											+ row.id
+											+ '\')"><i class="fa fa-list"></i></a> ';
 										return e + d + f;
 										
 									}
@@ -190,6 +190,18 @@ function add() {
 		content : prefix + '/add' // iframe的url
 	});
 }
+
+function details(id) {
+	layer.open({
+		type : 2,
+		title : '详情',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '800px', '520px' ],
+		content :'/information/data/lists/' + id // iframe的url
+	});
+}
+
 
 function edit(id) {
 	layer.open({

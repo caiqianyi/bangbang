@@ -37,7 +37,8 @@ public interface DataService {
 	List<DataDO> selectByDay(Map<String, Object> params);
 	
 	List<DataDO> selectUsername(Map<String, Object> params);
-	/*
+	
 	List<DataDO> selectBytime(DataVO datavo);
-*/
+
+	List<DataDO> lists(Integer id);
 }

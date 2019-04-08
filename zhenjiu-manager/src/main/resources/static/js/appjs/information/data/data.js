@@ -109,13 +109,11 @@ function load() {
 }
 
 
-/*
 $(function(){
     $("#select").click(function(){
     	updateByTime() 
 	});
 })
-*/
 
 $(function(){
     $("#month").click(function(){

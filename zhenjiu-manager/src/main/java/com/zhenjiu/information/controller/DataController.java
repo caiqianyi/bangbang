@@ -55,6 +55,19 @@ public class DataController {
 	}
 	
 	@ResponseBody
+	@GetMapping("/lists/{id}")
+	@RequiresPermissions("information:data:data")
+	public List<DataDO> lists(@PathVariable("id") Integer id){
+		//查询列表数据
+		System.out.println(id);
+		//Query query = new Query(params);
+		List<DataDO> dataList = dataService.lists(id);
+		//int total = dataService.count(query);
+		//PageUtils pageUtils = new PageUtils(dataList, total);
+		return dataList;
+	}
+	
+	@ResponseBody
 	@GetMapping("/monthlist")
 	@RequiresPermissions("information:data:data")
 	public PageUtils monthlist(@RequestParam Map<String, Object> params){
@@ -90,7 +103,7 @@ public class DataController {
 		return pageUtils;
 	}
 	
-	/*@ResponseBody
+	@ResponseBody
 	@GetMapping("/selectBytime")
 	@RequiresPermissions("information:dataStatis:dataStatis")
 	public PageUtils selectBytime(@RequestParam Map<String, Object> params,DataVO vo){
@@ -102,7 +115,7 @@ public class DataController {
 		int total = dataService.count(query);
 		PageUtils pageUtils = new PageUtils(dataList, total);
 		return pageUtils;
-	}*/
+	}
 	
 	
 	
