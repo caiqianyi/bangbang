@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhenjiu.information.dao.DataDao">
+
+	<select id="get" resultType="com.zhenjiu.information.domain.DataDO">
+		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_gears`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.zhenjiu.information.domain.DataDO">
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
+		from t_user u,treat_data d 
+		<where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
+		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
+		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
+		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
+		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
+		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
+		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
+		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
+		  		  <if test="treatElectrode != null and treatElectrode != ''"> and treat_electrode = #{treatElectrode} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		  		</where>
+		  		<where>u.user_id = d.userid</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	
+	
+	
+	
+	<select id="selectByMonth" resultType="com.zhenjiu.information.domain.DataDO">
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+		from t_user u,treat_data d 
+		<where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
+		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
+		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
+		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
+		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
+		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
+		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
+		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
+		  		  <if test="treatElectrode != null and treatElectrode != ''"> and treat_electrode = #{treatElectrode} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		 </where> 
+		 <where>
+		 	u.user_id = d.userid  and DATE_FORMAT(adddate, '%Y%m' ) = DATE_FORMAT( CURDATE(),'%Y%m')	
+		 </where>  
+	</select>
+	
+	<select id="selectByWeek" resultType="com.zhenjiu.information.domain.DataDO">
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+		from t_user u,treat_data d 
+		<where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
+		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
+		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
+		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
+		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
+		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
+		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
+		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
+		  		  <if test="treatElectrode != null and treatElectrode != ''"> and treat_electrode = #{treatElectrode} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		 </where> 
+		 <where>
+		 	u.user_id = d.userid  and YEARWEEK(date_format(adddate,'%Y-%m-%d')) = YEARWEEK(now());
+		 </where>  
+	</select>
+	
+	<select id="selectByDay" resultType="com.zhenjiu.information.domain.DataDO">
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+		from t_user u,treat_data d 
+		<where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
+		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
+		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
+		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
+		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
+		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
+		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
+		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
+		  		  <if test="treatElectrode != null and treatElectrode != ''"> and treat_electrode = #{treatElectrode} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		 </where> 
+		 <where>
+		 	u.user_id = d.userid  and to_days(adddate) = to_days(now());
+		 </where>  
+	</select>
+	
+	<select id="selectUsername" resultType="com.zhenjiu.information.domain.DataDO">
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+		from t_user u,treat_data d 
+		<where>
+				  <if test="id != null and id != ''"> and d.id = #{id} </if>
+		  		  <if test="treatTime != null and treatTime != ''"> and d.treat_time = #{treatTime} </if>
+		  		  <if test="adddate != null and adddate != ''"> and d.adddate = #{adddate} </if>
+		  		  <if test="userid != null and userid != ''"> and d.userid = #{userid} </if>
+		  		  <if test="treatStrength != null and treatStrength != ''"> and d.treat_strength = #{treatStrength} </if>
+		  		  <if test="treatGears != null and treatGears != ''"> and d.treat_gears = #{treatGears} </if>
+		  		  <if test="treatFrequency != null and treatFrequency != ''"> and d.treat_frequency = #{treatFrequency} </if>
+		  		  <if test="treatWaveform != null and treatWaveform != ''"> and d.treat_waveform = #{treatWaveform} </if>
+		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and d.treat_workmethod = #{treatWorkmethod} </if>
+		  		  <if test="treatElectrode != null and treatElectrode != ''"> and d.treat_electrode = #{treatElectrode} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and d.update_time = #{updateTime} </if>
+		  		  <if test="name != null and name != ''"> and d.name = #{name} </if>
+		  		  <if test="count != null and count != ''"> and d.count = #{count} </if>
+		</where>
+		<where>
+			u.user_id = d.userid 
+		</where>
+	</select>
+	
+	<select id="selectBytime" resultType="com.zhenjiu.information.domain.DataDO">
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+		from t_user u,treat_data d 
+		<where>
+			u.user_id = d.userid  and adddate between #{startTime} and #{endTime}
+		</where>
+	</select>
+	
+	
+	<select id="yearlist" resultType="com.zhenjiu.information.domain.DataDO">
+		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_gears`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data
+		<where>
+				  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
+		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
+		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
+		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
+		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
+		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
+		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
+		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
+		  		  <if test="treatElectrode != null and treatElectrode != ''"> and treat_electrode = #{treatElectrode} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		</where>
+	
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from treat_data
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
+		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
+		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
+		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
+		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
+		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
+		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
+		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
+		  		  <if test="treatElectrode != null and treatElectrode != ''"> and treat_electrode = #{treatElectrode} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		 </where>
+	</select>
+	
+	
+	
+	 
+	<insert id="save" parameterType="com.zhenjiu.information.domain.DataDO" useGeneratedKeys="true" keyProperty="id">
+		insert into treat_data
+		(
+			`treat_time`, 
+			`adddate`, 
+			`userid`, 
+			`treat_strength`, 
+			`treat_gears`, 
+			`treat_frequency`, 
+			`treat_waveform`, 
+			`treat_workmethod`, 
+			`treat_electrode`, 
+			`update_time`, 
+			`name`, 
+			`count`
+		)
+		values
+		(
+			#{treatTime}, 
+			#{adddate}, 
+			#{userid}, 
+			#{treatStrength}, 
+			#{treatGears}, 
+			#{treatFrequency}, 
+			#{treatWaveform}, 
+			#{treatWorkmethod}, 
+			#{treatElectrode}, 
+			#{updateTime}, 
+			#{name}, 
+			#{count}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.zhenjiu.information.domain.DataDO">
+		update treat_data 
+		<set>
+			<if test="treatTime != null">`treat_time` = #{treatTime}, </if>
+			<if test="adddate != null">`adddate` = #{adddate}, </if>
+			<if test="userid != null">`userid` = #{userid}, </if>
+			<if test="treatStrength != null">`treat_strength` = #{treatStrength}, </if>
+			<if test="treatGears != null">`treat_gears` = #{treatGears}, </if>
+			<if test="treatFrequency != null">`treat_frequency` = #{treatFrequency}, </if>
+			<if test="treatWaveform != null">`treat_waveform` = #{treatWaveform}, </if>
+			<if test="treatWorkmethod != null">`treat_workmethod` = #{treatWorkmethod}, </if>
+			<if test="treatElectrode != null">`treat_electrode` = #{treatElectrode}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="count != null">`count` = #{count}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from treat_data where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from treat_data where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
