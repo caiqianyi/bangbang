@@ -50,7 +50,7 @@ public class ConsultController extends BaseController{
 	
 	@GetMapping()
 	@RequiresPermissions("information:consult:consult")
-	String Consult(){
+	String Consult(){ 
 	    return "information/consult/consult";
 	}
 	
