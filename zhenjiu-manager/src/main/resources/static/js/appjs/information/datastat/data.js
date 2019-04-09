@@ -64,7 +64,7 @@ function load() {
 																{
 									field : 'count', 
 									title : '治疗次数' 
-								},
+								},/*
 																{
 									title : '操作',
 									field : 'id',
@@ -79,9 +79,9 @@ function load() {
 										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
-										return e + d ;
+										return  ;
 									}
-								} ],
+								}*/ ],
 					});
 }
 $(function(){

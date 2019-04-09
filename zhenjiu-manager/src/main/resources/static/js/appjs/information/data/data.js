@@ -87,7 +87,7 @@ function load() {
 									field : 'treatElectrode', 
 									title : '治疗电极' 
 								},			
-								
+								/*
 								{
 									title : '操作',
 									field : 'id',
@@ -104,7 +104,7 @@ function load() {
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d ;
 									}
-								} ]
+								} */]
 					});
 }
 

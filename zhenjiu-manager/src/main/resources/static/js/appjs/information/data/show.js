@@ -89,7 +89,7 @@ function load() {
 									title : '治疗电极' 
 								},			
 								
-								{
+								/*{
 									title : '操作',
 									field : 'id',
 									align : 'center',
@@ -105,18 +105,16 @@ function load() {
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d ;
 									}
-								} ]
+								} */]
 					});
 }
 
 
-/*
 $(function(){
     $("#select").click(function(){
     	updateByTime() 
 	});
 })
-*/
 
 $(function(){
     $("#month").click(function(){
