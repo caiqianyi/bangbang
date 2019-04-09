@@ -110,30 +110,18 @@ function load() {
 }
 
 
-$(function(){
-    $("#select").click(function(){
-    	updateByTime() 
-	});
-})
-
-$(function(){
-    $("#month").click(function(){
-    	updateBymonth() 
-	});
-})
-
-$(function(){
-    $("#week").click(function(){
-    	updateByweek() 
-	});
-})
-
-$(function(){
-    $("#day").click(function(){
-    	updateByday() 
-	});
-})
-
+$("#select").click(function(){
+	updateByTime() 
+});
+$("#month").click(function(){
+	updateBymonth() 
+});
+$("#week").click(function(){
+	updateByweek() 
+});
+$("#day").click(function(){
+	updateByday() 
+});
 function updateByTime(){
 $('#exampleTable').bootstrapTable('destroy');
 $('#exampleTable').bootstrapTable(

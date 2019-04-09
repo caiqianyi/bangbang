@@ -109,29 +109,19 @@ function load() {
 }
 
 
-$(function(){
     $("#select").click(function(){
     	updateByTime() 
 	});
-})
-
-$(function(){
     $("#month").click(function(){
     	updateBymonth() 
 	});
-})
-
-$(function(){
     $("#week").click(function(){
     	updateByweek() 
 	});
-})
-
-$(function(){
     $("#day").click(function(){
     	updateByday() 
 	});
-})
+
 
 function updateByTime(){
 $('#exampleTable').bootstrapTable('destroy');
@@ -243,6 +233,7 @@ $('#exampleTable').bootstrapTable(
 
 
 function updateByday(){
+	alert("day");
 $('#exampleTable').bootstrapTable('destroy');
 $('#exampleTable').bootstrapTable(
 		{
@@ -347,6 +338,7 @@ $('#exampleTable').bootstrapTable(
 
 }
 function updateByweek(){
+	alert("week");
 $('#exampleTable').bootstrapTable('destroy');
 $('#exampleTable').bootstrapTable(
 		{
@@ -454,6 +446,7 @@ $('#exampleTable').bootstrapTable(
 
 }
 function updateBymonth(){
+	alert('month');
 	$('#exampleTable').bootstrapTable('destroy');
 	$('#exampleTable').bootstrapTable(
 			{
