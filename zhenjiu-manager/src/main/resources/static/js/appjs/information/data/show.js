@@ -206,7 +206,7 @@ $('#exampleTable').bootstrapTable(
 						title : '治疗电极' 
 					},
 													
-													{
+							/*						{
 						title : '操作',
 						field : 'id',
 						align : 'center',
@@ -222,7 +222,7 @@ $('#exampleTable').bootstrapTable(
 									+ '\')"><i class="fa fa-key"></i></a> ';
 							return e + d ;
 						}
-					} ]
+					}*/ ]
 		});
 
 }
@@ -314,7 +314,7 @@ $('#exampleTable').bootstrapTable(
 						field : 'treatElectrode', 
 						title : '治疗电极' 
 					},
-													
+									/*				
 													{
 						title : '操作',
 						field : 'id',
@@ -331,7 +331,7 @@ $('#exampleTable').bootstrapTable(
 									+ '\')"><i class="fa fa-key"></i></a> ';
 							return e + d ;
 						}
-					} ]
+					} */]
 		});
 
 }
@@ -417,11 +417,7 @@ $('#exampleTable').bootstrapTable(
 													{
 						field : 'treatElectrode', 
 						title : '治疗电极' 
-					},
-													{
-						field : 'updateTime', 
-						title : '' 
-					},			
+					},/*
 													{
 						title : '操作',
 						field : 'id',
@@ -438,7 +434,7 @@ $('#exampleTable').bootstrapTable(
 									+ '\')"><i class="fa fa-key"></i></a> ';
 							return e + d ;
 						}
-					} ]
+					} */]
 		});
 
 }
@@ -525,14 +521,7 @@ function updateBymonth(){
 							field : 'treatElectrode', 
 							title : '治疗电极' 
 						},
-														{
-							field : 'updateTime', 
-							title : '' 
-						},							{
-							field : 'count', 
-							title : '' 
-						},
-														{
+								/*						{
 							title : '操作',
 							field : 'id',
 							align : 'center',
@@ -548,7 +537,7 @@ function updateBymonth(){
 										+ '\')"><i class="fa fa-key"></i></a> ';
 								return e + d ;
 							}
-						} ]
+						} */]
 			});
 	
 }
