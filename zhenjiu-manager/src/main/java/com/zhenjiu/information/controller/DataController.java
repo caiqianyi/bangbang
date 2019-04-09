@@ -20,6 +20,8 @@ import com.zhenjiu.common.utils.R;
 import com.zhenjiu.information.domain.DataDO;
 import com.zhenjiu.information.domain.DataVO;
 import com.zhenjiu.information.service.DataService;
+import com.zhenjiu.users.domain.UserDO;
+import com.zhenjiu.users.service.UserService;
 
 
 /**
@@ -36,6 +38,7 @@ public class DataController {
 	@Autowired
 	private DataService dataService;
 	@Autowired
+	private UserService userService;
 	
 	@GetMapping()
 	@RequiresPermissions("information:data:data")
@@ -132,6 +135,14 @@ public class DataController {
 		DataDO data = dataService.get(id);
 		model.addAttribute("data", data);
 	    return "information/data/edit";
+	}
+	
+
+	@GetMapping("/show/{id}")
+	String show(@PathVariable("id") Integer id,Model model){
+		UserDO data = userService.get(id);
+		model.addAttribute("data", data);
+	    return "information/data/show";
 	}
 	
 	/**

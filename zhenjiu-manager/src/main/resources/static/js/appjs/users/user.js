@@ -168,15 +168,9 @@ function load() {
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="状态"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-<<<<<<< HEAD
 										var f = '<a class="btn btn-success btn-sm" title="详情"  mce_href="#" onclick="showdetail(\''
 												+ row.id
 												+ '\')"><i class="fa fa-list"></i></a> ';
-=======
-										var f = '<a class="btn btn-success btn-sm" href="#" title="详情"  mce_href="#" onclick="details(\''
-											+ row.id
-											+ '\')"><i class="fa fa-list"></i></a> ';
->>>>>>> b87f93c6a0014d8de4521c614dee7d6a39aa06ce
 										return e + d + f;
 										
 									}
@@ -242,7 +236,7 @@ function remove(id) {
 }
 
 function showdetail(id) {
-	layer.open({
+	var showpage = layer.open({
 		type : 2,
 		title : '查看详情',
 		maxmin : true,
@@ -250,6 +244,7 @@ function showdetail(id) {
 		area : [ '800px', '520px' ],
 		content : '/information/data/show/'+id // iframe的url
 	});
+	layer.full(showpage);
 	
 }
 function batchRemove() {

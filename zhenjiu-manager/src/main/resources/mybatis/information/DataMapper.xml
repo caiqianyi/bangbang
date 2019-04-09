@@ -10,7 +10,6 @@
 	<select id="list" resultType="com.zhenjiu.information.domain.DataDO">
 		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
 		from t_user u,treat_data d 
-		from t_user u,treat_data d  
 		<where>  
 		  		  <if test="id != null and id != ''"> and u.id = #{id} </if>
 		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
@@ -25,8 +24,8 @@
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		  		  and u.user_id = d.userid
 		  		</where>
-		  		<where>u.user_id = d.userid</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
