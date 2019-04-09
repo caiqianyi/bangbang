@@ -168,9 +168,15 @@ function load() {
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="状态"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
+<<<<<<< HEAD
+										var f = '<a class="btn btn-success btn-sm" title="详情"  mce_href="#" onclick="showdetail(\''
+												+ row.id
+												+ '\')"><i class="fa fa-list"></i></a> ';
+=======
 										var f = '<a class="btn btn-success btn-sm" href="#" title="详情"  mce_href="#" onclick="details(\''
 											+ row.id
 											+ '\')"><i class="fa fa-list"></i></a> ';
+>>>>>>> b87f93c6a0014d8de4521c614dee7d6a39aa06ce
 										return e + d + f;
 										
 									}
@@ -235,7 +241,16 @@ function remove(id) {
 	})
 }
 
-function resetPwd(id) {
+function showdetail(id) {
+	layer.open({
+		type : 2,
+		title : '查看详情',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '800px', '520px' ],
+		content : '/information/data/show/'+id // iframe的url
+	});
+	
 }
 function batchRemove() {
 	var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组

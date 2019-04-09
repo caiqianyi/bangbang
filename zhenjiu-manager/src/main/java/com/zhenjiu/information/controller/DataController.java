@@ -35,6 +35,7 @@ import com.zhenjiu.information.service.DataService;
 public class DataController {
 	@Autowired
 	private DataService dataService;
+	@Autowired
 	
 	@GetMapping()
 	@RequiresPermissions("information:data:data")

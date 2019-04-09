@@ -10,8 +10,9 @@
 	<select id="list" resultType="com.zhenjiu.information.domain.DataDO">
 		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
 		from t_user u,treat_data d 
+		from t_user u,treat_data d  
 		<where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="id != null and id != ''"> and u.id = #{id} </if>
 		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
