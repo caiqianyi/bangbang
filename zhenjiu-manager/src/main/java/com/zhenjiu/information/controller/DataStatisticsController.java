@@ -53,9 +53,7 @@ public class DataStatisticsController {
 	public PageUtils selectByUsername(@RequestParam Map<String, Object> params,String name){
 		//查询列表数据
 		Query query = new Query(params);
-		System.out.println(name);
 		List<DataDO> dataList = dataStatisticsService.selectByUsername(name);
-		System.out.println(dataList);
 		int total = dataStatisticsService.count(query);
 		PageUtils pageUtils = new PageUtils(dataList, total);
 		return pageUtils;

@@ -47,24 +47,22 @@ function load() {
 						columns : [
 								{
 									checkbox : true
-								},
-																{
+								},{
+									field : 'name', 
+									title : '用户名' 
+								},					
+											/*					{
 									field : 'id', 
 									title : 'id' 
+								},*/
+																{
+									field : 'count', 
+									title : '治疗次数' 
 								},
 																{
 									field : 'treatTime', 
 									title : '治疗总时长' 
-								},
-														
-																{
-									field : 'name', 
-									title : '用户名' 
-								},					
-																{
-									field : 'count', 
-									title : '治疗次数' 
-								},/*
+								},					/*
 																{
 									title : '操作',
 									field : 'id',
@@ -150,20 +148,20 @@ $('#exampleTable').bootstrapTable(
 			columns : [
 					{
 						checkbox : true
-					},
-					{
-						field : 'id', 
-						title : 'id' 
-					},
-													{
-						field : 'treatTime', 
-						title : '治疗总时长' 
-					},
-											
+					},	
 													{
 						field : 'name', 
 						title : '用户名' 
 					},					
+					/*{
+						field : 'id', 
+						title : 'id' 
+					},
+						*/							{
+						field : 'treatTime', 
+						title : '治疗总时长' 
+					},
+										
 													{
 						field : 'count', 
 						title : '治疗次数' 
@@ -234,20 +232,20 @@ $('#exampleTable').bootstrapTable(
 			columns : [
 					{
 						checkbox : true
-					},
-					{
-						field : 'id', 
-						title : 'id' 
-					},
-													{
-						field : 'treatTime', 
-						title : '治疗总时长' 
-					},
-											
+					},		
 													{
 						field : 'name', 
 						title : '用户名' 
-					},					
+					},				
+					/*{
+						field : 'id', 
+						title : 'id' 
+					},
+						*/							{
+						field : 'treatTime', 
+						title : '治疗总时长' 
+					},
+										
 													{
 						field : 'count', 
 						title : '治疗次数' 
@@ -316,20 +314,20 @@ $('#exampleTable').bootstrapTable(
 			columns : [
 					{
 						checkbox : true
-					},
-					{
-						field : 'id', 
-						title : 'id' 
-					},
-													{
-						field : 'treatTime', 
-						title : '治疗总时长' 
-					},
-											
+					},				
 													{
 						field : 'name', 
 						title : '用户名' 
 					},					
+							
+					/*{
+						field : 'id', 
+						title : 'id' 
+					},
+						*/							{
+						field : 'treatTime', 
+						title : '治疗总时长' 
+					},
 													{
 						field : 'count', 
 						title : '治疗次数' 
@@ -396,20 +394,20 @@ function updateBymonth(){
 				columns : [
 						{
 							checkbox : true
-						},
-						{
-							field : 'id', 
-							title : 'id' 
-						},
-														{
-							field : 'treatTime', 
-							title : '治疗总时长' 
-						},
-												
+						},				
 														{
 							field : 'name', 
 							title : '用户名' 
-						},					
+						},		
+						/*{
+							field : 'id', 
+							title : 'id' 
+						},
+							*/							{
+							field : 'treatTime', 
+							title : '治疗总时长' 
+						},
+											
 														{
 							field : 'count', 
 							title : '治疗次数' 

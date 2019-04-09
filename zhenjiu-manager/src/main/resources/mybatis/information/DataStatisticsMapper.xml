@@ -78,7 +78,7 @@
 	</select>
 	
 	<select id="selectByUsername" parameterType="String"  resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
+		select u.name as name,count(*) count,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
 		from t_user u,treat_data d 
 		
 		<where>u.user_id = d.userid and u.name like CONCAT(CONCAT('%', #{names}), '%')</where>

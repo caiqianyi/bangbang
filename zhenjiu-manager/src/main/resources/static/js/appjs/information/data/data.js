@@ -47,11 +47,14 @@ function load() {
 						columns : [
 								{
 									checkbox : true
+								},{
+									field : 'name', 
+									title : '用户名' 
 								},
-																{
+									/*							{
 									field : 'id', 
 									title : 'id' 
-								},
+								},*/
 																{
 									field : 'treatTime', 
 									title : '治疗时长' 
@@ -60,10 +63,7 @@ function load() {
 									field : 'adddate', 
 									title : '治疗时间' 
 								},
-								{
-									field : 'name', 
-									title : '用户名' 
-								},		{
+										{
 									field : 'treatStrength', 
 									title : '治疗强度' 
 								},
@@ -175,11 +175,14 @@ $('#exampleTable').bootstrapTable(
 			columns : [
 					{
 						checkbox : true
-					},
+					},							{
+						field : 'name', 
+						title : '用户名' 
+					},/*
 													{
 						field : 'id', 
 						title : 'id' 
-					},
+					},*/
 													{
 						field : 'treatTime', 
 						title : '治疗时长' 
@@ -188,10 +191,7 @@ $('#exampleTable').bootstrapTable(
 						field : 'adddate', 
 						title : '治疗时间' 
 					},
-													{
-						field : 'name', 
-						title : '用户名' 
-					},
+						
 													{
 						field : 'treatStrength', 
 						title : '治疗强度' 
@@ -286,9 +286,13 @@ $('#exampleTable').bootstrapTable(
 						checkbox : true
 					},
 													{
+						field : 'name', 
+						title : '用户名' 
+					},/*
+													{
 						field : 'id', 
 						title : 'id' 
-					},
+					},*/
 													{
 						field : 'treatTime', 
 						title : '治疗时长' 
@@ -296,10 +300,6 @@ $('#exampleTable').bootstrapTable(
 													{
 						field : 'adddate', 
 						title : '治疗时间' 
-					},
-													{
-						field : 'name', 
-						title : '用户名' 
 					},
 													{
 						field : 'treatStrength', 
@@ -390,9 +390,13 @@ $('#exampleTable').bootstrapTable(
 						checkbox : true
 					},
 													{
+						field : 'name', 
+						title : '用户名' 
+					},/*
+													{
 						field : 'id', 
 						title : 'id' 
-					},
+					},*/
 													{
 						field : 'treatTime', 
 						title : '治疗时长' 
@@ -400,10 +404,6 @@ $('#exampleTable').bootstrapTable(
 													{
 						field : 'adddate', 
 						title : '治疗时间' 
-					},
-													{
-						field : 'name', 
-						title : '用户名' 
 					},
 													{
 						field : 'treatStrength', 
@@ -497,9 +497,14 @@ function updateBymonth(){
 							checkbox : true
 						},
 														{
+							field : 'name', 
+							title : '用户名' 
+						},
+								/*		
+														{
 							field : 'id', 
 							title : 'id' 
-						},
+						},*/
 														{
 							field : 'treatTime', 
 							title : '治疗时长' 
@@ -507,12 +512,7 @@ function updateBymonth(){
 														{
 							field : 'adddate', 
 							title : '治疗时间' 
-						},
-														{
-							field : 'name', 
-							title : '用户名' 
-						},
-														{
+						},				{
 							field : 'treatStrength', 
 							title : '治疗强度' 
 						},
