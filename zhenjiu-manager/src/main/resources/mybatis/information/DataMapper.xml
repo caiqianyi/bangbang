@@ -48,6 +48,52 @@
 	</select>
 	
 	
+	<!-- 导出列表 -->
+	<select id="exeList" resultType="java.util.Map">
+		<!-- 
+		SELECT
+			name,
+			nickname,
+			phone,
+			DATE_FORMAT(`register_time`,'%Y-%m-%d %h:%m:%s') as registerTime,
+			pay_num,
+			serve_num,
+			balance,
+			DATE_FORMAT(`pay_time`,'%Y-%m-%d %h:%m:%s') as payTime,
+			DATE_FORMAT(`login_time`,'%Y-%m-%d %h:%m:%s') as loginTime
+		FROM t_user
+		 -->
+		
+		<!-- 		
+		SELECT
+			IFNULL(name,'') as 用户姓名,
+			IFNULL(nickname,'') as 会员昵称,
+			IFNULL(phone,'') as 注册手机号,
+			IFNULL(DATE_FORMAT(`register_time`,'%Y-%m-%d %h:%m:%s'),'') as 注册时间,
+			IFNULL(pay_num,'') as 消费金额,
+			IFNULL(serve_num,'') as 服务次数,
+			IFNULL(balance,'') as 余额,
+			IFNULL(DATE_FORMAT(`pay_time`,'%Y-%m-%d %h:%m:%s'),'') as 缴费日期,
+			IFNULL(DATE_FORMAT(`login_time`,'%Y-%m-%d %h:%m:%s'),'') as 最后登录时间
+		FROM t_user -->
+		SELECT IFNULL(u.name,'') as 用户名, d.adddate as 治疗时间, d.treat_time as 治疗时长,d.treat_strength as 治疗强度,d.treat_gears as 治疗档位,d.treat_frequency as 治疗频率,d.treat_waveform as 治疗波形,d.treat_workmethod as 治疗方式,d.treat_electrode as 治疗电极   
+		from t_user u
+		LEFT JOIN treat_data d ON u.user_id = d.userid
+		<where>  
+		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
+		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
+		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
+		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
+		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
+		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
+		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
+		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
+		  		  <if test="treatElectrode != null and treatElectrode != ''"> and treat_electrode = #{treatElectrode} </if>
+		  		<if test="ids != null and ids != ''"> and d.id in (${ids}) </if>
+		  		and d.userid in(u.user_id)
+		</where>
+		
+	</select>
 	
 	
 	<select id="selectByMonth" resultType="com.zhenjiu.information.domain.DataDO">
@@ -142,14 +188,15 @@
 		</where>
 	</select>
 	
-	<select id="selectBytime" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+	<select id="selectBytime"  resultType="com.zhenjiu.information.domain.DataDO">
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
 		from t_user u,treat_data d 
 		<where>
-			u.user_id = d.userid  and adddate between #{startTime} and #{endTime}
-		</where>
+			 u.user_id = d.userid  and u.name like '%${name}%' 
+			 <if test="startTime != null and startTime != '' and endTime != null and endTime != ''"> and d.adddate between #{startTime} and #{endTime} </if>
+	    </where> 
+
 	</select>
-	
 	
 	<select id="yearlist" resultType="com.zhenjiu.information.domain.DataDO">
 		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_gears`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data

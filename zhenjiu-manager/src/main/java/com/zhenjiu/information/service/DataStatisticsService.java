@@ -25,17 +25,7 @@ public interface DataStatisticsService {
 	
 	int batchRemove(Integer[] ids);
 	
-	List<DataDO> selectByMonth(Map<String,Object> map);
-	
-	List<DataDO> selectByWeek(Map<String,Object> map);
-	
-	List<DataDO> selectByday(Map<String,Object> map);
-	
 	List<DataDO> selectByUsername(String name);
 
-	
-
-	
-
-
+	List<Map<String, Object>> exeList(Map<String, Object> map);
 }

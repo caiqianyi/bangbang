@@ -77,8 +77,8 @@ public class DataServiceImpl implements DataService {
 	}
 	
 	@Override
-	public List<DataDO> selectBytime(DataVO datavo) {
-		return dataDao.selectBytime(datavo);
+	public List<DataDO> selectBytime(Map<String, Object> params) {
+		return dataDao.selectBytime(params);
 	}
 
 	@Override
@@ -86,5 +86,10 @@ public class DataServiceImpl implements DataService {
 		return dataDao.lists(id);
 	}
 
+	@Override
+	public List<Map<String, Object>> exeList(Map<String, Object> map) {
+		
+		return dataDao.exeList(map);
+	}
 	
 }

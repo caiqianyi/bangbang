@@ -36,5 +36,6 @@ public interface DataStatisticsDao {
 	
 	List<DataDO> selectByUsername(String name);
 
+	List<Map<String, Object>> exeList(Map<String,Object> map);
 	
 }

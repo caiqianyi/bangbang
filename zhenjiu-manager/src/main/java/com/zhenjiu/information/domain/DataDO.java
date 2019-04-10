@@ -198,4 +198,13 @@ public class DataDO implements Serializable {
 	public Integer getCount() {
 		return count;
 	}
+	@Override
+	public String toString() {
+		return "DataDO [id=" + id + ", treatTime=" + treatTime + ", adddate=" + adddate + ", userid=" + userid
+				+ ", treatStrength=" + treatStrength + ", treatGears=" + treatGears + ", treatFrequency="
+				+ treatFrequency + ", treatWaveform=" + treatWaveform + ", treatWorkmethod=" + treatWorkmethod
+				+ ", treatElectrode=" + treatElectrode + ", updateTime=" + updateTime + ", name=" + name + ", count="
+				+ count + "]";
+	}
+	
 }

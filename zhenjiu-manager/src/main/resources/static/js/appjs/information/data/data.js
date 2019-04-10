@@ -124,6 +124,7 @@ function load() {
 
 
 function updateByTime(){
+	alert($('#name').val())
 $('#exampleTable').bootstrapTable('destroy');
 $('#exampleTable').bootstrapTable(
 		{
@@ -153,7 +154,8 @@ $('#exampleTable').bootstrapTable(
 					limit: params.limit,
 					offset:params.offset,
 					endTime:$('#endTime').val(),
-					startTime:$('#startTime').val()
+					startTime:$('#startTime').val(),
+					name:$('#name').val()
 				};
 			},
 			// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果

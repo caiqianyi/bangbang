@@ -6,7 +6,7 @@
 	<select id="get" resultType="com.zhenjiu.information.domain.DataDO">
 		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_gears`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data where id = #{value}
 	</select>
-
+	<!-- 查询所有 -->
 	<select id="list" resultType="com.zhenjiu.information.domain.DataDO">
 		select u.name as name,SUM(treat_time) treat_time,count(*) count,d.id,d.adddate 
 		from t_user u,treat_data d 
@@ -16,8 +16,9 @@
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		 <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="count != null and count != ''"> and count = #{count} </if>
-		  		</where>
-		  		<where>u.user_id = d.userid</where>
+		  		and u.user_id = d.userid
+		</where>
+		  		
 		  		group by userid
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -32,50 +33,61 @@
 		</if>
 	</select>
 	
-	<select id="selectByMonth" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,SUM(treat_time) treat_time,count(*) count,d.id,d.adddate 
-		from t_user u,treat_data d 
+	
+	<!-- 导出列表 -->
+	<select id="exeList" resultType="java.util.Map">
+		<!-- 
+		SELECT
+			name,
+			nickname,
+			phone,
+			DATE_FORMAT(`register_time`,'%Y-%m-%d %h:%m:%s') as registerTime,
+			pay_num,
+			serve_num,
+			balance,
+			DATE_FORMAT(`pay_time`,'%Y-%m-%d %h:%m:%s') as payTime,
+			DATE_FORMAT(`login_time`,'%Y-%m-%d %h:%m:%s') as loginTime
+		FROM t_user
+		 -->
+		
+		<!-- 		
+		SELECT
+			IFNULL(name,'') as 用户姓名,
+			IFNULL(nickname,'') as 会员昵称,
+			IFNULL(phone,'') as 注册手机号,
+			IFNULL(DATE_FORMAT(`register_time`,'%Y-%m-%d %h:%m:%s'),'') as 注册时间,
+			IFNULL(pay_num,'') as 消费金额,
+			IFNULL(serve_num,'') as 服务次数,
+			IFNULL(balance,'') as 余额,
+			IFNULL(DATE_FORMAT(`pay_time`,'%Y-%m-%d %h:%m:%s'),'') as 缴费日期,
+			IFNULL(DATE_FORMAT(`login_time`,'%Y-%m-%d %h:%m:%s'),'') as 最后登录时间
+		FROM t_user -->
+		SELECT IFNULL(u.name,'') as 用户名, IFNULL(SUM(d.treat_time),'') as 治疗时长,IFNULL(count(*),'') as 治疗次数,IFNULL(d.id,'') as id
+		from t_user u
+		LEFT JOIN treat_data d ON u.user_id = d.userid
 		<where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
-		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		 <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="count != null and count != ''"> and count = #{count} </if>
-		 </where> 
-		 <where>
-		 	u.user_id = d.userid  and DATE_FORMAT(adddate, '%Y%m' ) = DATE_FORMAT( CURDATE(),'%Y%m')	group by userid
-		 </where>  
+		  		<if test="ids != null and ids != ''"> and d.id in (${ids}) </if>
+		</where>
+		group by userid
+		<choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
 	</select>
 	
-	<select id="selectByWeek" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,SUM(treat_time) treat_time,count(*) count,d.id,d.adddate 
-		from t_user u,treat_data d 
-		<where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
-		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
-		  		  <if test="name != null and name != ''"> and name = #{name} </if>
-		  		  <if test="count != null and count != ''"> and count = #{count} </if>
-		 </where> 
-		 <where>
-		 	u.user_id = d.userid  and YEARWEEK(date_format(adddate,'%Y-%m-%d')) = YEARWEEK(now()) group by userid
-		 </where>  
-	</select>
 	
-	<select id="selectByDay" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,SUM(treat_time) treat_time,count(*) count,d.id,d.adddate 
-		from t_user u,treat_data d  
-		<where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
-		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
-		  		  <if test="name != null and name != ''"> and name = #{name} </if>
-		  		  <if test="count != null and count != ''"> and count = #{count} </if>
-		 </where> 
-		 <where>
-		 	u.user_id = d.userid  and to_days(adddate) = to_days(now()) group by userid
-		 </where>  
-	</select>
 	
 	<select id="selectByUsername" parameterType="String"  resultType="com.zhenjiu.information.domain.DataDO">
 		select u.name as name,count(*) count,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    

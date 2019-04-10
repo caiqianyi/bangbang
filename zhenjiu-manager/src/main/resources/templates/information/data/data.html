@@ -28,6 +28,9 @@
 						<div class="columns pull-right">
 							<button class="btn btn-success" id="select">查询</button>
 						</div>
+						<div class="columns pull-right col-md-2 nopadding ">
+							<input id="name"  class="form-control" placeholder="用户名" type="text">
+						</div>
 						
 						<div class="columns pull-right col-md-2 nopadding ">
 							<input id="endTime" name="endTime" class="form-control" placeholder="结束时间：" type="text">
@@ -38,9 +41,17 @@
 						
 						
 						
+						
 					</div>
 					<table id="exampleTable" data-mobile-responsive="true">
 					</table>
+					
+						<button class="btn btn-primary" onclick="exportExcel(2)" type="button">
+							<i aria-hidden="true" class="fa fa-export"></i>导出全部数据
+						</button>
+						<button class="btn btn-primary" onclick="exportExcel(4)" type="button">
+							<i aria-hidden="true" class="fa fa-export"></i>导出选中的数据
+						</button>
 				</div>
 			</div>
 		</div>
@@ -80,6 +91,33 @@
 		elem: '#endTime',
 		type: 'datetime'
 	});
+	
+	//导出Excel type导出的类型
+	//type 1 导出当页数据 2 导出全部数据 3 导出符合条件全部数据 4:导出勾选
+	function exportExcel(type) {
+		//获取table的分页参数值
+		var offset = $('#exampleTable').bootstrapTable('getOptions').pageNumber;
+		var limit =( $('#exampleTable').bootstrapTable('getOptions').pageSize -1) * offset;
+		data = 'limit='+limit+'&offset='+offset;
+		var ids = new Array();
+		if(type == 4){
+			var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+			if (rows.length == 0) {
+				layer.msg("请选择要导出的数据");
+				return;
+			}
+			// 遍历所有选择的行数据，取每条数据对应的ID
+			$.each(rows, function(i, row) {
+				ids[i] = row['id'];
+			});
+		}else if(type == 2){
+			   
+		}
+		
+		//后端导出的方法
+		document.location.href ="/information/data/exportExcel?type="+type+"&"+ data+"&ids="+ids.join(",");
+	}
+
 	</script>
 	
 	

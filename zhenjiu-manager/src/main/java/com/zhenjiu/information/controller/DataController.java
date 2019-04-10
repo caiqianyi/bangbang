@@ -1,9 +1,17 @@
 package com.zhenjiu.information.controller;
 
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zhenjiu.common.utils.ExcelExportUtil4DIY;
 import com.zhenjiu.common.utils.PageUtils;
 import com.zhenjiu.common.utils.Query;
 import com.zhenjiu.common.utils.R;
@@ -39,6 +48,8 @@ public class DataController {
 	private DataService dataService;
 	@Autowired
 	private UserService userService;
+	private static Logger logger = LoggerFactory.getLogger(DataStatisticsController.class);
+	
 	
 	@GetMapping()
 	@RequiresPermissions("information:data:data")
@@ -110,12 +121,11 @@ public class DataController {
 	@ResponseBody
 	@GetMapping("/selectBytime")
 	@RequiresPermissions("information:dataStatis:dataStatis")
-	public PageUtils selectBytime(@RequestParam Map<String, Object> params,DataVO vo){
+	public PageUtils selectBytime(@RequestParam Map<String, Object> params){
 		//查询列表数据
+		System.out.println(params);
 		Query query = new Query(params);
-		System.out.println(vo);
-		List<DataDO> dataList = dataService.selectBytime(vo);
-		System.out.println(dataList);
+		List<DataDO> dataList = dataService.selectBytime(query);
 		int total = dataService.count(query);
 		PageUtils pageUtils = new PageUtils(dataList, total);
 		return pageUtils;
@@ -144,6 +154,53 @@ public class DataController {
 		model.addAttribute("data", data);
 	    return "information/data/show";
 	}
+	
+	
+	/**
+	 * 导出
+	 * */
+	@RequestMapping(value="/exportExcel")
+	public void exportExcel(@RequestParam Map<String, Object> params,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String filename = "针灸数据列表"+format.format(new Date().getTime())+".xls";
+		response.setContentType("application/ms-excel;charset=UTF-8");
+		response.setHeader("Content-Disposition", "attachment;filename="+new String(filename.getBytes(),"iso-8859-1"));
+		OutputStream out = response.getOutputStream();
+	try {
+		Query query = new Query(params);
+		String type = request.getParameter("type");
+		/*//导出当前页面数据
+		if(type.equals("1")){
+			List<Map<String, Object>> XxxDOs = dataService.exeList(query);
+			ExcelExportUtil4DIY.exportToFile(XxxDOs,out);
+		}*/
+		//导出全部数据
+		if(type.equals("2")){
+			List<Map<String, Object>> XxxDOs = dataService.exeList(null);
+			ExcelExportUtil4DIY.exportToFile(XxxDOs,out);
+		}
+		/*//导出符合条件的全部数据
+		if(type.equals("3")){
+			query.remove("offset");
+			query.remove("limit");
+			List<Map<String, Object>> XxxDOs = dataService.exeList(query);
+			ExcelExportUtil4DIY.exportToFile(XxxDOs,out);
+		}*/
+		//导选中部分
+		if(type.equals("4")){
+			query.remove("offset");
+			query.remove("limit");
+			List<Map<String, Object>> XxxDOs = dataService.exeList(query);
+			ExcelExportUtil4DIY.exportToFile(XxxDOs,out);
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+		logger.info("exportExcel出错"+e.getMessage());
+		}finally{
+			out.close();
+		}
+	}
+	
 	
 	/**
 	 * 保存

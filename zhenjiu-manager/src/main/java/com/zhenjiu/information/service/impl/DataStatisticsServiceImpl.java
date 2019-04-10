@@ -51,28 +51,15 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 	}
 
 	@Override
-	public List<DataDO> selectByMonth(Map<String, Object> map) {
-		return dataStatisticsDao.selectByMonth(map);
-	}
-
-	@Override
-	public List<DataDO> selectByWeek(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<DataDO> selectByday(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<DataDO> selectByUsername(String name) {
 		return dataStatisticsDao.selectByUsername(name);
 	}
 
-	
+	@Override
+	public List<Map<String, Object>> exeList(Map<String, Object> map) {
+		
+		return dataStatisticsDao.exeList(map);
+	}
 	
 }
 

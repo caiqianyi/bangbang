@@ -39,7 +39,9 @@ public interface DataDao {
 	
 	List<DataDO> selectUsername(Map<String, Object> params);
 
-	List<DataDO> selectBytime(DataVO datavo);
+	List<DataDO> selectBytime(Map<String, Object> params);
 
 	List<DataDO> lists(Integer id);
+
+	List<Map<String, Object>> exeList(Map<String, Object> map);
 }
