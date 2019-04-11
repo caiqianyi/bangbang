@@ -124,7 +124,6 @@ function load() {
 
 
 function updateByTime(){
-	alert($('#name').val())
 $('#exampleTable').bootstrapTable('destroy');
 $('#exampleTable').bootstrapTable(
 		{

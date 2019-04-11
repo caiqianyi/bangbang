@@ -153,13 +153,13 @@ public class DataStatisticsController {
 			List<Map<String, Object>> XxxDOs = dataStatisticsService.exeList(null);
 			ExcelExportUtil4DIY.exportToFile(XxxDOs,out);
 		}
-		//导出符合条件的全部数据
+		/*//导出符合条件的全部数据
 		if(type.equals("3")){
 			query.remove("offset");
 			query.remove("limit");
 			List<Map<String, Object>> XxxDOs = dataStatisticsService.exeList(query);
 			ExcelExportUtil4DIY.exportToFile(XxxDOs,out);
-		}
+		}*/
 		//导选中部分
 		if(type.equals("4")){
 			query.remove("offset");

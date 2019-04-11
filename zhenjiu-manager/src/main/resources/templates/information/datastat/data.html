@@ -13,23 +13,19 @@
 							<button class="btn btn-success" id="find" >查询</button>
 						</div>
 							
+						<span style="font-size: 20px; font-weight: bind; line-height: 20;"></span>
 						<div class="columns pull-right col-md-2 nopadding ">
 							<input id="name" name="name" class="form-control" placeholder="用户名" type="text">
 						</div>
 						
-						<button class="btn btn-primary" onclick="exportExcel(1)" type="button">
-							<i aria-hidden="true" class="fa fa-export"></i>导出当页数据
-						</button>
-						<button class="btn btn-primary" onclick="exportExcel(2)" type="button">
-							<i aria-hidden="true" class="fa fa-export"></i>导出全部数据
-						</button>
-						<button class="btn btn-primary" onclick="exportExcel(4)" type="button">
-							<i aria-hidden="true" class="fa fa-export"></i>导出选中的数据
-						</button>
-						<button class="btn btn-primary" onclick="exportExcel(3)" type="button">
-							<i aria-hidden="true" class="fa fa-export"></i>导出符合条件全部数据
-						
 					</div>
+					<button class="btn btn-primary" onclick="exportExcel(2)" type="button">
+							<i aria-hidden="true" class="fa fa-export"></i>导出全部数据
+					</button>
+					<button class="btn btn-primary" onclick="exportExcel(4)" type="button">
+						<i aria-hidden="true" class="fa fa-export"></i>导出选中的数据
+					</button>
+						
 					<table id="exampleTable" data-mobile-responsive="true">
 					</table>
 				</div>
@@ -81,6 +77,8 @@
 				$.each(rows, function(i, row) {
 					ids[i] = row['id'];
 				});
+			}else if(type == 2){
+				
 			}
 			//后端导出的方法
 			document.location.href ="/information/dataStatis/exportExcel?type="+type+"&"+ data+"&ids="+ids.join(",");

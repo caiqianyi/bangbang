@@ -62,18 +62,17 @@
 			IFNULL(DATE_FORMAT(`pay_time`,'%Y-%m-%d %h:%m:%s'),'') as 缴费日期,
 			IFNULL(DATE_FORMAT(`login_time`,'%Y-%m-%d %h:%m:%s'),'') as 最后登录时间
 		FROM t_user -->
-		SELECT IFNULL(u.name,'') as 用户名, IFNULL(SUM(d.treat_time),'') as 治疗时长,IFNULL(count(*),'') as 治疗次数,IFNULL(d.id,'') as id
-		from t_user u
-		LEFT JOIN treat_data d ON u.user_id = d.userid
+		SELECT IFNULL(u.name,'') as 用户名,sum(IFNULL(d.treat_time,'')) 治疗时长,count(IFNULL(d.id,'')) 治疗次数,d.id id
+		from t_user u,treat_data d  
 		<where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
-		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		 <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="count != null and count != ''"> and count = #{count} </if>
 		  		<if test="ids != null and ids != ''"> and d.id in (${ids}) </if>
+		  	and u.user_id = d.userid
 		</where>
-		group by userid
+		group by d.userid
 		<choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
