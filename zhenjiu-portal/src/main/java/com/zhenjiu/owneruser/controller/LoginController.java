@@ -40,7 +40,7 @@ public class LoginController extends BaseController {
 	
    
     @Log("密码登录")
-	@PostMapping("/loginP")
+	@GetMapping("/loginP")
     Map<String, Object> loginP(String phone, String password) {
  	    Map<String, Object> message = new HashMap<>();
 	   	UsernamePasswordToken token = new UsernamePasswordToken(phone, password);

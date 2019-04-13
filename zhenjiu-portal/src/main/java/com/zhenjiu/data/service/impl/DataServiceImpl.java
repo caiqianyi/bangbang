@@ -56,5 +56,10 @@ public class DataServiceImpl implements DataService {
 	public List<DataDO> getTreeDataByDate(Long i, Date startDate, Date endDate) {
 		return dataDao.getTreeDataByDate(i,startDate,endDate);
 	}
+
+	@Override
+	public List<DataDO> getLastData(Long userId) {
+		return dataDao.getLastData(userId);
+	}
 	
 }

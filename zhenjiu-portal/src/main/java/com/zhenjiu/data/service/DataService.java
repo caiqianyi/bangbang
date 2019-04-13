@@ -31,4 +31,6 @@ public interface DataService {
 	int batchRemove(Integer[] ids);
 
 	List<DataDO> getTreeDataByDate(Long i, Date startDate, Date endDate);
+
+	List<DataDO> getLastData(Long userId);
 }

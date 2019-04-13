@@ -42,20 +42,48 @@
 	 <select id="getTreeDataByDate" resultType="com.zhenjiu.data.domain.DataDO">
 		select `id`,`treat_time`,`adddate`,`userid` from treat_data where userid = #{userid}
 		and adddate between #{startDate}  and #{endDate}
-       
 	</select>
+	
+	<select id="getLastData" resultType="com.zhenjiu.data.domain.DataDO">
+		SELECT treat_time,adddate,treat_strength,treat_waveform,treat_workmethod, ABS(NOW() - adddate)  AS diffTime
+		FROM treat_data
+		where userid =#{userid}
+		ORDER BY diffTime ASC
+		LIMIT 0, 1
+	</select>
+	
 	<insert id="save" parameterType="com.zhenjiu.data.domain.DataDO" useGeneratedKeys="true" keyProperty="id">
 		insert into treat_data
 		(
 			`treat_time`, 
 			`adddate`, 
-			`userid`
+			`userid`, 
+			`treat_strength`, 
+			`treat_gears`, 
+			`treat_frequency`, 
+			`treat_current`, 
+			`treat_waveform`, 
+			`treat_workmethod`, 
+			`treat_electrode`, 
+			`update_time`, 
+			`name`, 
+			`count`
 		)
 		values
 		(
 			#{treatTime}, 
 			#{adddate}, 
-			#{userid}
+			#{userid}, 
+			#{treatStrength}, 
+			#{treatGears}, 
+			#{treatFrequency}, 
+			#{treatCurrent}, 
+			#{treatWaveform}, 
+			#{treatWorkmethod}, 
+			#{treatElectrode}, 
+			#{updateTime}, 
+			#{name}, 
+			#{count}
 		)
 	</insert>
 	 

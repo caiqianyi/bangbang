@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,33 +50,42 @@ public class DataController {
 	 * 治疗数据添加接口
 	 */
 	@PostMapping("/add")
-	Map<String,Object> add(Integer treatTime){
+	Map<String,Object> add(DataDO datado){
 		Map<String,Object> map = new HashMap<String,Object>();
-		DataDO dataDO = null;
-		if(treatTime>0){
-			dataDO = new DataDO();
-			dataDO.setAdddate(new Date());
-			dataDO.setTreatTime(treatTime);
-			dataDO.setUserid(ShiroUtils.getUser().getUserId());
-			if(dataService.save(dataDO)>0)
+		System.out.println(datado);
+		if(datado.getTreatTime()>0){
+			datado.setAdddate(new Date());
+			datado.setUserid(ShiroUtils.getUser().getUserId());
+			if(dataService.save(datado)>0)
 				map.put("msg","保存成功");
 		}
 		else
 			map.put("msg","保存失败");
 		return map;
 	}
+	/**
+	 * 获取上一次治疗数据
+	 * */
+	
+	@GetMapping("/getLastData")
+	Map<String,List<DataDO>> getLastData(){
+		List<DataDO> list = dataService.getLastData(ShiroUtils.getUser().getUserId());
+		Map<String, List<DataDO>> map = new HashMap<String, List<DataDO>>();
+		map.put("data", list);
+		return map;
+	}
+	
 	
 	/**
-	 * 获取当前三天的数据接口
+	 * 获取当前四天的数据接口
 	 */
 	
-	@GetMapping("/getThreeData")
-	Map<String,Object> getThreeData(){
-		 //获取近期三天的口气数据，供前端显示
+	@GetMapping("/getFourData")
+	Map<String,Object> getFourData(){
        Date endDate = new Date();
        Calendar calendar=Calendar.getInstance();
        calendar.setTime(endDate);
-       calendar.add(Calendar.DAY_OF_YEAR,-2);
+       calendar.add(Calendar.DAY_OF_YEAR,-3);
        calendar.set(Calendar.HOUR_OF_DAY, 0);
        calendar.set(Calendar.MINUTE, 0);
        calendar.set(Calendar.SECOND, 0);
@@ -90,7 +100,7 @@ public class DataController {
 	 * 获取历史治疗数据
 	 * flag 0 查询一周内的数据  1查询一月内的数据   2查询一年内的数据
 	 */
-	@PostMapping("/getHistoryData")
+	@GetMapping("/getHistoryData")
 	Map<String,Object> getHistoryData(Integer flag){
 		Map<String,Object> map = new HashMap<String,Object>();
 		Calendar calendar = null;
@@ -119,6 +129,7 @@ public class DataController {
 				calendar.add(Calendar.MONTH, 1); 
 				calendar.add(Calendar.DATE, -1); 
 				endDate = new SimpleDateFormat(PARSE_DATE_STRING).parse(new SimpleDateFormat(PARSE_END_STRING).format(calendar.getTime()));
+				System.out.println(ShiroUtils.getUser().getUserId());
 				list = dataService.getTreeDataByDate(ShiroUtils.getUser().getUserId(), startDate, endDate);
 				map = getData(list,flag);
 			}
@@ -152,21 +163,29 @@ public class DataController {
 	    Set<String> sett = new HashSet<String>();
 	    int avtime=0,avfre=0,day=0;//平均时长/平均次数/治疗天数
 	    if(list!=null && list.size()>0){
-	    	if(flag==-1){//统计当前三天
+	    	
+	    	if(flag==-1){//统计当前四天
 	    		Calendar calendar = Calendar.getInstance();
+	    		
 	    		Date nowdate = calendar.getTime();
 	    		freMap.put(new SimpleDateFormat("MM/dd").format(nowdate),0);
 	    		treatMap.put(new SimpleDateFormat("MM/dd").format(nowdate),0);
+	    		
 	    		calendar.add(Calendar.DAY_OF_YEAR, -1);
 	    		Date yesdate = calendar.getTime();
 	    		freMap.put(new SimpleDateFormat("MM/dd").format(yesdate),0);
 	    		treatMap.put(new SimpleDateFormat("MM/dd").format(yesdate),0);
+	    		
 	    		calendar.add(Calendar.DAY_OF_YEAR, -1);
 	    		Date tbyesdate = calendar.getTime();
 	    		freMap.put(new SimpleDateFormat("MM/dd").format(tbyesdate),0);
 	    		treatMap.put(new SimpleDateFormat("MM/dd").format(tbyesdate),0);
 	    		
-	    	
+	    		calendar.add(Calendar.DAY_OF_YEAR, -1);
+	    		Date fourdayagodate = calendar.getTime();
+	    		freMap.put(new SimpleDateFormat("MM/dd").format(fourdayagodate),0);
+	    		treatMap.put(new SimpleDateFormat("MM/dd").format(fourdayagodate),0);
+	    		
 	    		for(DataDO dataDO :list){
 	    			String str = new SimpleDateFormat("MM/dd").format(dataDO.getAdddate());
 	    			freMap.put(str, freMap.get(str)+1);
@@ -180,13 +199,14 @@ public class DataController {
 	    			a.setAvtreatTime(treatMap.get(str1)==0?0:treatMap.get(str1)/a.getFrequency());
 	    			al.add(a);
 	    		}
-	    	}
-	    	else if(flag==0){//统计本周
+	    	}else if(flag==-2){
+	    		
+	    		
+	    	}else if(flag==0){//统计本周
 	    		day=7;
 	    		for(int i=1;i<=7;i++){//初始化
 	    			freMap.put(WEEK[i],0);
 	    			treatMap.put(WEEK[i],0);
-	    		
 	    		}
 	    		for(DataDO dataDO :list){
 	    			Calendar calendar = Calendar.getInstance();
@@ -215,7 +235,6 @@ public class DataController {
 	    		for(int i=1; i<11;i++){//初始化
 	    			freMap.put(String.valueOf(3*i),0);
 	    			treatMap.put(String.valueOf(3*i),0);
-	    			
 	    		}
 	    		for(DataDO dataDO :list){
 	    			Calendar calendar = Calendar.getInstance();
@@ -277,10 +296,7 @@ public class DataController {
 	    }
 	    return map;
 	}
-	
-	
-	
-	    static class AverageData{
+	  static class AverageData{
 	    	private String time;//治疗时间
 	    	private Integer frequency;//治疗次数
 	    	private Integer avtreatTime;//治疗平均时长
