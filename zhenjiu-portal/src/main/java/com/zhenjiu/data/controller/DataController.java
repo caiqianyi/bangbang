@@ -13,12 +13,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhenjiu.common.utils.ShiroUtils;
@@ -68,11 +65,19 @@ public class DataController {
 	 * */
 	
 	@GetMapping("/getLastData")
-	Map<String,List<DataDO>> getLastData(){
+	Map<String,Object> getLastData(){
 		List<DataDO> list = dataService.getLastData(ShiroUtils.getUser().getUserId());
-		Map<String, List<DataDO>> map = new HashMap<String, List<DataDO>>();
-		map.put("data", list);
-		return map;
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		
+		map.put("treatStrength", list.get(0).getTreatStrength());
+		map.put("treatWaveform", list.get(0).getTreatWaveform());
+		map.put("treatWorkmethod", list.get(0).getTreatWorkmethod());
+		map.put("avtreatTime", list.get(0).getTreatTime());
+		
+		Map<String,Object> map1 = new HashMap<String,Object>();
+		map1.put("data", map);
+		
+		return map1;
 	}
 	
 	
