@@ -25,8 +25,6 @@ public class DataDO implements Serializable {
 	private Integer userid;
 	//治疗强度
 	private Integer treatStrength;
-	//治疗强度
-	private Integer treatGears;
 	//治疗频率
 	private Integer treatFrequency;
 	//治疗波形
@@ -101,18 +99,6 @@ public class DataDO implements Serializable {
 	 */
 	public Integer getTreatStrength() {
 		return treatStrength;
-	}
-	/**
-	 * 设置：治疗强度
-	 */
-	public void setTreatGears(Integer treatGears) {
-		this.treatGears = treatGears;
-	}
-	/**
-	 * 获取：治疗强度
-	 */
-	public Integer getTreatGears() {
-		return treatGears;
 	}
 	/**
 	 * 设置：治疗频率
@@ -201,7 +187,7 @@ public class DataDO implements Serializable {
 	@Override
 	public String toString() {
 		return "DataDO [id=" + id + ", treatTime=" + treatTime + ", adddate=" + adddate + ", userid=" + userid
-				+ ", treatStrength=" + treatStrength + ", treatGears=" + treatGears + ", treatFrequency="
+				+ ", treatStrength=" + treatStrength + ", treatFrequency="
 				+ treatFrequency + ", treatWaveform=" + treatWaveform + ", treatWorkmethod=" + treatWorkmethod
 				+ ", treatElectrode=" + treatElectrode + ", updateTime=" + updateTime + ", name=" + name + ", count="
 				+ count + "]";

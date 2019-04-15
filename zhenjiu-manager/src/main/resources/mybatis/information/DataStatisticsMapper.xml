@@ -4,7 +4,7 @@
 <mapper namespace="com.zhenjiu.information.dao.DataStatisticsDao">
 
 	<select id="get" resultType="com.zhenjiu.information.domain.DataDO">
-		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_gears`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data where id = #{value}
+		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data where id = #{value}
 	</select>
 	<!-- 查询所有 -->
 	<select id="list" resultType="com.zhenjiu.information.domain.DataDO">
@@ -89,7 +89,7 @@
 	
 	
 	<select id="selectByUsername" parameterType="String"  resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,count(*) count,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
+		select u.name as name,count(*) count,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
 		from t_user u,treat_data d 
 		
 		<where>u.user_id = d.userid and u.name like CONCAT(CONCAT('%', #{names}), '%')</where>
@@ -99,14 +99,13 @@
 	
 	
 	<select id="yearlist" resultType="com.zhenjiu.information.domain.DataDO">
-		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_gears`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data
+		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data
 		<where>
 				  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
 		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
-		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
 		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
 		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
 		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
@@ -126,7 +125,6 @@
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
 		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
-		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
 		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
 		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
 		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
@@ -144,7 +142,6 @@
 			`adddate`, 
 			`userid`, 
 			`treat_strength`, 
-			`treat_gears`, 
 			`treat_frequency`, 
 			`treat_waveform`, 
 			`treat_workmethod`, 
@@ -158,8 +155,7 @@
 			#{treatTime}, 
 			#{adddate}, 
 			#{userid}, 
-			#{treatStrength}, 
-			#{treatGears}, 
+			#{treatStrength},  
 			#{treatFrequency}, 
 			#{treatWaveform}, 
 			#{treatWorkmethod}, 
@@ -177,7 +173,6 @@
 			<if test="adddate != null">`adddate` = #{adddate}, </if>
 			<if test="userid != null">`userid` = #{userid}, </if>
 			<if test="treatStrength != null">`treat_strength` = #{treatStrength}, </if>
-			<if test="treatGears != null">`treat_gears` = #{treatGears}, </if>
 			<if test="treatFrequency != null">`treat_frequency` = #{treatFrequency}, </if>
 			<if test="treatWaveform != null">`treat_waveform` = #{treatWaveform}, </if>
 			<if test="treatWorkmethod != null">`treat_workmethod` = #{treatWorkmethod}, </if>

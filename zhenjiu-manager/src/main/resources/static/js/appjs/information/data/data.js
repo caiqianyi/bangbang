@@ -67,11 +67,7 @@ function load() {
 									field : 'treatStrength', 
 									title : '治疗强度' 
 								},
-																{
-									field : 'treatGears', 
-									title : '治疗档位' 
-								},
-																{
+																		{
 									field : 'treatFrequency', 
 									title : '治疗频率' 
 								},

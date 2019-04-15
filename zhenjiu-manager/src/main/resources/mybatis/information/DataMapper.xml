@@ -4,11 +4,11 @@
 <mapper namespace="com.zhenjiu.information.dao.DataDao">
 
 	<select id="get" resultType="com.zhenjiu.information.domain.DataDO">
-		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_gears`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data where id = #{value}
+		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
 		from t_user u,treat_data d 
 		<where>  
 		  		  <if test="id != null and id != ''"> and u.id = #{id} </if>
@@ -41,7 +41,7 @@
 	
 	
 	<select id="lists" parameterType="com.zhenjiu.information.domain.DataDO" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
 		from t_user u,treat_data d 
 		<where>u.user_id = d.userid and u.id = #{id}</where>
         
@@ -76,7 +76,7 @@
 			IFNULL(DATE_FORMAT(`pay_time`,'%Y-%m-%d %h:%m:%s'),'') as 缴费日期,
 			IFNULL(DATE_FORMAT(`login_time`,'%Y-%m-%d %h:%m:%s'),'') as 最后登录时间
 		FROM t_user -->
-		SELECT IFNULL(u.name,'') as 用户名, d.adddate as 治疗时间, d.treat_time as 治疗时长,d.treat_strength as 治疗强度,d.treat_gears as 治疗档位,d.treat_frequency as 治疗频率,d.treat_waveform as 治疗波形,d.treat_workmethod as 治疗方式,d.treat_electrode as 治疗电极   
+		SELECT IFNULL(u.name,'') as 用户名, d.adddate as 治疗时间, d.treat_time as 治疗时长,d.treat_strength as 治疗强度,d.treat_frequency as 治疗频率,d.treat_waveform as 治疗波形,d.treat_workmethod as 治疗方式,d.treat_electrode as 治疗电极   
 		from t_user u
 		LEFT JOIN treat_data d ON u.user_id = d.userid
 		<where>  
@@ -84,7 +84,6 @@
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
 		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
-		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
 		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
 		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
 		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
@@ -97,7 +96,7 @@
 	
 	
 	<select id="selectByMonth" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
 		from t_user u,treat_data d 
 		<where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -105,7 +104,6 @@
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
 		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
-		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
 		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
 		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
 		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
@@ -120,7 +118,7 @@
 	</select>
 	
 	<select id="selectByWeek" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
 		from t_user u,treat_data d 
 		<where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -128,7 +126,6 @@
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
 		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
-		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
 		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
 		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
 		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
@@ -143,7 +140,7 @@
 	</select>
 	
 	<select id="selectByDay" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
 		from t_user u,treat_data d 
 		<where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -151,7 +148,6 @@
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
 		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
-		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
 		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
 		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
 		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
@@ -166,7 +162,7 @@
 	</select>
 	
 	<select id="selectUsername" resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name,d.count    
 		from t_user u,treat_data d 
 		<where>
 				  <if test="id != null and id != ''"> and d.id = #{id} </if>
@@ -174,7 +170,6 @@
 		  		  <if test="adddate != null and adddate != ''"> and d.adddate = #{adddate} </if>
 		  		  <if test="userid != null and userid != ''"> and d.userid = #{userid} </if>
 		  		  <if test="treatStrength != null and treatStrength != ''"> and d.treat_strength = #{treatStrength} </if>
-		  		  <if test="treatGears != null and treatGears != ''"> and d.treat_gears = #{treatGears} </if>
 		  		  <if test="treatFrequency != null and treatFrequency != ''"> and d.treat_frequency = #{treatFrequency} </if>
 		  		  <if test="treatWaveform != null and treatWaveform != ''"> and d.treat_waveform = #{treatWaveform} </if>
 		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and d.treat_workmethod = #{treatWorkmethod} </if>
@@ -189,7 +184,7 @@
 	</select>
 	
 	<select id="selectBytime"  resultType="com.zhenjiu.information.domain.DataDO">
-		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_gears,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
+		select u.name as name,d.id,d.treat_time,d.adddate,d.userid,d.treat_strength,d.treat_frequency,d.treat_waveform,d.treat_workmethod,d.treat_electrode,d.update_time,d.name    
 		from t_user u,treat_data d 
 		<where>
 			 u.user_id = d.userid  and u.name like '%${name}%' 
@@ -199,14 +194,13 @@
 	</select>
 	
 	<select id="yearlist" resultType="com.zhenjiu.information.domain.DataDO">
-		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_gears`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data
+		select `id`,`treat_time`,`adddate`,`userid`,`treat_strength`,`treat_frequency`,`treat_waveform`,`treat_workmethod`,`treat_electrode`,`update_time`,`name`,`count` from treat_data
 		<where>
 				  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="treatTime != null and treatTime != ''"> and treat_time = #{treatTime} </if>
 		  		  <if test="adddate != null and adddate != ''"> and adddate = #{adddate} </if>
 		  		  <if test="userid != null and userid != ''"> and userid = #{userid} </if>
 		  		  <if test="treatStrength != null and treatStrength != ''"> and treat_strength = #{treatStrength} </if>
-		  		  <if test="treatGears != null and treatGears != ''"> and treat_gears = #{treatGears} </if>
 		  		  <if test="treatFrequency != null and treatFrequency != ''"> and treat_frequency = #{treatFrequency} </if>
 		  		  <if test="treatWaveform != null and treatWaveform != ''"> and treat_waveform = #{treatWaveform} </if>
 		  		  <if test="treatWorkmethod != null and treatWorkmethod != ''"> and treat_workmethod = #{treatWorkmethod} </if>
@@ -247,7 +241,6 @@
 			`adddate`, 
 			`userid`, 
 			`treat_strength`, 
-			`treat_gears`, 
 			`treat_frequency`, 
 			`treat_waveform`, 
 			`treat_workmethod`, 
@@ -262,7 +255,6 @@
 			#{adddate}, 
 			#{userid}, 
 			#{treatStrength}, 
-			#{treatGears}, 
 			#{treatFrequency}, 
 			#{treatWaveform}, 
 			#{treatWorkmethod}, 
@@ -280,7 +272,6 @@
 			<if test="adddate != null">`adddate` = #{adddate}, </if>
 			<if test="userid != null">`userid` = #{userid}, </if>
 			<if test="treatStrength != null">`treat_strength` = #{treatStrength}, </if>
-			<if test="treatGears != null">`treat_gears` = #{treatGears}, </if>
 			<if test="treatFrequency != null">`treat_frequency` = #{treatFrequency}, </if>
 			<if test="treatWaveform != null">`treat_waveform` = #{treatWaveform}, </if>
 			<if test="treatWorkmethod != null">`treat_workmethod` = #{treatWorkmethod}, </if>
