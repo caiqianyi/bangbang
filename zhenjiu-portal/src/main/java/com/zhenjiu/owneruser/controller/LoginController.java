@@ -12,11 +12,20 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.aliyuncs.CommonRequest;
+import com.aliyuncs.CommonResponse;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.IAcsClient;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.exceptions.ServerException;
+import com.aliyuncs.http.MethodType;
+import com.aliyuncs.profile.DefaultProfile;
 import com.zhenjiu.common.annotation.Log;
 import com.zhenjiu.common.controller.BaseController;
-import com.zhenjiu.common.utils.MD5Utils;
 import com.zhenjiu.common.utils.ShiroUtils;
 import com.zhenjiu.owneruser.comment.GenerateCode;
 import com.zhenjiu.owneruser.comment.SMSContent;
@@ -25,7 +34,6 @@ import com.zhenjiu.owneruser.comment.SMSTemplate;
 import com.zhenjiu.owneruser.domain.OwnerUserDO;
 import com.zhenjiu.owneruser.service.OwnerUserService;
 import com.zhenjiu.smsservice.service.ISMSService;
-
 
 
 @RestController
@@ -59,18 +67,19 @@ public class LoginController extends BaseController {
 	   			subject.login(token);
 	   			udo.setLoginTime(new Date());
 	   			userService.update(udo);
+	   			
+                message.put("id", udo.getId());
+                message.put("nickname", udo.getNickname());
+                message.put("heardUrl", udo.getHeardUrl());
+                message.put("loginTime", udo.getLoginTime());
 	   			message.put("msg","登录成功");
 	   		} catch (AuthenticationException e) {
 	   			message.put("msg","用户或密码错误");
 	   		}
 	    	return message;
     }
-    /**
-     * @param phone 手机号
-     * @param type  类型 0：注册   1：登录
-     * @说明 发送验证码
-     */
-    @Log("发送验证码")
+   
+ /*   @Log("发送验证码")
     @PostMapping("/captcha")
     Map<String, String> captcha(String phone, String type) {
         Map<String, String> message = new HashMap<>();
@@ -103,16 +112,78 @@ public class LoginController extends BaseController {
             message.put("msg", "验证码发送出现问题,请三分钟后再试");
         }
         return message;
+    }*/
+    
+    /*
+    pom.xml
+    <dependency>
+      <groupId>com.aliyun</groupId>
+      <artifactId>aliyun-java-sdk-core</artifactId>
+      <version>4.0.3</version>
+    </dependency>
+    */
+    
+    /**
+     * @param phone 手机号
+     * @param type  类型 0：注册   1：登录
+     * @说明 发送验证码
+     */
+    @Log("发送验证码")
+	@PostMapping("/getSms")
+       static Map<String, String> getSms(String phone,String type){
+    		Map<String, String> message = new HashMap<>();
+    		
+    		try { 
+    			if (phone == null || "".equals(phone)) {
+	                message.put("msg", "手机号码不能为空");
+	            }else {
+	            	DefaultProfile profile = DefaultProfile.getProfile("default", "LTAIAkQWYVSC6h4A", "WIOQfNmfV5p0rGF6ovgcmwIDdzRzfI");
+		            IAcsClient client = new DefaultAcsClient(profile);
+		            
+		            Integer templateParam = (int)((Math.random()*9+1)*100000);
+		            
+		            CommonRequest request = new CommonRequest();
+		            //request.setProtocol(ProtocolType.HTTPS);
+		            request.setMethod(MethodType.POST);
+		            request.setDomain("dysmsapi.aliyuncs.com");
+		            request.setVersion("2017-05-25");
+		            request.setAction("SendSms");
+		             
+		            request.putQueryParameter("PhoneNumbers", phone);
+		           
+		            request.putQueryParameter("SignName", "新视能");
+		            if ("0".equals(type)) {
+		            	request.putQueryParameter("TemplateCode", "SMS_162732611");
+	                }
+	                if ("1".equals(type)) {
+	                	 //request.putQueryParameter("TemplateCode", "SMS_162732611");
+	                }
+		           
+		            request.putQueryParameter("TemplateParam",  "{\"code\":\""+templateParam+"\"}");
+	            
+	            
+	                CommonResponse response = client.getCommonResponse(request);
+	                
+	                Subject subject = SecurityUtils.getSubject();
+	                subject.getSession().setAttribute("sys.login.check.code", phone + templateParam);
+	                message.put("msg", "发送成功");
+	                message.put("sessionId",subject.getSession().getId().toString());
+	            } 
+            } catch (ServerException e) {
+                e.printStackTrace();
+            } catch (ClientException e) {
+                e.printStackTrace();
+            }
+            return message;
     }
     
     
     
 	   @Log("验证码登录")
 	   @PostMapping("/loginC")
-	    Map<String, Object> loginC(String phone, String password, String codenum) {
+	    Map<String, Object> loginC(String phone, String codenum) {
 	        Map<String, Object> message = new HashMap<>();
 	        String msg = "";
-	        UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
 	        Subject subject = SecurityUtils.getSubject();
 	        Object object = subject.getSession().getAttribute("sys.login.check.code");
 	        try {
@@ -135,7 +206,6 @@ public class LoginController extends BaseController {
 	                            if (udo==null||udo.getDeleteFlag() == 0) {
 	                                message.put("msg", "禁止登录，请联系客服");
 	                            } else {
-	                                subject.login(token);
 	                                udo.setLoginTime(new Date());
 	                                userService.update(udo);
 	                                message.put("id", udo.getId());

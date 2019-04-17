@@ -72,7 +72,7 @@ public class DataController {
 		map.put("treatStrength", list.get(0).getTreatStrength());
 		map.put("treatWaveform", list.get(0).getTreatWaveform());
 		map.put("treatWorkmethod", list.get(0).getTreatWorkmethod());
-		map.put("avtreatTime", list.get(0).getTreatTime());
+		map.put("treatTime", list.get(0).getTreatTime());
 		
 		Map<String,Object> map1 = new HashMap<String,Object>();
 		map1.put("data", map);
