@@ -64,7 +64,7 @@ public class DataController {
 	 * 获取上一次治疗数据
 	 * */
 	
-	@GetMapping("/getLastData")
+	@GetMapping("/getLastData") 
 	Map<String,Object> getLastData(){
 		List<DataDO> list = dataService.getLastData(ShiroUtils.getUser().getUserId());
 		Map<String, Object> map = new LinkedHashMap<String, Object>();

@@ -47,7 +47,7 @@ public class LoginController extends BaseController {
     private ISMSService sMSService;
 	
    
-    @Log("密码登录")
+    @Log("密码登录")  
 	@PostMapping("/loginP")
     Map<String, Object> loginP(String phone, String password) {
  	    Map<String, Object> message = new HashMap<>();
