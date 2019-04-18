@@ -125,7 +125,7 @@ public class LoginController extends BaseController {
     
     /**
      * @param phone 手机号
-     * @param type  类型 0：注册   1：登录
+     * @param type  类型 0：注册   1：登录	2：密码重置
      * @说明 发送验证码
      */
     @Log("发送验证码")
@@ -152,11 +152,13 @@ public class LoginController extends BaseController {
 		            request.putQueryParameter("PhoneNumbers", phone);
 		           
 		            request.putQueryParameter("SignName", "新视能");
+		            
 		            if ("0".equals(type)) {
 		            	request.putQueryParameter("TemplateCode", "SMS_162732611");
-	                }
-	                if ("1".equals(type)) {
-	                	 //request.putQueryParameter("TemplateCode", "SMS_162732611");
+	                }else if ("1".equals(type)) {			//登陆
+	                	 request.putQueryParameter("TemplateCode", "SMS_163720480");
+	                }else if ("2".equals(type)){			//重置密码
+	                	request.putQueryParameter("TemplateCode", "SMS_162732611");
 	                }
 		           
 		            request.putQueryParameter("TemplateParam",  "{\"code\":\""+templateParam+"\"}");
