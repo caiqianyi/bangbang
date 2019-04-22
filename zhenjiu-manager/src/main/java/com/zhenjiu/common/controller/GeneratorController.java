@@ -46,6 +46,7 @@ public class GeneratorController {
 			@PathVariable("tableName") String tableName) throws IOException {
 		String[] tableNames = new String[] { tableName };
 		byte[] data = generatorService.generatorCode(tableNames);
+		
 		response.reset();
 		response.setHeader("Content-Disposition", "attachment; filename=\"zhenjiu.zip\"");
 		response.addHeader("Content-Length", "" + data.length);
