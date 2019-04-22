@@ -29,4 +29,5 @@ public interface OwnerUserDao {
 	int remove(Long userId);
 	int updateFlag(OwnerUserDO user);
 
+
 }

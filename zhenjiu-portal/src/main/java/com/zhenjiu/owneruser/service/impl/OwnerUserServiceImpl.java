@@ -1,6 +1,7 @@
 package com.zhenjiu.owneruser.service.impl;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,4 +74,5 @@ public class OwnerUserServiceImpl implements OwnerUserService {
 		exit = ownerUserMapper.list(params).size() > 0;
 		return exit;
 	}
+
 }

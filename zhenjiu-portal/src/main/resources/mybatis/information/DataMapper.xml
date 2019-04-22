@@ -47,7 +47,7 @@
 	<select id="getLastData" resultType="com.zhenjiu.data.domain.DataDO">
 		SELECT treat_time,adddate,treat_strength,treat_waveform,treat_workmethod, ABS(NOW() - adddate)  AS diffTime
 		FROM treat_data
-		where userid =#{userid}
+		<where><if test="userid != null and userid != ''">userid =#{userid}</if></where>
 		ORDER BY diffTime ASC
 		LIMIT 0, 1
 	</select>

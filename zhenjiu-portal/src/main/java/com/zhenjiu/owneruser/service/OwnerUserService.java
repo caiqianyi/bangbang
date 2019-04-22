@@ -28,6 +28,5 @@ public interface OwnerUserService {
 	int remove(Long userId);
 
 	boolean exit(Map<String, Object> params);
-	
 
 }

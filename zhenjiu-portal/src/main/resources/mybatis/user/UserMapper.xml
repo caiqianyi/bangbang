@@ -50,6 +50,7 @@
 		</if>
 	</select>
 	
+	
  	<select id="count" resultType="int">
 		select count(*) from t_user
 		 <where>  

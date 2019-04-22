@@ -187,6 +187,7 @@ public class LoginController extends BaseController {
 	        Map<String, Object> message = new HashMap<>();
 	        String msg = "";
 	        Subject subject = SecurityUtils.getSubject();
+	        
 	        Object object = subject.getSession().getAttribute("sys.login.check.code");
 	        try {
 	            if (object != null) {
@@ -208,13 +209,22 @@ public class LoginController extends BaseController {
 	                            if (udo==null||udo.getDeleteFlag() == 0) {
 	                                message.put("msg", "禁止登录，请联系客服");
 	                            } else {
+	                            	
+	                            	String password = udo.getPassword();
+	                            	System.out.println("==================="+password+"========================");
+	                            	UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
+	                            	subject.login(token);
+	                            	
 	                                udo.setLoginTime(new Date());
+	                                
 	                                userService.update(udo);
 	                                message.put("id", udo.getId());
 	                                message.put("nickname", udo.getNickname());
 	                                message.put("heardUrl", udo.getHeardUrl());
 	                                message.put("loginTime", udo.getLoginTime());
 	                                message.put("msg", "登录成功");
+	                                
+	                            	
 	                            }
 	                        }
 	                    }

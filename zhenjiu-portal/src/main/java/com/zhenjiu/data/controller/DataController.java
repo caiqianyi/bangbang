@@ -67,16 +67,17 @@ public class DataController {
 	@GetMapping("/getLastData") 
 	Map<String,Object> getLastData(){
 		List<DataDO> list = dataService.getLastData(ShiroUtils.getUser().getUserId());
-		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		
-		map.put("treatStrength", list.get(0).getTreatStrength());
-		map.put("treatWaveform", list.get(0).getTreatWaveform());
-		map.put("treatWorkmethod", list.get(0).getTreatWorkmethod());
-		map.put("treatTime", list.get(0).getTreatTime());
-		
+		Map<String,Object> map = new LinkedHashMap<>();
 		Map<String,Object> map1 = new HashMap<String,Object>();
-		map1.put("data", map);
-		
+		if(list != null && !list.isEmpty()){
+			map.put("treatStrength", list.get(0).getTreatStrength());
+			map.put("treatWaveform", list.get(0).getTreatWaveform());
+			map.put("treatWorkmethod", list.get(0).getTreatWorkmethod());
+			map.put("treatTime", list.get(0).getTreatTime());
+			
+			map1.put("data", map);
+			return map1;
+		}
 		return map1;
 	}
 	
