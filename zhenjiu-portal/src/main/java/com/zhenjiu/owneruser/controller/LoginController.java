@@ -158,7 +158,7 @@ public class LoginController extends BaseController {
 	                }else if ("1".equals(type)) {			//登陆
 	                	 request.putQueryParameter("TemplateCode", "SMS_163720480");
 	                }else if ("2".equals(type)){			//重置密码
-	                	request.putQueryParameter("TemplateCode", "SMS_162732611");
+	                	request.putQueryParameter("TemplateCode", "SMS_163720481");
 	                }
 		           
 		            request.putQueryParameter("TemplateParam",  "{\"code\":\""+templateParam+"\"}");
