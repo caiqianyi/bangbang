@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zhenjiu.owneruser.dao.OwnerUserDao">
+<mapper namespace="com.bangbang.owneruser.dao.OwnerUserDao">
 
-	<select id="get" resultType="com.zhenjiu.owneruser.domain.OwnerUserDO">
+	<select id="get" resultType="com.bangbang.owneruser.domain.OwnerUserDO">
 		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user where id = #{value}	
 	</select>
 	
-	<select id="getbyname" resultType="com.zhenjiu.owneruser.domain.OwnerUserDO">
+	<select id="getbyname" resultType="com.bangbang.owneruser.domain.OwnerUserDO">
 		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user where username = #{value}
 	</select>
 
-	<select id="list" resultType="com.zhenjiu.owneruser.domain.OwnerUserDO">
+	<select id="list" resultType="com.bangbang.owneruser.domain.OwnerUserDO">
 		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -79,7 +79,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.zhenjiu.owneruser.domain.OwnerUserDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.bangbang.owneruser.domain.OwnerUserDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_user
 		(
 			`user_id`, 
@@ -132,7 +132,7 @@
 		)
 	</insert>
 	
-	<update id="update" parameterType="com.zhenjiu.owneruser.domain.OwnerUserDO">
+	<update id="update" parameterType="com.bangbang.owneruser.domain.OwnerUserDO">
 		update t_user 
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>
