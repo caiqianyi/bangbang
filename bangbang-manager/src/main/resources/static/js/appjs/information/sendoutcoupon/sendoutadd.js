@@ -36,14 +36,12 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			name : {
-				required : true
-			}
+			userId : {required : true	},
+			count:{required : true,number:true}
 		},
 		messages : {
-			name : {
-				required : icon + "请输入姓名"
-			}
+			userId : {required : icon + "请选择用户"  },
+			count : {required : icon + "请输入发行数量",number:icon + "必须是数字"}
 		}
 	})
 }

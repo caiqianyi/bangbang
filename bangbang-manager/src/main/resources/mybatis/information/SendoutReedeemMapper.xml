@@ -12,7 +12,8 @@
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="reedeemCode != null and reedeemCode != ''"> and reedeem_code = #{reedeemCode} </if>
-		  		  <if test="sendoutTime != null and sendoutTime != ''"> and sendout_time = #{sendoutTime} </if>
+		  		  <if test="sendoutTime != null and sendoutTime != ''"> and date_format(sendout_time,'%Y-%m') = #{sendoutTime} </if>
+
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
 		  		  <if test="ifUsed != null and ifUsed != ''"> and if_used = #{ifUsed} </if>
@@ -35,7 +36,7 @@
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="reedeemCode != null and reedeemCode != ''"> and reedeem_code = #{reedeemCode} </if>
-		  		  <if test="sendoutTime != null and sendoutTime != ''"> and sendout_time = #{sendoutTime} </if>
+		  		  <if test="sendoutTime != null and sendoutTime != ''"> and date_format(sendout_time,'%Y-%m') = #{sendoutTime} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
 		  		  <if test="ifUsed != null and ifUsed != ''"> and if_used = #{ifUsed} </if>

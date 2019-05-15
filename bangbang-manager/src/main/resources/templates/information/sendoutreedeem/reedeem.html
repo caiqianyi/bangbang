@@ -21,9 +21,8 @@
 							<button class="btn btn-success" onclick="reLoad()">查询</button>
 						</div>
 						<div class="columns pull-right col-md-2 nopadding">
-							<input id="searchName" type="text" class="form-control"
-								placeholder="">
-						</div>
+  								<input id="outTime" placeholder="选择查看月份：" class="form-control">
+  						</div>
 					</div>
 					<input type="hidden" th:value="${userId}" id="userId">
 					<table id="exampleTable" data-mobile-responsive="true">
@@ -57,6 +56,17 @@
 		</div>
 	</div>
 	<div th:include="include :: footer"></div>
+	<script type="text/javascript">
+	laydate.render({
+		elem: '#outTime',
+		type: 'month',
+		/* done: function(value, date){
+			$("#lessonTime").val(value);
+			reLoad2();
+		} */
+	});
+	
+	</script>
 	<script type="text/javascript" src="/js/appjs/information/sendoutreedeem/reedeem.js"></script>
 </body>
 </html>

@@ -20,9 +20,11 @@
 						<div class="columns pull-right">
 							<button class="btn btn-success" onclick="reLoad()">查询</button>
 						</div>
-						<div class="columns pull-right col-md-2 nopadding">
-							<input id="searchName" type="text" class="form-control"
-								placeholder="">
+						<div class="columns pull-right col-md-2 nopadding ">
+							<select class="form-control" name="courseId" id="courseId" >
+                        		<option value="">课程名称：</option>
+                        		<option  th:each="list:${list}" th:value="${list.courseId}" th:text="${list.name }"></option>
+                    		</select>
 						</div>
 					</div>
 					<input type="hidden" th:value="${userId}" id="userId">

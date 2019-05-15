@@ -1,5 +1,6 @@
 package com.bangbang.information.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,9 @@ public class PlayRecordController {
 	@GetMapping("/{id}")
 	@RequiresPermissions("information:record:record")
 	String Record(@PathVariable("id") Integer id,Model model){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", id);
+		model.addAttribute("list",recordService.list(map));
 		model.addAttribute("userId",id);
 	    return "information/playrecord/record";
 	}
