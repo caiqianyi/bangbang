@@ -1,0 +1,134 @@
+package com.bangbang.information.domain;
+
+import java.io.Serializable;
+import java.util.Date;
+
+
+
+/**
+ * 播放记录表
+ * 
+ * @author wjl
+ * @email bushuo@163.com
+ * @date 2019-05-11 15:51:59
+ */
+public class PlayRecordDO implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	//id
+	private Integer id;
+	//课程编号
+	private Integer courseId;
+	//课程分类
+	private String courseName;
+	//课程名称
+	private String name;
+	//章节名称
+	private String chaptersName;
+	//上次播放时间
+	private Date playedTime;
+
+	//用户id
+	private Long userId;
+	//删除标志  0 未删除   1已删除
+	private Integer deleteFlag;
+
+	/**
+	 * 设置：id
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	/**
+	 * 获取：id
+	 */
+	public Integer getId() {
+		return id;
+	}
+	/**
+	 * 设置：课程编号
+	 */
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
+	}
+	/**
+	 * 获取：课程编号
+	 */
+	public Integer getCourseId() {
+		return courseId;
+	}
+	/**
+	 * 设置：课程分类
+	 */
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+	/**
+	 * 获取：课程分类
+	 */
+	public String getCourseName() {
+		return courseName;
+	}
+	/**
+	 * 设置：课程名称
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * 获取：课程名称
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * 设置：章节名称
+	 */
+	public void setChaptersName(String chaptersName) {
+		this.chaptersName = chaptersName;
+	}
+	/**
+	 * 获取：章节名称
+	 */
+	public String getChaptersName() {
+		return chaptersName;
+	}
+	/**
+	 * 设置：上次播放时间
+	 */
+	public void setPlayedTime(Date playedTime) {
+		this.playedTime = playedTime;
+	}
+	/**
+	 * 获取：上次播放时间
+	 */
+	public Date getPlayedTime() {
+		return playedTime;
+	}
+	
+	
+	/**
+	 * 设置：用户id
+	 */
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	/**
+	 * 获取：用户id
+	 */
+	public Long getUserId() {
+		return userId;
+	}
+	/**
+	 * 设置：删除标志  0 未删除   1已删除
+	 */
+	public void setDeleteFlag(Integer deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+	/**
+	 * 获取：删除标志  0 未删除   1已删除
+	 */
+	public Integer getDeleteFlag() {
+		return deleteFlag;
+	}
+}

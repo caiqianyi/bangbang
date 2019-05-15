@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.ReedeemDao">
+
+	<select id="get" resultType="com.bangbang.information.domain.ReedeemDO">
+		select `id`,`reedeem_code`,reedeem_type,if_stop,`create_time`,`create_id`,create_name,`delete_flag` from t_reedeem where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bangbang.information.domain.ReedeemDO">
+		select `id`,`reedeem_code`,`create_time`,reedeem_type,`create_id`,create_name,`delete_flag`,if_stop from t_reedeem
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="reedeemCode != null and reedeemCode != ''"> and reedeem_code = #{reedeemCode} </if>
+		  		   <if test="createTime != null and createTime != ''"> and date_format(create_time,'%Y-%m') = #{createTime} </if>
+		  			<if test="reedeemType != null and reedeemType != ''"> and reedeem_type = #{reedeemType} </if>
+		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
+		  		    <if test="ifStop != null and ifStop != ''"> and if_stop = #{ifStop} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_reedeem
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="reedeemCode != null and reedeemCode != ''"> and reedeem_code = #{reedeemCode} </if>
+		  		    <if test="createTime != null and createTime != ''"> and date_format(create_time,'%Y-%m') = #{createTime} </if>
+		  		  <if test="reedeemType != null and reedeemType != ''"> and reedeem_type = #{reedeemType} </if>
+		  		  <if test="ifStop != null and ifStop != ''"> and if_stop = #{ifStop} </if>
+		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
+		  		 
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bangbang.information.domain.ReedeemDO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_reedeem
+		(
+			`reedeem_code`, 
+			`create_time`, 
+			`create_id`, 
+			create_name,
+			`delete_flag`, 
+		 
+			if_stop,
+			reedeem_type
+		)
+		values
+		(
+			#{reedeemCode}, 
+			#{createTime}, 
+			#{createId}, 
+			#{createName},
+			#{deleteFlag}, 
+			
+			#{ifStop},
+			#{reedeemType}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bangbang.information.domain.ReedeemDO">
+		update t_reedeem 
+		<set>
+			<if test="reedeemCode != null">`reedeem_code` = #{reedeemCode}, </if>
+			<if test="ifStop != null">`if_stop` = #{ifStop}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createId != null">`create_id` = #{createId}, </if>
+			<if test="createName != null">`create_name` = #{createName}, </if>
+			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}, </if>
+			<if test="reedeemType != null">reedeem_type = #{reedeemType} </if>
+		
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from t_reedeem where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_reedeem where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

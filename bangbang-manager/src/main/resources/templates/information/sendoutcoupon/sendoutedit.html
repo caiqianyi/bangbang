@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${coupon.id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">优惠券编号：</label>
+								<div class="col-sm-8">
+									<input id="couponId" name="couponId" th:value="${coupon.couponId}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">用户id：</label>
+								<div class="col-sm-8">
+									<input id="userId" name="userId" th:value="${coupon.userId}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">发放数量：</label>
+								<div class="col-sm-8">
+									<input id="count" name="count" th:value="${coupon.couponCount}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">有效期：</label>
+								<div class="col-sm-8">
+									<input id="validity" name="validity" th:value="${coupon.validity}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">0 未使用   1已使用     2已过期：</label>
+								<div class="col-sm-8">
+									<input id="ifUser" name="ifUser" th:value="${coupon.ifUser}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">发放时间：</label>
+								<div class="col-sm-8">
+									<input id="sendoutTime" name="sendoutTime" th:value="${coupon.sendoutTime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">0 新注册用户   1购买商品     2消费金额：</label>
+								<div class="col-sm-8">
+									<input id="couponGroup" name="couponGroup" th:value="${coupon.couponGroup}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/information/sendoutcoupon/sendoutedit.js">
+	</script>
+</body>
+</html>

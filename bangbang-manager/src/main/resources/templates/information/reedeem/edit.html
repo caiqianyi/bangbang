@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<input id="id" name="id" th:value="${reedeem.id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">兑换码：</label>
+								<div class="col-sm-8">
+									<input id="reedeemCode" name="reedeemCode" th:value="${reedeem.reedeemCode}" class="form-control" type="text" readonly="readonly">
+								</div>
+							</div>
+														
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">使用特性：</label>
+								<div class="col-sm-8">
+									<select class="form-control"  id="reedeemType" name="reedeemType">
+	                        			<option value=""></option>
+	                        			<option value="0">兑换课程</option>
+	                        			<option value="1">兑换余额</option>
+	                        			<option value="2">兑换优惠券，一次使用</option>
+	                        			<option value="3">兑换优惠券，多次使用</option>
+	                    			</select>
+								</div>
+							</div>
+							
+							<div class="form-group" id="qt" style="display: none;">	
+								<label class="col-sm-3 control-label">启用/停用：</label>
+								<div class="col-sm-8">
+									<select class="form-control"  id="ifStop" name="ifStop">
+	                        			<option value="0">启用</option>
+	                        			<option value="1">停用</option>
+	                    			</select>
+								</div>
+							</div>
+														
+														
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/information/reedeem/edit.js"></script>	
+	<script th:inline="javascript">
+		if([[${reedeem.reedeemType}]]==3)
+		
+			$("#qt").show();
+		$("#reedeemType").val([[${reedeem.reedeemType}]]);
+		
+	</script>					    
+	
+	
+</body>
+</html>
