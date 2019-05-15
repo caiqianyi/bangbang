@@ -106,8 +106,11 @@ function load() {
 										return e + d ;*/
 										var e='<button type="button" class="btn  btn-xs btn-default" onclick="edit(\''+row.id+'\',\''+row.couponSurplus+'\',\''+row.couponCount+'\')">编辑</button>  ';
 										/*var d= '<button type="button" class="btn btn-xs btn-danger" onclick="remove (\''+row.id+'\',\''+row.couponSurplus+'\')">删除</button>  ';*/
+										
 										var f= '<button type="button" class="btn btn-xs btn-success" onclick="sendout(\''+row.couponId+'\',\''+row.couponSurplus+'\',\''+row.couponBalance+'\',\''+row.validity+'\')">发放</button>  ';
-								        return e+f;
+								        if(row.couponSurplus==0)
+								        	f='<button type="button" class="btn btn-xs btn-success" disabled="disabled">发放</button>  ';
+										return e+f;
 									}
 								} ]
 					});

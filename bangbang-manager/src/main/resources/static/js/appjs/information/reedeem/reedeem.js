@@ -69,6 +69,7 @@ function load() {
 											return '兑换优惠券，多次使用';
 									}
 								},
+								 
 																{
 									field : 'createTime', 
 									title : '创建时间' 
@@ -77,7 +78,30 @@ function load() {
 									field : 'createName', 
 									title : '创建者' 
 								},
-																
+								{
+									field: 'ifStop',
+									title: '启用/停用',
+									formatter : function(value, row, index) {
+										if(row.reedeemType!=3) return '';
+										var str = '';
+										
+										str +=' <div class="switch onoffswitch col-sm-1"> ';
+											str +=' <div class="onoffswitch"> ';
+												str +=' <input name="allowComment" '; 
+												//启用状态 0：是；1：否
+												if(row.ifStop == 0)
+													str += ' checked="" ';
+													
+												str +=' type="checkbox" onchange="updateIfstop(' +row.id+ ',this)" value="' +row.id+ '" class="onoffswitch-checkbox" id="example1' +row.id+ '">  ';
+												str +=' <label class="onoffswitch-label" for="example1' +row.id+ '">  ';
+													str +=' <span class="onoffswitch-inner"></span> ';
+													str +=' <span class="onoffswitch-switch"></span> ';
+														str +=' </label> ';
+											str +=' </div>';
+										str +=' </div>';
+										return str;
+									} 
+								},							
 																{
 									title : '操作',
 									field : 'id',
@@ -93,7 +117,7 @@ function load() {
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d ;*/
-										var e='<button type="button" class="btn  btn-xs btn-default" onclick="edit(\''+row.id+'\',\''+row.ifStop+'\')">编辑</button>  ';
+										var e='<button type="button" class="btn  btn-xs btn-default" onclick="edit(\''+row.id+'\',\''+row.ifStop+'\',\''+row.reedeemType+'\',\''+row.reedeemCode+'\')">编辑</button>  ';
 									/*	var d='<button type="button" class="btn  btn-xs btn-danger" onclick="zhuanfa(\''+row.id+'\')"> 删除</button>  ';*/
 										var f= '<button type="button" class="btn btn-xs btn-info" onclick="sendout(\''+row.reedeemCode+'\',\''+row.id+'\',\''+row.reedeemType+'\')">&nbsp;&nbsp;&nbsp;发放</button>  ';
 										
@@ -117,10 +141,33 @@ function add() {
 		content : prefix + '/add' // iframe的url
 	});
 }
-function edit(id,ifStop) {
+function edit(id,ifStop,reedeemType,reedeemCode) {
 	if(ifStop==1){
 		layer.msg("兑换码已经发放，不可编辑！！");
 		return;
+	}
+	var s=0;
+	if(reedeemType==3){
+		$.ajax({
+			url : prefix+"/checkIfStop",
+			type : "post",
+			async:false,
+			data : {
+				'reedeemCode' : reedeemCode
+			},
+			success : function(r) {
+				console.info(r);
+				console.info(r.length)
+				if(r.length>0){
+					s=1;
+				}
+			}
+		});
+		
+		if(s==1){
+			layer.msg("兑换码已经发放，不可编辑！！");
+			return;
+		}
 	}
 	layer.open({
 		type : 2,
@@ -198,5 +245,28 @@ function sendout(reedeemCode,reedeemId,reedeemType){
 		shadeClose : false, // 点击遮罩关闭层
 		area : [ '800px', '520px' ],
 		content : '/information/sendoutreedeem/add/'+reedeemCode+'/'+reedeemId+'/'+reedeemType// iframe的url
+	});
+}
+function updateIfstop(id,enable){
+	var isEnable = 1;
+	if($(enable).prop("checked")){
+		isEnable = 0;
+	}
+
+	$.ajax({
+		url : prefix+"/updateIfStop",
+		type : "post",
+		data : {
+			'id' : id,
+			'enable':isEnable
+		},
+		success : function(r) {
+			if (r.code==0) {
+				layer.msg(r.msg);
+				reLoad();
+			}else{
+				layer.msg(r.msg);
+			}
+		}
 	});
 }

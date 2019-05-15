@@ -32,7 +32,7 @@ public class SendoutReedeemDO implements Serializable {
 	private Integer deleteFlag;
 	//0未使用   1已使用
 	private Integer ifUsed;
-
+    
 	/**
 	 * 设置：id
 	 */

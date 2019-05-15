@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,7 +21,9 @@ import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
 import com.bangbang.common.utils.ShiroUtils;
 import com.bangbang.information.domain.ReedeemDO;
+import com.bangbang.information.domain.SendoutReedeemDO;
 import com.bangbang.information.service.ReedeemService;
+import com.bangbang.information.service.SendoutReedeemService;
 
 
 
@@ -39,7 +40,8 @@ import com.bangbang.information.service.ReedeemService;
 public class ReedeemController {
 	@Autowired
 	private ReedeemService reedeemService;
-	
+	@Autowired
+	private SendoutReedeemService sendoutReedeemService;
 	@GetMapping()
 	@RequiresPermissions("information:reedeem:reedeem")
 	String Reedeem(){
@@ -204,5 +206,23 @@ public class ReedeemController {
        return str;
    }
 
-	
+   
+   @ResponseBody
+   @PostMapping("/checkIfStop")
+   public List<SendoutReedeemDO> checkIfStop(String reedeemCode){
+	   Map<String,Object> map = new HashMap<String,Object>();
+	   map.put("reedeemCode", reedeemCode);
+	   return sendoutReedeemService.list(map);
+   }
+
+    @PostMapping( "/updateIfStop")
+	@ResponseBody
+	public R  updateIfStop( Long id,Integer enable){
+		ReedeemDO reedeemDO = new ReedeemDO();
+		reedeemDO.setIfStop(enable);
+		reedeemDO.setId(id);
+		reedeemService.update(reedeemDO);
+		return R.ok();
+		
+	}
 }

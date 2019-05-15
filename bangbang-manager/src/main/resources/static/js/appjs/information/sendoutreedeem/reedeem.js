@@ -56,6 +56,17 @@ function load() {
 																{
 									field : 'reedeemCode', 
 									title : '兑换码' 
+								},{
+									field:'reedeemType',
+									title:'兑换特性',
+									formatter : function(value, row, index) {
+										if(value==0)
+											return '兑换课程';
+										if(value==1)
+											return '兑换余额';
+										if(value==2|| value==3)
+											return '兑换优惠券';
+									}
 								},
 																{
 									field : 'sendoutTime', 

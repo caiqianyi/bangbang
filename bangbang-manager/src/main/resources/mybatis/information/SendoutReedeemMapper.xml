@@ -8,16 +8,17 @@
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.SendoutReedeemDO">
-		select `id`,`reedeem_code`,`sendout_time`,`user_id`,`delete_flag`,`if_used` from sendout_reedeem
+		select s.id,s.reedeem_code,s.sendout_time,s.user_id,s.delete_flag,s.if_used,r.reedeem_type from sendout_reedeem s,t_reedeem r
         <where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="reedeemCode != null and reedeemCode != ''"> and reedeem_code = #{reedeemCode} </if>
-		  		  <if test="sendoutTime != null and sendoutTime != ''"> and date_format(sendout_time,'%Y-%m') = #{sendoutTime} </if>
+		  		  <if test="id != null and id != ''"> and s.id = #{id} </if>
+		  		  <if test="reedeemCode != null and reedeemCode != ''"> and s.reedeem_code = #{reedeemCode} </if>
+		  		  <if test="sendoutTime != null and sendoutTime != ''"> and s.date_format(sendout_time,'%Y-%m') = #{sendoutTime} </if>
 
-		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
-		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
-		  		  <if test="ifUsed != null and ifUsed != ''"> and if_used = #{ifUsed} </if>
+		  		  <if test="userId != null and userId != ''"> and s.user_id = #{userId} </if>
+		  		  <if test="deleteFlag != null and deleteFlag != ''"> and s.delete_flag = #{deleteFlag} </if>
+		  		  <if test="ifUsed != null and ifUsed != ''"> and s.if_used = #{ifUsed} </if>
 		  		</where>
+		  		and s.reedeem_code=r.reedeem_code
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
