@@ -48,8 +48,8 @@ public class BannerController extends BaseController {
 
 	@GetMapping()
 	@RequiresPermissions("carousel:banner:banner")
-	String sysFile(Model model) {
-		Map<String, Object> params = new HashMap<>(16);
+	String Banner() {
+		//Map<String, Object> params = new HashMap<>(16);
 		return "carousel/banner/banner";
 	}
 
