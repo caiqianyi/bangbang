@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">课程：</label>
+								<div class="col-sm-8">
+								<video th:src="${courseChapter.url}" controls="controls" autoplay="autoplay"></video>
+							<!--	<video src="http://localhost:8066/files/24e20ed9-97d2-4db2-93c0-7de36d506c6d.mp4" controls="controls"></video>
+								<video src="http://localhost:8066/files/7138c4d2-8318-44ee-92a0-86cfa3a5b6b0.mp3" controls="controls"></video>
+									<video width="320" height="240" controls="controls"> 
+									    Firefox --> 
+									<!--   <source th:src="@{courseChapter.url}" type="video/ogg" />  
+									    Safari/Chrome-->   
+								<!--	   <source th:src="@{courseChapter.url}" type="video/mp4" />  
+									    如果浏览器不支持video标签，则使用flash -->  
+									<!--    <embed th:src="@{courseChapter.url}" type="application/x-shockwave-flash"  
+										width="1024" height="798" allowscriptaccess="always" allowfullscreen="true"> </embed>  
+									</video> 
+									 <input id="url" name="url" th:value="${courseChapter.url}"
+										class="form-control" type="text"> -->
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+</body>
+</html>

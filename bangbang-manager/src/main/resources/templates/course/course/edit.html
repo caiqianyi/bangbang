@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<input id="id" name="id" th:value="${course.id}" type="hidden">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">课程编号：</label>
+								<div class="col-sm-8">
+									<input id="courseId" name="courseId"
+										th:value="${course.courseId}" class="form-control" type="text" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">课程分类：</label>
+								<div class="col-sm-8">
+									<input id="courseName" name="courseName"
+										th:value="${course.courseName}" class="form-control"
+										type="text" readonly="readonly">
+								</div>
+							</div>
+							<!--  
+							<div class="form-group">
+								<label class="col-sm-3 control-label">课程讲师：</label>
+								<div class="col-sm-8">
+									<input id="teacher" name="teacher" th:value="${course.teacher}"
+										class="form-control" type="text" readonly="readonly">
+								</div>
+							</div>
+							-->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">课程名称：</label>
+								<div class="col-sm-8">
+									<input id="name" name="name" th:value="${course.name}"
+										class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<!-- <input id="courseCover" name="courseCover" class="form-control"
+										type="text"> -->
+								<label class="col-sm-3 control-label">课程封面：</label>
+								<div class="col-sm-8">
+									<input class="form-control" id="imgFile" style="display: none;" type="file" name="imgFile" onchange="udpateFileUrl(this)" />
+									<label for="imgFile"><img width="100" height="100" id="fileImgimgFile" alt="点击上传图片" th:src="${course.courseCover}"></label>
+								</div>
+							</div>
+							<div class="form-group">
+							<input id="courseNotes" name="courseNotes" class="form-control" type="hidden" th:value="${course.courseNotes}">
+								<label class="col-sm-3 control-label">课程说明：</label>
+								<div class="col-sm-8">
+								<div class="ibox-content no-padding">
+										<div id="content_sn" class="summernote"></div>
+									</div>
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">课程费用：</label>
+								<div class="col-sm-8">
+									<label class="radio-inline"> <input type="radio"
+										th:field="*{course.moneyType}" name="moneyType" value="0" /> 收费
+									</label> <label class="radio-inline"> <input type="radio"
+										th:field="*{course.moneyType}" name="moneyType" value="1" /> 免费
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">课程价格：</label>
+								<div class="col-sm-8">
+									<input id="money" name="money" th:value="${course.money}"
+										class="form-control" type="text" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">课程问答：</label>
+								<div class="col-sm-8">
+									<label class="radio-inline"> <input type="radio"
+										th:field="*{course.questions}" name="questions" value="0" /> 开启
+									</label> 
+									<label class="radio-inline"> <input type="radio"
+										th:field="*{course.questions}" name="questions" value="1" /> 关闭
+									</label>
+								</div>
+							</div>
+							<div class="form-group1">
+								<label class="col-sm-3 control-label">问答金额1：</label>
+								<div class="col-sm-8">
+									<input id="questionsMoney1" name="questionsMoney1"
+										th:value="${questionsMN.questionsMoney1}" class="form-control" type="text" />
+								</div>
+							</div>
+							<div class="form-group1">
+							<input id="questionsNotes1" name="questionsNotes1" th:value="${questionsMN.questionsNotes1}" type="hidden"> 
+								<label class="col-sm-3 control-label">问答说明1：</label>
+								<div class="col-sm-8">
+									<div class="ibox-content no-padding">
+										<div id="content_sn1" class="summernote1"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group1">
+								<label class="col-sm-3 control-label">问答金额2：</label>
+								<div class="col-sm-8">
+									<input id="questionsMoney2" name="questionsMoney2"
+										th:value="${questionsMN.questionsMoney2}" class="form-control" type="text" />
+								</div>
+							</div>
+							<div class="form-group1">
+							<input id="questionsNotes2" name="questionsNotes2" th:value="${questionsMN.questionsNotes2}" type="hidden"> 
+								<label class="col-sm-3 control-label">问答说明2：</label>
+								<div class="col-sm-8">
+									<div class="ibox-content no-padding">
+										<div id="content_sn2" class="summernote2"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group1">
+								<label class="col-sm-3 control-label">问答金额3：</label>
+								<div class="col-sm-8">
+									<input id="questionsMoney3" name="questionsMoney3"
+										th:value="${questionsMN.questionsMoney3}" class="form-control" type="text" />
+								</div>
+							</div>
+							<div class="form-group1">
+							<input id="questionsNotes3" name="questionsNotes3" th:value="${questionsMN.questionsNotes3}" type="hidden"> 
+								<label class="col-sm-3 control-label">问答说明3：</label>
+								<div class="col-sm-8">
+									<div class="ibox-content no-padding">
+										<div id="content_sn3" class="summernote3"></div>
+									</div>
+								</div>
+							</div>
+							<!-- 
+							<div class="form-group">
+								<label class="col-sm-3 control-label">添加时间：</label>
+								<div class="col-sm-8">
+									<input id="addTime" name="addTime" th:value="${course.addTime}"
+										class="form-control" type="text">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-3 control-label">更新时间：</label>
+								<div class="col-sm-8">
+									<input id="updateTime" name="updateTime"
+										th:value="${course.updateTime}" class="form-control"
+										type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">开始时间：</label>
+								<div class="col-sm-8">
+									<input id="startTime" name="startTime"
+										th:value="${course.startTime}" class="form-control"
+										type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">结束时间：</label>
+								<div class="col-sm-8">
+									<input id="endTime" name="endTime" th:value="${course.endTime}"
+										class="form-control" type="text">
+								</div>
+							</div>
+							 -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">状态：</label>
+								<div class="col-sm-8">
+									<label class="radio-inline"> <input type="radio"
+										th:field="*{course.status}" name="status" value="1" /> 正常
+									</label> <label class="radio-inline"> <input type="radio"
+										th:field="*{course.status}" name="status" value="0" /> 禁用
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/course/course/edit.js">
+	</script>
+	<script type="text/javascript">
+		laydate.render({
+			elem: '#addTime',
+			type: 'datetime'
+		});
+		
+		function udpateFileUrl(obj){
+			var fileURL = getObjectURL(obj.files[0]);
+			if(fileURL) {
+				$("#fileImgimgFile").attr("src", fileURL) ;
+			}
+		}
+		//建立一個可存取到該file的url
+		function getObjectURL(file) {
+			var url = null ; 
+			if (window.createObjectURL!=undefined) { // basic
+				url = window.createObjectURL(file) ;
+			} else if (window.URL!=undefined) { // mozilla(firefox)
+				url = window.URL.createObjectURL(file) ;
+			} else if (window.webkitURL!=undefined) { // webkit or chrome
+				url = window.webkitURL.createObjectURL(file) ;
+			}
+			return url;
+		}
+		
+		
+		var radioTrue = $("input[name='moneyType']:checked").val();
+		if(radioTrue == 0){
+			$('#money').removeAttr("readonly");
+		}
+		
+		$("input[type='radio'][name='moneyType']").on("click",function(){
+			var moneyType = $("input[name='moneyType']:checked").val(); 
+			 if(moneyType == 0){
+				 $('#money').removeAttr("readonly");
+				 $('#money').val('');
+			 }else{
+				 $('#money').attr("readonly","readonly");
+				 $('#money').val('0');
+			 }
+		})
+		
+		var questionsTrue = $("input[name='questions']:checked").val();
+		if(questionsTrue == 1){
+			$(".form-group1").hide();
+		}
+		$("input[type='radio'][name='questions']").on("click",function(){
+			var questions = $("input[name='questions']:checked").val(); 
+			if(questions == 0){
+				 $(".form-group1").show();
+			}else{
+				 $(".form-group1").hide();
+			}
+		})
+	</script>
+</body>
+</html>

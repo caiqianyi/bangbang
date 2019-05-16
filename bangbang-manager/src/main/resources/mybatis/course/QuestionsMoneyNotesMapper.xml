@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.course.dao.QuestionsMoneyNotesDao">
+
+	<select id="get" resultType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
+		select `id`,`course_sort`,`course_id`,`name`,`questions_money1`,`questions_money2`,`questions_money3`,`questions_notes1`,`questions_notes2`,`questions_notes3`,`add_time`,`update_time` from questions_money_notes where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
+		select `id`,`course_sort`,`course_id`,`name`,`questions_money1`,`questions_money2`,`questions_money3`,`questions_notes1`,`questions_notes2`,`questions_notes3`,`add_time`,`update_time` from questions_money_notes
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="courseSort != null and courseSort != ''"> and course_sort = #{courseSort} </if>
+		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="questionsMoney1 != null and questionsMoney1 != ''"> and questions_money1 = #{questionsMoney1} </if>
+		  		  <if test="questionsMoney2 != null and questionsMoney2 != ''"> and questions_money2 = #{questionsMoney2} </if>
+		  		  <if test="questionsMoney3 != null and questionsMoney3 != ''"> and questions_money3 = #{questionsMoney3} </if>
+		  		  <if test="questionsNotes1 != null and questionsNotes1 != ''"> and questions_notes1 = #{questionsNotes1} </if>
+		  		  <if test="questionsNotes2 != null and questionsNotes2 != ''"> and questions_notes2 = #{questionsNotes2} </if>
+		  		  <if test="questionsNotes3 != null and questionsNotes3 != ''"> and questions_notes3 = #{questionsNotes3} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from questions_money_notes
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="courseSort != null and courseSort != ''"> and course_sort = #{courseSort} </if>
+		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="questionsMoney1 != null and questionsMoney1 != ''"> and questions_money1 = #{questionsMoney1} </if>
+		  		  <if test="questionsMoney2 != null and questionsMoney2 != ''"> and questions_money2 = #{questionsMoney2} </if>
+		  		  <if test="questionsMoney3 != null and questionsMoney3 != ''"> and questions_money3 = #{questionsMoney3} </if>
+		  		  <if test="questionsNotes1 != null and questionsNotes1 != ''"> and questions_notes1 = #{questionsNotes1} </if>
+		  		  <if test="questionsNotes2 != null and questionsNotes2 != ''"> and questions_notes2 = #{questionsNotes2} </if>
+		  		  <if test="questionsNotes3 != null and questionsNotes3 != ''"> and questions_notes3 = #{questionsNotes3} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
+		insert into questions_money_notes
+		(
+			`id`, 
+			`course_sort`, 
+			`course_id`, 
+			`name`, 
+			`questions_money1`, 
+			`questions_money2`, 
+			`questions_money3`, 
+			`questions_notes1`, 
+			`questions_notes2`, 
+			`questions_notes3`, 
+			`add_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{id}, 
+			#{courseSort}, 
+			#{courseId}, 
+			#{name}, 
+			#{questionsMoney1}, 
+			#{questionsMoney2}, 
+			#{questionsMoney3}, 
+			#{questionsNotes1}, 
+			#{questionsNotes2}, 
+			#{questionsNotes3}, 
+			#{addTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
+		update questions_money_notes 
+		<set>
+			<if test="courseSort != null">`course_sort` = #{courseSort}, </if>
+			<if test="courseId != null">`course_id` = #{courseId}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="questionsMoney1 != null">`questions_money1` = #{questionsMoney1}, </if>
+			<if test="questionsMoney2 != null">`questions_money2` = #{questionsMoney2}, </if>
+			<if test="questionsMoney3 != null">`questions_money3` = #{questionsMoney3}, </if>
+			<if test="questionsNotes1 != null">`questions_notes1` = #{questionsNotes1}, </if>
+			<if test="questionsNotes2 != null">`questions_notes2` = #{questionsNotes2}, </if>
+			<if test="questionsNotes3 != null">`questions_notes3` = #{questionsNotes3}, </if>
+			<if test="addTime != null">`add_time` = #{addTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from questions_money_notes where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from questions_money_notes where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.course.dao.CourseDao">
+
+	<select id="get" resultType="com.bangbang.course.domain.CourseDO">
+		select `id`,`course_id`,`course_name`,`name`,`course_notes`,`money_type`,`money`,`questions`,`add_time`,`update_time`,`start_time`,`end_time`,`status`,course_cover,teacher from course where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bangbang.course.domain.CourseDO">
+		select `id`,`course_id`,`course_name`,`name`,`course_notes`,`money_type`,`money`,`questions`,`add_time`,`update_time`,`start_time`,`end_time`,`status`,course_cover,teacher from course
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
+		  		  <if test="courseName != null and courseName != ''"> and course_name = #{courseName} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="moneyType != null and moneyType != ''"> and money_type = #{moneyType} </if>
+		  		  <if test="money != null and money != ''"> and money = #{money} </if>
+		  		  <if test="questions != null and questions != ''"> and questions = #{questions} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
+		  		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="courseNotes != null and courseNotes != ''"> and course_notes = #{courseNotes} </if>
+		  		  <if test="courseCover != null and courseCover != ''"> and course_cover = #{courseCover} </if>
+		  		  <if test="teacher != null and teacher != ''"> and teacher = #{teacher} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from course
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
+		  		  <if test="courseName != null and courseName != ''"> and course_name = #{courseName} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="moneyType != null and moneyType != ''"> and money_type = #{moneyType} </if>
+		  		  <if test="money != null and money != ''"> and money = #{money} </if>
+		  		  <if test="questions != null and questions != ''"> and questions = #{questions} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
+		  		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="courseNotes != null and courseNotes != ''"> and course_notes = #{courseNotes} </if>
+		  		  <if test="courseCover != null and courseCover != ''"> and course_cover = #{courseCover} </if>
+		  		  <if test="teacher != null and teacher != ''"> and teacher = #{teacher} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bangbang.course.domain.CourseDO" useGeneratedKeys="true" keyProperty="id">
+		insert into course
+		(
+			`course_id`, 
+			`course_name`, 
+			`name`, 
+			`money_type`, 
+			`money`, 
+			`questions`, 
+			`add_time`, 
+			`update_time`, 
+			`start_time`, 
+			`end_time`, 
+			`status`,
+			`course_notes`,
+			`course_cover`,
+			`teacher`
+		)
+		values
+		(
+			#{courseId}, 
+			#{courseName}, 
+			#{name}, 
+			#{moneyType}, 
+			#{money}, 
+			#{questions}, 
+			#{addTime}, 
+			#{updateTime}, 
+			#{startTime}, 
+			#{endTime}, 
+			#{status},
+			#{courseNotes},
+			#{courseCover},
+			#{teacher}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bangbang.course.domain.CourseDO">
+		update course 
+		<set>
+			<if test="courseId != null">`course_id` = #{courseId}, </if>
+			<if test="courseName != null">`course_name` = #{courseName}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="moneyType != null">`money_type` = #{moneyType}, </if>
+			<if test="money != null">`money` = #{money}, </if>
+			<if test="questions != null">`questions` = #{questions}, </if>
+			<if test="addTime != null">`add_time` = #{addTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="startTime != null">`start_time` = #{startTime}, </if>
+			<if test="endTime != null">`end_time` = #{endTime}, </if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="courseNotes != null">`course_notes` = #{courseNotes},</if>
+			<if test="courseCover != null">`course_cover` = #{courseCover}</if>
+			<if test="teacher != null">`teacher` = #{teacher}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from course where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from course where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<select id="getId" resultType="com.bangbang.course.domain.CourseDO">
+		select id, course_id from course where id = #{value}
+	</select>
+	
+	<select id="teacherC" resultType="com.bangbang.course.domain.CourseDO">
+		select tt.id,c.course_id,c.course_name,c.`name` from t_teacher_course ttc ,t_teacher tt, course c 
+		where ttc.course_id = c.course_id and tt.teacher_id = ttc.teacher_id and tt.id=#{id}
+	</select>
+</mapper>

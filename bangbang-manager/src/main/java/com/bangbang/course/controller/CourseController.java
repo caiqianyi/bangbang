@@ -1,0 +1,218 @@
+package com.bangbang.course.controller;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.bangbang.common.config.BootdoConfig;
+import com.bangbang.common.utils.FileUtil;
+import com.bangbang.common.utils.PageUtils;
+import com.bangbang.common.utils.Query;
+import com.bangbang.common.utils.R;
+import com.bangbang.course.domain.CourseChapterDO;
+import com.bangbang.course.domain.CourseDO;
+import com.bangbang.course.domain.CourseSortDO;
+import com.bangbang.course.domain.QuestionsMoneyNotesDO;
+import com.bangbang.course.service.CourseChapterService;
+import com.bangbang.course.service.CourseService;
+import com.bangbang.course.service.CourseSortService;
+import com.bangbang.course.service.QuestionsMoneyNotesService;
+import com.bangbang.owneruser.comment.GenerateCode;
+import com.bangbang.teacher.domain.TeacherCourseDO;
+import com.bangbang.teacher.domain.TeacherDO;
+import com.bangbang.teacher.service.TeacherCourseService;
+import com.bangbang.teacher.service.TeacherService;
+
+
+
+/**
+ * 课程表
+ * 
+ * @author wjl
+ * @email bushuo@163.com
+ * @date 2019-05-11 11:53:20
+ */
+ 
+@Controller
+@RequestMapping("/information/course")
+public class CourseController {
+	@Autowired
+	private CourseService courseService;
+	@Autowired
+	private CourseSortService courseSortService;
+	@Autowired
+	private QuestionsMoneyNotesService questionsMoneyNotesService;
+	@Autowired
+	private CourseChapterService courseChapterService;
+	@Autowired
+	private BootdoConfig bootdoConfig;
+	@Autowired
+	private TeacherService teacherService;
+	@Autowired
+	private TeacherCourseService teacherCourseService;
+	
+	
+	@GetMapping()
+	@RequiresPermissions("information:course:course")
+	String Course(){
+	    return "course/course/course";
+	}
+	
+	@ResponseBody
+	@GetMapping("/list")
+	@RequiresPermissions("information:course:course")
+	public PageUtils list(@RequestParam Map<String, Object> params){
+		//查询列表数据
+        Query query = new Query(params);
+		List<CourseDO> courseList = courseService.list(query);
+		int total = courseService.count(query);
+		PageUtils pageUtils = new PageUtils(courseList, total);
+		return pageUtils;
+	}
+	
+	@GetMapping("/add")
+	@RequiresPermissions("information:course:add")
+	String add(Model model){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("map", map);
+		List<CourseSortDO> courseName = courseSortService.queryName(map);
+		Map<String, Object> mapP = new HashMap<String, Object>();
+		mapP.put("mapP", mapP);
+		List<TeacherDO> teacherName = teacherService.queryTeacherName(mapP);
+		model.addAttribute("courseName", courseName);
+		model.addAttribute("teacherName", teacherName);
+	    return "course/course/add";
+	}
+
+	@GetMapping("/edit/{id}")
+	@RequiresPermissions("information:course:edit")
+	String edit(@PathVariable("id") Long id,Model model){
+		CourseDO course = courseService.get(id);
+		QuestionsMoneyNotesDO questionsMN = questionsMoneyNotesService.get(id);
+		model.addAttribute("questionsMN", questionsMN);
+		model.addAttribute("course", course);
+	    return "course/course/edit";
+	}
+	
+	/**
+	 * 保存
+	 */
+	@ResponseBody
+	@PostMapping("/save")
+	@RequiresPermissions("information:course:add")
+	public R save( CourseDO course,Long courseId){
+
+		String fileName = course.getImgFile().getOriginalFilename();
+		fileName = FileUtil.renameToUUID(fileName);		
+		try {					
+			FileUtil.uploadFile(course.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
+			course.setCourseCover("/files/" + fileName);
+			course.setAddTime(new Date());
+		} catch (Exception e) {
+			return R.error();
+		}
+		Long cId = GenerateCode.gen16(6);
+		course.setCourseId(cId);
+		if(courseService.save(course)>0){
+			QuestionsMoneyNotesDO qmn = new QuestionsMoneyNotesDO();
+			qmn.setId(course.getId());
+			qmn.setCourseSort(course.getCourseName());
+			qmn.setCourseId(course.getCourseId());
+			qmn.setName(course.getName());
+			questionsMoneyNotesService.save(qmn);
+//			TeacherCourseDO tcDO = new TeacherCourseDO();
+//			tcDO.setCourseId(course.getCourseId());
+//			TeacherDO teacher = teacherService.queryTeacherId(course.getTeacher());
+//			Long teacherId = teacher.getTeacherId();
+//			tcDO.setTeacherId(teacherId);
+//			teacherCourseService.save(tcDO);
+			return R.ok();
+		}
+		return R.error();
+	}
+	/**
+	 * 修改
+	 */
+	@ResponseBody
+	@RequestMapping("/update")
+	@RequiresPermissions("information:course:edit")
+	public R update( CourseDO course,QuestionsMoneyNotesDO qmn){
+		
+		if(course.getImgFile() != null && course.getImgFile().getSize() > 0){
+			String fileName = course.getImgFile().getOriginalFilename();
+			fileName = FileUtil.renameToUUID(fileName);
+			try {
+				FileUtil.uploadFile(course.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
+				course.setCourseCover("/files/" + fileName);
+			} catch (Exception e) {
+				return R.error();
+			}
+		}
+		qmn.setId(course.getId());
+		qmn.setCourseSort(course.getCourseName());
+		qmn.setCourseId(course.getCourseId());
+		qmn.setName(course.getName());
+		if(qmn.getQuestionsMoney1() == null){
+			qmn.setQuestionsMoney1(0);
+		}
+		if(qmn.getQuestionsMoney2() == null){
+			qmn.setQuestionsMoney2(0);
+		}
+		if(qmn.getQuestionsMoney3() == null){
+			qmn.setQuestionsMoney3(0);
+		}
+		questionsMoneyNotesService.update(qmn);
+		courseService.update(course);
+		return R.ok();
+	}
+	
+	/**
+	 * 删除
+	 */
+	@PostMapping( "/remove")
+	@ResponseBody
+	@RequiresPermissions("information:course:remove")
+	public R remove( Long id){
+		questionsMoneyNotesService.remove(id);
+		if(courseService.remove(id)>0){
+		return R.ok();
+		}
+		return R.error();
+	}
+	
+	/**
+	 * 删除
+	 */
+	@PostMapping( "/batchRemove")
+	@ResponseBody
+	@RequiresPermissions("information:course:batchRemove")
+	public R remove(@RequestParam("ids[]") Long[] ids){
+		courseService.batchRemove(ids);
+		return R.ok();
+	}
+	
+	@GetMapping("/chapter/{id}")
+	@RequiresPermissions("information:course:chapter")
+	String chapter(@PathVariable("id") Long id,Model model){
+		CourseDO course = courseService.getId(id);
+		Long courseId = course.getCourseId();
+		List<CourseChapterDO> queryCId = courseChapterService.queryCId(courseId);
+		model.addAttribute("queryCId", queryCId);
+		model.addAttribute("course", course);
+	    return "course/course/chapter";
+	}
+
+}
