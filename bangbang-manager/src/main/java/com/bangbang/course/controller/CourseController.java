@@ -67,7 +67,9 @@ public class CourseController {
 	
 	@GetMapping()
 	@RequiresPermissions("information:course:course")
-	String Course(){
+	String Course(Map<String, Object> map,Model model){
+		List<CourseSortDO> listSort = courseSortService.list(map);
+		model.addAttribute("listSort", listSort);
 	    return "course/course/course";
 	}
 	
