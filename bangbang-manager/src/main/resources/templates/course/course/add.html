@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<head th:include="include :: header"></head>
+<head th:include="include :: header">
+</head>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content ">
 		<div class="row">
@@ -35,19 +36,21 @@
 									<input id="name" name="name" class="form-control" type="text">
 								</div>
 							</div>
-							<!--  
+							  
 							<div class="form-group">
 								<label class="col-sm-3 control-label">课程讲师：</label>
 								<div class="col-sm-8">
-									<select class="form-control"  name="teacher" required>
-										<option value="">请选择课程讲师</option>
+								<select name="teacher" id="teacher" class="selectpicker show-tick form-control" multiple data-live-search="false" data-actions-box="false">
+										<!-- <option value="">请选择课程讲师</option> -->
 										<option th:each="tn:${teacherName}"
 										 th:text="${tn.name}"
 										 th:value="${tn.name}"></option>
 								</select>
+								<!--  <input id="teachers" name="teachers" class="form-control" type="hidden"> -->
+								 <span>（可多选）</span>
 								</div>
 							</div>
-							-->
+							
 							<div class="form-group">
 								<!-- <input id="courseCover" name="courseCover" class="form-control"
 										type="text"> -->
@@ -146,8 +149,8 @@
 		</div>
 	</div>
 	<div th:include="include::footer"></div>
-	<script type="text/javascript" src="/js/appjs/course/course/add.js">
-	</script>
+	<script type="text/javascript" src="/js/appjs/course/course/add.js"></script>
+	
 	<script type="text/javascript">
 		laydate.render({
 			elem: '#addTime',
@@ -173,18 +176,25 @@
 			return url;
 		}
 		
-		
-		$("input:radio[value='1'][name='questions']").attr('checked','true');
-		$("input[type='radio'][name='moneyType']").on("click",function(){
-			var moneyType = $("input[name='moneyType']:checked").val(); 
-			 if(moneyType == 0){
-				 $('#money').removeAttr("readonly");
-				 $('#money').val('');
-			 }else{
-				 $('#money').attr("readonly","readonly");
-				 $('#money').val('0');
-			 }
+		$(document).ready(function(){
+			$("input:radio[value='1'][name='questions']").attr('checked','true');
+			$("input[type='radio'][name='moneyType']").on("click",function(){
+				var moneyType = $("input[name='moneyType']:checked").val(); 
+				 if(moneyType == 0){
+					 $('#money').removeAttr("readonly");
+					 $('#money').val('');
+				 }else{
+					 $('#money').attr("readonly","readonly");
+					 $('#money').val('0');
+				 }
+			})
+			
+			$(window).on('load', function () {
+	     		$('.selectpicker').selectpicker();
+			});
+
 		})
+		
 	</script>
 </body>
 </html>

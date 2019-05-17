@@ -1,5 +1,6 @@
 package com.bangbang.course.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -104,8 +105,12 @@ public class CourseController {
 	String edit(@PathVariable("id") Long id,Model model){
 		CourseDO course = courseService.get(id);
 		QuestionsMoneyNotesDO questionsMN = questionsMoneyNotesService.get(id);
+		Map<String, Object> mapP = new HashMap<String, Object>();
+		mapP.put("mapP", mapP);
+		List<TeacherDO> teacherName = teacherService.queryTeacherName(mapP);
 		model.addAttribute("questionsMN", questionsMN);
 		model.addAttribute("course", course);
+		model.addAttribute("teacherName", teacherName);
 	    return "course/course/edit";
 	}
 	
@@ -135,12 +140,18 @@ public class CourseController {
 			qmn.setCourseId(course.getCourseId());
 			qmn.setName(course.getName());
 			questionsMoneyNotesService.save(qmn);
-//			TeacherCourseDO tcDO = new TeacherCourseDO();
-//			tcDO.setCourseId(course.getCourseId());
-//			TeacherDO teacher = teacherService.queryTeacherId(course.getTeacher());
-//			Long teacherId = teacher.getTeacherId();
-//			tcDO.setTeacherId(teacherId);
-//			teacherCourseService.save(tcDO);
+			
+			TeacherCourseDO tcDO = new TeacherCourseDO();
+			String teacher = course.getTeacher();
+			String[] arr = teacher.split(",");
+			for (String string : arr) {
+				TeacherDO tch = teacherService.queryTeacherId(string);
+				Long teacherId = tch.getTeacherId();
+				//System.out.println(teacherId);
+				tcDO.setTeacherId(teacherId);
+				tcDO.setCourseId(course.getCourseId());
+				teacherCourseService.save(tcDO);
+			}						
 			return R.ok();
 		}
 		return R.error();
@@ -188,6 +199,13 @@ public class CourseController {
 	@ResponseBody
 	@RequiresPermissions("information:course:remove")
 	public R remove( Long id){
+		CourseDO courseDO = courseService.get(id);
+		Long courseId = courseDO.getCourseId();
+		List<TeacherCourseDO> queryId = teacherCourseService.queryId(courseId);
+		for (TeacherCourseDO teacherCourseDO : queryId) {
+			Long tid = teacherCourseDO.getId();
+			teacherCourseService.remove(tid);
+		}
 		questionsMoneyNotesService.remove(id);
 		if(courseService.remove(id)>0){
 		return R.ok();

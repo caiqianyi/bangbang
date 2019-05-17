@@ -106,6 +106,9 @@ function validateRule() {
 			money : {
 				isMoney : true
 			},
+			teacher : {
+				required : true
+			},
 		},
 		messages : {
 			name : {
@@ -113,6 +116,9 @@ function validateRule() {
 			},
 			money : {
 				isMoney : icon + "请说明课程价格"
+			},
+			teacher : {
+				required : icon + "请选择老师"
 			},
 		}
 	})

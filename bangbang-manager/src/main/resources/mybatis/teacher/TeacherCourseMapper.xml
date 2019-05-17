@@ -78,5 +78,7 @@
 			#{id}
 		</foreach>
 	</delete>
-
+	<select id="queryId" resultType="com.bangbang.teacher.domain.TeacherCourseDO">
+		select id from t_teacher_course where course_id = #{courseId}
+	</select>
 </mapper>

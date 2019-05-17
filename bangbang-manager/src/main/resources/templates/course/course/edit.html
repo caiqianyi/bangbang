@@ -25,15 +25,25 @@
 										type="text" readonly="readonly">
 								</div>
 							</div>
-							<!--  
+							  
 							<div class="form-group">
 								<label class="col-sm-3 control-label">课程讲师：</label>
-								<div class="col-sm-8">
-									<input id="teacher" name="teacher" th:value="${course.teacher}"
-										class="form-control" type="text" readonly="readonly">
-								</div>
+									<div class="col-sm-4">
+										<input id="teacher" name="teacher" th:value="${course.teacher}"
+												class="form-control" type="text" readonly="readonly"> 
+									</div>
+									<div class="col-sm-4">
+										<select id="tea" name="tea" class="selectpicker show-tick form-control" multiple data-live-search="false" data-actions-box="false">
+											<!-- <option value="">请选择课程讲师</option> -->
+											<option th:each="tn:${teacherName}"
+											 th:text="${tn.name}"
+											 th:value="${tn.name}"></option>
+										</select>	
+									</div>
+									<!-- <input id="teacher" name="teacher" th:value="${course.teacher}"
+										class="form-control" type="text" readonly="readonly"> -->							
 							</div>
-							-->
+							
 							<div class="form-group">
 								<label class="col-sm-3 control-label">课程名称：</label>
 								<div class="col-sm-8">
@@ -218,34 +228,50 @@
 			return url;
 		}
 		
-		
-		var radioTrue = $("input[name='moneyType']:checked").val();
-		if(radioTrue == 0){
-			$('#money').removeAttr("readonly");
-		}
-		
-		$("input[type='radio'][name='moneyType']").on("click",function(){
-			var moneyType = $("input[name='moneyType']:checked").val(); 
-			 if(moneyType == 0){
-				 $('#money').removeAttr("readonly");
-				 $('#money').val('');
-			 }else{
-				 $('#money').attr("readonly","readonly");
-				 $('#money').val('0');
-			 }
-		})
-		
-		var questionsTrue = $("input[name='questions']:checked").val();
-		if(questionsTrue == 1){
-			$(".form-group1").hide();
-		}
-		$("input[type='radio'][name='questions']").on("click",function(){
-			var questions = $("input[name='questions']:checked").val(); 
-			if(questions == 0){
-				 $(".form-group1").show();
-			}else{
-				 $(".form-group1").hide();
+		$(document).ready(function(){
+			var radioTrue = $("input[name='moneyType']:checked").val();
+			if(radioTrue == 0){
+				$('#money').removeAttr("readonly");
 			}
+			
+			$("input[type='radio'][name='moneyType']").on("click",function(){
+				var moneyType = $("input[name='moneyType']:checked").val(); 
+				 if(moneyType == 0){
+					 $('#money').removeAttr("readonly");
+					 $('#money').val('');
+				 }else{
+					 $('#money').attr("readonly","readonly");
+					 $('#money').val('0');
+				 }
+			})
+			
+			var questionsTrue = $("input[name='questions']:checked").val();
+			if(questionsTrue == 1){
+				$(".form-group1").hide();
+			}
+			$("input[type='radio'][name='questions']").on("click",function(){
+				var questions = $("input[name='questions']:checked").val(); 
+				if(questions == 0){
+					 $(".form-group1").show();
+				}else{
+					 $(".form-group1").hide();
+				}
+			})
+			
+			$(window).on('load', function () {
+		     	$('.selectpicker').selectpicker();
+			});
+			
+			$('#tea').on('hidden.bs.select',function(e){ 
+				 var teacher = $("#tea").val();
+				// alert(teacher);
+				 if(teacher != null){
+					 $('#teacher').val(teacher);
+				 }else{
+					 $('#teacher').val(null);
+				 }
+
+			 })
 		})
 	</script>
 </body>

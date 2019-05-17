@@ -52,5 +52,10 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
 	public int batchRemove(Long[] ids){
 		return teacherCourseDao.batchRemove(ids);
 	}
+
+	@Override
+	public List<TeacherCourseDO> queryId(Long courseId) {
+		return teacherCourseDao.queryId(courseId);
+	}
 	
 }

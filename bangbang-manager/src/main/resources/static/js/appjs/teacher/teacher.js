@@ -137,7 +137,7 @@ function load() {
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="chakan"  mce_href="#" onclick="chakan(\''
+										var f = '<a class="btn btn-success btn-sm" href="#" title="查看"  mce_href="#" onclick="chakan(\''
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d + f ;

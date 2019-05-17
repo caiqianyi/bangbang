@@ -16,14 +16,14 @@ $.validator.setDefaults({
 		save();
 	}
 });
-function save() {
+function save() {	
 	var content_sn = $("#content_sn").summernote('code');
 	$("#courseNotes").val(content_sn);
 	var formData = new FormData(document.getElementById("signupForm"));
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : "/information/course/save",
+		//url : "/information/course/save",
 		data : formData, //$('#signupForm').serialize(),// 你的formid
 		async : false,
 		processData:false,
@@ -59,7 +59,9 @@ function validateRule() {
         return true;
 
     }, "请说明课程价格");
+	
 	$("#signupForm").validate({
+		ignore: "",
 		rules : {
 			courseId : {
 				required : true
@@ -86,7 +88,8 @@ function validateRule() {
 			},
 			money : {
 				isMoney : icon + "请说明课程价格"
-			}
+			},
 		}
 	})
+
 }
