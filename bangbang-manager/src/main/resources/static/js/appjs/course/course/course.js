@@ -67,14 +67,15 @@ function load() {
 									align : 'center',
 									title : '课程名称' 
 								},	
-								/*								{
+																{
 									field : 'teacher', 
 									align : 'center',
+									width : 150,
 									title : '讲师' 
-								},	*/							{
+								},								{
 									field : 'courseCover',
 									align : 'center',
-									width : 100,
+									width : 120,
 									title : '课程封面', 
 									formatter : function(value, row, index) {
 										if(value!=null){
