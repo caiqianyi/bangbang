@@ -162,7 +162,7 @@ public class CourseController {
 	@ResponseBody
 	@RequestMapping("/update")
 	@RequiresPermissions("information:course:edit")
-	public R update( CourseDO course,QuestionsMoneyNotesDO qmn){
+	public R update( CourseDO course,QuestionsMoneyNotesDO qmn,Long id){
 		
 		if(course.getImgFile() != null && course.getImgFile().getSize() > 0){
 			String fileName = course.getImgFile().getOriginalFilename();
@@ -187,6 +187,26 @@ public class CourseController {
 		if(qmn.getQuestionsMoney3() == null){
 			qmn.setQuestionsMoney3(0);
 		}
+
+		
+		CourseDO courseDO = courseService.get(id);
+		Long courseId = courseDO.getCourseId();
+		List<TeacherCourseDO> queryId = teacherCourseService.queryId(courseId);
+		for (TeacherCourseDO teacherCourseDO : queryId) {
+			Long tid = teacherCourseDO.getId();
+			teacherCourseService.remove(tid);
+		}
+		TeacherCourseDO tcDO = new TeacherCourseDO();
+		String teacher = course.getTeacher();
+		String[] arr = teacher.split(",");
+		for (String string : arr) {
+			TeacherDO tch = teacherService.queryTeacherId(string);
+			Long teacherId = tch.getTeacherId();
+			//System.out.println(teacherId);
+			tcDO.setTeacherId(teacherId);
+			tcDO.setCourseId(course.getCourseId());
+			teacherCourseService.save(tcDO);
+		}		
 		questionsMoneyNotesService.update(qmn);
 		courseService.update(course);
 		return R.ok();
