@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.RechargeRecordDao">
+
+	<select id="get" resultType="com.bangbang.information.domain.RechargeRecordDO">
+		select `id`,`recharge_id`,`recharge_money`,`recharge_type`,`recharge_way`,`recharge_time`,`recharge_no`,`recharge_remarks`,`count`,`time`,`name` from t_recharge_record where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bangbang.information.domain.RechargeRecordDO">
+		select `id`,`recharge_id`,`recharge_money`,`recharge_type`,`recharge_way`,`recharge_time`,`recharge_no`,`recharge_remarks`,`count`,`time`,`name` from t_recharge_record
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="rechargeId != null and rechargeId != ''"> and recharge_id = #{rechargeId} </if>
+		  		  <if test="rechargeMoney != null and rechargeMoney != ''"> and recharge_money = #{rechargeMoney} </if>
+		  		  <if test="rechargeType != null and rechargeType != ''"> and recharge_type = #{rechargeType} </if>
+		  		  <if test="rechargeWay != null and rechargeWay != ''"> and recharge_way = #{rechargeWay} </if>
+		  		  <if test="rechargeTime != null and rechargeTime != ''"> and recharge_time = #{rechargeTime} </if>
+		  		  <if test="rechargeNo != null and rechargeNo != ''"> and recharge_no = #{rechargeNo} </if>
+		  		  <if test="rechargeRemarks != null and rechargeRemarks != ''"> and recharge_remarks = #{rechargeRemarks} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		  		  <if test="time != null and time != ''"> and time = #{time} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_recharge_record
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="rechargeId != null and rechargeId != ''"> and recharge_id = #{rechargeId} </if>
+		  		  <if test="rechargeMoney != null and rechargeMoney != ''"> and recharge_money = #{rechargeMoney} </if>
+		  		  <if test="rechargeType != null and rechargeType != ''"> and recharge_type = #{rechargeType} </if>
+		  		  <if test="rechargeWay != null and rechargeWay != ''"> and recharge_way = #{rechargeWay} </if>
+		  		  <if test="rechargeTime != null and rechargeTime != ''"> and recharge_time = #{rechargeTime} </if>
+		  		  <if test="rechargeNo != null and rechargeNo != ''"> and recharge_no = #{rechargeNo} </if>
+		  		  <if test="rechargeRemarks != null and rechargeRemarks != ''"> and recharge_remarks = #{rechargeRemarks} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		  		  <if test="time != null and time != ''"> and time = #{time} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bangbang.information.domain.RechargeRecordDO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_recharge_record
+		(
+			`recharge_id`, 
+			`recharge_money`, 
+			`recharge_type`, 
+			`recharge_way`, 
+			`recharge_time`, 
+			`recharge_no`, 
+			`recharge_remarks`, 
+			`count`, 
+			`time`, 
+			`name`
+		)
+		values
+		(
+			#{rechargeId}, 
+			#{rechargeMoney}, 
+			#{rechargeType}, 
+			#{rechargeWay}, 
+			#{rechargeTime}, 
+			#{rechargeNo}, 
+			#{rechargeRemarks}, 
+			#{count}, 
+			#{time}, 
+			#{name}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bangbang.information.domain.RechargeRecordDO">
+		update t_recharge_record 
+		<set>
+			<if test="rechargeId != null">`recharge_id` = #{rechargeId}, </if>
+			<if test="rechargeMoney != null">`recharge_money` = #{rechargeMoney}, </if>
+			<if test="rechargeType != null">`recharge_type` = #{rechargeType}, </if>
+			<if test="rechargeWay != null">`recharge_way` = #{rechargeWay}, </if>
+			<if test="rechargeTime != null">`recharge_time` = #{rechargeTime}, </if>
+			<if test="rechargeNo != null">`recharge_no` = #{rechargeNo}, </if>
+			<if test="rechargeRemarks != null">`recharge_remarks` = #{rechargeRemarks}, </if>
+			<if test="count != null">`count` = #{count}, </if>
+			<if test="time != null">`time` = #{time}, </if>
+			<if test="name != null">`name` = #{name}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from t_recharge_record where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_recharge_record where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
