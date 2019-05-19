@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.OrderDao">
+
+	<select id="get" resultType="com.bangbang.information.domain.OrderDO">
+		select `id`,`order_no`,`user_id`,`total_fee`,`status`,`spbill_create_ip`,`mch_id`,`pay_way`,`pay_type`,`create_time`,`remark`,`out_refund_no`,`count`,`time`,`type` from t_order where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bangbang.information.domain.OrderDO">
+		select `id`,`order_no`,`user_id`,`total_fee`,`status`,`spbill_create_ip`,`mch_id`,`pay_way`,`pay_type`,`create_time`,`remark`,`out_refund_no`,`count`,`time`,`type` from t_order
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="totalFee != null and totalFee != ''"> and total_fee = #{totalFee} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="spbillCreateIp != null and spbillCreateIp != ''"> and spbill_create_ip = #{spbillCreateIp} </if>
+		  		  <if test="mchId != null and mchId != ''"> and mch_id = #{mchId} </if>
+		  		  <if test="payWay != null and payWay != ''"> and pay_way = #{payWay} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="outRefundNo != null and outRefundNo != ''"> and out_refund_no = #{outRefundNo} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		  		  <if test="time != null and time != ''"> and time = #{time} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_order
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="totalFee != null and totalFee != ''"> and total_fee = #{totalFee} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="spbillCreateIp != null and spbillCreateIp != ''"> and spbill_create_ip = #{spbillCreateIp} </if>
+		  		  <if test="mchId != null and mchId != ''"> and mch_id = #{mchId} </if>
+		  		  <if test="payWay != null and payWay != ''"> and pay_way = #{payWay} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="outRefundNo != null and outRefundNo != ''"> and out_refund_no = #{outRefundNo} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		  		  <if test="time != null and time != ''"> and time = #{time} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bangbang.information.domain.OrderDO">
+		insert into t_order
+		(
+			`id`, 
+			`order_no`, 
+			`user_id`, 
+			`total_fee`, 
+			`status`, 
+			`spbill_create_ip`, 
+			`mch_id`, 
+			`pay_way`, 
+			`pay_type`, 
+			`create_time`, 
+			`remark`, 
+			`out_refund_no`, 
+			`count`, 
+			`time`, 
+			`type`
+		)
+		values
+		(
+			#{id}, 
+			#{orderNo}, 
+			#{userId}, 
+			#{totalFee}, 
+			#{status}, 
+			#{spbillCreateIp}, 
+			#{mchId}, 
+			#{payWay}, 
+			#{payType}, 
+			#{createTime}, 
+			#{remark}, 
+			#{outRefundNo}, 
+			#{count}, 
+			#{time}, 
+			#{type}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bangbang.information.domain.OrderDO">
+		update t_order 
+		<set>
+			<if test="orderNo != null">`order_no` = #{orderNo}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="totalFee != null">`total_fee` = #{totalFee}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="spbillCreateIp != null">`spbill_create_ip` = #{spbillCreateIp}, </if>
+			<if test="mchId != null">`mch_id` = #{mchId}, </if>
+			<if test="payWay != null">`pay_way` = #{payWay}, </if>
+			<if test="payType != null">`pay_type` = #{payType}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="outRefundNo != null">`out_refund_no` = #{outRefundNo}, </if>
+			<if test="count != null">`count` = #{count}, </if>
+			<if test="time != null">`time` = #{time}, </if>
+			<if test="type != null">`type` = #{type}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from t_order where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
