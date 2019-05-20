@@ -65,11 +65,11 @@ function load() {
 								},
 																{
 									field : 'rechargeWay', 
-									title : '' 
+									title : '支付方式' 
 								},
 																{
 									field : 'rechargeTime', 
-									title : '' 
+									title : '支付时间' 
 								},
 																{
 									field : 'rechargeNo', 
