@@ -139,6 +139,7 @@ public class CourseController {
 			qmn.setCourseSort(course.getCourseName());
 			qmn.setCourseId(course.getCourseId());
 			qmn.setName(course.getName());
+			qmn.setQuestionsTeacher(course.getQuestionsTeacher());
 			questionsMoneyNotesService.save(qmn);
 			
 			TeacherCourseDO tcDO = new TeacherCourseDO();
@@ -208,6 +209,7 @@ public class CourseController {
 			teacherCourseService.save(tcDO);
 		}		
 		questionsMoneyNotesService.update(qmn);
+		course.setQuestionsTeacher(qmn.getQuestionsTeacher());
 		courseService.update(course);
 		return R.ok();
 	}

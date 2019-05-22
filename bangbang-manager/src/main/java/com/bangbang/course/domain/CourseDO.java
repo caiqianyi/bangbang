@@ -47,6 +47,8 @@ public class CourseDO implements Serializable {
 	private String courseCover;
 	//讲师
 	private String teacher;
+	//问答讲师
+	private String questionsTeacher;
 	
 	private MultipartFile imgFile;
 	
@@ -217,6 +219,12 @@ public class CourseDO implements Serializable {
 	}
 	public void setTeacher(String teacher) {
 		this.teacher = teacher;
+	}
+	public String getQuestionsTeacher() {
+		return questionsTeacher;
+	}
+	public void setQuestionsTeacher(String questionsTeacher) {
+		this.questionsTeacher = questionsTeacher;
 	}
 	
 }
