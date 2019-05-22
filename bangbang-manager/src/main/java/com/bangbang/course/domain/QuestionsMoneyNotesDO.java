@@ -39,7 +39,16 @@ public class QuestionsMoneyNotesDO implements Serializable {
 	private Date addTime;
 	//更新时间
 	private Date updateTime;
+	//问答讲师
+	private String questionsTeacher;
 
+	
+	public String getQuestionsTeacher() {
+		return questionsTeacher;
+	}
+	public void setQuestionsTeacher(String questionsTeacher) {
+		this.questionsTeacher = questionsTeacher;
+	}
 	/**
 	 * 设置：id
 	 */

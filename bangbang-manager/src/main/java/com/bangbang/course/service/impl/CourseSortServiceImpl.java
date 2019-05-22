@@ -63,5 +63,10 @@ public class CourseSortServiceImpl implements CourseSortService {
 	public boolean boolName(Map<String, Object> params) {
 		return courseSortDao.list(params).size()>0;
 	}
+
+	@Override
+	public int updateStatus(CourseSortDO courseSort) {
+		return courseSortDao.update(courseSort);
+	}
 	
 }

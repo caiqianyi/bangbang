@@ -4,22 +4,24 @@
 <mapper namespace="com.bangbang.course.dao.CourseSortDao">
 
 	<select id="get" resultType="com.bangbang.course.domain.CourseSortDO">
-		select `id`,`sort_name`,`add_time` from course_sort where id = #{value}
+		select `id`,`sort_name`,`add_time`,status,sort_num from course_sort where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.course.domain.CourseSortDO">
-		select `id`,`sort_name`,`add_time` from course_sort
+		select `id`,`sort_name`,`add_time`,status,sort_num from course_sort
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="sortName != null and sortName != ''"> and sort_name = #{sortName} </if>
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="sortNum != null and sortNum != ''"> and sort_num = #{sortNum} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
             </when>
 			<otherwise>
-                order by id desc
+                order by sort_num asc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -33,6 +35,8 @@
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="sortName != null and sortName != ''"> and sort_name = #{sortName} </if>
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="sortNum != null and sortNum != ''"> and sort_num = #{sortNum} </if>
 		  		</where>
 	</select>
 	 
@@ -40,12 +44,16 @@
 		insert into course_sort
 		(
 			`sort_name`, 
-			`add_time`
+			`add_time`,
+			`status`,
+			`sort_num`
 		)
 		values
 		(
 			#{sortName}, 
-			#{addTime}
+			#{addTime},
+			#{status},
+			#{sortNum}
 		)
 	</insert>
 	 
@@ -53,7 +61,9 @@
 		update course_sort 
 		<set>
 			<if test="sortName != null">`sort_name` = #{sortName}, </if>
-			<if test="addTime != null">`add_time` = #{addTime}</if>
+			<if test="addTime != null">`add_time` = #{addTime},</if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="sortNum != null">`sort_num` = #{sortNum}</if>
 		</set>
 		where id = #{id}
 	</update>

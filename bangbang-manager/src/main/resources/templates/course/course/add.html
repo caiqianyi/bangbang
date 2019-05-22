@@ -64,7 +64,7 @@
 							<input id="courseNotes" name="courseNotes" class="form-control" type="hidden">
 								<label class="col-sm-3 control-label">课程说明：</label>
 								<div class="col-sm-8">
-								<div class="ibox-content no-padding">
+									<div class="ibox-content no-padding">
 										<div id="content_sn" class="summernote"></div>
 									</div>
 									
@@ -95,6 +95,18 @@
 									<label class="radio-inline"> <input type="radio"
 										name="questions" value="1" /> 关闭
 									</label>
+								</div>
+							</div>
+							<div class="form-group1" style="margin-left: -15px; margin-right: -15px;">
+								<label class="col-sm-3 control-label">问答讲师：</label>
+								<div class="col-sm-8" style="margin-bottom: 15px;">
+								<select name="questionsTeacher" id="questionsTeacher" class="selectpicker show-tick form-control" multiple data-live-search="false" data-actions-box="false">
+										<!-- <option value="">请选择课程讲师</option> -->
+										<option th:each="tn:${teacherName}"
+										 th:text="${tn.name}"
+										 th:value="${tn.name}"></option>
+								</select>
+								<!--  <input id="teachers" name="teachers" class="form-control" type="hidden"> -->
 								</div>
 							</div>
 							<div class="form-group">
@@ -192,6 +204,19 @@
 			$(window).on('load', function () {
 	     		$('.selectpicker').selectpicker();
 			});
+			
+			var questionsTrue = $("input[name='questions']:checked").val();
+			if(questionsTrue == 1){
+				$(".form-group1").hide();
+			}
+			$("input[type='radio'][name='questions']").on("click",function(){
+				var questions = $("input[name='questions']:checked").val(); 
+				if(questions == 0){
+					 $(".form-group1").show();
+				}else{
+					 $(".form-group1").hide();
+				}
+			})
 
 		})
 		

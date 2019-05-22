@@ -4,11 +4,11 @@
 <mapper namespace="com.bangbang.course.dao.QuestionsMoneyNotesDao">
 
 	<select id="get" resultType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
-		select `id`,`course_sort`,`course_id`,`name`,`questions_money1`,`questions_money2`,`questions_money3`,`questions_notes1`,`questions_notes2`,`questions_notes3`,`add_time`,`update_time` from questions_money_notes where id = #{value}
+		select `id`,`course_sort`,`course_id`,`name`,`questions_money1`,`questions_money2`,`questions_money3`,`questions_notes1`,`questions_notes2`,`questions_notes3`,`add_time`,`update_time`,questions_teacher from questions_money_notes where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
-		select `id`,`course_sort`,`course_id`,`name`,`questions_money1`,`questions_money2`,`questions_money3`,`questions_notes1`,`questions_notes2`,`questions_notes3`,`add_time`,`update_time` from questions_money_notes
+		select `id`,`course_sort`,`course_id`,`name`,`questions_money1`,`questions_money2`,`questions_money3`,`questions_notes1`,`questions_notes2`,`questions_notes3`,`add_time`,`update_time`,questions_teacher from questions_money_notes
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="courseSort != null and courseSort != ''"> and course_sort = #{courseSort} </if>
@@ -22,6 +22,7 @@
 		  		  <if test="questionsNotes3 != null and questionsNotes3 != ''"> and questions_notes3 = #{questionsNotes3} </if>
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="questionsTeacher != null and questionsTeacher != ''"> and questions_teacher = #{questionsTeacher} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -51,6 +52,7 @@
 		  		  <if test="questionsNotes3 != null and questionsNotes3 != ''"> and questions_notes3 = #{questionsNotes3} </if>
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="questionsTeacher != null and questionsTeacher != ''"> and questions_teacher = #{questionsTeacher} </if>
 		  		</where>
 	</select>
 	 
@@ -68,7 +70,8 @@
 			`questions_notes2`, 
 			`questions_notes3`, 
 			`add_time`, 
-			`update_time`
+			`update_time`,
+			`questions_teacher`
 		)
 		values
 		(
@@ -83,7 +86,8 @@
 			#{questionsNotes2}, 
 			#{questionsNotes3}, 
 			#{addTime}, 
-			#{updateTime}
+			#{updateTime},
+			#{questionsTeacher}
 		)
 	</insert>
 	 
@@ -100,7 +104,8 @@
 			<if test="questionsNotes2 != null">`questions_notes2` = #{questionsNotes2}, </if>
 			<if test="questionsNotes3 != null">`questions_notes3` = #{questionsNotes3}, </if>
 			<if test="addTime != null">`add_time` = #{addTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+			<if test="questionsTeacher != null">`questions_teacher` = #{questionsTeacher}</if>
 		</set>
 		where id = #{id}
 	</update>

@@ -21,6 +21,10 @@ public class CourseSortDO implements Serializable {
 	private String sortName;
 	//添加时间
 	private Date addTime;
+	//状态 0：是；1：否
+	private Integer status;
+	//排序
+	private Integer sortNum;
 
 	/**
 	 * 设置：
@@ -58,4 +62,18 @@ public class CourseSortDO implements Serializable {
 	public Date getAddTime() {
 		return addTime;
 	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	public Integer getSortNum() {
+		return sortNum;
+	}
+	public void setSortNum(Integer sortNum) {
+		this.sortNum = sortNum;
+	}
+	
+	
 }

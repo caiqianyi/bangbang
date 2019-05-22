@@ -127,6 +127,7 @@
 	</delete>
 	<select id="queryCId" resultType="com.bangbang.course.domain.CourseChapterDO">
 		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_id`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time` from course_chapter 
-		where course_id = #{courseId}
+		where course_id = #{courseId} 
+		order by chapter_id asc
 	</select>
 </mapper>

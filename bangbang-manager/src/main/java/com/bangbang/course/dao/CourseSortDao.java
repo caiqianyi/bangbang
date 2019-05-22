@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.bangbang.course.domain.CourseSortDO;
+import com.bangbang.system.domain.RoleDO;
 
 /**
  * 课程分类列表
@@ -34,4 +35,6 @@ public interface CourseSortDao {
 	List<CourseSortDO> queryName(Map<String,Object> map);
 	
 	boolean boolName(Map<String,Object> params);
+	
+	int updateStatus(CourseSortDO courseSort);
 }

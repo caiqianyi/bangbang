@@ -21,6 +21,7 @@ import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
 import com.bangbang.course.domain.CourseSortDO;
 import com.bangbang.course.service.CourseSortService;
+import com.bangbang.system.domain.RoleDO;
 
 
 
@@ -120,6 +121,20 @@ public class CourseSortController {
 	@RequiresPermissions("information:courseSort:batchRemove")
 	public R remove(@RequestParam("ids[]") Long[] ids){
 		courseSortService.batchRemove(ids);
+		return R.ok();
+	}
+	
+	/**
+	 * 修改
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updateEnable")
+	public R updateEnable(Long id,Integer enable) {
+		CourseSortDO sysFile = new CourseSortDO();
+		sysFile.setId(id);
+		sysFile.setStatus(enable);
+		courseSortService.updateStatus(sysFile);
+
 		return R.ok();
 	}
 	

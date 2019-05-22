@@ -33,4 +33,6 @@ public interface CourseSortService {
 	
 	boolean boolName(Map<String,Object> params);
 
+	int updateStatus(CourseSortDO courseSort);
+
 }

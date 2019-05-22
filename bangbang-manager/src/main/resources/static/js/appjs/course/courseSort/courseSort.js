@@ -63,6 +63,11 @@ function load() {
 										//返回序号，注意index是从0开始的，所以要加上1
 										return pageSize * (pageNumber - 1) + index + 1;
 									}
+								},					
+																{
+									field : 'sortNum',
+									align : 'center',
+									title : '分类序列号' 
 								},
 																{
 									field : 'sortName',
@@ -73,6 +78,30 @@ function load() {
 									field : 'addTime', 
 									align : 'center',
 									title : '添加时间' 
+								},
+																{
+									field : 'status',
+									title : '启用状态',
+									width : 200,
+									formatter : function(value, row, index) {
+										var str = '';
+										
+										str +=' <div class="switch onoffswitch col-sm-1"> ';
+											str +=' <div class="onoffswitch"> ';
+												str +=' <input name="allowComment" '; 
+												//启用状态 0：是；1：否
+												if(row.status == 0)
+													str += ' checked="" ';
+													
+												str +=' type="checkbox" onchange="updateEnable(' +row.id+ ',this)" value="' +row.id+ '" class="onoffswitch-checkbox" id="example1' +row.id+ '">  ';
+												str +=' <label class="onoffswitch-label" for="example1' +row.id+ '">  ';
+													str +=' <span class="onoffswitch-inner"></span> ';
+													str +=' <span class="onoffswitch-switch"></span> ';
+														str +=' </label> ';
+											str +=' </div>';
+										str +=' </div>';
+										return str;
+									}
 								},
 																{
 									title : '操作',
@@ -103,7 +132,7 @@ function add() {
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '800px', '550px' ],
 		content : prefix + '/add' // iframe的url
 	});
 }
@@ -113,8 +142,33 @@ function edit(id) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '800px', '300px' ],
 		content : prefix + '/edit/' + id // iframe的url
+	});
+}
+function updateEnable(id,enable){
+	var isEnable = 1;
+	if($(enable).prop("checked")){
+		isEnable = 0;
+	}
+	
+	$.ajax({
+		url : prefix + "/updateEnable",
+		type : "post",
+		data : {
+			'id' : id,
+			'enable' : isEnable
+		},
+		dataType: 'JSON',
+		async : false,
+		success : function(r) {
+			if (r.code == 0) {
+				layer.msg(r.msg);
+				reLoad();
+			} else {
+				layer.msg(r.msg);
+			}
+		}
 	});
 }
 function remove(id) {
