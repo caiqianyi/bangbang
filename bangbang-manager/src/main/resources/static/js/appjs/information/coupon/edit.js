@@ -39,13 +39,15 @@ function validateRule() {
 			couponId : {required : true},
 			couponBalance:{required:true,number:true},
 			couponCount:{required:true,number:true},
-			validity:{required:true,number:true}
+			validity:{required:true,number:true},
+			usageScenario:{required:true}
 		},
 		messages : {
 			couponId : {required : icon + "请输入优惠券编号"},
 			couponBalance:{required : icon + "请输入优惠券金额",number:icon + "必须是数字"},
 			couponCount:{required : icon + "请输入优惠券发行数量",number:icon + "必须是数字"},
-			validity:{required : icon + "请输入有效期天数",number:icon + "必须是数字"}
+			validity:{required : icon + "请输入有效期天数",number:icon + "必须是数字"},
+			usageScenario:{required : icon + "选择使用场景"}
 		}
 	})
 }

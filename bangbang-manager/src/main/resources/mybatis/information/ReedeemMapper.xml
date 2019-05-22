@@ -4,18 +4,19 @@
 <mapper namespace="com.bangbang.information.dao.ReedeemDao">
 
 	<select id="get" resultType="com.bangbang.information.domain.ReedeemDO">
-		select `id`,`reedeem_code`,reedeem_type,if_stop,`create_time`,`create_id`,create_name,`delete_flag` from t_reedeem where id = #{value}
+		select `id`,validity,reedeem_name,course_id,reedeem_count,reedeem_surplus,reedeem_balance,`reedeem_code`,reedeem_type,if_stop,`create_time`,`create_id`,create_name,`delete_flag` from t_reedeem where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.ReedeemDO">
-		select `id`,`reedeem_code`,`create_time`,reedeem_type,`create_id`,create_name,`delete_flag`,if_stop from t_reedeem
+		select t.id,t.validity,t.reedeem_code,t.reedeem_name,t.course_id,t.reedeem_count,t.reedeem_surplus,t.reedeem_balance,t.create_time,t.reedeem_type,t.create_id,t.create_name,t.delete_flag,t.if_stop,c.name courseName from t_reedeem t left join course c
+        on t.course_id=c.course_id
         <where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="reedeemCode != null and reedeemCode != ''"> and reedeem_code = #{reedeemCode} </if>
-		  		   <if test="createTime != null and createTime != ''"> and date_format(create_time,'%Y-%m') = #{createTime} </if>
-		  			<if test="reedeemType != null and reedeemType != ''"> and reedeem_type = #{reedeemType} </if>
-		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
-		  		    <if test="ifStop != null and ifStop != ''"> and if_stop = #{ifStop} </if>
+		  		  <if test="id != null and id != ''"> and t.id = #{id} </if>
+		  		  <if test="reedeemCode != null and reedeemCode != ''"> and t.reedeem_code = #{reedeemCode} </if>
+		  		   <if test="createTime != null and createTime != ''"> and date_format(t.create_time,'%Y-%m') = #{createTime} </if>
+		  			<if test="reedeemType != null and reedeemType != ''"> and t.reedeem_type = #{reedeemType} </if>
+		  		  <if test="deleteFlag != null and deleteFlag != ''"> and t.delete_flag = #{deleteFlag} </if>
+		  		    <if test="ifStop != null and ifStop != ''"> and t.if_stop = #{ifStop} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -42,7 +43,6 @@
 		  		 
 		  		</where>
 	</select>
-	 
 	<insert id="save" parameterType="com.bangbang.information.domain.ReedeemDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_reedeem
 		(
@@ -53,7 +53,13 @@
 			`delete_flag`, 
 		 
 			if_stop,
-			reedeem_type
+			reedeem_type,
+			`reedeem_name`,
+			`course_id`,
+			`reedeem_count`,
+			`reedeem_surplus`,
+			`reedeem_balance`,
+			validity
 		)
 		values
 		(
@@ -64,7 +70,13 @@
 			#{deleteFlag}, 
 			
 			#{ifStop},
-			#{reedeemType}
+			#{reedeemType},
+			#{reedeemName},
+			#{courseId},
+			#{reedeemCount},
+			#{reedeemSurplus},
+			#{reedeemBalance},
+			#{validity}
 		)
 	</insert>
 	 
@@ -77,7 +89,14 @@
 			<if test="createId != null">`create_id` = #{createId}, </if>
 			<if test="createName != null">`create_name` = #{createName}, </if>
 			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}, </if>
-			<if test="reedeemType != null">reedeem_type = #{reedeemType} </if>
+			<if test="reedeemType != null">reedeem_type = #{reedeemType} ,</if>
+			<if test="validity != null">validity = #{validity} ,</if>
+			
+			<if test="reedeemName != null">`reedeem_name` = #{reedeemName}, </if>
+			<if test="courseId != null">`course_id` = #{courseId}, </if>
+			<if test="reedeemCount != null">`reedeem_count` = #{reedeemCount}, </if>
+			<if test="reedeemSurplus != null">`reedeem_surplus` = #{reedeemSurplus}, </if>
+			<if test="reedeemBalance != null">`reedeem_balance` = #{reedeemBalance}</if>
 		
 		</set>
 		where id = #{id}
@@ -94,4 +113,7 @@
 		</foreach>
 	</delete>
 
+	<select id="updateByReemId" >
+		update t_reedeem set reedeem_surplus=reedeem_surplus-#{length} where id=#{id}
+	</select>
 </mapper>

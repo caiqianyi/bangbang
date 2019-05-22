@@ -52,5 +52,11 @@ public class SubcriberLogServiceImpl implements SubcriberLogService {
 	public int batchRemove(Integer[] ids){
 		return logDao.batchRemove(ids);
 	}
+
+	@Override
+	public List<SubcriberLogDO> getSubcriberlogByCourseId(Long courseId) {
+		
+		return logDao.getSubcriberlogByCourseId(courseId);
+	}
 	
 }

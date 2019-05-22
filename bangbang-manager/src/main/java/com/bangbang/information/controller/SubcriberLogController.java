@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
+import com.bangbang.course.domain.CourseDO;
 import com.bangbang.information.domain.SubcriberLogDO;
 import com.bangbang.information.service.SubcriberLogService;
 
@@ -118,4 +119,13 @@ public class SubcriberLogController {
 		return R.ok();
 	}
 	
+	/**
+	 * 根据课程编号查询购买课程的用户
+	 */
+	@ResponseBody
+	@GetMapping("/getSubcriberlogByCourseId")
+	@RequiresPermissions("information:subcriberlog:log")
+	public List<SubcriberLogDO> getSubcriberlogByCourseId(Long courseId){
+		return logService.getSubcriberlogByCourseId(courseId);
+	}
 }

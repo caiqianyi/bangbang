@@ -32,6 +32,26 @@
 									</div>
 								</div>
 							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-3 control-label"><font color="red">*</font>使用场景：</label>
+								<div class="col-sm-8">
+									<select name="usageScenario" class="form-control chosen-select" tabindex="2" style="width: 100%">
+										<option></option>
+										<option value="0">问答使用</option>
+										<option value="1">课程使用</option>
+									</select>
+								</div>																					
+							</div>	
+							<div class="form-group"  id="kebao" style="display: none;">
+								<label class="col-sm-3 control-label"><font color="red">*</font>课程编号：</label>
+								<div class="col-sm-8">
+									<select name="courseId" class="form-control chosen-select" tabindex="2" style="width: 100%">
+										<option></option>
+                        				<option  th:each="list:${courseDOs}" th:value="${list.courseId}" th:text="${list.name }" th:selected="${list.courseId eq coupon.courseId}"></option>
+									</select>
+								</div>																					
+							</div>		
 														
 														<div class="form-group">	
 								<label class="col-sm-3 control-label"><font color="red">*</font>发行数量：</label>
@@ -68,6 +88,17 @@
 	</div>
 	</div>
 	<div th:include="include::footer"></div>
+	<script th:inline="javascript">
+	  $("[name='usageScenario']").val([[${coupon.usageScenario}]]);
+	   if($("[name='usageScenario']").val()=='1')
+			$("#kebao").show();
+		$("[name='usageScenario']").change(function(){
+			if($(this).val()=='1')
+				$("#kebao").show();
+			else
+				$("#kebao").hide();
+		})
+	</script>
 	
 	<script type="text/javascript" src="/js/appjs/information/coupon/edit.js">
 	</script>

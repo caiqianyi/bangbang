@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bangbang.information.domain.ReedeemDO;
 
@@ -30,4 +32,6 @@ public interface ReedeemDao {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+	void updateByReemId(@Param("id") Long id, @Param("length") int length);
 }

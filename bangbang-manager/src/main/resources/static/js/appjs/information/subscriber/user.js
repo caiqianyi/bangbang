@@ -78,6 +78,18 @@ function load() {
 									field : 'phone', 
 									title : '手机号' 
 								},
+								{
+									field : 'phoneSystem', 
+									title : '手机系统',
+									formatter : function(value, row, index) {
+										if(value==0)
+											return 'Android';
+										if(value==1)
+											return 'ios';
+										if(value==2)
+											return '其他';
+									}
+								},
 																{
 									field : 'sex', 
 									title : '性别',
@@ -105,7 +117,10 @@ function load() {
 									title : '使用时间' 
 								},
 																
-																
+								{
+									field : 'registrationSource', 
+									title : '注册来源' 
+								},								
 																
 																{
 									field : 'registerTime', 

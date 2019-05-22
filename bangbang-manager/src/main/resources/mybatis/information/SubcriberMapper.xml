@@ -4,11 +4,11 @@
 <mapper namespace="com.bangbang.information.dao.SubscriberDao">
 
 	<select id="get" resultType="com.bangbang.information.domain.SubscriberDO">
-		select `id`,`heard_url`,`username`,`sign_name`,`sex`,`birthday`,`login_time`,`used_time`,`balance`,`nickname`,`user_id`,`open_id`,`password`,`phone`,`name`,`register_time`,`update_time`,`delete_flag` from t_user where id = #{value}
+		select `id`,`heard_url`,registration_source,phone_system,`username`,`sign_name`,`sex`,`birthday`,`login_time`,`used_time`,`balance`,`nickname`,`user_id`,`open_id`,`password`,`phone`,`name`,`register_time`,`update_time`,`delete_flag` from t_user where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.SubscriberDO">
-		select `id`,`heard_url`,`username`,`sign_name`,`sex`,`birthday`,`login_time`,`used_time`,`balance`,`nickname`,`user_id`,`open_id`,`password`,`phone`,`name`,`register_time`,`update_time`,`delete_flag` from t_user
+		select `id`,`heard_url`,phone_system,`username`,registration_source,`sign_name`,`sex`,`birthday`,`login_time`,`used_time`,`balance`,`nickname`,`user_id`,`open_id`,`password`,`phone`,`name`,`register_time`,`update_time`,`delete_flag` from t_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		
@@ -85,7 +85,9 @@
 			`name`, 
 			`register_time`, 
 			`update_time`, 
-			`delete_flag`
+			`delete_flag`,
+			phone_system,
+			registration_source
 		)
 		values
 		(
@@ -105,7 +107,9 @@
 			#{name}, 
 			#{registerTime}, 
 			#{updateTime}, 
-			#{deleteFlag}
+			#{deleteFlag},
+			#{phoneSystem},
+			#{registrationSource}
 		)
 	</insert>
 	 

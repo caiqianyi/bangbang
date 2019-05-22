@@ -4,21 +4,23 @@
 <mapper namespace="com.bangbang.information.dao.CouponDao">
 
 	<select id="get" resultType="com.bangbang.information.domain.CouponDO">
-		select `id`,`coupon_id`,validity,`coupon_balance`,`coupon_count`,`count_name`,`create_time`,`coupon_surplus`,`delete_flag` from t_coupon where id = #{value}
+		select `id`,`coupon_id`,usage_scenario,course_id,validity,`coupon_balance`,`coupon_count`,`count_name`,`create_time`,`coupon_surplus`,`delete_flag` from t_coupon where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.CouponDO">
-		select `id`,`coupon_id`,validity,`coupon_balance`,`coupon_count`,`count_name`,`create_time`,`coupon_surplus`,`delete_flag` from t_coupon
+		select t.id,t.coupon_id,t.validity,s.name kechengName,t.usage_scenario,t.course_id,t.coupon_balance,t.coupon_count,t.count_name,t.create_time,t.coupon_surplus,t.delete_flag from t_coupon t left join course s
+        on t.course_id=s.course_id
         <where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="couponId != null and couponId != ''"> and coupon_id = #{couponId} </if>
-		  		  <if test="couponBalance != null and couponBalance != ''"> and coupon_balance = #{couponBalance} </if>
-		  		  <if test="couponCount != null and couponCount != ''"> and coupon_count = #{couponCount} </if>
-		  		  <if test="countName != null and countName != ''"> and count_name = #{countName} </if>
-		  		  <if test="createTime != null and createTime != ''"> and date_format(create_time,'%Y-%m') = #{createTime} </if>
-		  		  <if test="couponSurplus != null and couponSurplus != ''"> and coupon_surplus = #{couponSurplus} </if>
-		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
+		  		  <if test="id != null and id != ''"> and t.id = #{id} </if>
+		  		  <if test="couponId != null and couponId != ''"> and t.coupon_id = #{couponId} </if>
+		  		  <if test="couponBalance != null and couponBalance != ''"> and t.coupon_balance = #{couponBalance} </if>
+		  		  <if test="couponCount != null and couponCount != ''"> and t.coupon_count = #{couponCount} </if>
+		  		  <if test="countName != null and countName != ''"> and t.count_name = #{countName} </if>
+		  		  <if test="createTime != null and createTime != ''"> and date_format(t.create_time,'%Y-%m') = #{createTime} </if>
+		  		  <if test="couponSurplus != null and couponSurplus != ''"> and t.coupon_surplus = #{couponSurplus} </if>
+		  		  <if test="deleteFlag != null and deleteFlag != ''"> and t.delete_flag = #{deleteFlag} </if>
 		  		</where>
+		  		
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
@@ -60,7 +62,9 @@
 			`create_time`, 
 			`coupon_surplus`, 
 		
-			`delete_flag`
+			`delete_flag`,
+			course_id,
+			usage_scenario
 		)
 		values
 		(
@@ -73,7 +77,9 @@
 			#{createTime}, 
 			#{couponSurplus}, 
 			
-			#{deleteFlag}
+			#{deleteFlag},
+			#{courseId},
+			#{usageScenario}
 		)
 	</insert>
 	 
@@ -84,7 +90,8 @@
 			<if test="couponBalance != null">`coupon_balance` = #{couponBalance}, </if>
 			<if test="validity != null">`validity` = #{validity}, </if>
 			<if test="couponCount != null">`coupon_count` = #{couponCount}, </if>
-		
+			<if test="usageScenario != null">`usage_scenario` = #{usageScenario}, </if>
+			<if test="courseId != null">`course_id` = #{courseId}, </if>
 			<if test="countName != null">`count_name` = #{countName}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="couponSurplus != null">`coupon_surplus` = #{couponSurplus}, </if>
@@ -95,7 +102,7 @@
 	</update>
 	
 	<update id="updateBycouponId">
-		update t_coupon set coupon_surplus = coupon_surplus-#{count} where coupon_id=#{couponId}
+		update t_coupon set coupon_surplus = coupon_surplus-#{length} where coupon_id=#{couponId}
 	
 	</update>
 	

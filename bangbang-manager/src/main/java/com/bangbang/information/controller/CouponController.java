@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
+import com.bangbang.course.domain.CourseDO;
+import com.bangbang.course.service.CourseService;
 import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.service.CouponService;
 
@@ -37,6 +38,8 @@ import com.bangbang.information.service.CouponService;
 public class CouponController {
 	@Autowired
 	private CouponService couponService;
+	@Autowired
+	private CourseService couseService;
 	
 	@GetMapping()
 	@RequiresPermissions("information:coupon:coupon")
@@ -61,7 +64,9 @@ public class CouponController {
 	
 	@GetMapping("/add")
 	@RequiresPermissions("information:coupon:add")
-	String add(){
+	String add(Model model){
+		List<CourseDO> courseDOs=couseService.list(new HashMap<String,Object>());
+		model.addAttribute("courseDOs", courseDOs);
 	    return "information/coupon/add";
 	}
 
@@ -70,6 +75,8 @@ public class CouponController {
 	String edit(@PathVariable("id") Long id,Model model){
 		CouponDO coupon = couponService.get(id);
 		model.addAttribute("coupon", coupon);
+		List<CourseDO> courseDOs=couseService.list(new HashMap<String,Object>());
+		model.addAttribute("courseDOs", courseDOs);
 	    return "information/coupon/edit";
 	}
 	

@@ -55,8 +55,8 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
-	public void updateBycouponId(Long couponId, Integer count) {
-		couponDao.updateBycouponId(couponId,count);
+	public void updateBycouponId(Long couponId,Integer length) {
+		couponDao.updateBycouponId(couponId,length);
 	}
 	
 }

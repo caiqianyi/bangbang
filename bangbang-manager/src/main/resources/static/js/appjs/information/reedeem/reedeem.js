@@ -55,14 +55,20 @@ function load() {
 																{
 									field : 'reedeemCode', 
 									title : '兑换码' 
-								},{
+								},
+								{
+									field : 'reedeemName', 
+									title : '兑换码名称' 
+								},
+								
+								{
 									field:'reedeemType',
 									title:'兑换类型',
 									formatter : function(value, row, index) {
 										if(value==0)
-											return '兑换课程';
+											return '兑换课程   <font color="green">' +row.courseName+'</font>';
 										if(value==1)
-											return '兑换余额';
+											return '兑换余额   <font color="green">面值' +row.reedeemBalance+'元</font>';
 										if(value==2)
 											return '兑换优惠券，一次使用';
 										if(value==3)
@@ -74,9 +80,22 @@ function load() {
 									field : 'createTime', 
 									title : '创建时间' 
 								},
+								
 																{
 									field : 'createName', 
 									title : '创建者' 
+								},
+								{
+									field : 'reedeemCount', 
+									title : '总数量' 
+								},
+								{
+									field : 'reedeemSurplus', 
+									title : '未发放数量' 
+								},
+								{
+									field : 'validity', 
+									title : '有效期（天）' 
 								},
 								{
 									field: 'ifStop',
@@ -117,12 +136,12 @@ function load() {
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d ;*/
-										var e='<button type="button" class="btn  btn-xs btn-default" onclick="edit(\''+row.id+'\',\''+row.ifStop+'\',\''+row.reedeemType+'\',\''+row.reedeemCode+'\')">编辑</button>  ';
+										var e='<button type="button" class="btn  btn-xs btn-default" onclick="edit(\''+row.id+'\',\''+row.ifStop+'\',\''+row.reedeemCount+'\',\''+row.reedeemSurplus+'\')">编辑</button>  ';
 									/*	var d='<button type="button" class="btn  btn-xs btn-danger" onclick="zhuanfa(\''+row.id+'\')"> 删除</button>  ';*/
-										var f= '<button type="button" class="btn btn-xs btn-info" onclick="sendout(\''+row.reedeemCode+'\',\''+row.id+'\',\''+row.reedeemType+'\')">&nbsp;&nbsp;&nbsp;发放</button>  ';
+										var f= '<button type="button" class="btn btn-xs btn-info" onclick="sendout(\''+row.reedeemCode+'\',\''+row.id+'\',\''+row.reedeemType+'\',\''+row.reedeemSurplus+'\',\''+row.reedeemBalance+'\',\''+row.courseName+'\',\''+row.validity+'\')">&nbsp;&nbsp;&nbsp;发放</button>  ';
 										
-										if(row.ifStop==1)
-											f= '<button type="button" class="btn btn-xs btn-info" disabled="disabled">已发放</button>  ';
+										if(row.reedeemSurplus==0)
+											f= '<button type="button" class="btn btn-xs btn-info" disabled="disabled">发放</button>  ';
 								        return e+f;
 									}
 								} ]
@@ -137,37 +156,18 @@ function add() {
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '280px' ],
+		area : [ '800px', '480px' ],
 		content : prefix + '/add' // iframe的url
 	});
 }
-function edit(id,ifStop,reedeemType,reedeemCode) {
+function edit(id,ifStop,reedeemCount,reedeemSurplus) {
 	if(ifStop==1){
-		layer.msg("兑换码已经发放，不可编辑！！");
+		layer.msg("兑换码已经停用，不可编辑！！");
 		return;
 	}
-	var s=0;
-	if(reedeemType==3){
-		$.ajax({
-			url : prefix+"/checkIfStop",
-			type : "post",
-			async:false,
-			data : {
-				'reedeemCode' : reedeemCode
-			},
-			success : function(r) {
-				console.info(r);
-				console.info(r.length)
-				if(r.length>0){
-					s=1;
-				}
-			}
-		});
-		
-		if(s==1){
-			layer.msg("兑换码已经发放，不可编辑！！");
-			return;
-		}
+	if(parseInt(reedeemCount)>parseInt(reedeemSurplus)){
+		layer.msg("兑换码已经发放，不可编辑！！");
+		return;
 	}
 	layer.open({
 		type : 2,
@@ -237,14 +237,16 @@ function batchRemove() {
 	});
 }
 
-function sendout(reedeemCode,reedeemId,reedeemType){
+function sendout(reedeemCode,reedeemId,reedeemType,reedeemSurplus,reedeemBalance,courseName,validity){
+	if(reedeemBalance=='null') reedeemBalance=0
+	if(courseName=='null') courseName=0;
 	layer.open({
 		type : 2,
 		title : '兑换码发放',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
 		area : [ '800px', '520px' ],
-		content : '/information/sendoutreedeem/add/'+reedeemCode+'/'+reedeemId+'/'+reedeemType// iframe的url
+		content : '/information/sendoutreedeem/add/'+reedeemCode+'/'+reedeemId+'/'+reedeemType+'/'+reedeemSurplus+'/'+reedeemBalance+'/'+courseName+'/'+validity// iframe的url
 	});
 }
 function updateIfstop(id,enable){

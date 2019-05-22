@@ -36,7 +36,14 @@ public class CouponDO implements Serializable {
 	
 	//删除标志  0 未删除   1已删除
 	private Integer deleteFlag;
+	//使用场景  0  问答使用   1课程使用
+	private Integer usageScenario;
+	//课程编号
+	private Long courseId;
+	//课程名称
+	private String kechengName;
 
+	
 	/**
 	 * 设置：id
 	 */
@@ -160,4 +167,42 @@ public class CouponDO implements Serializable {
 		this.usecondition = usecondition;
 	}
 	
+	/**
+	 * 获取：使用场景
+	 */
+	public Integer getUsageScenario() {
+		return usageScenario;
+	}
+	/**
+	 * 设置：使用场景
+	 */
+	public void setUsageScenario(Integer usageScenario) {
+		this.usageScenario = usageScenario;
+	}
+	/**
+	 * 获取：课程编号
+	 */
+	public Long getCourseId() {
+		return courseId;
+	}
+	/**
+	 * 设置：课程编号
+	 */
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
+	}
+	
+	/**
+	 * 获取 ：课程名称
+	 */
+	public String getKechengName() {
+		return kechengName;
+	}
+	
+	/**
+	 * 设置 ：课程名称
+	 */
+	public void setKechengName(String kechengName) {
+		this.kechengName = kechengName;
+	}
 }

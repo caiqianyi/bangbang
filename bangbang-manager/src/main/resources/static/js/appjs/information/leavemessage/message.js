@@ -1,5 +1,5 @@
 
-var prefix = "/information/sendoutreedeem"
+var prefix = "/information/leavemessage"
 $(function() {
 	load();
 });
@@ -33,8 +33,7 @@ function load() {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
 								offset:params.offset,
-								userId:$("#userId").val(),
-								sendoutTime:$("#outTime").val()
+								userId:$("#user_id option:selected").val()
 					           // name:$('#searchName').val(),
 					           // username:$('#searchName').val()
 							};
@@ -54,59 +53,31 @@ function load() {
 									title : 'id' 
 								},
 																{
-									field : 'reedeemCode', 
-									title : '兑换码' 
-								},{
-									field:'reedeemType',
-									title:'兑换特性',
-									formatter : function(value, row, index) {
-										if(value==0)
-											return '兑换课程';
-										if(value==1)
-											return '兑换余额';
-										if(value==2|| value==3)
-											return '兑换优惠券';
-									}
+									field : 'userName', 
+									title : '留言人' 
 								},
 																{
-									field : 'sendoutTime', 
-									title : '发放时间' 
-								},
-								{
-									field : 'validity', 
-									title : '有效期（天）' 
+									field : 'courseName', 
+									title : '课程名' 
 								},
 																{
-									field : 'userId', 
-									title : '用户id' 
+									field : 'publishTime', 
+									title : '发表时间' 
 								},
 																{
-									field : 'ifUsed', 
-									title : '是否使用',
-									formatter : function(value, row, index) {
-										if(value==0)
-											return "未使用 ， "+row.usecoupon;
-										if(value==1)
-											return "已使用";
-									}
-								}
-																/*{
+									field : 'count', 
+									title : '查看次数' 
+								},
+																{
 									title : '操作',
 									field : 'id',
 									align : 'center',
 									formatter : function(value, row, index) {
-										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
-												+ row.id
-												+ '\')"><i class="fa fa-edit"></i></a> ';
-										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
-												+ row.id
-												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
-												+ row.id
-												+ '\')"><i class="fa fa-key"></i></a> ';
-										return e + d ;
+										
+										var e='<button type="button" class="btn  btn-xs btn-info" onclick="detail(\''+row.id+'\')">查看详情</button>  ';
+										return e ;
 									}
-								}*/ ]
+								} ]
 					});
 }
 function reLoad() {
@@ -118,7 +89,7 @@ function add() {
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '1000px', '800px' ],
 		content : prefix + '/add' // iframe的url
 	});
 }
@@ -128,7 +99,7 @@ function edit(id) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '300px' ],
+		area : [ '800px', '520px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }
@@ -153,40 +124,13 @@ function remove(id) {
 		});
 	})
 }
-
-function resetPwd(id) {
-}
-function batchRemove() {
-	var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
-	if (rows.length == 0) {
-		layer.msg("请选择要删除的数据");
-		return;
-	}
-	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
-		btn : [ '确定', '取消' ]
-	// 按钮
-	}, function() {
-		var ids = new Array();
-		// 遍历所有选择的行数据，取每条数据对应的ID
-		$.each(rows, function(i, row) {
-			ids[i] = row['id'];
-		});
-		$.ajax({
-			type : 'POST',
-			data : {
-				"ids" : ids
-			},
-			url : prefix + '/batchRemove',
-			success : function(r) {
-				if (r.code == 0) {
-					layer.msg(r.msg);
-					reLoad();
-				} else {
-					layer.msg(r.msg);
-				}
-			}
-		});
-	}, function() {
-
+function detail(id){
+	layer.open({
+		type : 2,
+		title : '留言详情',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '1000px', '800px' ],
+		content : "/information/leavemessage/detail/"+id // iframe的url
 	});
 }

@@ -47,6 +47,10 @@
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
 		  		</where>
 	</select>
+	
+	<select id="getSubcriberlogByCourseId" resultType="com.bangbang.information.domain.SubscriberDO">
+		select id,name from t_user where id in (select distinct user_id from subcriber_log where course_id=#{courseId} and flag=0)
+	</select>
 	 
 	<insert id="save" parameterType="com.bangbang.information.domain.SubcriberLogDO" useGeneratedKeys="true" keyProperty="id">
 		insert into subcriber_log

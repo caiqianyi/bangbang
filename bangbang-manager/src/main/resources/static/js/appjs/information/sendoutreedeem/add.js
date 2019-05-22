@@ -7,7 +7,17 @@ $.validator.setDefaults({
 		save();
 	}
 });
-function save() {
+function save() {  
+	if($('#userIdArray').val()==null){
+		layer.msg("请选择用户");
+		return;
+	}
+	
+	if($('#userIdArray').val().length>$('#reedeemSurplus').val()){
+		layer.msg("兑换码剩余量不足");
+		return;
+	}
+	
 	$.ajax({
 		cache : true,
 		type : "POST",

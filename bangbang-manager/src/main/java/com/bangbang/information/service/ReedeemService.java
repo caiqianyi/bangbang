@@ -28,4 +28,6 @@ public interface ReedeemService {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+	void updateByReemId(Long id, int length);
 }

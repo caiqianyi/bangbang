@@ -16,25 +16,34 @@
 								</div>
 							</div>
 																												<div class="form-group">	
-								<label class="col-sm-3 control-label"><font color="red">*</font>选择用户：</label>
+								<label class="col-sm-3 control-label">购买的课程：</label>
 								<div class="col-sm-8">
-									<select class="form-control" name="userId">
-                        			 	<option></option>
-                        				<option  th:each="list:${list}" th:value="${list.id}" th:text="${list.name }"></option>
-                    				</select>
+									<select name="courseId" id="courseId" class="selectpicker show-tick form-control" data-live-search="false" data-actions-box="false">
+										<!-- <option value="">请选择课程讲师</option> -->
+										<option th:each="course:${courseDOs}"
+										 th:text="${course.name}"
+										 th:value="${course.courseId}"></option>
+									</select>
+								</div>
+								</div>
+								<div class="form-group">
+								<label class="col-sm-3 control-label"><font color="red">*</font>购买的用户：</label>
+								<div class="col-sm-8">
+									<select name="userIdArray" id="userIdArray" class="selectpicker show-tick form-control" multiple="multiple" data-live-search="false" data-actions-box="false">
+										
+										
+									</select>
 								</div>
 							</div>
-																												<div class="form-group">	
-								<label class="col-sm-3 control-label"><font color="red">*</font>发放数量：</label>
+							
+							<div class="form-group" style="display: none">
+								<label class="col-sm-3 control-label"><font color="red">*</font>优惠券剩余：</label>
 								<div class="col-sm-8">
-									<div class="input-group">
-										<input id="count" name="count" class="form-control" type="text">
-										<span class="input-group-addon">张</span>
-									</div>
+									<input id="couponSurplus" name="couponSurplus" class="form-control" type="text" th:value="${couponSurplus}" readonly="readonly">
 								</div>
-							</div>
+							</div>																				
 																												<div class="form-group">	
-								<label class="col-sm-3 control-label">有效期：</label>
+								<label class="col-sm-3 control-label">优惠券有效期：</label>
 								<div class="col-sm-8">
 									<div class="input-group">
 										<input id="validity" name="validity" class="form-control" type="text" th:value="${validity}" readonly="readonly">
@@ -44,7 +53,7 @@
 							</div>
 																												
 																												<div class="form-group">	
-								<label class="col-sm-3 control-label">获取渠道：</label>
+								<label class="col-sm-3 control-label">获取的渠道：</label>
 								<div class="col-sm-8">
 									<select class="form-control"  id="couponGroup" name="couponGroup">
 	                        			<option value=""></option>
@@ -52,6 +61,7 @@
 	                        			<option value="1">购买商品</option>
 	                        			<option value="1">消费金额</option>
 	                    			</select>
+	                    			
 								</div>
 							</div>
 							
@@ -70,12 +80,10 @@
 	<script type="text/javascript" src="/js/appjs/information/sendoutcoupon/sendoutadd.js">
 	</script>
 	<script type="text/javascript">
-		$("#count").blur(function(){
-			if($(this).val()>$("#couponSurplus").val()){
-				alert("优惠券不足");
-				$(this).val('');
-			}
-		})
+		
+		$(window).on('load', function () {
+     		$('.selectpicker').selectpicker();
+		});
 	</script>
 </body>
 </html>

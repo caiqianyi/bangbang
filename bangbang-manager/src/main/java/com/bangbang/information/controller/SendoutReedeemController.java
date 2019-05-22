@@ -1,5 +1,6 @@
 package com.bangbang.information.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
 import com.bangbang.information.domain.ReedeemDO;
+import com.bangbang.information.domain.SendoutCouponDO;
 import com.bangbang.information.domain.SendoutReedeemDO;
 import com.bangbang.information.domain.SubscriberDO;
 import com.bangbang.information.service.ReedeemService;
@@ -60,20 +62,36 @@ public class SendoutReedeemController {
 		//查询列表数据
         Query query = new Query(params);
 		List<SendoutReedeemDO> reedeemList = sendoutReedeemService.list(query);
+		for(SendoutReedeemDO s :reedeemList){
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(s.getSendoutTime());
+			calendar.add(Calendar.DAY_OF_YEAR,s.getValidity());
+			if(calendar.getTime().compareTo(new Date())<0){
+				s.setUsecoupon("<font color='red'>已过期</font>");
+			}
+			else
+				s.setUsecoupon("<font color='green'>未过期</font>");
+		}
 		int total = sendoutReedeemService.count(query);
 		PageUtils pageUtils = new PageUtils(reedeemList, total);
 		return pageUtils;
 	}
 	
-	@GetMapping("/add/{reedeemCode}/{reedeemId}/{reedeemType}")
+	@GetMapping("/add/{reedeemCode}/{reedeemId}/{reedeemType}/{reedeemSurplus}/{reedeemBalance}/{courseName}/{validity}")
 	@RequiresPermissions("information:reedeem:add")
 	String add(@PathVariable("reedeemCode") String reedeemCode,@PathVariable("reedeemId") Long reedeemId,
-			@PathVariable("reedeemType") Integer reedeemType, Model model){
+			@PathVariable("reedeemType") Integer reedeemType,@PathVariable("reedeemSurplus") Integer reedeemSurplus ,
+			@PathVariable("reedeemBalance") Integer reedeemBalance,@PathVariable("courseName") String courseName, 
+			@PathVariable("validity") Integer validity, Model model){
 		List<SubscriberDO> list = subcriberService.list(new HashMap<String,Object>());
 		model.addAttribute("reedeemCode",reedeemCode);
 		model.addAttribute("reedeemId",reedeemId);
 		model.addAttribute("reedeemType",reedeemType);
+		model.addAttribute("reedeemSurplus",reedeemSurplus);
 		model.addAttribute("list",list);
+		model.addAttribute("reedeemBalance",reedeemBalance);
+		model.addAttribute("courseName",courseName);
+		model.addAttribute("validity",validity);
 	    return "information/sendoutreedeem/add";
 	}
 
@@ -92,19 +110,19 @@ public class SendoutReedeemController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:reedeem:add")
 	public R save( SendoutReedeemDO reedeem){
-		reedeem.setSendoutTime(new Date());
-		reedeem.setIfUsed(0);
-		reedeem.setDeleteFlag(0);
-		if(sendoutReedeemService.save(reedeem)>0){
-			if(reedeem.getReedeemType()!=3){
-				ReedeemDO reedeemDO = new ReedeemDO();
-				reedeemDO.setId(reedeem.getReedeemId());
-				reedeemDO.setIfStop(1);
-				reedemService.update(reedeemDO);
+		int length=0;
+		if((length=reedeem.getUserIdArray().length)>0){
+			for(int i=0;i<length;i++){
+				reedeem.setUserId(reedeem.getUserIdArray()[i]);
+				reedeem.setSendoutTime(new Date());
+				reedeem.setIfUsed(0);
+				reedeem.setDeleteFlag(0);
+				sendoutReedeemService.save(reedeem);
 			}
-			return R.ok();
+			
+			reedemService.updateByReemId(reedeem.getReedeemId(),length);
 		}
-		return R.error();
+		return R.ok();
 	}
 	/**
 	 * 修改

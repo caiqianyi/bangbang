@@ -31,9 +31,22 @@ public class ReedeemDO implements Serializable {
 	//0兑换课程   1兑换余额  2兑换优惠券，一次使用   3.兑换优惠券，多次使用
 	private Integer reedeemType;
 	
-	//兑换码是否已经使用
+	//兑换码 0启用   1停用
 	private Integer ifStop;
-	
+	//兑换码名称
+	private String reedeemName;
+	//课程编号
+	private Long courseId;
+	//发放数量
+	private Integer reedeemCount;
+	//剩余数量
+	private Integer reedeemSurplus;
+	//优惠券余额
+	private Integer reedeemBalance;
+	//兑换码有效期
+	private Integer validity;
+	//课程名
+	private String courseName;
 
 	
 	/**
@@ -111,4 +124,50 @@ public class ReedeemDO implements Serializable {
 	public void setCreateName(String createName) {
 		this.createName = createName;
 	}
+	public String getReedeemName() {
+		return reedeemName;
+	}
+	public void setReedeemName(String reedeemName) {
+		this.reedeemName = reedeemName;
+	}
+	public Long getCourseId() {
+		return courseId;
+	}
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
+	}
+	public Integer getReedeemCount() {
+		return reedeemCount;
+	}
+	public void setReedeemCount(Integer reedeemCount) {
+		this.reedeemCount = reedeemCount;
+	}
+	public Integer getReedeemSurplus() {
+		return reedeemSurplus;
+	}
+	public void setReedeemSurplus(Integer reedeemSurplus) {
+		this.reedeemSurplus = reedeemSurplus;
+	}
+	public Integer getReedeemBalance() {
+		return reedeemBalance;
+	}
+	public void setReedeemBalance(Integer reedeemBalance) {
+		this.reedeemBalance = reedeemBalance;
+	}
+	public Integer getValidity() {
+		return validity;
+	}
+	public void setValidity(Integer validity) {
+		this.validity = validity;
+	}
+	public String getCourseName() {
+		return courseName;
+	}
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+	
+	
+	
+
 }

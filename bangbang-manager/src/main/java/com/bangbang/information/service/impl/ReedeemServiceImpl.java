@@ -53,5 +53,10 @@ public class ReedeemServiceImpl implements ReedeemService {
 	public int batchRemove(Long[] ids){
 		return reedeemDao.batchRemove(ids);
 	}
+
+	@Override
+	public void updateByReemId(Long id, int length) {
+		reedeemDao.updateByReemId(id,length);
+	}
 	
 }

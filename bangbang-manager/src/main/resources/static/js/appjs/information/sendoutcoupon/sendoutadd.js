@@ -8,6 +8,17 @@ $.validator.setDefaults({
 	}
 });
 function save() {
+	if($('#userIdArray').val()==null){
+		layer.msg("请选择用户");
+		return;
+	}
+	
+	if($('#userIdArray').val().length>$('#couponSurplus').val().length){
+		layer.msg("优惠券数量不足");
+		return;
+	}
+	
+	
 	$.ajax({
 		cache : true,
 		type : "POST",
@@ -33,15 +44,41 @@ function save() {
 
 }
 function validateRule() {
-	var icon = "<i class='fa fa-times-circle'></i> ";
+var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			userId : {required : true	},
-			count:{required : true,number:true}
-		},
+			validity: {required : true}
+			
+	},
 		messages : {
-			userId : {required : icon + "请选择用户"  },
-			count : {required : icon + "请输入发行数量",number:icon + "必须是数字"}
+			
+			validity : {required : icon + "有效期不能为空"}
 		}
 	})
 }
+
+$("[name='courseId']").change(function(){
+	var courseId=$(this).val();
+	$.ajax({
+		cache : true,
+		type : "GET",
+		url : "/information/subcriberlog/getSubcriberlogByCourseId",
+		data :{courseId:courseId},
+		async : false,
+		error : function(request) {
+			parent.layer.alert("Connection error");
+		},
+		success : function(data) {console.info(data);
+			if(data.length>0){
+				$('#userIdArray').html('')
+				for(var i=0;i<data.length;i++){
+					$('#userIdArray').append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+				}
+				
+			}
+			 $('#userIdArray').selectpicker('refresh');  
+		}
+	});
+	
+	 
+});

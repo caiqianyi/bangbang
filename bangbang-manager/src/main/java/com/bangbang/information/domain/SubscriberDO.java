@@ -53,6 +53,11 @@ public class SubscriberDO implements Serializable {
 	private Integer deleteFlag;
 	//用户名或手机号
 	private String nameORphone;
+	//手机系统 0 android 1 ios 2其他
+	private Integer phoneSystem;
+	//注册来源
+	private String registrationSource ;
+
 	
 	/**
 	 * 设置：id
@@ -282,4 +287,18 @@ public class SubscriberDO implements Serializable {
 	public void setNameORphone(String nameORphone) {
 		this.nameORphone = nameORphone;
 	}
+	public Integer getPhoneSystem() {
+		return phoneSystem;
+	}
+	public void setPhoneSystem(Integer phoneSystem) {
+		this.phoneSystem = phoneSystem;
+	}
+	public String getRegistrationSource() {
+		return registrationSource;
+	}
+	public void setRegistrationSource(String registrationSource) {
+		this.registrationSource = registrationSource;
+	}
+	
+	
 }

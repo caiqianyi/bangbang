@@ -25,22 +25,20 @@ public class SendoutCouponDO implements Serializable {
 	private String countName;
 	//优惠券金额
 	private Long couponBalance;
-	//发放数量
-	private Integer count;
 	//有效期
 	private Integer validity;
-	//已使用的优惠券
+	//已使用的优惠券  0已使用   1未使用
 	private Integer ifUser;
-	//优惠券有效截止日期
-	private Date expirationDate;
 	//使用条件
 	private String usecondition;
 	//发放时间
 	private Date sendoutTime;
 	//0 新注册用户   1购买商品     2消费金额
 	private Integer couponGroup;
-	//优惠券使用情况
+	//过期显示
 	private String usecoupon;
+	private Long[] userIdArray;
+	
 	/**
 	 * 设置：id
 	 */
@@ -77,18 +75,7 @@ public class SendoutCouponDO implements Serializable {
 	public Long getUserId() {
 		return userId;
 	}
-	/**
-	 * 设置：发放数量
-	 */
-	public void setCount(Integer count) {
-		this.count = count;
-	}
-	/**
-	 * 获取：发放数量
-	 */
-	public Integer getCount() {
-		return count;
-	}
+	
 	/**
 	 * 设置：有效期
 	 */
@@ -150,12 +137,6 @@ public class SendoutCouponDO implements Serializable {
 	public void setCouponBalance(Long couponBalance) {
 		this.couponBalance = couponBalance;
 	}
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
 	public String getUsecoupon() {
 		return usecoupon;
 	}
@@ -167,5 +148,12 @@ public class SendoutCouponDO implements Serializable {
 	}
 	public void setUsecondition(String usecondition) {
 		this.usecondition = usecondition;
+	}
+	
+	public Long[] getUserIdArray() {
+		return userIdArray;
+	}
+	public void setUserIdArray(Long[] userIdArray) {
+		this.userIdArray = userIdArray;
 	}
 }

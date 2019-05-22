@@ -20,6 +20,8 @@ import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
 import com.bangbang.common.utils.ShiroUtils;
+import com.bangbang.course.domain.CourseDO;
+import com.bangbang.course.service.CourseService;
 import com.bangbang.information.domain.ReedeemDO;
 import com.bangbang.information.domain.SendoutReedeemDO;
 import com.bangbang.information.service.ReedeemService;
@@ -40,6 +42,8 @@ import com.bangbang.information.service.SendoutReedeemService;
 public class ReedeemController {
 	@Autowired
 	private ReedeemService reedeemService;
+	@Autowired
+	private CourseService courseServcie;
 	@Autowired
 	private SendoutReedeemService sendoutReedeemService;
 	@GetMapping()
@@ -62,7 +66,9 @@ public class ReedeemController {
 	
 	@GetMapping("/add")
 	@RequiresPermissions("information:reedeem:add")
-	String add(){
+	String add(Model model){
+		List<CourseDO> courseDOs=courseServcie.list(new HashMap<String,Object>());
+		model.addAttribute("courseDOs", courseDOs);
 	    return "information/reedeem/add";
 	}
 
@@ -71,6 +77,8 @@ public class ReedeemController {
 	String edit(@PathVariable("id") Long id,Model model){
 		ReedeemDO reedeem = reedeemService.get(id);
 		model.addAttribute("reedeem", reedeem);
+		List<CourseDO> courseDOs=courseServcie.list(new HashMap<String,Object>());
+		model.addAttribute("courseDOs", courseDOs);
 	    return "information/reedeem/edit";
 	}
 	
@@ -97,6 +105,7 @@ public class ReedeemController {
 			return R.error("兑换码创建失败！！");
 		reedeem.setIfStop(0);
 		reedeem.setCreateTime(new Date());
+		reedeem.setReedeemSurplus(reedeem.getReedeemCount());
 		reedeem.setReedeemCode(code);
 		reedeem.setCreateId(ShiroUtils.getUserId());
 		reedeem.setCreateName(ShiroUtils.getUser().getName());
@@ -207,13 +216,13 @@ public class ReedeemController {
    }
 
    
-   @ResponseBody
+  /* @ResponseBody
    @PostMapping("/checkIfStop")
    public List<SendoutReedeemDO> checkIfStop(String reedeemCode){
 	   Map<String,Object> map = new HashMap<String,Object>();
 	   map.put("reedeemCode", reedeemCode);
 	   return sendoutReedeemService.list(map);
-   }
+   }*/
 
     @PostMapping( "/updateIfStop")
 	@ResponseBody

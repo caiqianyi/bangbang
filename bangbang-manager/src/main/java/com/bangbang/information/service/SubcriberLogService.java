@@ -28,4 +28,6 @@ public interface SubcriberLogService {
 	int remove(Integer id);
 	
 	int batchRemove(Integer[] ids);
+
+	List<SubcriberLogDO> getSubcriberlogByCourseId(Long courseId);
 }

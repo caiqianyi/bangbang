@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.LeaveMessageDao">
+
+	<select id="get" resultType="com.bangbang.information.domain.LeaveMessageDO">
+		select l.id,l.user_id,l.course_id,l.publish_time,l.leave_text,l.count,t.name userName,s.name courseName  from leave_message l,t_user t,course s where 
+		
+		l.user_id=t.id and l.course_id=s.course_id and 
+		l.id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bangbang.information.domain.LeaveMessageDO">
+		select l.id,l.user_id,l.course_id,l.publish_time,l.leave_text,l.count,l.delete_flag,t.name userName,s.name courseName from leave_message l,t_user t,course s
+        where l.user_id=t.id and l.course_id=s.course_id
+		  		  <if test="id != null and id != ''"> and l.id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and l.user_id = #{userId} </if>
+		  		  <if test="courseId != null and courseId != ''"> and l.course_id = #{courseId} </if>
+		  		  <if test="publishTime != null and publishTime != ''"> and l.publish_time = #{publishTime} </if>
+		  		  <if test="leaveText != null and leaveText != ''"> and l.leave_text = #{leaveText} </if>
+		  		  <if test="count != null and count != ''"> and l.count = #{count} </if>
+		  		  <if test="deleteFlag != null and deleteFlag != ''"> and l.delete_flag = #{deleteFlag} </if>
+		  		
+		  		
+		  		 
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from leave_message
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
+		  		  <if test="publishTime != null and publishTime != ''"> and publish_time = #{publishTime} </if>
+		  		  <if test="leaveText != null and leaveText != ''"> and leave_text = #{leaveText} </if>
+		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bangbang.information.domain.LeaveMessageDO" useGeneratedKeys="true" keyProperty="id">
+		insert into leave_message
+		(
+			`user_id`, 
+			`course_id`, 
+			`publish_time`, 
+			`leave_text`, 
+			`count`, 
+			`delete_flag`
+		)
+		values
+		(
+			#{userId}, 
+			#{courseId}, 
+			#{publishTime}, 
+			#{leaveText}, 
+			#{count}, 
+			#{deleteFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bangbang.information.domain.LeaveMessageDO">
+		update leave_message 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="courseId != null">`course_id` = #{courseId}, </if>
+			<if test="publishTime != null">`publish_time` = #{publishTime}, </if>
+			<if test="leaveText != null">`leave_text` = #{leaveText}, </if>
+			<if test="count != null">`count` = #{count}, </if>
+			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from leave_message where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from leave_message where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

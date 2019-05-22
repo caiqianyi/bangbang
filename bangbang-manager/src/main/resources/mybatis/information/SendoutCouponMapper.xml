@@ -4,17 +4,17 @@
 <mapper namespace="com.bangbang.information.dao.SendoutCouponDao">
 
 	<select id="get" resultType="com.bangbang.information.domain.SendoutCouponDO">
-		select `id`,`coupon_id`,`user_id`,`count`,`validity`,`if_user`,`sendout_time`,`coupon_group` from sendout_coupon where id = #{value}
+		select `id`,`coupon_id`,`user_id`,`validity`,`if_user`,`sendout_time`,`coupon_group` from sendout_coupon where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.SendoutCouponDO">
-		select s.id,s.coupon_id,c.coupon_balance,c.count_name, s.user_id,s.count,s.validity,s.if_user,s.sendout_time,s.coupon_group, date_add(s.sendout_time, interval s.validity day) expirationDate from sendout_coupon s,t_coupon c 
+		select s.id,s.coupon_id,c.coupon_balance,c.count_name, s.user_id,s.validity,s.if_user,s.sendout_time,s.coupon_group, date_add(s.sendout_time, interval s.validity day) expirationDate from sendout_coupon s,t_coupon c 
 	   
         <where>  
 		  		  <if test="id != null and id != ''"> and s.id = #{id} </if>
 		  		  <if test="couponId != null and couponId != ''"> and s.coupon_id = #{couponId} </if>
 		  		  <if test="userId != null and userId != ''"> and s.user_id = #{userId} </if>
-		  		  <if test="count != null and count != ''"> and s.count = #{count} </if>
+		  		  
 		  		  <if test="validity != null and validity != ''"> and s.validity = #{validity} </if>
 		  		  <if test="ifUser != null and ifUser != ''"> and s.if_user = #{ifUser} </if>
 		  		  <if test="sendoutTime != null and sendoutTime != ''"> and date_format(s.sendout_time,'%Y-%m') = #{sendoutTime} </if>
@@ -40,7 +40,7 @@
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="couponId != null and couponId != ''"> and coupon_id = #{couponId} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
-		  		  <if test="count != null and count != ''"> and count = #{count} </if>
+		  		
 		  		  <if test="validity != null and validity != ''"> and validity = #{validity} </if>
 		  		  <if test="ifUser != null and ifUser != ''"> and if_user = #{ifUser} </if>
 		  		 <if test="sendoutTime != null and sendoutTime != ''"> and date_format(sendout_time,'%Y-%m') = #{sendoutTime} </if>
@@ -53,7 +53,7 @@
 		(
 			`coupon_id`, 
 			`user_id`, 
-			`count`, 
+		
 			`validity`, 
 			`if_user`, 
 			`sendout_time`, 
@@ -63,7 +63,7 @@
 		(
 			#{couponId}, 
 			#{userId}, 
-			#{count}, 
+		
 			#{validity}, 
 			#{ifUser}, 
 			#{sendoutTime}, 
@@ -76,7 +76,7 @@
 		<set>
 			<if test="couponId != null">`coupon_id` = #{couponId}, </if>
 			<if test="userId != null">`user_id` = #{userId}, </if>
-			<if test="count != null">`count` = #{count}, </if>
+			
 			<if test="validity != null">`validity` = #{validity}, </if>
 			<if test="ifUser != null">`if_user` = #{ifUser}, </if>
 			<if test="sendoutTime != null">`sendout_time` = #{sendoutTime}, </if>

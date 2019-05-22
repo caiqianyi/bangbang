@@ -65,17 +65,28 @@ function load() {
 									field : 'couponBalance', 
 									title : '优惠券金额'
 								},								{
+									field : 'usageScenario', 
+									title : '使用场景',
+									formatter : function(value, row, index) {
+										if(value==0)
+											return '问答使用';
+										if(value==1)
+											return row.kechengName+' 课程使用'
+									}
+									
+								},	
+																{
 									field:'usecondition',
 									title:'使用条件'
 								},
 																
 																{
 									field : 'couponCount', 
-									title : '发行数量' 
+									title : '总数量' 
 								},
 								{
 									field : 'couponSurplus', 
-									title : '剩余数量' 
+									title : '未发放数量' 
 								},						{
 									field:'validity',
 									title: '有效期'
@@ -215,7 +226,7 @@ function sendout(couponId,couponSurplus,couponBalance,validity){
 		title : '优惠券发放',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '900px', '520px' ],
 		content : '/information/sendoutcoupon/add/'+couponId +'/'+couponSurplus+'/'+couponBalance+'/'+validity// iframe的url
 	});
 }

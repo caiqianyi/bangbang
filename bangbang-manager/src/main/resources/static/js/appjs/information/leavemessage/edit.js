@@ -1,17 +1,28 @@
 $().ready(function() {
+	$('.summernote').summernote({
+		height : '220px',
+		lang : 'zh-CN',
+		callbacks: {
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files);
+			}
+		}
+	});
+	$('#content_sn').summernote('code', $("#content").val());
+	$('.summernote').summernote('disable');
 	validateRule();
 });
 
 $.validator.setDefaults({
 	submitHandler : function() {
-		save();
+		update();
 	}
 });
-function save() {
+function update() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : "/information/coupon/save",
+		url : "/information/leavemessage/update",
 		data : $('#signupForm').serialize(),// 你的formid
 		async : false,
 		error : function(request) {
@@ -36,18 +47,14 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			couponId : {required : true},
-			couponBalance:{required:true,number:true},
-			couponCount:{required:true,number:true},
-			validity:{required:true,number:true},
-			usageScenario:{required:true}
+			name : {
+				required : true
+			}
 		},
 		messages : {
-			couponId : {required : icon + "请输入优惠券编号"},
-			couponBalance:{required : icon + "请输入优惠券金额",number:icon + "必须是数字"},
-			couponCount:{required : icon + "请输入优惠券发行数量",number:icon + "必须是数字"},
-			validity:{required : icon + "请输入有效期天数",number:icon + "必须是数字"},
-			usageScenario:{required : icon + "选择使用场景"}
+			name : {
+				required : icon + "请输入名字"
+			}
 		}
 	})
 }

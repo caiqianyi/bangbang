@@ -69,17 +69,21 @@ function load() {
 									field : 'countName', 
 									title : '优惠券名称' 
 								},
-																{
-									field : 'count', 
-									title : '发放数量（张）' 
-								},
+																
 																{
 									field : 'validity', 
 									title : '有效期（天）' 
 								},
 																{
-									field : 'usecoupon', 
-									title : '使用情况'
+									field : 'ifUser', 
+									title : '使用情况',
+									formatter : function(value, row, index) {
+										if(value==0)
+											return '已使用';
+										if(value==1)
+											return '未使用 ， '+row.usecoupon;
+									}
+									
 								},
 																{
 									field : 'sendoutTime', 

@@ -26,13 +26,22 @@ public class SendoutReedeemDO implements Serializable {
 	private String reedeemCode;
 	//发放时间
 	private Date sendoutTime;
+	
+	//过期显示
+	private String usereedem;
 	//用户id
 	private Long userId;
 	//删除标志  0 未删除   1已删除
 	private Integer deleteFlag;
 	//0未使用   1已使用
 	private Integer ifUsed;
-    
+	private Long[] userIdArray;
+	//课程名
+	private String courseName;
+	//优惠券余额
+	private Integer reedeemBalance;
+	//有效期
+	private Integer validity;
 	/**
 	 * 设置：id
 	 */
@@ -118,4 +127,41 @@ public class SendoutReedeemDO implements Serializable {
 	public void setReedeemType(Integer reedeemType) {
 		this.reedeemType = reedeemType;
 	}
+	public Long[] getUserIdArray() {
+		return userIdArray;
+	}
+	public void setUserIdArray(Long[] userIdArray) {
+		this.userIdArray = userIdArray;
+	}
+	public String getUsecoupon() {
+		return usereedem;
+	}
+	public void setUsecoupon(String reedem) {
+		this.usereedem = reedem;
+	}
+	public String getUsereedem() {
+		return usereedem;
+	}
+	public void setUsereedem(String usereedem) {
+		this.usereedem = usereedem;
+	}
+	public String getCourseName() {
+		return courseName;
+	}
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+	public Integer getReedeemBalance() {
+		return reedeemBalance;
+	}
+	public void setReedeemBalance(Integer reedeemBalance) {
+		this.reedeemBalance = reedeemBalance;
+	}
+	public Integer getValidity() {
+		return validity;
+	}
+	public void setValidity(Integer validity) {
+		this.validity = validity;
+	}
+	
 }

@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
+import com.bangbang.course.domain.CourseDO;
+import com.bangbang.course.service.CourseService;
 import com.bangbang.information.domain.SendoutCouponDO;
 import com.bangbang.information.domain.SubscriberDO;
 import com.bangbang.information.service.CouponService;
@@ -46,6 +48,8 @@ public class SendoutCouponController {
 	private SubscriberService subcriberService;
 	@Autowired
 	private CouponService couponService;
+	@Autowired
+	private CourseService courseService;
 	
 	@GetMapping("/{id}")
 	@RequiresPermissions("information:coupon:sendout")
@@ -63,13 +67,14 @@ public class SendoutCouponController {
 		List<SendoutCouponDO> couponList = sendoutcouponService.list(query);
 		for(SendoutCouponDO s :couponList){
 			s.setUsecondition("满"+s.getCouponBalance()+"元减"+s.getCouponBalance());
-			int useed=s.getIfUser();
-			int surplus = s.getCount()-useed;
-			String str = "已使用"+useed+"张，剩余"+surplus+"张未使用";
-			if(s.getExpirationDate().compareTo(new Date())<0){
-				str+=",<font color='red'>已过期</font>";
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(s.getSendoutTime());
+			calendar.add(Calendar.DAY_OF_YEAR,s.getValidity());
+			if(calendar.getTime().compareTo(new Date())<0){
+				s.setUsecoupon("<font color='red'>已过期</font>");
 			}
-			s.setUsecoupon(str);
+			else
+				s.setUsecoupon("<font color='green'>未过期</font>");
 		}
 		int total = sendoutcouponService.count(query);
 		PageUtils pageUtils = new PageUtils(couponList, total);
@@ -81,6 +86,8 @@ public class SendoutCouponController {
 	String add(@PathVariable("couponId") Long couponId,@PathVariable("couponSurplus")Long couponSurplus,
 			@PathVariable("couponBalance")Long couponBalance,@PathVariable("validity") Integer validity,  Model model){
 		List<SubscriberDO> list = subcriberService.list(new HashMap<String,Object>());
+		List<CourseDO> courseDOs=courseService.list(new HashMap<String,Object>());
+		model.addAttribute("courseDOs",courseDOs);
 		model.addAttribute("couponId", couponId);
 		model.addAttribute("list", list);
 		model.addAttribute("validity",validity);
@@ -103,13 +110,17 @@ public class SendoutCouponController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:coupon:sendout")
 	public R save( SendoutCouponDO coupon){
-		coupon.setSendoutTime(new Date());
-		coupon.setIfUser(0);
-		if(sendoutcouponService.save(coupon)>0){
-			couponService.updateBycouponId(coupon.getCouponId(),coupon.getCount());
-			return R.ok();
+		int length=0;
+		if((length=coupon.getUserIdArray().length)>0){
+			for(int i=0;i<length;i++){
+				coupon.setUserId(coupon.getUserIdArray()[i]);
+				coupon.setSendoutTime(new Date());
+				coupon.setIfUser(1);
+				sendoutcouponService.save(coupon);
+			}
+			couponService.updateBycouponId(coupon.getCouponId(),length);
 		}
-		return R.error();
+		return R.ok();
 	}
 	/**
 	 * 修改
