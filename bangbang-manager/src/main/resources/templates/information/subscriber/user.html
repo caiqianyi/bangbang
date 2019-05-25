@@ -8,6 +8,15 @@
 			<div class="ibox">
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+								<button class="btn  btn-info" onclick="exportExcel(2)" type="button">
+									<i aria-hidden="true" class="fa fa-export"></i>导出全部列表
+								</button>
+								
+								<button class="btn  btn-info" onclick="exportExcel(4)" type="button">
+									<i aria-hidden="true" class="fa fa-export"></i>导出选中列表
+								</button>
+						</div>
 						<div class="columns pull-right">
 							<!-- <button shiro:hasPermission="information:subscriber:subscriber" type="button" class="btn  btn-info" onclick="goumaijilu()">
 								购买记录
@@ -70,5 +79,32 @@
 	</div>
 	<div th:include="include :: footer"></div>
 	<script type="text/javascript" src="/js/appjs/information/subscriber/user.js"></script>
+	<script type="text/javascript">
+		function exportExcel(type) {
+			//获取table的分页参数值
+			var offset = $('#exampleTable').bootstrapTable('getOptions').pageNumber;
+			var limit =( $('#exampleTable').bootstrapTable('getOptions').pageSize -1) * offset;
+			data = 'limit='+limit+'&offset='+offset;
+			var ids = new Array();
+			if(type == 4){
+				var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+				if (rows.length == 0) {
+					layer.msg("请选择要导出的数据");
+					return;
+				}
+				// 遍历所有选择的行数据，取每条数据对应的ID
+				$.each(rows, function(i, row) {
+					ids[i] = row['id'];
+				});
+			}else if(type == 2){
+				
+			}
+			//后端导出的方法
+			document.location.href ="/information/subscriber/exportExcel?type="+type+"&"+ data+"&ids="+ids.join(",");
+		}
+		
+		
+	</script>
+	
 </body>
 </html>

@@ -11,8 +11,6 @@
 		select `id`,`heard_url`,phone_system,`username`,registration_source,`sign_name`,`sex`,`birthday`,`login_time`,`used_time`,`balance`,`nickname`,`user_id`,`open_id`,`password`,`phone`,`name`,`register_time`,`update_time`,`delete_flag` from t_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		
-		  		 
 		  		  <if test="signName != null and signName != ''"> and sign_name = #{signName} </if>
 		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
 		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
@@ -20,12 +18,8 @@
 		  		  <if test="usedTime != null and usedTime != ''"> and used_time = #{usedTime} </if>
 		  		  <if test="balance != null and balance != ''"> and balance = #{balance} </if>
 		  		  <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
-		  		
-		  		 
-		  		 
 		  		  <if test="nameORphone != null and nameORphone != ''"> and phone = #{nameORphone} or username = #{nameORphone}</if>
-		  		  
-		  		  <if test="registerTime != null and registerTime != ''"> and register_time = #{registerTime} </if>
+		  		   <if test="registerTime != null and registerTime != ''"> and register_time = #{registerTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
 		  		  
 		  		</where>
@@ -43,6 +37,30 @@
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
+	</select>
+	
+	<!-- 导出列表 -->
+	<select id="exeList" resultType="java.util.Map">
+		select 
+		IFNULL(id,'')  as id,
+		IFNULL(heard_url,'') as 头像,
+		IFNULL(phone_system,'') as 手机系统,
+		IFNULL(username,'') as 用户名,
+		IFNULL(sign_name,'') as 签名,
+		IFNULL(sex,'') as 性别,
+		IFNULL(birthday,'') as 出生年月,
+		IFNULL(login_time,'') as 最后登录时间,
+		IFNULL(used_time,'') as 使用时间,
+		IFNULL(balance,'') as 时光贝,
+		IFNULL(nickname,'') as 昵称,
+		IFNULL(phone,'') as 手机号,
+		IFNULL(name,'') as 真实姓名,
+		IFNULL(register_time,'') as 注册时间,
+		IFNULL(update_time,'') as 编辑时间,
+		IFNULL(registration_source,'') as 注册来源 from t_user
+		<where>
+			<if test="ids != null and ids != ''"> and id in (${ids}) </if>
+		</where> 
 	</select>
 	
  	<select id="count" resultType="int">
