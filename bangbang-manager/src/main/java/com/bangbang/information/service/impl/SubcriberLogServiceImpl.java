@@ -58,5 +58,10 @@ public class SubcriberLogServiceImpl implements SubcriberLogService {
 		
 		return logDao.getSubcriberlogByCourseId(courseId);
 	}
+
+	@Override
+	public List<SubcriberLogDO> queryUserName(String name) {
+		return logDao.queryUserName(name);
+	}
 	
 }

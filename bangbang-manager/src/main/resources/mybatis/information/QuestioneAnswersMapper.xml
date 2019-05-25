@@ -4,22 +4,26 @@
 <mapper namespace="com.bangbang.information.dao.QuestioneAnswersDao">
 
 	<select id="get" resultType="com.bangbang.information.domain.QuestioneAnswersDO">
-		select `id`,user_id,`user_name`,`teacher_name`,`questions_content`,`questions_money`,`reply_content`,`course_name`,`add_time`,reply_time from t_questione_answers where id = #{value}
+		<!--  select `id`,`user_id`,`course_id`,`questions_content`,`questions_money`,`reply_content`,`add_time`,`reply_time` from t_questione_answers where id = #{value} -->
+		SELECT tqa.id, tqa.questions_content,tqa.questions_money,tqa.reply_content,tqa.add_time,tqa.reply_time,c.name courseName,c.questions_teacher questionsTeacher,tu.name userName 
+		FROM `t_questione_answers`tqa ,course c ,t_user tu
+		where tqa.course_id = c.course_id and tqa.user_id = tu.id and tqa.id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.QuestioneAnswersDO">
-		select `id`,user_id,`user_name`,`teacher_name`,`questions_content`,`questions_money`,`reply_content`,`course_name`,`add_time`,reply_time from t_questione_answers
-        <where>  
+		<!--  select `id`,`user_id`,`course_id`,`questions_content`,`questions_money`,`reply_content`,`add_time`,`reply_time` from t_questione_answers -->
+        SELECT tqa.id, tqa.questions_content,tqa.questions_money,tqa.reply_content,tqa.add_time,tqa.reply_time,c.name courseName,c.questions_teacher questionsTeacher,tu.name userName 
+		FROM `t_questione_answers`tqa ,course c ,t_user tu
+        	<where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
-		  		  <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
-		  		  <if test="teacherName != null and teacherName != ''"> and teacher_name = #{teacherName} </if>
+		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
 		  		  <if test="questionsContent != null and questionsContent != ''"> and questions_content = #{questionsContent} </if>
 		  		  <if test="questionsMoney != null and questionsMoney != ''"> and questions_money = #{questionsMoney} </if>
 		  		  <if test="replyContent != null and replyContent != ''"> and reply_content = #{replyContent} </if>
-		  		  <if test="courseName != null and courseName != ''"> and course_name = #{courseName} </if>
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="replyTime != null and replyTime != ''"> and reply_time = #{replyTime} </if>
+		  		and tqa.course_id = c.course_id and tqa.user_id = tu.id
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -39,12 +43,10 @@
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
-		  		  <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
-		  		  <if test="teacherName != null and teacherName != ''"> and teacher_name = #{teacherName} </if>
+		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
 		  		  <if test="questionsContent != null and questionsContent != ''"> and questions_content = #{questionsContent} </if>
 		  		  <if test="questionsMoney != null and questionsMoney != ''"> and questions_money = #{questionsMoney} </if>
 		  		  <if test="replyContent != null and replyContent != ''"> and reply_content = #{replyContent} </if>
-		  		  <if test="courseName != null and courseName != ''"> and course_name = #{courseName} </if>
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="replyTime != null and replyTime != ''"> and reply_time = #{replyTime} </if>
 		  		</where>
@@ -53,26 +55,22 @@
 	<insert id="save" parameterType="com.bangbang.information.domain.QuestioneAnswersDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_questione_answers
 		(
-			`user_id`,
-			`user_name`, 
-			`teacher_name`, 
+			`user_id`, 
+			`course_id`, 
 			`questions_content`, 
 			`questions_money`, 
 			`reply_content`, 
-			`course_name`, 
-			`add_time`,
+			`add_time`, 
 			`reply_time`
 		)
 		values
 		(
-			#{userId},
-			#{userName}, 
-			#{teacherName}, 
+			#{userId}, 
+			#{courseId}, 
 			#{questionsContent}, 
 			#{questionsMoney}, 
 			#{replyContent}, 
-			#{courseName}, 
-			#{addTime},
+			#{addTime}, 
 			#{replyTime}
 		)
 	</insert>
@@ -81,13 +79,11 @@
 		update t_questione_answers 
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>
-			<if test="userName != null">`user_name` = #{userName}, </if>
-			<if test="teacherName != null">`teacher_name` = #{teacherName}, </if>
+			<if test="courseId != null">`course_id` = #{courseId}, </if>
 			<if test="questionsContent != null">`questions_content` = #{questionsContent}, </if>
 			<if test="questionsMoney != null">`questions_money` = #{questionsMoney}, </if>
 			<if test="replyContent != null">`reply_content` = #{replyContent}, </if>
-			<if test="courseName != null">`course_name` = #{courseName}, </if>
-			<if test="addTime != null">`add_time` = #{addTime},</if>
+			<if test="addTime != null">`add_time` = #{addTime}, </if>
 			<if test="replyTime != null">`reply_time` = #{replyTime}</if>
 		</set>
 		where id = #{id}

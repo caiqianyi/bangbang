@@ -21,6 +21,8 @@ public class MedalDO implements Serializable {
 	private Long id;
 	//勋章编号
 	private Long medalId;
+	//勋章序号
+	private Integer medalNumber;
 	//勋章名称
 	private String medalName;
 	//勋章图像
@@ -195,4 +197,11 @@ public class MedalDO implements Serializable {
 	public Date getEndTime() {
 		return endTime;
 	}
+	public Integer getMedalNumber() {
+		return medalNumber;
+	}
+	public void setMedalNumber(Integer medalNumber) {
+		this.medalNumber = medalNumber;
+	}
+	
 }

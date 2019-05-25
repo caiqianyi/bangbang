@@ -30,4 +30,7 @@ public interface SubcriberLogService {
 	int batchRemove(Integer[] ids);
 
 	List<SubcriberLogDO> getSubcriberlogByCourseId(Long courseId);
+	
+	List<SubcriberLogDO> queryUserName(String name);
+
 }

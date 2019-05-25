@@ -56,17 +56,14 @@ function load() {
 									title : '问答用户' 
 								},
 																{
-									field : 'teacherName', 
+									field : 'questionsTeacher', 
 									title : '问答讲师' 
 								},/*
 																{
 									field : 'questionsContent', 
 									title : '问答内容' 
-								},*/
-																{
-									field : 'questionsMoney', 
-									title : '问答金额' 
-								},/*
+								},
+								
 																{
 									field : 'replyContent', 
 									title : '回复内容' 
@@ -76,8 +73,14 @@ function load() {
 									title : '问答课程' 
 								},
 																{
+									field : 'questionsMoney', 
+									title : '问答金额' 
+								},							{
 									field : 'addTime', 
-									title : '问答时间' 
+									title : '提问时间' 
+								},								{
+									field : 'replyTime', 
+									title : '回答时间' 
 								},
 																{
 									title : '操作',

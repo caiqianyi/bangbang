@@ -108,5 +108,8 @@
 			#{id}
 		</foreach>
 	</delete>
-
+	<select id="queryUserName" resultType="com.bangbang.information.domain.SubscriberDO">
+		SELECT tu.id ,tu.`name`FROM `subcriber_log` sl,t_user tu 
+		where sl.user_id = tu.id and sl.`name`= #{name} and sl.flag = 0
+	</select>
 </mapper>
