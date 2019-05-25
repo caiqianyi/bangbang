@@ -51,5 +51,10 @@ public class SubscriberServiceImpl implements SubscriberService {
 	public int batchRemove(Long[] ids){
 		return userDao.batchRemove(ids);
 	}
+
+	@Override
+	public List<Map<String, Object>> exeList(Map<String, Object> map) {
+		return userDao.exeList(map);
+	}
 	
 }

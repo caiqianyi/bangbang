@@ -4,6 +4,7 @@ package com.bangbang.information.service;
 import java.util.List;
 import java.util.Map;
 
+import com.bangbang.common.utils.Query;
 import com.bangbang.information.domain.SubscriberDO;
 
 /**
@@ -28,4 +29,6 @@ public interface SubscriberService {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+	List<Map<String, Object>> exeList(Map<String, Object> map);
 }

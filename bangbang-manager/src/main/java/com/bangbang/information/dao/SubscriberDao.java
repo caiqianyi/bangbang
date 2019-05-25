@@ -30,4 +30,6 @@ public interface SubscriberDao {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+	List<Map<String, Object>> exeList(Map<String, Object> map);
 }
