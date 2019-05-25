@@ -54,9 +54,7 @@ public class CouponController {
 		//查询列表数据
         Query query = new Query(params);
 		List<CouponDO> couponList = couponService.list(query);
-		for(CouponDO c :couponList){
-			c.setUsecondition("满"+c.getCouponBalance()+"元减"+c.getCouponBalance());
-		}
+		
 		int total = couponService.count(query);
 		PageUtils pageUtils = new PageUtils(couponList, total);
 		return pageUtils;

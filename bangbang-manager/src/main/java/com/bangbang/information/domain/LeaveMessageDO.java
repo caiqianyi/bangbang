@@ -31,8 +31,12 @@ public class LeaveMessageDO implements Serializable {
 	private Integer deleteFlag;
 	//课程名
 	private String courseName;
+	//章节名
+	private String chaptersName;
 	//用户名
 	private String userName;
+	//留言的显示和隐藏(0显示   1隐藏)
+	private Integer showhide;
 
 	/**
 	 * 设置：id
@@ -129,6 +133,21 @@ public class LeaveMessageDO implements Serializable {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public Integer getShowhide() {
+		return showhide;
+	}
+	public void setShowhide(Integer showhide) {
+		this.showhide = showhide;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	public String getChaptersName() {
+		return chaptersName;
+	}
+	public void setChaptersNname(String chaptersName) {
+		this.chaptersName = chaptersName;
 	}
 	
 }

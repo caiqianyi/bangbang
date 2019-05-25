@@ -60,6 +60,10 @@ function load() {
 									field : 'courseName', 
 									title : '课程名' 
 								},
+								{
+									field : 'chaptersName', 
+									title : '章节名' 
+								},
 																{
 									field : 'publishTime', 
 									title : '发表时间' 
@@ -67,6 +71,29 @@ function load() {
 																{
 									field : 'count', 
 									title : '查看次数' 
+								},
+								{
+									field:'showhide',
+									title:'显示/隐藏',
+									formatter : function(value, row, index) {
+										var str = '';
+										
+										str +=' <div class="switch onoffswitch col-sm-1"> ';
+											str +=' <div class="onoffswitch"> ';
+												str +=' <input name="allowComment" '; 
+												//启用状态 0：是；1：否
+												if(row.showhide == 0)
+													str += ' checked="" ';
+													
+												str +=' type="checkbox" onchange="updateEnable(' +row.id+ ',this)" value="' +row.id+ '" class="onoffswitch-checkbox" id="example1' +row.id+ '">  ';
+												str +=' <label class="onoffswitch-label" for="example1' +row.id+ '">  ';
+													str +=' <span class="onoffswitch-inner"></span> ';
+													str +=' <span class="onoffswitch-switch"></span> ';
+														str +=' </label> ';
+											str +=' </div>';
+										str +=' </div>';
+										return str;
+									} 
 								},
 																{
 									title : '操作',
@@ -133,4 +160,30 @@ function detail(id){
 		area : [ '1000px', '800px' ],
 		content : "/information/leavemessage/detail/"+id // iframe的url
 	});
+}
+
+/**
+ * 留言的显示和隐藏
+ */
+function updateEnable(id,enable) {
+	var isEnable = 1;
+	if($(enable).prop("checked")){
+		isEnable = 0;
+	}
+		$.ajax({
+			url : prefix+"/updateShowHide",
+			type : "post",
+			data : {
+				'id' : id,
+				'enable':isEnable
+			},
+			success : function(r) {
+				if (r.code==0) {
+					layer.msg(r.msg);
+					reLoad();
+				}else{
+					layer.msg(r.msg);
+				}
+			}
+		});
 }

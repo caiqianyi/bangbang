@@ -30,8 +30,11 @@
 		  		  
 		  		</where>
         <choose>
-            <when test="sort != null and sort.trim() != ''">
-                order by ${sort} ${order}
+            <when test="sort != null and sort.trim() != 'loginTime'">
+                order by login_time ${order}
+            </when>
+            <when test="sort != null and sort.trim() != 'registerTime'">
+                order by register_time ${order}
             </when>
 			<otherwise>
                 order by id desc

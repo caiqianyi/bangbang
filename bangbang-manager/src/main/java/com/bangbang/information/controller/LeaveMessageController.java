@@ -119,4 +119,17 @@ public class LeaveMessageController {
 		return "information/leavemessage/detail";
 	}
 	
+
+	@PostMapping( "/updateShowHide")
+	@ResponseBody
+	@RequiresPermissions("information:leavemessage:leavemessage")
+	public R updateShowHide( Long id,Integer enable){
+		LeaveMessageDO leaveMessageDO = new LeaveMessageDO();
+		leaveMessageDO.setId(id);
+		leaveMessageDO.setShowhide(enable);
+		if(messageService.update(leaveMessageDO)>0){
+		return R.ok();
+		}
+		return R.error();
+	}
 }

@@ -66,7 +66,6 @@ public class SendoutCouponController {
         Query query = new Query(params);
 		List<SendoutCouponDO> couponList = sendoutcouponService.list(query);
 		for(SendoutCouponDO s :couponList){
-			s.setUsecondition("满"+s.getCouponBalance()+"元减"+s.getCouponBalance());
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(s.getSendoutTime());
 			calendar.add(Calendar.DAY_OF_YEAR,s.getValidity());

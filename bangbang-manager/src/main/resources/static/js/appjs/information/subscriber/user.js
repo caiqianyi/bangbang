@@ -34,7 +34,9 @@ function load() {
 								limit: params.limit,
 								offset:params.offset,
 								nameORphone:$('#nameORphone').val(),
-								sex:$("#sex option:selected").val()
+								sex:$("#sex option:selected").val(),
+								order: params.order,//排序
+								sort:params.sort//排序字段
 					           // name:$('#searchName').val(),
 					           // username:$('#searchName').val()
 							};
@@ -110,7 +112,8 @@ function load() {
 								},
 																{
 									field : 'loginTime', 
-									title : '最后登录时间' 
+									title : '最后登录时间',
+									sortable : true
 								},
 																{
 									field : 'usedTime', 
@@ -124,7 +127,8 @@ function load() {
 																
 																{
 									field : 'registerTime', 
-									title : '注册时间' 
+									title : '注册时间',
+									sortable : true
 								},
 																{
 									field : 'updateTime', 

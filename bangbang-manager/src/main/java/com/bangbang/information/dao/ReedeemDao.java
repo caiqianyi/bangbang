@@ -34,4 +34,6 @@ public interface ReedeemDao {
 	int batchRemove(Long[] ids);
 
 	void updateByReemId(@Param("id") Long id, @Param("length") int length);
+
+	int savelist(List<ReedeemDO> list);
 }

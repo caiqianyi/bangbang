@@ -59,11 +59,14 @@ function load() {
 								},
 								{
 									field : 'couponBalance', 
-									title : '优惠券金额' 
+									title : '优惠券金额（元）' 
 								},
 								{
 									field:'usecondition',
-									title:'使用条件'
+									title:'使用条件',
+									formatter : function(value, row, index) {
+										return '满'+row.usecondition+'元减'+row.couponBalance+'元';
+									}
 								},
 								{
 									field : 'countName', 

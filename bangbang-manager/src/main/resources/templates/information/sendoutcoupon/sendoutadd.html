@@ -18,8 +18,8 @@
 																												<div class="form-group">	
 								<label class="col-sm-3 control-label">购买的课程：</label>
 								<div class="col-sm-8">
-									<select name="courseId" id="courseId" class="selectpicker show-tick form-control" data-live-search="false" data-actions-box="false">
-										<!-- <option value="">请选择课程讲师</option> -->
+									<select  class="form-control"  id="courseId" name="courseId">
+										<option value="">全部用户</option>
 										<option th:each="course:${courseDOs}"
 										 th:text="${course.name}"
 										 th:value="${course.courseId}"></option>
@@ -27,11 +27,12 @@
 								</div>
 								</div>
 								<div class="form-group">
-								<label class="col-sm-3 control-label"><font color="red">*</font>购买的用户：</label>
+								<label class="col-sm-3 control-label"><font color="red">*</font>用户：</label>
 								<div class="col-sm-8">
-									<select name="userIdArray" id="userIdArray" class="selectpicker show-tick form-control" multiple="multiple" data-live-search="false" data-actions-box="false">
-										
-										
+									<select name="userIdArray" id="userIdArray" class="selectpicker show-tick form-control" multiple="multiple" data-live-search="false" data-actions-box="false" >
+										<option th:each="list:${list}"
+										 th:text="${list.name}"
+										 th:value="${list.id}"></option>	
 									</select>
 								</div>
 							</div>

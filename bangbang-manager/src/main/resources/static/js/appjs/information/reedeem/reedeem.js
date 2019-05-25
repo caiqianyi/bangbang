@@ -138,11 +138,11 @@ function load() {
 										return e + d ;*/
 										var e='<button type="button" class="btn  btn-xs btn-default" onclick="edit(\''+row.id+'\',\''+row.ifStop+'\',\''+row.reedeemCount+'\',\''+row.reedeemSurplus+'\')">编辑</button>  ';
 									/*	var d='<button type="button" class="btn  btn-xs btn-danger" onclick="zhuanfa(\''+row.id+'\')"> 删除</button>  ';*/
-										var f= '<button type="button" class="btn btn-xs btn-info" onclick="sendout(\''+row.reedeemCode+'\',\''+row.id+'\',\''+row.reedeemType+'\',\''+row.reedeemSurplus+'\',\''+row.reedeemBalance+'\',\''+row.courseName+'\',\''+row.validity+'\')">&nbsp;&nbsp;&nbsp;发放</button>  ';
+									//	var f= '<button type="button" class="btn btn-xs btn-info" onclick="sendout(\''+row.reedeemCode+'\',\''+row.id+'\',\''+row.reedeemType+'\',\''+row.reedeemSurplus+'\',\''+row.reedeemBalance+'\',\''+row.courseName+'\',\''+row.validity+'\')">&nbsp;&nbsp;&nbsp;发放</button>  ';
 										
-										if(row.reedeemSurplus==0)
-											f= '<button type="button" class="btn btn-xs btn-info" disabled="disabled">发放</button>  ';
-								        return e+f;
+									//	if(row.reedeemSurplus==0)
+									//		f= '<button type="button" class="btn btn-xs btn-info" disabled="disabled">发放</button>  ';
+								        return e;
 									}
 								} ]
 					});

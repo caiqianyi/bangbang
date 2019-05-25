@@ -1,5 +1,6 @@
 package com.bangbang.information.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,7 @@ import com.bangbang.information.service.SendoutReedeemService;
 @RequestMapping("/information/reedeem")
 public class ReedeemController {
 	@Autowired
-	private ReedeemService reedeemService;
+	private  ReedeemService reedeemService;
 	@Autowired
 	private CourseService courseServcie;
 	@Autowired
@@ -89,11 +90,64 @@ public class ReedeemController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:reedeem:add")
 	public R save( ReedeemDO reedeem){
+		int length=reedeem.getReedeemCount();
+		if(length<=0)
+			return R.error("兑换码的创建数量至少要有一张哦，亲");
+		List<ReedeemDO> list = new ArrayList<ReedeemDO>();
+		if(reedeem.getReedeemType()==3){
+			String code = createReemCode();
+			if("0".equals(code))
+				return R.error("兑换码编号重复了多次，创建兑换码失败！！");
+			reedeem.setReedeemCode(createReemCode());
+			reedeem.setIfStop(0);
+			reedeem.setCreateTime(new Date());
+			reedeem.setReedeemSurplus(reedeem.getReedeemCount());
+			reedeem.setReedeemCode(code);
+			reedeem.setCreateId(ShiroUtils.getUserId());
+			reedeem.setCreateName(ShiroUtils.getUser().getName());
+			reedeem.setDeleteFlag(0);
+			list.add(reedeem);
+		}
+		else{
+			for(int i=0;i<length;i++){
+				ReedeemDO r = new ReedeemDO();
+				String code = createReemCode();
+				if("0".equals(code))
+					return R.error("兑换码编号重复了多次，创建兑换码失败！！");
+				
+				r.setReedeemName(reedeem.getReedeemName());
+				r.setReedeemType(reedeem.getReedeemType());
+				r.setReedeemBalance(reedeem.getReedeemBalance());
+				r.setCourseId(reedeem.getCourseId());
+				r.setValidity(reedeem.getValidity());
+				r.setReedeemCode(code);
+				r.setIfStop(0);
+				r.setCreateTime(new Date());
+				r.setReedeemCount(1);
+				r.setReedeemSurplus(1);
+				r.setReedeemCode(code);
+				r.setCreateId(ShiroUtils.getUserId());
+				r.setCreateName(ShiroUtils.getUser().getName());
+				r.setDeleteFlag(0);
+				list.add(r);
+			}
+		}
+		
+		if(reedeemService.savelist(list)>0){
+			return R.ok();
+		}
+		return R.error();
+	}
+	
+	/**
+	 * 生成兑换码编号
+	 */
+	private  String createReemCode(){
 		int i=0;
 		String code="";
-		Map<String,Object> map = new HashMap<String,Object>();
-		while(i++<5){
-			code = createBigStrOrNumberRadom(8);
+		Map<String,Object> map= new HashMap<String,Object>();
+		while(i++<5){ //重复次数已达到了5次，兑换码创建失败了...
+			code = createBigStrOrNumberRadom(16);
 			map.put("reedeemCode",code);
 			List<ReedeemDO> list = reedeemService.list(map);
 			if(list.size()>0)
@@ -102,20 +156,9 @@ public class ReedeemController {
 				break;
 		}
 		if(i==5)
-			return R.error("兑换码创建失败！！");
-		reedeem.setIfStop(0);
-		reedeem.setCreateTime(new Date());
-		reedeem.setReedeemSurplus(reedeem.getReedeemCount());
-		reedeem.setReedeemCode(code);
-		reedeem.setCreateId(ShiroUtils.getUserId());
-		reedeem.setCreateName(ShiroUtils.getUser().getName());
-		reedeem.setDeleteFlag(0);
-		
-		reedeem.setReedeemCode(createBigStrOrNumberRadom(8));
-		if(reedeemService.save(reedeem)>0){
-			return R.ok();
-		}
-		return R.error();
+			return "0";
+		else
+			return code;
 	}
 	/**
 	 * 修改

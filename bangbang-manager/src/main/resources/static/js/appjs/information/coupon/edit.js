@@ -8,6 +8,10 @@ $.validator.setDefaults({
 	}
 });
 function update() {
+	if(parseInt($("#couponBalance").val())>parseInt($("#usecondition").val())){
+		layer.msg("优惠券的使用金额不能小于优惠券的面值");
+		return;
+	}
 	$.ajax({
 		cache : true,
 		type : "POST",
@@ -40,14 +44,16 @@ function validateRule() {
 			couponBalance:{required:true,number:true},
 			couponCount:{required:true,number:true},
 			validity:{required:true,number:true},
-			usageScenario:{required:true}
+			usageScenario:{required:true},
+			usecondition:{required:true,number:true}
 		},
 		messages : {
 			couponId : {required : icon + "请输入优惠券编号"},
 			couponBalance:{required : icon + "请输入优惠券金额",number:icon + "必须是数字"},
 			couponCount:{required : icon + "请输入优惠券发行数量",number:icon + "必须是数字"},
 			validity:{required : icon + "请输入有效期天数",number:icon + "必须是数字"},
-			usageScenario:{required : icon + "选择使用场景"}
+			usageScenario:{required : icon + "选择使用场景"},
+			usecondition:{required:icon + "请输入使用金额",number:icon + "必须是数字"}
 		}
 	})
 }

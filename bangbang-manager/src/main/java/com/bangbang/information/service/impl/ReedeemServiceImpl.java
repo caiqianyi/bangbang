@@ -58,5 +58,10 @@ public class ReedeemServiceImpl implements ReedeemService {
 	public void updateByReemId(Long id, int length) {
 		reedeemDao.updateByReemId(id,length);
 	}
+
+	@Override
+	public int savelist(List<ReedeemDO> list) {
+		return reedeemDao.savelist(list);
+	}
 	
 }

@@ -8,7 +8,7 @@
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.SendoutCouponDO">
-		select s.id,s.coupon_id,c.coupon_balance,c.count_name, s.user_id,s.validity,s.if_user,s.sendout_time,s.coupon_group, date_add(s.sendout_time, interval s.validity day) expirationDate from sendout_coupon s,t_coupon c 
+		select s.id,s.coupon_id,c.usecondition,c.coupon_balance,c.count_name, s.user_id,s.validity,s.if_user,s.sendout_time,s.coupon_group, date_add(s.sendout_time, interval s.validity day) expirationDate from sendout_coupon s,t_coupon c 
 	   
         <where>  
 		  		  <if test="id != null and id != ''"> and s.id = #{id} </if>

@@ -116,4 +116,37 @@
 	<select id="updateByReemId" >
 		update t_reedeem set reedeem_surplus=reedeem_surplus-#{length} where id=#{id}
 	</select>
+	
+	<insert id="savelist" parameterType="java.util.List">
+		insert into t_reedeem (`reedeem_code`, 
+			`create_time`, 
+			`create_id`, 
+			create_name,
+			`delete_flag`, 
+		 
+			if_stop,
+			reedeem_type,
+			`reedeem_name`,
+			`course_id`,
+			`reedeem_count`,
+			`reedeem_surplus`,
+			`reedeem_balance`,
+			validity) values
+         <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.reedeemCode}, 
+			#{item.createTime}, 
+			#{item.createId}, 
+			#{item.createName},
+			#{item.deleteFlag}, 
+			
+			#{item.ifStop},
+			#{item.reedeemType},
+			#{item.reedeemName},
+			#{item.courseId},
+			#{item.reedeemCount},
+			#{item.reedeemSurplus},
+			#{item.reedeemBalance},
+			#{item.validity})
+         </foreach>
+	</insert>
 </mapper>

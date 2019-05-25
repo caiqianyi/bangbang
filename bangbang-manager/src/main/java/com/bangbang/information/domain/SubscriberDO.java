@@ -57,8 +57,10 @@ public class SubscriberDO implements Serializable {
 	private Integer phoneSystem;
 	//注册来源
 	private String registrationSource ;
-
-	
+	//排序(升序 、降序)
+	private String order;
+	//排序字段
+	private String sort;
 	/**
 	 * 设置：id
 	 */
@@ -298,6 +300,18 @@ public class SubscriberDO implements Serializable {
 	}
 	public void setRegistrationSource(String registrationSource) {
 		this.registrationSource = registrationSource;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
+	}
+	public String getSort() {
+		return sort;
+	}
+	public void setSort(String sort) {
+		this.sort = sort;
 	}
 	
 	

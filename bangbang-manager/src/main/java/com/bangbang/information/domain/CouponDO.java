@@ -24,7 +24,7 @@ public class CouponDO implements Serializable {
 	//有效期
 	private Integer validity;
 	//使用条件
-	private String usecondition;
+	private Integer usecondition;
 	//发行数量
 	private Long couponCount;
 	//优惠券名称
@@ -42,7 +42,7 @@ public class CouponDO implements Serializable {
 	private Long courseId;
 	//课程名称
 	private String kechengName;
-
+ 
 	
 	/**
 	 * 设置：id
@@ -157,13 +157,13 @@ public class CouponDO implements Serializable {
 	/**
 	 * 获取：使用条件
 	 */
-	public String getUsecondition() {
+	public Integer getUsecondition() {
 		return usecondition;
 	}
 	/**
 	 * 设置：使用条件
 	 */
-	public void setUsecondition(String usecondition) {
+	public void setUsecondition(Integer usecondition) {
 		this.usecondition = usecondition;
 	}
 	

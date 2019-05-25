@@ -30,4 +30,6 @@ public interface ReedeemService {
 	int batchRemove(Long[] ids);
 
 	void updateByReemId(Long id, int length);
+
+	int savelist(List<ReedeemDO> list);
 }
