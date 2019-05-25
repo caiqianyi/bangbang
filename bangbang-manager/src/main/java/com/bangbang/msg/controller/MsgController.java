@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
+import com.bangbang.course.domain.CourseDO;
+import com.bangbang.course.service.CourseService;
+import com.bangbang.information.domain.SubcriberLogDO;
+import com.bangbang.information.service.SubcriberLogService;
 import com.bangbang.msg.domain.MsgDO;
 import com.bangbang.msg.service.MsgService;
 
@@ -37,6 +41,10 @@ import com.bangbang.msg.service.MsgService;
 public class MsgController {
 	@Autowired
 	private MsgService msgService;
+	@Autowired
+	private CourseService courseService;
+	@Autowired
+	private SubcriberLogService subcriberLogService;
 	
 	@GetMapping()
 	@RequiresPermissions("information:msg:msg")
@@ -58,14 +66,18 @@ public class MsgController {
 	
 	@GetMapping("/add")
 	@RequiresPermissions("information:msg:add")
-	String add(){
+	String add(Map<String, Object> map,Model model){
+		List<CourseDO> courseN = courseService.list(map);
+		model.addAttribute("courseN", courseN);
 	    return "msg/add";
 	}
 
 	@GetMapping("/edit/{id}")
 	@RequiresPermissions("information:msg:edit")
-	String edit(@PathVariable("id") Integer id,Model model){
+	String edit(@PathVariable("id") Integer id,Model model,Map<String, Object> map){
+		List<CourseDO> courseN = courseService.list(map);
 		MsgDO msg = msgService.get(id);
+		model.addAttribute("courseN", courseN);
 		model.addAttribute("msg", msg);
 	    return "msg/edit";
 	}
@@ -120,4 +132,10 @@ public class MsgController {
 		return R.ok();
 	}
 	
+	@PostMapping("/selectUserName")
+	@ResponseBody
+	public List<SubcriberLogDO> selectUserName(@RequestParam(value = "courseName", required=false)String courseName){
+		List<SubcriberLogDO> userName = subcriberLogService.queryUserName(courseName);
+		return userName;
+	}
 }

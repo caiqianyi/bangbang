@@ -10,67 +10,69 @@ import java.util.Date;
  * 
  * @author wjl
  * @email bushuo@163.com
- * @date 2019-05-22 19:00:44
+ * @date 2019-05-24 11:12:09
  */
 public class QuestioneAnswersDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//id
-	private Long id;
-	//用户id
-	private Long userId;
-	//用户姓名
-	private String userName;
-	//讲师姓名
-	private String teacherName;
+	private Integer id;
+	//用户Id
+	private Integer userId;
+	//课程Id
+	private Integer courseId;
 	//问答内容
 	private String questionsContent;
 	//金额
 	private Integer questionsMoney;
 	//回复内容
 	private String replyContent;
-	//课程名称
-	private String courseName;
 	//添加时间
 	private Date addTime;
 	//回复时间
 	private Date replyTime;
+	//课程名
+	private String courseName;
+	//问答老师
+	private String questionsTeacher;
+	//用户姓名
+	private String userName;
 
 	/**
 	 * 设置：id
 	 */
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：id
 	 */
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 	/**
-	 * 设置：用户姓名
+	 * 设置：用户Id
 	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	/**
-	 * 获取：用户姓名
+	 * 获取：用户Id
 	 */
-	public String getUserName() {
-		return userName;
+	public Integer getUserId() {
+		return userId;
 	}
 	/**
-	 * 设置：讲师姓名
+	 * 设置：课程Id
 	 */
-	public void setTeacherName(String teacherName) {
-		this.teacherName = teacherName;
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
 	}
 	/**
-	 * 获取：讲师姓名
+	 * 获取：课程Id
 	 */
-	public String getTeacherName() {
-		return teacherName;
+	public Integer getCourseId() {
+		return courseId;
 	}
 	/**
 	 * 设置：问答内容
@@ -109,18 +111,6 @@ public class QuestioneAnswersDO implements Serializable {
 		return replyContent;
 	}
 	/**
-	 * 设置：课程名称
-	 */
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
-	/**
-	 * 获取：课程名称
-	 */
-	public String getCourseName() {
-		return courseName;
-	}
-	/**
 	 * 设置：添加时间
 	 */
 	public void setAddTime(Date addTime) {
@@ -132,17 +122,35 @@ public class QuestioneAnswersDO implements Serializable {
 	public Date getAddTime() {
 		return addTime;
 	}
-	public Date getReplyTime() {
-		return replyTime;
-	}
+	/**
+	 * 设置：回复时间
+	 */
 	public void setReplyTime(Date replyTime) {
 		this.replyTime = replyTime;
 	}
-	public Long getUserId() {
-		return userId;
+	/**
+	 * 获取：回复时间
+	 */
+	public Date getReplyTime() {
+		return replyTime;
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public String getCourseName() {
+		return courseName;
+	}
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+	public String getQuestionsTeacher() {
+		return questionsTeacher;
+	}
+	public void setQuestionsTeacher(String questionsTeacher) {
+		this.questionsTeacher = questionsTeacher;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

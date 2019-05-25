@@ -53,9 +53,9 @@ function load() {
 									title : 'id' 
 								},*/
 																{
-									field : 'medalId', 
+									field : 'medalNumber', 
 									width :100,
-									title : '勋章编号' 
+									title : '勋章序号' 
 								},
 																{
 									field : 'medalName',

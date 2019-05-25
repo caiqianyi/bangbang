@@ -24,6 +24,7 @@ import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
 import com.bangbang.medal.domain.MedalDO;
 import com.bangbang.medal.service.MedalService;
+import com.bangbang.owneruser.comment.GenerateCode;
 
 
 /**
@@ -81,13 +82,9 @@ public class MedalController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("information:medal:add")
-	public R save( MedalDO medal,Long medalId){
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("medalId", medalId);
-		boolean boolId = medalService.boolId(map);
-		if(boolId){
-			return R.error("编号已存在");
-		}
+	public R save( MedalDO medal){
+		Long MedalId = GenerateCode.gen16(6);
+		medal.setMedalId(MedalId);
 		
 		String fileName = medal.getImgFile().getOriginalFilename();
 		fileName = FileUtil.renameToUUID(fileName);		

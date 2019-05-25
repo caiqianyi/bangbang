@@ -64,10 +64,10 @@ function load() {
 									title : '发送人' 
 								},								
 																{
-									field : 'forIds', 
-									title : '接收人ID',
+									field : 'forNames', 
+									title : '接收对象',
 									formatter : function(value, row, index) {
-										if (value == null) {
+										if (value == null || value == '') {
 											return '<span class="label label-primary">所有用户</span>';
 										}else{
 											return value;

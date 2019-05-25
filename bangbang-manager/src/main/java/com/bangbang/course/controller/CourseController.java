@@ -104,7 +104,7 @@ public class CourseController {
 	@RequiresPermissions("information:course:edit")
 	String edit(@PathVariable("id") Long id,Model model){
 		CourseDO course = courseService.get(id);
-		QuestionsMoneyNotesDO questionsMN = questionsMoneyNotesService.get(id);
+		QuestionsMoneyNotesDO questionsMN = questionsMoneyNotesService.get(id);		
 		Map<String, Object> mapP = new HashMap<String, Object>();
 		mapP.put("mapP", mapP);
 		List<TeacherDO> teacherName = teacherService.queryTeacherName(mapP);
@@ -179,14 +179,14 @@ public class CourseController {
 		qmn.setCourseSort(course.getCourseName());
 		qmn.setCourseId(course.getCourseId());
 		qmn.setName(course.getName());
-		if(qmn.getQuestionsMoney1() == null){
-			qmn.setQuestionsMoney1(0);
+		if(qmn.getQuestionsMoney1() == 0){
+			qmn.setQuestionsNotes1("");
 		}
-		if(qmn.getQuestionsMoney2() == null){
-			qmn.setQuestionsMoney2(0);
+		if(qmn.getQuestionsMoney2() == 0){
+			qmn.setQuestionsNotes2("");
 		}
-		if(qmn.getQuestionsMoney3() == null){
-			qmn.setQuestionsMoney3(0);
+		if(qmn.getQuestionsMoney3() == 0){
+			qmn.setQuestionsNotes3("");
 		}
 
 		

@@ -35,14 +35,45 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">接收人ID：</label>
+								<label class="col-sm-3 control-label">课程名称：</label>
 								<div class="col-sm-8">
-									<input id="forIds" name="forIds" th:value="${msg.forIds}"
-										class="form-control" type="text">
+									<select class="form-control" name="courseName" id="courseName" onchange="shopUser();">
+											<option value="">请选择课程名称</option>
+											<option th:each="cn:${courseN}"
+											 th:text="${cn.name}"
+											 th:value="${cn.name}"></option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group" style="margin-bottom: 0px;">
+								<label class="col-sm-3 control-label">推送用户：</label>
+								<div class="col-sm-4">
+								
+									<input id="forNames" name="forNames" th:value="${msg.forNames}"
+										class="form-control" type="text" readonly="readonly">
+								</div>
+								<div class="col-sm-4">
+									<select name="forUser" id="forUser" class="selectpicker show-tick form-control" multiple data-live-search="false" data-actions-box="true">
+											<!-- <option value="">请选择课程讲师</option> 
+											<option th:each="un:${userName}"
+											 th:text="${un.name}"
+											 th:value="${un.name}"></option>-->
+									</select>
 									<span style="color: red;">(为空时，所有用户接收)</span>
 								</div>
 							</div>
+							
+							<input id="forIds" name="forIds" th:value="${msg.forIds}" class="form-control" type="hidden">
 							<!--
+							<div class="form-group">
+								<label class="col-sm-3 control-label">接收人ID：</label>
+								<div class="col-sm-8">
+									<input id="forIds" name="forIds" th:value="${msg.forIds}"
+										class="form-control" type="hidden">
+								</div>
+							</div>
+							
 							<div class="form-group">
 								<label class="col-sm-3 control-label">推送类型 0：系统 1：个人：</label>
 								<div class="col-sm-8">
@@ -50,13 +81,7 @@
 										class="form-control" type="text">
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">推送对象：</label>
-								<div class="col-sm-8">
-									<input id="forNames" name="forNames" th:value="${msg.forNames}"
-										class="form-control" type="text">
-								</div>
-							</div>
+
 							
 							<div class="form-group">
 								<label class="col-sm-3 control-label">0：系统；1：个人：</label>
@@ -105,7 +130,46 @@
 	</div>
 	<div th:include="include::footer"></div>
 	<script type="text/javascript" src="/js/appjs/msg/edit.js">
+	</script>
+	<script type="text/javascript">
+
+	
+		$(window).on('load', function () {
+	 		$('.selectpicker').selectpicker('refresh');
+		});
 		
+		function shopUser(){
+			var courseName = document.getElementById("courseName").value;
+			//alert(courseName);
+			$.ajax({
+		    		url:"/information/msg/selectUserName",
+		            type:"post",
+		            cache: true,
+		            async: false,
+		            data: {courseName:courseName},
+		        	dataType : "json",
+		            success:function(data){
+		            	 $('.selectpicker').html("");
+		            	 for(var i=0;i<data.length;i++){
+		            		 console.log(data[i]);
+		            		 $('.selectpicker').append("<option value='" + data[i].name + "'>" + data[i].name + "</option>");
+
+		            	 }
+		            	 $('#forUser').selectpicker('refresh');
+		            },
+		           
+				})
+		}
+		
+		 $('#forUser').on('hidden.bs.select',function(e){ 
+			 var forNames = $("#forUser").val();
+			 if(forNames != null){
+				 $('#forNames').val(forNames);
+			 }else{
+				 $('#forNames').val(null);
+			 }
+
+		 })
 	</script>
 </body>
 </html>
