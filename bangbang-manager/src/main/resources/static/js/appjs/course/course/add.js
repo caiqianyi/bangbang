@@ -8,6 +8,34 @@ $().ready(function() {
 			}
 		}
 	});
+	$('.summernote1').summernote({
+		height : '80px',
+		lang : 'zh-CN',
+		callbacks: {
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files);
+			}
+		}
+	});
+	$('#content_sn1').summernote('code', $("#questionsNotes1").val());
+	$('.summernote2').summernote({
+		height : '80px',
+		lang : 'zh-CN',
+		callbacks: {
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files);
+			}
+		}
+	});
+	$('.summernote3').summernote({
+		height : '80px',
+		lang : 'zh-CN',
+		callbacks: {
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files);
+			}
+		}
+	});
 	validateRule();
 });
 
@@ -19,6 +47,30 @@ $.validator.setDefaults({
 function save() {	
 	var content_sn = $("#content_sn").summernote('code');
 	$("#courseNotes").val(content_sn);
+	var mnn1 =$('.form-group1').css('display');
+	var mnn2 =$('.form-group2').css('display');
+	var mnn3 =$('.form-group3').css('display');
+	var content_sn = $("#content_sn1").summernote('code');
+	if(mnn1 == 'none'){
+		$("#questionsNotes1").val('');
+		$("#questionsMoney1").val('0');
+	}else{
+		$("#questionsNotes1").val(content_sn);
+	}
+	var content_sn = $("#content_sn2").summernote('code');
+	if(mnn2 == 'none'){
+		$("#questionsNotes2").val('');
+		$("#questionsMoney2").val('0');
+	}else{
+		$("#questionsNotes2").val(content_sn);
+	}
+	var content_sn = $("#content_sn3").summernote('code');
+	if(mnn3 == 'none'){
+		$("#questionsNotes3").val('');
+		$("#questionsMoney3").val('0');
+	}else{
+		$("#questionsNotes3").val(content_sn);
+	}
 	var formData = new FormData(document.getElementById("signupForm"));
 	$.ajax({
 		cache : true,

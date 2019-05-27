@@ -95,6 +95,7 @@
 									<label class="radio-inline"> <input type="radio"
 										name="questions" value="1" /> 关闭
 									</label>
+									<input id="questionsMN" onclick="addQuestions()" type="button" class="btn btn-primary btn-xs" style="margin-bottom: -5px;" value="添加金额说明">
 								</div>
 							</div>
 							<div class="form-group1" style="margin-left: -15px; margin-right: -15px;">
@@ -107,6 +108,54 @@
 										 th:value="${tn.name}"></option>
 								</select>
 								<!--  <input id="teachers" name="teachers" class="form-control" type="hidden"> -->
+								</div>
+							</div>
+							<div class="form-group1" style="margin-left: -15px; margin-right: -15px;">
+								<label class="col-sm-3 control-label">问答金额1：</label>
+								<div class="col-sm-8">
+									<input id="questionsMoney1" name="questionsMoney1"
+										 class="form-control" type="text" />
+								</div>
+							</div>
+							<div class="form-group1" style="margin-left: -15px; margin-right: -15px;">
+							<input id="questionsNotes1" name="questionsNotes1"  type="hidden"> 
+								<label class="col-sm-3 control-label">问答说明1：</label>
+								<div class="col-sm-8">
+									<div class="ibox-content no-padding">
+										<div id="content_sn1" class="summernote1"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group2" style="margin-left: -15px; margin-right: -15px;">
+								<label class="col-sm-3 control-label">问答金额2：</label>
+								<div class="col-sm-8">
+									<input id="questionsMoney2" name="questionsMoney2"
+										 class="form-control" type="text" />
+								</div>
+							</div>
+							<div class="form-group2" style="margin-left: -15px; margin-right: -15px;">
+							<input id="questionsNotes2" name="questionsNotes2" type="hidden"> 
+								<label class="col-sm-3 control-label">问答说明2：</label>
+								<div class="col-sm-8">
+									<div class="ibox-content no-padding">
+										<div id="content_sn2" class="summernote2"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group3" style="margin-left: -15px; margin-right: -15px;">
+								<label class="col-sm-3 control-label">问答金额3：</label>
+								<div class="col-sm-8">
+									<input id="questionsMoney3" name="questionsMoney3"
+										 class="form-control" type="text" />
+								</div>
+							</div>
+							<div class="form-group3" style="margin-left: -15px; margin-right: -15px;">
+							<input id="questionsNotes3" name="questionsNotes3"  type="hidden"> 
+								<label class="col-sm-3 control-label">问答说明3：</label>
+								<div class="col-sm-8">
+									<div class="ibox-content no-padding">
+										<div id="content_sn3" class="summernote3"></div>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -205,20 +254,66 @@
 	     		$('.selectpicker').selectpicker();
 			});
 			
+//			var questionsTrue = $("input[name='questions']:checked").val();
+//			if(questionsTrue == 1){
+//				$(".form-group1").hide();
+//			}
+//			$("input[type='radio'][name='questions']").on("click",function(){
+//				var questions = $("input[name='questions']:checked").val(); 
+//				if(questions == 0){
+//					 $(".form-group1").show();
+//				}else{
+//					 $(".form-group1").hide();
+//				}
+//			})
+			
 			var questionsTrue = $("input[name='questions']:checked").val();
 			if(questionsTrue == 1){
 				$(".form-group1").hide();
+				$(".form-group2").hide();
+				$(".form-group3").hide();
+				$("#questionsMN").hide();
 			}
 			$("input[type='radio'][name='questions']").on("click",function(){
-				var questions = $("input[name='questions']:checked").val(); 
+				var questions = $("input[name='questions']:checked").val();
 				if(questions == 0){
 					 $(".form-group1").show();
+					 $("#questionsMN").show();
 				}else{
 					 $(".form-group1").hide();
+					 $(".form-group2").hide();
+					 $(".form-group3").hide();
+					 $("#questionsMN").hide();
+					 times = 1;
 				}
 			})
 
 		})
+		
+		var times = 1;
+		function addQuestions(){
+			var questions = $("input[name='questions']:checked").val(); 
+			if(questions == 0){
+				times++;
+				//alert(times);
+				if(times == 2){
+					$(".form-group2").show();	
+				}
+				if(times == 3){
+					$(".form-group3").show();	
+				}
+				
+				if(times > 3){
+					var mn =$('.form-group1').css('display');
+					var mn =$('.form-group2').css('display');
+					var mn =$('.form-group3').css('display');
+					if(mn == 'block'){
+						alert("最多只能添加三个问答");
+					}
+				}
+			}
+								
+		}
 		
 	</script>
 </body>
