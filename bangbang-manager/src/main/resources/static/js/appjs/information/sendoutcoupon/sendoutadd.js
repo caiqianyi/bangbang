@@ -8,22 +8,29 @@ $.validator.setDefaults({
 	}
 });
 function save() {
-	if($('#userIdArray').val()==null){
-		layer.msg("请选择用户");
+	var arry=[];
+	if($('#userIdArray12').val()==null){
+		$("#userIdArray12 option").each(function(){
+			arry.push($(this).val());
+		});
+	}
+	else{
+		arry=$('#userIdArray12').val();
+	}
+	if(arry.length==0){
+		layer.msg("当前条件下，没有用户");
 		return;
 	}
-	
-	if($('#userIdArray').val().length>$('#couponSurplus').val().length){
-		layer.msg("优惠券数量不足");
+	if(arry.length>$("#couponSurplus").val()){
+		layer.msg("优惠券的数量不足");
 		return;
 	}
-	
-	
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : "/information/sendoutcoupon/save",
-		data : $('#signupForm').serialize(),// 你的formid
+		data : {couponId:$("#couponId").val(),validity:$("#validity").val(),couponGroup:$("#couponGroup").val(),userIdArray:arry},// 你的formid
+		traditional: true,
 		async : false,
 		error : function(request) {
 			parent.layer.alert("Connection error");
@@ -56,7 +63,7 @@ var icon = "<i class='fa fa-times-circle'></i> ";
 		}
 	})
 }
-$("#userIdArray").selectpicker({
+$("#userIdArray12").selectpicker({
     noneSelectedText: '请选择用户' //默认显示内容  
  });
 $("[name='courseId']").change(function(){
@@ -72,22 +79,22 @@ $("[name='courseId']").change(function(){
 			parent.layer.alert("Connection error");
 		},
 		success : function(data) {
-		$('#userIdArray').html('')
+		$('#userIdArray12').html('')
 			if(data.length>0){
-				$("#userIdArray").selectpicker({
+				$("#userIdArray12").selectpicker({
 	                noneSelectedText: '请选择用户' //默认显示内容  
                  });
 				for(var i=0;i<data.length;i++){
-					$('#userIdArray').append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+					$('#userIdArray12').append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
 				}
 				
 			}
 			if(data.length==0){
-				$("#userIdArray").selectpicker({
+				$("#userIdArray12").selectpicker({
 	                noneSelectedText: '没有购买'+text+"课程的用户" //默认显示内容  
                  });
 			}
-			 $('#userIdArray').selectpicker('refresh');  
+			 $('#userIdArray12').selectpicker('refresh');  
 		}
 	});
 	

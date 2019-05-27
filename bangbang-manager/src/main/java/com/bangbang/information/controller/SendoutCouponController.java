@@ -108,17 +108,19 @@ public class SendoutCouponController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("information:coupon:sendout")
-	public R save( SendoutCouponDO coupon){
-		int length=0;
-		if((length=coupon.getUserIdArray().length)>0){
-			for(int i=0;i<length;i++){
-				coupon.setUserId(coupon.getUserIdArray()[i]);
-				coupon.setSendoutTime(new Date());
-				coupon.setIfUser(1);
-				sendoutcouponService.save(coupon);
-			}
-			couponService.updateBycouponId(coupon.getCouponId(),length);
+	public R save( Long couponId,Integer validity,Integer couponGroup,Long[] userIdArray){
+		for(int i=0;i<userIdArray.length;i++){
+			SendoutCouponDO coupon = new SendoutCouponDO();
+			coupon.setUserId(userIdArray[i]);
+			coupon.setSendoutTime(new Date());
+			coupon.setCouponId(couponId);
+			coupon.setValidity(validity);
+			coupon.setCouponGroup(couponGroup);
+			coupon.setIfUser(1);
+			sendoutcouponService.save(coupon);
 		}
+		couponService.updateBycouponId(couponId,userIdArray.length);
+		
 		return R.ok();
 	}
 	/**
