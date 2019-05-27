@@ -120,7 +120,7 @@ public class CourseController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("information:course:add")
-	public R save( CourseDO course,Long courseId){
+	public R save( CourseDO course,Long courseId,QuestionsMoneyNotesDO qmn){
 
 		String fileName = course.getImgFile().getOriginalFilename();
 		fileName = FileUtil.renameToUUID(fileName);		
@@ -134,7 +134,6 @@ public class CourseController {
 		Long cId = GenerateCode.gen16(6);
 		course.setCourseId(cId);
 		if(courseService.save(course)>0){
-			QuestionsMoneyNotesDO qmn = new QuestionsMoneyNotesDO();
 			qmn.setId(course.getId());
 			qmn.setCourseSort(course.getCourseName());
 			qmn.setCourseId(course.getCourseId());

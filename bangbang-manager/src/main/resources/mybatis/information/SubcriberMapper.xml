@@ -168,5 +168,7 @@
 			#{id}
 		</foreach>
 	</delete>
-
+	<select id="queryId" resultType="com.bangbang.information.domain.SubscriberDO">
+		SELECT id FROM t_user where `name` = #{name}
+	</select>
 </mapper>

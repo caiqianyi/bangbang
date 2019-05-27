@@ -15,7 +15,7 @@ import com.bangbang.msg.domain.MsgDO;
  */
 public interface MsgService {
 	
-	MsgDO get(Integer id);
+	MsgDO get(Long id);
 	
 	List<MsgDO> list(Map<String, Object> map);
 	
@@ -25,7 +25,7 @@ public interface MsgService {
 	
 	int update(MsgDO msg);
 	
-	int remove(Integer id);
+	int remove(Long id);
 	
-	int batchRemove(Integer[] ids);
+	int batchRemove(Long[] ids);
 }

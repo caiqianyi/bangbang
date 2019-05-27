@@ -20,7 +20,7 @@ public class MsgServiceImpl implements MsgService {
 	private MsgDao msgDao;
 	
 	@Override
-	public MsgDO get(Integer id){
+	public MsgDO get(Long id){
 		return msgDao.get(id);
 	}
 	
@@ -45,12 +45,12 @@ public class MsgServiceImpl implements MsgService {
 	}
 	
 	@Override
-	public int remove(Integer id){
+	public int remove(Long id){
 		return msgDao.remove(id);
 	}
 	
 	@Override
-	public int batchRemove(Integer[] ids){
+	public int batchRemove(Long[] ids){
 		return msgDao.batchRemove(ids);
 	}
 	
