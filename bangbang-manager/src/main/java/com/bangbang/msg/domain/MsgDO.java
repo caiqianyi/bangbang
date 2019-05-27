@@ -16,7 +16,7 @@ public class MsgDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//id
-	private Integer id;
+	private Long id;
 	//消息名称
 	private String name;
 	//推送类型  0：系统 1：个人
@@ -41,13 +41,13 @@ public class MsgDO implements Serializable {
 	/**
 	 * 设置：id
 	 */
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：id
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	/**

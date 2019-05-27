@@ -31,4 +31,7 @@ public interface SubscriberService {
 	int batchRemove(Long[] ids);
 
 	List<Map<String, Object>> exeList(Map<String, Object> map);
+	
+	SubscriberDO queryId(String name);
+
 }

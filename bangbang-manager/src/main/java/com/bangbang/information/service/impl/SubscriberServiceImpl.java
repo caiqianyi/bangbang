@@ -56,5 +56,10 @@ public class SubscriberServiceImpl implements SubscriberService {
 	public List<Map<String, Object>> exeList(Map<String, Object> map) {
 		return userDao.exeList(map);
 	}
+
+	@Override
+	public SubscriberDO queryId(String name) {
+		return userDao.queryId(name);
+	}
 	
 }

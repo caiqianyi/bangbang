@@ -22,9 +22,13 @@ import com.bangbang.common.utils.R;
 import com.bangbang.course.domain.CourseDO;
 import com.bangbang.course.service.CourseService;
 import com.bangbang.information.domain.SubcriberLogDO;
+import com.bangbang.information.domain.SubscriberDO;
 import com.bangbang.information.service.SubcriberLogService;
+import com.bangbang.information.service.SubscriberService;
 import com.bangbang.msg.domain.MsgDO;
+import com.bangbang.msg.domain.MsgUserDO;
 import com.bangbang.msg.service.MsgService;
+import com.bangbang.msg.service.MsgUserService;
 
 
 
@@ -45,6 +49,10 @@ public class MsgController {
 	private CourseService courseService;
 	@Autowired
 	private SubcriberLogService subcriberLogService;
+	@Autowired
+	private SubscriberService userService;
+	@Autowired
+	private MsgUserService msgUserService;
 	
 	@GetMapping()
 	@RequiresPermissions("information:msg:msg")
@@ -74,7 +82,7 @@ public class MsgController {
 
 	@GetMapping("/edit/{id}")
 	@RequiresPermissions("information:msg:edit")
-	String edit(@PathVariable("id") Integer id,Model model,Map<String, Object> map){
+	String edit(@PathVariable("id") Long id,Model model,Map<String, Object> map){
 		List<CourseDO> courseN = courseService.list(map);
 		MsgDO msg = msgService.get(id);
 		model.addAttribute("courseN", courseN);
@@ -92,6 +100,15 @@ public class MsgController {
 		msg.setAddTime(new Date());
 		msg.setType(0);
 		if(msgService.save(msg)>0){
+			MsgUserDO msgUser = new MsgUserDO();
+			String forNames = msg.getForNames();
+			String[] split = forNames.split(",");
+			for (String string : split) {
+				SubscriberDO subscriberDO = userService.queryId(string);
+				msgUser.setUserId(subscriberDO.getId());
+				msgUser.setMsgId(msg.getId());
+				msgUserService.save(msgUser);
+			}
 			return R.ok();
 		}
 		return R.error();
@@ -105,6 +122,23 @@ public class MsgController {
 	public R update( MsgDO msg){
 		msg.setUpdateTime(new Date());
 		msgService.update(msg);
+		
+		Long id = msg.getId();
+		List<MsgUserDO> msgUserId = msgUserService.queryMsgUserId(id);
+		for (MsgUserDO msgUserDO : msgUserId) {
+			Long mId = msgUserDO.getId();
+			msgUserService.remove(mId);
+		}
+		MsgUserDO msgUser = new MsgUserDO();
+		String forNames = msg.getForNames();
+		String[] split = forNames.split(",");
+		for (String string : split) {
+			SubscriberDO subscriberDO = userService.queryId(string);
+			msgUser.setUserId(subscriberDO.getId());
+			msgUser.setMsgId(msg.getId());
+			msgUserService.save(msgUser);
+		}
+		
 		return R.ok();
 	}
 	
@@ -114,7 +148,12 @@ public class MsgController {
 	@PostMapping( "/remove")
 	@ResponseBody
 	@RequiresPermissions("information:msg:remove")
-	public R remove( Integer id){
+	public R remove( Long id){
+		List<MsgUserDO> msgUserId = msgUserService.queryMsgUserId(id);
+		for (MsgUserDO msgUserDO : msgUserId) {
+			Long mId = msgUserDO.getId();
+			msgUserService.remove(mId);
+		}
 		if(msgService.remove(id)>0){
 		return R.ok();
 		}
@@ -127,7 +166,7 @@ public class MsgController {
 	@PostMapping( "/batchRemove")
 	@ResponseBody
 	@RequiresPermissions("information:msg:batchRemove")
-	public R remove(@RequestParam("ids[]") Integer[] ids){
+	public R remove(@RequestParam("ids[]") Long[] ids){
 		msgService.batchRemove(ids);
 		return R.ok();
 	}
