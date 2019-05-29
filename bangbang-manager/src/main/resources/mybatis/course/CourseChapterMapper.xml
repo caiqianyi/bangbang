@@ -4,18 +4,18 @@
 <mapper namespace="com.bangbang.course.dao.CourseChapterDao">
 
 	<select id="get" resultType="com.bangbang.course.domain.CourseChapterDO">
-		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_id`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time` from course_chapter where id = #{value}
+		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_num`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time` from course_chapter where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.course.domain.CourseChapterDO">
-		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_id`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time` from course_chapter
+		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_num`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time` from course_chapter
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
 		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
 		  		  <if test="courseName != null and courseName != ''"> and course_name = #{courseName} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
-		  		  <if test="chapterId != null and chapterId != ''"> and chapter_id = #{chapterId} </if>
+		  		  <if test="chapterNum != null and chapterNum != ''"> and chapter_num = #{chapterNum} </if>
 		  		  <if test="chapterName != null and chapterName != ''"> and chapter_name = #{chapterName} </if>
 		  		  <if test="chapterNotes != null and chapterNotes != ''"> and chapter_notes = #{chapterNotes} </if>
 		  		  <if test="type != null and type != ''"> and type = #{type} </if>
@@ -46,7 +46,7 @@
 		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
 		  		  <if test="courseName != null and courseName != ''"> and course_name = #{courseName} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
-		  		  <if test="chapterId != null and chapterId != ''"> and chapter_id = #{chapterId} </if>
+		  		  <if test="chapterNum != null and chapterNum != ''"> and chapter_num = #{chapterNum} </if>
 		  		  <if test="chapterName != null and chapterName != ''"> and chapter_name = #{chapterName} </if>
 		  		  <if test="chapterNotes != null and chapterNotes != ''"> and chapter_notes = #{chapterNotes} </if>
 		  		  <if test="type != null and type != ''"> and type = #{type} </if>
@@ -66,7 +66,7 @@
 			`course_id`, 
 			`course_name`, 
 			`name`, 
-			`chapter_id`, 
+			`chapter_num`, 
 			`chapter_name`, 
 			`chapter_notes`, 
 			`type`, 
@@ -83,7 +83,7 @@
 			#{courseId}, 
 			#{courseName}, 
 			#{name}, 
-			#{chapterId}, 
+			#{chapterNum}, 
 			#{chapterName}, 
 			#{chapterNotes}, 
 			#{type}, 
@@ -102,7 +102,7 @@
 			<if test="courseId != null">`course_id` = #{courseId}, </if>
 			<if test="courseName != null">`course_name` = #{courseName}, </if>
 			<if test="name != null">`name` = #{name}, </if>
-			<if test="chapterId != null">`chapter_id` = #{chapterId}, </if>
+			<if test="chapterNum != null">`chapter_num` = #{chapterNum}, </if>
 			<if test="chapterName != null">`chapter_name` = #{chapterName}, </if>
 			<if test="chapterNotes != null">`chapter_notes` = #{chapterNotes}, </if>
 			<if test="type != null">`type` = #{type}, </if>
@@ -126,8 +126,11 @@
 		</foreach>
 	</delete>
 	<select id="queryCId" resultType="com.bangbang.course.domain.CourseChapterDO">
-		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_id`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time` from course_chapter 
+		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_num`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time` from course_chapter 
 		where course_id = #{courseId} 
-		order by chapter_id asc
+		order by chapter_num asc
+	</select>
+	<select id="queryCourse" resultType="int">
+		select count(*) from course_chapter where course_id = #{course_id}
 	</select>
 </mapper>

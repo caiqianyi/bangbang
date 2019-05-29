@@ -31,5 +31,8 @@ public interface CourseChapterService {
 	int batchRemove(Long[] ids);
 	
 	List<CourseChapterDO> queryCId(Long courseId);
+	
+	int queryCourse(Long courseId);
+
 
 }

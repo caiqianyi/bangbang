@@ -45,9 +45,10 @@
 							</div>
 							
 							<div class="form-group">
+								<input id="forNames" name="forNames" class="form-control" type="hidden">
 								<label class="col-sm-3 control-label">推送用户：</label>
 								<div class="col-sm-8">
-									<select name="forNames" id="forNames" class="selectpicker show-tick form-control" multiple data-live-search="false" data-actions-box="true">
+									<select name="select" id="select" class="selectpicker show-tick form-control" multiple data-live-search="false" data-actions-box="true">
 											<!-- <option value="">请选择课程讲师</option> 
 											<option th:each="un:${userName}"
 											 th:text="${un.name}"
@@ -126,10 +127,6 @@
 	</script>
 	<script type="text/javascript">
 
-	
-		$(window).on('load', function () {
-	 		$('.selectpicker').selectpicker('refresh');
-		});
 		
 		function shopUser(){
 
@@ -147,17 +144,49 @@
 		            	 $('.selectpicker').html("");
 		            	 for(var i=0;i<data.length;i++){
 		            		 console.log(data[i]);
-		            		 $('.selectpicker').append("<option value='" + data[i].name + "'>" + data[i].name + "</option>");
-		            		
+		            		$('.selectpicker').append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+		            	
 		            	 }
-		            	 $('#forNames').selectpicker('refresh');
+		            	 $('#select').selectpicker('refresh');
 		            },
 		           
 				})
 				
-				
 		}
 		
+		
+		
+		
+			$('#select').on('hidden.bs.select',function(e){ 
+				 var forIds = $("#select").val();
+				 if(forIds != null){
+					 $('#forIds').val(forIds);
+				 }else{
+					 $('#forIds').val('');
+				 }
+
+				 var forNames = "";
+				 for(var i=0;i<$("#select").find("option:selected").length;i++){
+				     if(i==0){
+				    	 forNames = $("#select").find("option:selected")[i].innerText;
+				     }else{
+				    	 forNames = forNames + ',' + $("#select").find("option:selected")[i].innerText;
+				     }
+				 }
+				 //console.log(forNames);
+				 var arr = forNames.split(',');
+				 if(arr != null){
+					 $('#forNames').val(arr);
+				 }else{
+					 $('#forNames').val('');
+				 }
+				
+			 })
+			 
+	
+		$(window).on('load', function () {
+	 		$('.selectpicker').selectpicker();
+		});
 	</script>
 </body>
 </html>

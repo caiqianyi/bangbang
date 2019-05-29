@@ -34,4 +34,6 @@ public interface CourseChapterDao {
 	
 	List<CourseChapterDO> queryCId(Long courseId);
 	
+	int queryCourse(Long courseId);
+	
 }

@@ -127,6 +127,9 @@ function validateRule() {
 			money : {
 				isMoney : true
 			},
+			teachers : {
+				required : true
+			},
 		},
 		messages : {
 			courseId : {
@@ -140,6 +143,9 @@ function validateRule() {
 			},
 			money : {
 				isMoney : icon + "请说明课程价格"
+			},
+			teachers : {
+				required : icon + "请选择老师"
 			},
 		}
 	})

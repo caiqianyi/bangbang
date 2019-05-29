@@ -30,7 +30,7 @@ public class CourseDO implements Serializable {
 	//是否收费  0：是 1:否
 	private Integer moneyType;
 	//课程价格
-	private Integer money;
+	private Double money;
 	//是否开启问答 0：是 1：否
 	private Integer questions;
 	//添加时间
@@ -49,6 +49,8 @@ public class CourseDO implements Serializable {
 	private String teacher;
 	//问答讲师
 	private String questionsTeacher;
+	//章节个数
+	private Integer chapterNum;
 	
 	private MultipartFile imgFile;
 	
@@ -127,13 +129,13 @@ public class CourseDO implements Serializable {
 	/**
 	 * 设置：课程价格
 	 */
-	public void setMoney(Integer money) {
+	public void setMoney(Double money) {
 		this.money = money;
 	}
 	/**
 	 * 获取：课程价格
 	 */
-	public Integer getMoney() {
+	public Double getMoney() {
 		return money;
 	}
 	/**
@@ -225,6 +227,12 @@ public class CourseDO implements Serializable {
 	}
 	public void setQuestionsTeacher(String questionsTeacher) {
 		this.questionsTeacher = questionsTeacher;
+	}
+	public Integer getChapterNum() {
+		return chapterNum;
+	}
+	public void setChapterNum(Integer chapterNum) {
+		this.chapterNum = chapterNum;
 	}
 	
 }

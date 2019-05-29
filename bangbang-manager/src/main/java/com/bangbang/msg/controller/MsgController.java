@@ -1,9 +1,17 @@
 package com.bangbang.msg.controller;
 
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -96,30 +104,47 @@ public class MsgController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("information:msg:add")
-	public R save( MsgDO msg){
+	public R save( MsgDO msg,Map<String, Object> map){
+
 		msg.setAddTime(new Date());
 		msg.setType(0);
 		if(msgService.save(msg)>0){
 			MsgUserDO msgUser = new MsgUserDO();
-			String forNames = msg.getForNames();
-			String[] split = forNames.split(",");
-			for (String string : split) {
-				SubscriberDO subscriberDO = userService.queryId(string);
-				msgUser.setUserId(subscriberDO.getId());
-				msgUser.setMsgId(msg.getId());
-				msgUserService.save(msgUser);
+			String forNames = msg.getForIds();
+			if(forNames != null && forNames.length() != 0){
+				String[] split = forNames.split(",");
+				for (String string : split) {
+					SubscriberDO subscriberDO = userService.queryId(string);
+					msgUser.setUserId(subscriberDO.getId());
+					msgUser.setMsgId(msg.getId());
+					msgUser.setAddTime(new Date());
+					msgUser.setStatue(1);
+					msgUserService.save(msgUser);
+				}
+			}else{
+				List<SubscriberDO> list = userService.list(map);
+				for (SubscriberDO subscriberDO : list) {
+					msgUser.setUserId(subscriberDO.getId());
+					msgUser.setMsgId(msg.getId());
+					msgUser.setAddTime(new Date());
+					msgUser.setStatue(1);
+					msgUserService.save(msgUser);
+				}
 			}
+			
 			return R.ok();
 		}
 		return R.error();
 	}
+
+
 	/**
 	 * 修改
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
 	@RequiresPermissions("information:msg:edit")
-	public R update( MsgDO msg){
+	public R update( MsgDO msg,Map<String, Object> map){
 		msg.setUpdateTime(new Date());
 		msgService.update(msg);
 		
@@ -131,14 +156,26 @@ public class MsgController {
 		}
 		MsgUserDO msgUser = new MsgUserDO();
 		String forNames = msg.getForNames();
-		String[] split = forNames.split(",");
-		for (String string : split) {
-			SubscriberDO subscriberDO = userService.queryId(string);
-			msgUser.setUserId(subscriberDO.getId());
-			msgUser.setMsgId(msg.getId());
-			msgUserService.save(msgUser);
+		System.out.println(forNames);
+		if(forNames.equals("") || forNames == null){
+			List<SubscriberDO> list = userService.list(map);
+			for (SubscriberDO subscriberDO : list) {
+				msgUser.setUserId(subscriberDO.getId());
+				msgUser.setMsgId(msg.getId());
+				msgUser.setAddTime(new Date());
+				msgUserService.save(msgUser);
+			
+			}
+		}else{
+			String[] split = forNames.split(",");
+			for (String string : split) {
+				SubscriberDO subscriberDO = userService.queryId(string);
+				msgUser.setUserId(subscriberDO.getId());
+				msgUser.setMsgId(msg.getId());
+				msgUser.setAddTime(new Date());
+				msgUserService.save(msgUser);
+			}
 		}
-		
 		return R.ok();
 	}
 	

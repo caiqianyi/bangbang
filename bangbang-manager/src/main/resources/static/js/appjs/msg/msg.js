@@ -151,15 +151,15 @@ function add() {
 	layer.full(addPage);
 }
 function edit(id) {
-	var editPage = layer.open({
+	layer.open({
 		type : 2,
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '900px', '520px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
-	layer.full(editPage);
+	
 }
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {

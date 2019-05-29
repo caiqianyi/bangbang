@@ -59,5 +59,10 @@ public class CourseChapterServiceImpl implements CourseChapterService {
 	public List<CourseChapterDO> queryCId(Long courseId) {
 		return courseChapterDao.queryCId(courseId);
 	}
+
+	@Override
+	public int queryCourse(Long courseId) {
+		return courseChapterDao.queryCourse(courseId);
+	}
 	
 }
