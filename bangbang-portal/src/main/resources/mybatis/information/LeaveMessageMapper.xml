@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.LeaveMessageDao">
+
+
+	<select id="getAllLeaveMessage" resultType="com.bangbang.information.domain.LeaveMessageDO">
+		select l.id,l.ifanswer,l.ifprivate,c.course_cover,c.course_name,p.chapter_name,l.showhide,l.user_id,l.course_id,l.publish_time,l.leave_text,l.count,l.delete_flag,t.name userName  from leave_message l,t_user t,
+		course c,course_chapter p
+        where l.user_id=t.id and l.course_id=c.course_id and l.chapter_id=p.id
+	</select>
+	
+	<select id="getAllQuestioneAnswers" resultType="com.bangbang.information.domain.QuestioneAnswersDO"> 
+		select c.name,	tqa.course_id,tqa.questions_content,tqa.reply_content,tqa.add_time,tqa.reply_time,tqa.ifreply from t_questione_answers  tqa , course c where 
+		tqa.course_id=c.course_id and user_id=#{value}
+	</select>
+ 	
+	 
+	<insert id="saveLeaveMessage" parameterType="com.bangbang.information.domain.LeaveMessageDO" useGeneratedKeys="true" keyProperty="id">
+		insert into leave_message
+		(
+			`user_id`, 
+			`course_id`, 
+			chapter_id,
+			`leave_text`, 
+			
+			showhide,
+			course_name,
+			chapters_name,
+			ifprivate
+		)
+		values
+		(
+			#{userId}, 
+			#{courseId}, 
+			#{chapterId},
+			#{leaveText}, 
+			
+			
+			#{showhide},
+			#{courseName},
+			#{chapters_name},
+			#{ifprivate}
+		)
+	</insert>
+	 
+	
+
+</mapper>

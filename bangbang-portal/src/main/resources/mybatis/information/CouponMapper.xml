@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.CouponDao">
+
+	<select id="listCoupon" resultType="com.bangbang.information.domain.CouponDO">
+		select s.id, s.coupon_id,t.coupon_balance,t.count_name couponName,t.usecondition, s.user_id,s.validity,s.if_user,s.sendout_time,s.coupon_group from t_coupon t, sendout_coupon s
+		where t.coupon_id=s.coupon_id and s.user_id=${value}
+	</select>
+	
+	<select id="getReedeem" resultType="com.bangbang.information.domain.ReedeemDO">
+		select id ,reedeem_code,sendout_time,user_id,if_used,validity,reedeem_type,reedeem_name,course_id,reedeem_balance,name,phone from sendout_reedeem where 
+		reedeem_code=#{reedeemCode} and user_id=#{id}
+	</select>
+	
+	<update id="updateReedeemIfUsed">
+		update sendout_reedeem set if_used==0 where reedeem_code=#{reedeemCode} and user_id=#{id}
+	
+	</update>
+	
+</mapper>

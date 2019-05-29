@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.SubscriberDao">
+
+	<select id="getInfo" resultType="com.bangbang.information.domain.SubscriberDO">
+  
+		 select id, `heard_url`,`username`,`sign_name`,`sex`,`birthday`,`balance`,`nickname`,`phone`,`name`, leaveMessage_count,ask_count,study_continuity,
+		`ask_count` ,`study_continuity`,`study_time`,`leaveMessage_count`,study_time from t_user where phone = #{value}
+	</select>
+	
+	<update id="updateNickname">
+		update t_user set nickname=#{nickname} where id=#{id}
+	</update>
+	
+	<update id="updatePhone">
+		update t_user set phone=#{phone} where id=#{id}
+	</update>
+	
+	<update id="updateSignName">
+		update t_user set sign_name=#{signName} where id=#{id}
+	</update>
+	
+	<update id="updateBirthday">
+		update t_user set birthday=#{birthday} where id=#{id}
+	</update>
+	
+	
+	<update id="updateSex">
+		update t_user set sex=#{sex} where id=#{id}
+	</update>
+	
+	<update id="updateHeadUrl">
+		update t_user set heard_url=#{headUrl} where id=#{id}
+	</update>
+	
+	
+	
+	<!-- <update id="update" parameterType="com.bangbang.information.domain.SubscriberDO">
+		update t_user 
+		<set>
+			<if test="heardUrl != null and heardUrl!=''">`heard_url` = #{heardUrl}, </if>
+			
+			<if test="signName != null and signName!=''">`sign_name` = #{signName}, </if>
+			<if test="sex != null and sex!=''">`sex` = #{sex}, </if>
+			<if test="birthday != null and birthday!=''">`birthday` = #{birthday}, </if>
+			<if test="nickname != null and nickname!=''">`nickname` = #{nickname}, </if>
+
+			
+			
+			<if test="phone != null and phone!=''">`phone` = #{name}, </if>
+			
+			
+		</set>
+		where id = #{id}
+	</update> -->
+</mapper>
