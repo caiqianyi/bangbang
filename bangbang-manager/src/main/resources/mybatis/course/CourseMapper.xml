@@ -4,11 +4,11 @@
 <mapper namespace="com.bangbang.course.dao.CourseDao">
 
 	<select id="get" resultType="com.bangbang.course.domain.CourseDO">
-		select `id`,`course_id`,`course_name`,`name`,`course_notes`,`money_type`,`money`,`questions`,`add_time`,`update_time`,`start_time`,`end_time`,`status`,course_cover,teacher,questions_teacher from course where id = #{value}
+		select `id`,`course_id`,`course_name`,`name`,`course_notes`,`money_type`,`money`,`questions`,`add_time`,`update_time`,`start_time`,`end_time`,`status`,course_cover,teacher,questions_teacher,chapter_num from course where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.course.domain.CourseDO">
-		select `id`,`course_id`,`course_name`,`name`,`course_notes`,`money_type`,`money`,`questions`,`add_time`,`update_time`,`start_time`,`end_time`,`status`,course_cover,teacher,questions_teacher from course
+		select `id`,`course_id`,`course_name`,`name`,`course_notes`,`money_type`,`money`,`questions`,`add_time`,`update_time`,`start_time`,`end_time`,`status`,course_cover,teacher,questions_teacher,chapter_num from course
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
@@ -26,6 +26,7 @@
 		  		  <if test="courseCover != null and courseCover != ''"> and course_cover = #{courseCover} </if>
 		  		  <if test="teacher != null and teacher != ''"> and teacher = #{teacher} </if>
 		  		  <if test="questionsTeacher != null and questionsTeacher != ''"> and questions_teacher = #{questionsTeacher} </if>
+		  		  <if test="chapterNum != null and chapterNum != ''"> and chapter_um = #{chapterNum} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -59,6 +60,7 @@
 		  		  <if test="courseCover != null and courseCover != ''"> and course_cover = #{courseCover} </if>
 		  		  <if test="teacher != null and teacher != ''"> and teacher = #{teacher} </if>
 		  		  <if test="questionsTeacher != null and questionsTeacher != ''"> and questions_teacher = #{questionsTeacher} </if>
+		  		  <if test="chapterNum != null and chapterNum != ''"> and chapter_num = #{chapterNum} </if>
 		  		</where>
 	</select>
 	 
@@ -79,7 +81,8 @@
 			`course_notes`,
 			`course_cover`,
 			`teacher`,
-			`questions_teacher`
+			`questions_teacher`,
+			`chapter_num`
 		)
 		values
 		(
@@ -97,7 +100,8 @@
 			#{courseNotes},
 			#{courseCover},
 			#{teacher},
-			#{questionsTeacher}
+			#{questionsTeacher},
+			#{chapterNum}
 		)
 	</insert>
 	 
@@ -116,9 +120,10 @@
 			<if test="endTime != null">`end_time` = #{endTime}, </if>
 			<if test="status != null">`status` = #{status},</if>
 			<if test="courseNotes != null">`course_notes` = #{courseNotes},</if>
-			<if test="courseCover != null">`course_cover` = #{courseCover}</if>
+			<if test="courseCover != null">`course_cover` = #{courseCover},</if>
 			<if test="teacher != null">`teacher` = #{teacher},</if>
-			<if test="questionsTeacher != null">`questions_teacher` = #{questionsTeacher}</if>
+			<if test="questionsTeacher != null">`questions_teacher` = #{questionsTeacher},</if>
+			<if test="chapterNum != null">`chapter_num` = #{chapterNum}</if>
 		</set>
 		where id = #{id}
 	</update>

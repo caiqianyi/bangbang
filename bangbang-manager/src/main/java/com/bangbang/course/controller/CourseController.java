@@ -133,6 +133,7 @@ public class CourseController {
 		}
 		Long cId = GenerateCode.gen16(6);
 		course.setCourseId(cId);
+		course.setChapterNum(0);
 		if(courseService.save(course)>0){
 			qmn.setId(course.getId());
 			qmn.setCourseSort(course.getCourseName());
@@ -151,7 +152,7 @@ public class CourseController {
 				tcDO.setTeacherId(teacherId);
 				tcDO.setCourseId(course.getCourseId());
 				teacherCourseService.save(tcDO);
-			}						
+			}									
 			return R.ok();
 		}
 		return R.error();
@@ -198,6 +199,9 @@ public class CourseController {
 		}
 		TeacherCourseDO tcDO = new TeacherCourseDO();
 		String teacher = course.getTeacher();
+		if(teacher == "" || teacher == null){
+			return R.error("老师不能为空");
+		}
 		String[] arr = teacher.split(",");
 		for (String string : arr) {
 			TeacherDO tch = teacherService.queryTeacherId(string);

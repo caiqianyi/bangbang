@@ -46,7 +46,7 @@
 										 th:text="${tn.name}"
 										 th:value="${tn.name}"></option>
 								</select>
-								<!--  <input id="teachers" name="teachers" class="form-control" type="hidden"> -->
+								 <input id="teachers" name="teachers" class="form-control" type="hidden">
 								 <span>（可多选）</span>
 								</div>
 							</div>
@@ -254,6 +254,16 @@
 	     		$('.selectpicker').selectpicker();
 			});
 			
+			$('#teacher').on('hidden.bs.select',function(e){ 
+				 var teacher = $("#teacher").val();
+				// alert(teacher);
+				 if(teacher != null){
+					 $('#teachers').val(teacher);
+				 }else{
+					 $('#teachers').val(null);
+				 }
+
+			 })
 //			var questionsTrue = $("input[name='questions']:checked").val();
 //			if(questionsTrue == 1){
 //				$(".form-group1").hide();

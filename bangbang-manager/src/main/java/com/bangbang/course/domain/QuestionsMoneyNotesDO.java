@@ -24,11 +24,11 @@ public class QuestionsMoneyNotesDO implements Serializable {
 	//课程名称
 	private String name;
 	//问答金额1
-	private Integer questionsMoney1;
+	private Double questionsMoney1;
 	//问答金额2
-	private Integer questionsMoney2;
+	private Double questionsMoney2;
 	//问答金额3
-	private Integer questionsMoney3;
+	private Double questionsMoney3;
 	//问答说明1
 	private String questionsNotes1;
 	//问答说明2
@@ -100,37 +100,37 @@ public class QuestionsMoneyNotesDO implements Serializable {
 	/**
 	 * 设置：问答金额1
 	 */
-	public void setQuestionsMoney1(Integer questionsMoney1) {
+	public void setQuestionsMoney1(Double questionsMoney1) {
 		this.questionsMoney1 = questionsMoney1;
 	}
 	/**
 	 * 获取：问答金额1
 	 */
-	public Integer getQuestionsMoney1() {
+	public Double getQuestionsMoney1() {
 		return questionsMoney1;
 	}
 	/**
 	 * 设置：问答金额2
 	 */
-	public void setQuestionsMoney2(Integer questionsMoney2) {
+	public void setQuestionsMoney2(Double questionsMoney2) {
 		this.questionsMoney2 = questionsMoney2;
 	}
 	/**
 	 * 获取：问答金额2
 	 */
-	public Integer getQuestionsMoney2() {
+	public Double getQuestionsMoney2() {
 		return questionsMoney2;
 	}
 	/**
 	 * 设置：问答金额3
 	 */
-	public void setQuestionsMoney3(Integer questionsMoney3) {
+	public void setQuestionsMoney3(Double questionsMoney3) {
 		this.questionsMoney3 = questionsMoney3;
 	}
 	/**
 	 * 获取：问答金额3
 	 */
-	public Integer getQuestionsMoney3() {
+	public Double getQuestionsMoney3() {
 		return questionsMoney3;
 	}
 	/**

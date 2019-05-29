@@ -37,7 +37,7 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th>章节ID</th>
+									<th>章节序号</th>
 									<th>章节名称</th>
 									<!-- <th>章节说明</th> -->
 									<th>章节</th>
@@ -48,7 +48,7 @@
 							<tbody>
 								<label th:each="cp:${queryCId}" class="checkbox-inline">
 									<tr>
-										<td th:text="${cp.chapterId}"></td>
+										<td th:text="${cp.chapterNum}"></td>
 										<td th:text="${cp.chapterName}"></td>
 										<!--  <td th:text="${cp.chapterNotes}"></td>-->
 										<td th:text="${cp.url}"></td>

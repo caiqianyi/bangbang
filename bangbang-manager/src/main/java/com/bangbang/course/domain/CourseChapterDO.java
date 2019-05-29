@@ -27,8 +27,8 @@ public class CourseChapterDO implements Serializable {
 	private String courseName;
 	//课程名称
 	private String name;
-	//章节id
-	private Integer chapterId;
+	//章节序号
+	private Integer chapterNum;
 	//章节名称
 	private String chapterName;
 	//章节说明
@@ -118,14 +118,14 @@ public class CourseChapterDO implements Serializable {
 	/**
 	 * 设置：章节id
 	 */
-	public void setChapterId(Integer chapterId) {
-		this.chapterId = chapterId;
+	public void setChapterNum(Integer chapterNum) {
+		this.chapterNum = chapterNum;
 	}
 	/**
 	 * 获取：章节id
 	 */
-	public Integer getChapterId() {
-		return chapterId;
+	public Integer getChapterNum() {
+		return chapterNum;
 	}
 	/**
 	 * 设置：章节名称

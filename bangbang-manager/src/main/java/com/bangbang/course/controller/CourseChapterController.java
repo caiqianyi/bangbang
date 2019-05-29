@@ -1,6 +1,7 @@
 package com.bangbang.course.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -104,6 +105,15 @@ public class CourseChapterController {
 			return R.error();
 		}
 		if(courseChapterService.save(courseChapter)>0){
+			Map<String, Object> params = new HashMap<String, Object>();
+			Long courseId = courseChapter.getCourseId();
+			int courseNum = courseChapterService.queryCourse(courseId);
+			params.put("courseId", courseId);
+			List<CourseDO> list = courseService.list(params);
+			Long id = list.get(0).getId();
+			CourseDO course = courseService.get(id);
+			course.setChapterNum(courseNum);
+			courseService.update(course);
 			return R.ok();
 		}
 		return R.error();
@@ -126,7 +136,18 @@ public class CourseChapterController {
 	@ResponseBody
 	@RequiresPermissions("information:courseChapter:remove")
 	public R remove( Long id){
+		
+		CourseChapterDO courseChapter = courseChapterService.get(id);
+		Long courseId = courseChapter.getCourseId();
 		if(courseChapterService.remove(id)>0){
+			int courseNum = courseChapterService.queryCourse(courseId);
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("courseId", courseId);
+			List<CourseDO> list = courseService.list(params);
+			Long ids = list.get(0).getId();
+			CourseDO course = courseService.get(ids);
+			course.setChapterNum(courseNum);
+			courseService.update(course);
 		return R.ok();
 		}
 		return R.error();
