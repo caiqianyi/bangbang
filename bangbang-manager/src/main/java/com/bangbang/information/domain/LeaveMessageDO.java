@@ -25,18 +25,26 @@ public class LeaveMessageDO implements Serializable {
 	private Date publishTime;
 	//具体内容
 	private String leaveText;
-	//查看次数
+	//回复内容
+	private String answerText;
+	//回复时间
+	private Date answerTime;
+	//点赞数
 	private Long count;
 	//删除标志  0 未删除   1已删除
 	private Integer deleteFlag;
-	//课程名
-	private String courseName;
+	//课程名程
+	private String name;
 	//章节名
-	private String chaptersName;
+	private String chapterName;
 	//用户名
 	private String userName;
 	//留言的显示和隐藏(0显示   1隐藏)
 	private Integer showhide;
+	//留言是否公开  0公开  1隐私
+	private Integer ifprivate;
+	//留言是否回复 0已回复  1未回复
+	private Integer ifanswer;
 
 	/**
 	 * 设置：id
@@ -122,11 +130,11 @@ public class LeaveMessageDO implements Serializable {
 	public Integer getDeleteFlag() {
 		return deleteFlag;
 	}
-	public String getCourseName() {
-		return courseName;
+	public String getName() {
+		return name;
 	}
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getUserName() {
 		return userName;
@@ -143,11 +151,35 @@ public class LeaveMessageDO implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public String getChaptersName() {
-		return chaptersName;
+	public String getChapterName() {
+		return chapterName;
 	}
-	public void setChaptersNname(String chaptersName) {
-		this.chaptersName = chaptersName;
+	public void setChapterName(String chapterName) {
+		this.chapterName = chapterName;
+	}
+	public Integer getIfprivate() {
+		return ifprivate;
+	}
+	public void setIfprivate(Integer ifprivate) {
+		this.ifprivate = ifprivate;
+	}
+	public Integer getIfanswer() {
+		return ifanswer;
+	}
+	public void setIfanswer(Integer ifanswer) {
+		this.ifanswer = ifanswer;
+	}
+	public String getAnswerText() {
+		return answerText;
+	}
+	public void setAnswerText(String answerText) {
+		this.answerText = answerText;
+	}
+	public Date getAnswerTime() {
+		return answerTime;
+	}
+	public void setAnswerTime(Date answerTime) {
+		this.answerTime = answerTime;
 	}
 	
 }

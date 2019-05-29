@@ -81,6 +81,8 @@ public class LeaveMessageController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:leavemessage:add")
 	public R save( LeaveMessageDO message){
+		message.setIfprivate(0);
+		message.setIfanswer(1);
 		if(messageService.save(message)>0){
 			return R.ok();
 		}

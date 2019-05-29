@@ -8,8 +8,10 @@ $().ready(function() {
 			}
 		}
 	});
-	$('#content_sn').summernote('code', $("#content").val());
-	$('.summernote').summernote('disable');
+	$('#content_sn').summernote('code', $("#leaveText").val());
+	$('#content_sn1').summernote('code', $("#answerText").val());
+	$('#content_sn').summernote('disable');
+	$('#content_sn1').summernote('disable');
 	validateRule();
 });
 

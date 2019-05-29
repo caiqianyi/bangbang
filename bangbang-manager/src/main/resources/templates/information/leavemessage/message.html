@@ -21,8 +21,15 @@
 							<button class="btn btn-success" onclick="reLoad()">查询</button>
 						</div>
 						<div class="columns pull-right col-md-2 nopadding">
+							<select class="form-control" name="ifanswer" id="ifanswer" >
+                        		<option value=''>查看全部</option>
+                        		<option value='0'>已回复</option>
+                        		<option value='1'>未回复</option>
+                    		</select>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
 							<select class="form-control" name="user_id" id="user_id" >
-                        		<option></option>
+                        		<option value=''>留言人</option>
                         		<option  th:each="list:${list}" th:value="${list.id}" th:text="${list.name }"></option>
                     		</select>
 					</div>

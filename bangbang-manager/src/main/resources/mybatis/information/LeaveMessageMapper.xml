@@ -4,20 +4,23 @@
 <mapper namespace="com.bangbang.information.dao.LeaveMessageDao">
 
 	<select id="get" resultType="com.bangbang.information.domain.LeaveMessageDO">
-		select l.id,l.chapters_name,l.course_name,l.showhide,l.user_id,l.course_id,l.publish_time,l.leave_text,l.count,t.name userName from leave_message l,t_user t where 
-		
-		 l.user_id=t.id and 
+		select l.id,l.ifanswer,l.answer_text,l.ifprivate,c.name,p.chapter_name,l.showhide,l.user_id,l.course_id,l.publish_time,l.leave_text,l.count,t.name userName from leave_message l,t_user t,
+		course c,course_chapter p where 
+													
+		 l.user_id=t.id and l.course_id=c.course_id and l.chapter_id=p.id and
 		l.id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.LeaveMessageDO">
-		select l.id,l.chapters_name,l.course_name,l.showhide,l.user_id,l.course_id,l.publish_time,l.leave_text,l.count,l.delete_flag,t.name userName  from leave_message l,t_user t
-        where l.user_id=t.id 
+		select l.id,l.ifanswer,l.ifprivate,c.name,p.chapter_name,l.showhide,l.user_id,l.course_id,l.publish_time,l.leave_text,l.count,l.delete_flag,t.name userName  from leave_message l,t_user t,
+		course c,course_chapter p
+        where l.user_id=t.id and l.course_id=c.course_id and l.chapter_id=p.id
 		  		  <if test="id != null and id != ''"> and l.id = #{id} </if>
 		  		  <if test="userId != null and userId != ''"> and l.user_id = #{userId} </if>
 		  		  <if test="courseId != null and courseId != ''"> and l.course_id = #{courseId} </if>
 		  		  <if test="publishTime != null and publishTime != ''"> and l.publish_time = #{publishTime} </if>
 		  		  <if test="leaveText != null and leaveText != ''"> and l.leave_text = #{leaveText} </if>
+		  		  <if test="ifanswer != null and ifanswer != ''"> and l.ifanswer = #{ifanswer} </if>
 		  		  <if test="count != null and count != ''"> and l.count = #{count} </if>
 		  		  <if test="deleteFlag != null and deleteFlag != ''"> and l.delete_flag = #{deleteFlag} </if>
 		  		
@@ -60,7 +63,8 @@
 			`delete_flag`,
 			showhide,
 			course_name,
-			chapters_name
+			chapters_name,
+			ifprivate
 		)
 		values
 		(
@@ -72,7 +76,8 @@
 			#{deleteFlag},
 			#{showhide},
 			#{courseName},
-			#{chapters_name}
+			#{chapters_name},
+			#{ifprivate}
 		)
 	</insert>
 	 

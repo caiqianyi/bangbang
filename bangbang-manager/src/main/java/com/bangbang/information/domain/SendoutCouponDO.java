@@ -30,7 +30,7 @@ public class SendoutCouponDO implements Serializable {
 	//已使用的优惠券  0已使用   1未使用
 	private Integer ifUser;
 	//使用条件
-	private String usecondition;
+	private Integer usecondition;
 	//发放时间
 	private Date sendoutTime;
 	//0 新注册用户   1购买商品     2消费金额
@@ -143,10 +143,10 @@ public class SendoutCouponDO implements Serializable {
 	public void setUsecoupon(String usecoupon) {
 		this.usecoupon = usecoupon;
 	}
-	public String getUsecondition() {
+	public Integer getUsecondition() {
 		return usecondition;
 	}
-	public void setUsecondition(String usecondition) {
+	public void setUsecondition(Integer usecondition) {
 		this.usecondition = usecondition;
 	}
 	

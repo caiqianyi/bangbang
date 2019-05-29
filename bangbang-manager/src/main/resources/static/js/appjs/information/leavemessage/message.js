@@ -33,7 +33,8 @@ function load() {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
 								offset:params.offset,
-								userId:$("#user_id option:selected").val()
+								userId:$("#user_id option:selected").val(),
+								ifanswer:$("#ifanswer option:selected").val()
 					           // name:$('#searchName').val(),
 					           // username:$('#searchName').val()
 							};
@@ -57,11 +58,11 @@ function load() {
 									title : '留言人' 
 								},
 																{
-									field : 'courseName', 
+									field : 'name', 
 									title : '课程名' 
 								},
 								{
-									field : 'chaptersName', 
+									field : 'chapterName', 
 									title : '章节名' 
 								},
 																{
@@ -71,6 +72,28 @@ function load() {
 																{
 									field : 'count', 
 									title : '查看次数' 
+								},
+								{
+									field : 'ifanswer', 
+									title : '是否回复',
+									formatter : function(value, row, index) {
+										if(value==0)
+											return '已回复';
+										if(value==1)
+											return '未回复';
+									}
+									
+								},
+								{
+									field : 'ifprivate', 
+									title : '是否公开',
+									formatter : function(value, row, index) {
+										if(value==0)
+											return '公开';
+										if(value==1)
+											return '隐私';
+									}
+									
 								},
 								{
 									field:'showhide',
