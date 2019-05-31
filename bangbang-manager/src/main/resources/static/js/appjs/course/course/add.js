@@ -113,7 +113,7 @@ function validateRule() {
     }, "请说明课程价格");
 	
 	$("#signupForm").validate({
-		ignore: "",
+		//ignore: "",
 		rules : {
 			courseId : {
 				required : true
@@ -126,9 +126,6 @@ function validateRule() {
 			},
 			money : {
 				isMoney : true
-			},
-			teachers : {
-				required : true
 			},
 		},
 		messages : {
@@ -144,10 +141,16 @@ function validateRule() {
 			money : {
 				isMoney : icon + "请说明课程价格"
 			},
-			teachers : {
-				required : icon + "请选择老师"
-			},
-		}
+		},
+		
+//		errorPlacement: function(error, element) {
+//	       // $("#").text("输入有误，请先更正。");
+//	        if (element.hasClass('selectpicker')) {
+//	            error.insertAfter('.bootstrap-select');
+//	        }else {
+//	            error.insertAfter(element);
+//	        }
+//	    }
 	})
 
 }

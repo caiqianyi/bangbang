@@ -75,6 +75,16 @@ function load() {
 																{
 									field : 'questionsMoney', 
 									title : '问答金额' 
+								},									{
+									field : 'ifreply', 
+									title : '回复状态', 
+									formatter : function(value, row, index) {
+										if (value == '0') {
+											return '<span class="label">已回复</span>';
+										} else if (value == '1') {
+											return '<span class="label">未回复</span>';
+										}
+									} 
 								},							{
 									field : 'addTime', 
 									title : '提问时间' 

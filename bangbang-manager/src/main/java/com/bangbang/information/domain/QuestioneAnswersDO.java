@@ -37,7 +37,15 @@ public class QuestioneAnswersDO implements Serializable {
 	private String questionsTeacher;
 	//用户姓名
 	private String userName;
+	//0已回复  1未回复
+	private Integer ifreply;
 
+	public Integer getIfreply() {
+		return ifreply;
+	}
+	public void setIfreply(Integer ifreply) {
+		this.ifreply = ifreply;
+	}
 	/**
 	 * 设置：id
 	 */

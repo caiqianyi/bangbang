@@ -46,7 +46,6 @@
 										 th:text="${tn.name}"
 										 th:value="${tn.name}"></option>
 								</select>
-								 <input id="teachers" name="teachers" class="form-control" type="hidden">
 								 <span>（可多选）</span>
 								</div>
 							</div>
@@ -96,6 +95,8 @@
 										name="questions" value="1" /> 关闭
 									</label>
 									<input id="questionsMN" onclick="addQuestions()" type="button" class="btn btn-primary btn-xs" style="margin-bottom: -5px;" value="添加金额说明">
+									<input id="questionsRE" onclick="removeQuestions()" type="button" class="btn btn-warning btn-xs" style="margin-bottom: -5px;" value="删除金额说明">
+								
 								</div>
 							</div>
 							<div class="form-group1" style="margin-left: -15px; margin-right: -15px;">
@@ -253,29 +254,8 @@
 			$(window).on('load', function () {
 	     		$('.selectpicker').selectpicker();
 			});
-			
-			$('#teacher').on('hidden.bs.select',function(e){ 
-				 var teacher = $("#teacher").val();
-				// alert(teacher);
-				 if(teacher != null){
-					 $('#teachers').val(teacher);
-				 }else{
-					 $('#teachers').val(null);
-				 }
 
-			 })
-//			var questionsTrue = $("input[name='questions']:checked").val();
-//			if(questionsTrue == 1){
-//				$(".form-group1").hide();
-//			}
-//			$("input[type='radio'][name='questions']").on("click",function(){
-//				var questions = $("input[name='questions']:checked").val(); 
-//				if(questions == 0){
-//					 $(".form-group1").show();
-//				}else{
-//					 $(".form-group1").hide();
-//				}
-//			})
+
 			
 			var questionsTrue = $("input[name='questions']:checked").val();
 			if(questionsTrue == 1){
@@ -283,48 +263,58 @@
 				$(".form-group2").hide();
 				$(".form-group3").hide();
 				$("#questionsMN").hide();
+				$("#questionsRE").hide();
 			}
 			$("input[type='radio'][name='questions']").on("click",function(){
 				var questions = $("input[name='questions']:checked").val();
 				if(questions == 0){
 					 $(".form-group1").show();
 					 $("#questionsMN").show();
+					 $("#questionsRE").show();
 				}else{
 					 $(".form-group1").hide();
 					 $(".form-group2").hide();
 					 $(".form-group3").hide();
 					 $("#questionsMN").hide();
-					 times = 1;
+					 $("#questionsRE").hide();
 				}
 			})
 
 		})
 		
-		var times = 1;
 		function addQuestions(){
 			var questions = $("input[name='questions']:checked").val(); 
 			if(questions == 0){
-				times++;
-				//alert(times);
-				if(times == 2){
+				var mn1 =$('.form-group1').css('display');
+				var mn2 =$('.form-group2').css('display');
+				var mn3 =$('.form-group3').css('display');
+				if(mn2 == 'none'){
 					$(".form-group2").show();	
-				}
-				if(times == 3){
+				}else if(mn3 == 'none'){
 					$(".form-group3").show();	
-				}
-				
-				if(times > 3){
-					var mn =$('.form-group1').css('display');
-					var mn =$('.form-group2').css('display');
-					var mn =$('.form-group3').css('display');
-					if(mn == 'block'){
-						alert("最多只能添加三个问答");
-					}
+				}else if(mn1 == 'block'){
+					$(".form-group1").show();	
+					alert("最多只能添加三个问答");
 				}
 			}
 								
 		}
-		
+		function removeQuestions(){
+			var questions = $("input[name='questions']:checked").val(); 
+			if(questions == 0){
+				var mn1 =$('.form-group1').css('display');
+				var mn2 =$('.form-group2').css('display');
+				var mn3 =$('.form-group3').css('display');
+				if(mn3 == 'block'){
+					$(".form-group3").hide();	
+				}else if(mn2 == 'block'){
+					$(".form-group2").hide();	
+				}else if(mn1 == 'block'){
+					$(".form-group1").show();	
+					alert("最少添加一个问答");
+				}
+			}
+		}
 	</script>
 </body>
 </html>
