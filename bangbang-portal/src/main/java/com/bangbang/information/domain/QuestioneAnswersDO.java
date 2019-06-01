@@ -18,15 +18,19 @@ public class QuestioneAnswersDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//id
-	private Integer id;
+	private Long id;
 	//用户Id
 	private Long userId;
 	//课程编号
-	private Integer courseId;
+	private Long courseId;
+	//问答老师编号
+	private Long teacherId;
 	//问答内容
 	private String questionsContent;
 	//回复内容
 	private String replyContent;
+	//问答金额
+	private Double questionsMoney;
 	//添加时间
 	private Date addTime;
 	//回复时间
@@ -47,13 +51,13 @@ public class QuestioneAnswersDO implements Serializable {
 	/**
 	 * 设置：id
 	 */
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：id
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	/**
@@ -71,13 +75,13 @@ public class QuestioneAnswersDO implements Serializable {
 	/**
 	 * 设置：课程Id
 	 */
-	public void setCourseId(Integer courseId) {
+	public void setCourseId(Long courseId) {
 		this.courseId = courseId;
 	}
 	/**
 	 * 获取：课程Id
 	 */
-	public Integer getCourseId() {
+	public Long getCourseId() {
 		return courseId;
 	}
 	/**
@@ -163,6 +167,18 @@ public class QuestioneAnswersDO implements Serializable {
 	}
 	public void setAskimgs(MultipartFile[] askimgs) {
 		this.askimgs = askimgs;
+	}
+	public Double getQuestionsMoney() {
+		return questionsMoney;
+	}
+	public void setQuestionsMoney(Double questionsMoney) {
+		this.questionsMoney = questionsMoney;
+	}
+	public Long getTeacherId() {
+		return teacherId;
+	}
+	public void setTeacherId(Long teacherId) {
+		this.teacherId = teacherId;
 	}
 	
 }

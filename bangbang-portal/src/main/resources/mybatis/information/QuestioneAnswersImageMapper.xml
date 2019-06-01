@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.QuestioneAnswersImageDao">
+
+	<select id="get" resultType="com.bangbang.information.domain.QuestioneAnswersImageDO">
+		select `id`,`question_answers_id`,`pic_img`,`sort`,`status` from t_questione_answers_image where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bangbang.information.domain.QuestioneAnswersImageDO">
+		select `id`,`question_answers_id`,`pic_img`,`sort`,`status` from t_questione_answers_image
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="questionAnswersId != null and questionAnswersId != ''"> and question_answers_id = #{questionAnswersId} </if>
+		  		  <if test="picImg != null and picImg != ''"> and pic_img = #{picImg} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_questione_answers_image
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="questionAnswersId != null and questionAnswersId != ''"> and question_answers_id = #{questionAnswersId} </if>
+		  		  <if test="picImg != null and picImg != ''"> and pic_img = #{picImg} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bangbang.information.domain.QuestioneAnswersImageDO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_questione_answers_image
+		(
+			`question_answers_id`, 
+			`pic_img`, 
+			`sort`, 
+			`status`
+		)
+		values
+		(
+			#{questionAnswersId}, 
+			#{picImg}, 
+			#{sort}, 
+			#{status}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bangbang.information.domain.QuestioneAnswersImageDO">
+		update t_questione_answers_image 
+		<set>
+			<if test="questionAnswersId != null">`question_answers_id` = #{questionAnswersId}, </if>
+			<if test="picImg != null">`pic_img` = #{picImg}, </if>
+			<if test="sort != null">`sort` = #{sort}, </if>
+			<if test="status != null">`status` = #{status}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from t_questione_answers_image where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_questione_answers_image where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

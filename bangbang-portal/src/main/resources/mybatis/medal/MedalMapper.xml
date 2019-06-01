@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.medal.dao.MedalDao">
+
+	<select id="get" resultType="com.bangbang.medal.domain.MedalDO">
+		select `id`,`medal_id`,medal_number,`medal_name`,`medal_ico`,`gain_require`,`medal_sort`,`reward`,`status`,`add_time`,`update_time`,`start_time`,`end_time` from t_medal where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bangbang.medal.domain.MedalDO">
+		select `id`,`medal_id`,medal_number,`medal_name`,`medal_ico`,`gain_require`,`medal_sort`,`reward`,`status`,`add_time`,`update_time`,`start_time`,`end_time` from t_medal
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="medalId != null and medalId != ''"> and medal_id = #{medalId} </if>
+		  		  <if test="medalNumber != null and medalNumber != ''"> and medal_number = #{medalNumber} </if>
+		  		  <if test="medalName != null and medalName != ''"> and medal_name = #{medalName} </if>
+		  		  <if test="medalIco != null and medalIco != ''"> and medal_ico = #{medalIco} </if>
+		  		  <if test="gainRequire != null and gainRequire != ''"> and gain_require = #{gainRequire} </if>
+		  		  <if test="medalSort != null and medalSort != ''"> and medal_sort = #{medalSort} </if>
+		  		  <if test="reward != null and reward != ''"> and reward = #{reward} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
+		  		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  		and status = 1
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by medal_number asc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_medal
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="medalId != null and medalId != ''"> and medal_id = #{medalId} </if>
+		  		  <if test="medalNumber != null and medalNumber != ''"> and medal_number = #{medalNumber} </if>
+		  		  <if test="medalName != null and medalName != ''"> and medal_name = #{medalName} </if>
+		  		  <if test="medalIco != null and medalIco != ''"> and medal_ico = #{medalIco} </if>
+		  		  <if test="gainRequire != null and gainRequire != ''"> and gain_require = #{gainRequire} </if>
+		  		  <if test="medalSort != null and medalSort != ''"> and medal_sort = #{medalSort} </if>
+		  		  <if test="reward != null and reward != ''"> and reward = #{reward} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
+		  		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bangbang.medal.domain.MedalDO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_medal
+		(
+			`medal_id`, 
+			`medal_number`,
+			`medal_name`, 
+			`medal_ico`, 
+			`gain_require`, 
+			`medal_sort`, 
+			`reward`, 
+			`status`, 
+			`add_time`, 
+			`update_time`, 
+			`start_time`, 
+			`end_time`
+		)
+		values
+		(
+			#{medalId}, 
+			#{medalNumber}
+			#{medalName}, 
+			#{medalIco}, 
+			#{gainRequire}, 
+			#{medalSort}, 
+			#{reward}, 
+			#{status}, 
+			#{addTime}, 
+			#{updateTime}, 
+			#{startTime}, 
+			#{endTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bangbang.medal.domain.MedalDO">
+		update t_medal 
+		<set>
+			<if test="medalId != null">`medal_id` = #{medalId}, </if>
+			<if test="medalNumber != null">`medal_number` = #{medalNumber}, </if>
+			<if test="medalName != null">`medal_name` = #{medalName}, </if>
+			<if test="medalIco != null">`medal_ico` = #{medalIco}, </if>
+			<if test="gainRequire != null">`gain_require` = #{gainRequire}, </if>
+			<if test="medalSort != null">`medal_sort` = #{medalSort}, </if>
+			<if test="reward != null">`reward` = #{reward}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="addTime != null">`add_time` = #{addTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="startTime != null">`start_time` = #{startTime}, </if>
+			<if test="endTime != null">`end_time` = #{endTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from t_medal where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_medal where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
