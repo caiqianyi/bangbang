@@ -1,4 +1,4 @@
-package com.bangbang.course.dao;
+package com.bangbang.information.dao;
 
 
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.bangbang.course.domain.QuestionsMoneyNotesDO;
 import com.bangbang.information.domain.QuestioneAnswersDO;
+import com.bangbang.information.domain.QuestionsMoneyNotesDO;
 
 /**
  * 课程问答金额和说明表

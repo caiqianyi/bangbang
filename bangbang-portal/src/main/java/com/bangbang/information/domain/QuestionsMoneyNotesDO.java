@@ -1,4 +1,4 @@
-package com.bangbang.course.domain;
+package com.bangbang.information.domain;
 
 import java.io.Serializable;
 import java.util.Date;

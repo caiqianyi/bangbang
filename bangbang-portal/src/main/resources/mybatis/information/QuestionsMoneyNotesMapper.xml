@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bangbang.course.dao.QuestionsMoneyNotesDao">
+<mapper namespace="com.bangbang.information.dao.QuestionsMoneyNotesDao">
 
-	<select id="get" resultType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
+	<select id="get" resultType="com.bangbang.information.domain.QuestionsMoneyNotesDO">
 		select `id`,`course_sort`,`course_id`,`name`,`questions_money1`,`questions_money2`,`questions_money3`,`questions_notes1`,`questions_notes2`,`questions_notes3`,`add_time`,`update_time`,questions_teacher from questions_money_notes where course_id = #{value}
 	</select>
 
-	<select id="list" resultType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
+	<select id="list" resultType="com.bangbang.information.domain.QuestionsMoneyNotesDO">
 		select `id`,`course_sort`,`course_id`,`name`,`questions_money1`,`questions_money2`,`questions_money3`,`questions_notes1`,`questions_notes2`,`questions_notes3`,`add_time`,`update_time`,questions_teacher from questions_money_notes
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -56,7 +56,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
+	<insert id="save" parameterType="com.bangbang.information.domain.QuestionsMoneyNotesDO">
 		insert into questions_money_notes
 		(
 			`id`, 
@@ -91,7 +91,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.bangbang.course.domain.QuestionsMoneyNotesDO">
+	<update id="update" parameterType="com.bangbang.information.domain.QuestionsMoneyNotesDO">
 		update questions_money_notes 
 		<set>
 			<if test="courseSort != null">`course_sort` = #{courseSort}, </if>

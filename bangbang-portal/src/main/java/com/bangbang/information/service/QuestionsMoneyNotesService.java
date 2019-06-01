@@ -1,11 +1,11 @@
-package com.bangbang.course.service;
+package com.bangbang.information.service;
 
 
 import java.util.List;
 import java.util.Map;
 
-import com.bangbang.course.domain.QuestionsMoneyNotesDO;
 import com.bangbang.information.domain.QuestioneAnswersDO;
+import com.bangbang.information.domain.QuestionsMoneyNotesDO;
 
 /**
  * 课程问答金额和说明表

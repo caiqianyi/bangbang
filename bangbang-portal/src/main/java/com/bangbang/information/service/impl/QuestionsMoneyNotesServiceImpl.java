@@ -1,12 +1,12 @@
-package com.bangbang.course.service.impl;
+package com.bangbang.information.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bangbang.course.dao.QuestionsMoneyNotesDao;
-import com.bangbang.course.domain.QuestionsMoneyNotesDO;
-import com.bangbang.course.service.QuestionsMoneyNotesService;
+import com.bangbang.information.dao.QuestionsMoneyNotesDao;
 import com.bangbang.information.domain.QuestioneAnswersDO;
+import com.bangbang.information.domain.QuestionsMoneyNotesDO;
+import com.bangbang.information.service.QuestionsMoneyNotesService;
 
 import java.util.List;
 import java.util.Map;

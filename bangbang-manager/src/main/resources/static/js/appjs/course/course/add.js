@@ -118,7 +118,7 @@ function validateRule() {
 			courseId : {
 				required : true
 			},
-			courseName : {
+			sortId : {
 				required : true
 			},
 			name : {
@@ -132,7 +132,7 @@ function validateRule() {
 			courseId : {
 				required : icon + "请输入一个课程编号"
 			},
-			courseName : {
+			sortId : {
 				required : icon + "请选择课程分类"
 			},
 			name : {

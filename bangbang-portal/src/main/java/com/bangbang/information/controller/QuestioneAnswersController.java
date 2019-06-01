@@ -25,12 +25,12 @@ import com.bangbang.common.utils.FileUtil;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
-import com.bangbang.course.domain.QuestionsMoneyNotesDO;
-import com.bangbang.course.service.QuestionsMoneyNotesService;
 import com.bangbang.information.domain.QuestioneAnswersDO;
 import com.bangbang.information.domain.QuestioneAnswersImageDO;
+import com.bangbang.information.domain.QuestionsMoneyNotesDO;
 import com.bangbang.information.service.QuestioneAnswersImageService;
 import com.bangbang.information.service.QuestioneAnswersService;
+import com.bangbang.information.service.QuestionsMoneyNotesService;
 import com.bangbang.teacher.domain.TeacherDO;
 import com.bangbang.teacher.service.TeacherService;
 
