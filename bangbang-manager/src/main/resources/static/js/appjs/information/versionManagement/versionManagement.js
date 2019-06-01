@@ -1,5 +1,5 @@
 
-var prefix = "/information/questioneAnswers"
+var prefix = "/information/versionManagement"
 $(function() {
 	load();
 });
@@ -32,8 +32,8 @@ function load() {
 							return {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
-								offset:params.offset,
-					            userName:$('#searchName').val(),
+								offset:params.offset
+					           // name:$('#searchName').val(),
 					           // username:$('#searchName').val()
 							};
 						},
@@ -44,69 +44,55 @@ function load() {
 						// sortOrder.
 						// 返回false将会终止请求
 						columns : [
-								{
+								/*{
 									checkbox : true
-								},/*
+								},*/
 																{
 									field : 'id', 
 									title : 'id' 
-								},*/
-																{
-									field : 'userName', 
-									title : '问答用户' 
 								},
-																{
-									field : 'questionsTeacher', 
-									title : '问答讲师' 
-								},/*
-																{
-									field : 'questionsContent', 
-									title : '问答内容' 
-								},
-								
-																{
-									field : 'replyContent', 
-									title : '回复内容' 
-								},*/
-																{
-									field : 'courseName', 
-									title : '问答课程' 
-								},
-																{
-									field : 'questionsMoney', 
-									title : '问答金额' 
-								},									{
-									field : 'ifreply', 
-									title : '回复状态', 
+								{
+									field:'phoneSystem',
+									title:'手机系统',
 									formatter : function(value, row, index) {
-										if (value == '0') {
-											return '<span class="label">已回复</span>';
-										} else if (value == '1') {
-											return '<span class="label">未回复</span>';
-										}
-									} 
-								},							{
-									field : 'addTime', 
-									title : '提问时间' 
-								},								{
-									field : 'replyTime', 
-									title : '回答时间' 
+										if(value==0)
+											return 'Android';
+										if(value==1)
+											return 'ios';
+									}
+									
+								},
+																{
+									field : 'appNum', 
+									title : 'app版本号' 
+								},
+																{
+									field : 'appUpdateTime', 
+									title : 'app更新时间' 
+								},
+																{
+									field : 'appDownloadLink', 
+									title : 'app下载链接' 
+								},
+																{
+									field : 'appImprint', 
+									title : 'app版本说明' 
 								},
 																{
 									title : '操作',
 									field : 'id',
 									align : 'center',
 									formatter : function(value, row, index) {
-										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" value="查看回复" mce_href="#" title="查看回复" onclick="edit(\''
+										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
 												+ row.id
-												+ '\')" style="text-decoration:none">查看内容</a> ';
+												+ '\')"><i class="fa fa-edit"></i></a> ';
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
 										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
-										return e  ;
+										return e + d ;
 									}
 								} ]
 					});
@@ -125,7 +111,7 @@ function add() {
 	});
 }
 function edit(id) {
-	var editPage = layer.open({
+	layer.open({
 		type : 2,
 		title : '编辑',
 		maxmin : true,
@@ -133,7 +119,6 @@ function edit(id) {
 		area : [ '800px', '520px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
-	layer.full(editPage);
 }
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {

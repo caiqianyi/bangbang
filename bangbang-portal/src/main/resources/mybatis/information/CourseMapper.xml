@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.CourseDao">
+	<select id="getAllCourseSort" resultType="com.bangbang.information.domain.CourseSortDO">
+		select id,sort_name from course_sort where status=0 ;
+		
+	</select>
+	
+	<select id="getAllCourseBySortId" resultType="com.bangbang.information.domain.CourseDO">
+	   select `id`,`course_id`,`name`,`course_notes`,`money_type`,`money`,`questions`,`course_cover`,`teacher`,`chapter_num`
+	   from course where sort_id=#{id}
+	</select>
+	
+	<select id="getAllCourseByFlag" resultType="com.bangbang.information.domain.SubcriberLogDO">
+	   select `id`,`course_id`,`course_name`,`name`,`user_id`,`flag`,course_cover,chapter_num from subcriber_log 
+	     <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
+		  		  <if test="courseName != null and courseName != ''"> and course_name = #{courseName} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="flag != null and flag != ''"> and flag = #{flag} </if>
+		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
+		  		</where>
+	</select>
+	
+	<select id="getPlayRecord" resultType="com.bangbang.information.domain.PlayRecordDO">
+	  select `character_id`,name,`chapter_name`,`played_time`,`surplus_time`,chapter_num,course_cover  from play_record
+	    <where>  
+		  	<if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
+		  	<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		</where>
+	</select>
+	
+	<select id="getCourseCharacterByCourseId" resultType="com.bangbang.information.domain.CourseChapterDO">
+		select id,course_id,chapter_num,chapter_name,chapter_notes,url from course_chapter where course_id=#{courseId}
+	</select>
+	
+	
+	<select id="getPlayRecordByUserIdAndCourseId" resultType="com.bangbang.information.domain.PlayRecordDO">
+		select `character_id`,`chapter_name`,`played_time`,`surplus_time` from play_record
+		where course_id=#{courseId} and user_id=#{userId}
+	</select>
+	
+	<insert id="saveSubcriberLog" parameterType="com.bangbang.information.domain.SubcriberLogDO" useGeneratedKeys="true" keyProperty="id">
+		insert into subcriber_log
+		(
+			`course_id`, 
+			`course_name`, 
+			`name`, 
+		
+			`user_id`, 
+			
+			`flag`, 
+			`course_cover`,
+  			`chapter_num` 
+		)
+		values
+		(
+			#{courseId}, 
+			
+			#{courseName}, 
+			#{name}, 
+		
+			#{userId}, 
+		
+			#{flag}, 
+			#{course_cover},
+  			#{chapter_num} 
+		)
+	</insert>
+	
+	<select id="getCourseByCourseId" resultType="com.bangbang.information.domain.CourseDO">
+		  select `id`,`course_id`,`name`,`course_notes`,`money_type`,`money`,`questions`,`course_cover`,`teacher`,`chapter_num`,course_name
+	   from course where course_id=#{value}
+	 </select>
+	
+</mapper>

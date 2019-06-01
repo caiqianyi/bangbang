@@ -64,7 +64,7 @@ public class CourseController {
 	private TeacherService teacherService;
 	@Autowired
 	private TeacherCourseService teacherCourseService;
-	
+
 	
 	@GetMapping()
 	@RequiresPermissions("information:course:course")
@@ -134,13 +134,17 @@ public class CourseController {
 		Long cId = GenerateCode.gen16(6);
 		course.setCourseId(cId);
 		course.setChapterNum(0);
+		String teacher2 = course.getTeacher();
+		if(teacher2 == null || teacher2.equals("")){
+			return R.error("请选择老师");
+		}
 		if(courseService.save(course)>0){
 			qmn.setId(course.getId());
 			qmn.setCourseSort(course.getCourseName());
 			qmn.setCourseId(course.getCourseId());
 			qmn.setName(course.getName());
 			qmn.setQuestionsTeacher(course.getQuestionsTeacher());
-			questionsMoneyNotesService.save(qmn);
+			questionsMoneyNotesService.save(qmn);			
 			
 			TeacherCourseDO tcDO = new TeacherCourseDO();
 			String teacher = course.getTeacher();
@@ -199,9 +203,6 @@ public class CourseController {
 		}
 		TeacherCourseDO tcDO = new TeacherCourseDO();
 		String teacher = course.getTeacher();
-		if(teacher == "" || teacher == null){
-			return R.error("老师不能为空");
-		}
 		String[] arr = teacher.split(",");
 		for (String string : arr) {
 			TeacherDO tch = teacherService.queryTeacherId(string);

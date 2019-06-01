@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.VersionManagementDao">
+
+	<select id="get" resultType="com.bangbang.information.domain.VersionManagementDO">
+		select `id`,phone_system,`app_num`,`app_update_time`,`app_download_link`,`app_imprint` from app_version_management where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bangbang.information.domain.VersionManagementDO">
+		select `id`,phone_system,`app_num`,`app_update_time`,`app_download_link`,`app_imprint` from app_version_management
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="appNum != null and appNum != ''"> and app_num = #{appNum} </if>
+		  		  <if test="appUpdateTime != null and appUpdateTime != ''"> and app_update_time = #{appUpdateTime} </if>
+		  		  <if test="appDownloadLink != null and appDownloadLink != ''"> and app_download_link = #{appDownloadLink} </if>
+		  		  <if test="appImprint != null and appImprint != ''"> and app_imprint = #{appImprint} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id ASC
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from app_version_management
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="appNum != null and appNum != ''"> and app_num = #{appNum} </if>
+		  		  <if test="appUpdateTime != null and appUpdateTime != ''"> and app_update_time = #{appUpdateTime} </if>
+		  		  <if test="appDownloadLink != null and appDownloadLink != ''"> and app_download_link = #{appDownloadLink} </if>
+		  		  <if test="appImprint != null and appImprint != ''"> and app_imprint = #{appImprint} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bangbang.information.domain.VersionManagementDO">
+		insert into app_version_management
+		(
+			`id`, 
+			`app_num`, 
+			`app_update_time`, 
+			`app_download_link`, 
+			`app_imprint`,
+			phone_system
+		)
+		values
+		(
+			#{id}, 
+			#{appNum}, 
+			#{appUpdateTime}, 
+			#{appDownloadLink}, 
+			#{appImprint},
+			#{phoneSystem}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bangbang.information.domain.VersionManagementDO">
+		update app_version_management 
+		<set>
+			<if test="appNum != null">`app_num` = #{appNum}, </if>
+			<if test="appUpdateTime != null">`app_update_time` = #{appUpdateTime}, </if>
+			<if test="appDownloadLink != null">`app_download_link` = #{appDownloadLink}, </if>
+			<if test="appImprint != null">`app_imprint` = #{appImprint},</if>
+			<if test="phoneSystem != null">`phone_system` = #{phoneSystem}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from app_version_management where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from app_version_management where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

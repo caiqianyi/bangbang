@@ -41,7 +41,7 @@
 									<th>章节名称</th>
 									<!-- <th>章节说明</th> -->
 									<th>章节</th>
-									<th>章节状态</th>
+									<!-- <th>章节状态</th>-->
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -52,7 +52,7 @@
 										<td th:text="${cp.chapterName}"></td>
 										<!--  <td th:text="${cp.chapterNotes}"></td>-->
 										<td th:text="${cp.url}"></td>
-										<td th:text="${cp.chapterStatus}" class="sta"></td>
+										<!-- <td th:text="${cp.chapterStatus}" class="sta"></td> -->
 										<td style="width: 170px; ">
 											<button type="button" class="btn btn-primary btn-xs"  th:onclick="'javascript:edit(\''+${cp.id}+'\')'">
 												<i class="fa fa-edit" aria-hidden="true"></i>编辑
@@ -118,14 +118,14 @@
 			}
 		 
 		 $(document).ready( function () {
-			    $(".sta").each(function(i,item){
-			        var text = $(this).text();
-			        if(text == "0"){
-			            $(this).text("解锁")
-			        }else if(text == "1"){
-			            $(this).text("限制");
-			        }
-			    })
+//			    $(".sta").each(function(i,item){
+//			        var text = $(this).text();
+//			        if(text == "0"){
+//			            $(this).text("解锁")
+//			        }else if(text == "1"){
+//			            $(this).text("限制");
+//			        }
+//			    })
 			})
 		
 		 function edit(id){
@@ -166,7 +166,7 @@
 		 function cha(id){
 			 layer.open({
 					type : 2,
-					title : '编辑',
+					title : '课程',
 					maxmin : true,
 					shadeClose : false, // 点击遮罩关闭层
 					area : [ '700px', '500px' ],

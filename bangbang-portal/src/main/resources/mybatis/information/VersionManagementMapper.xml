@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bangbang.information.dao.VersionManagementDao">
+
+	<select id="get" resultType="com.bangbang.information.domain.VersionManagementDO">
+		select * from app_version_management where app_update_time=(select max(app_update_time) from app_version_management where phone_system=#{value}
+) and phone_system=#{value}
+		
+	
+	
+	</select>
+
+	
+</mapper>
