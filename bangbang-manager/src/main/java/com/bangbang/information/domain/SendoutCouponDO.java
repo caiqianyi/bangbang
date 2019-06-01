@@ -33,7 +33,7 @@ public class SendoutCouponDO implements Serializable {
 	private Integer usecondition;
 	//发放时间
 	private Date sendoutTime;
-	//0 新注册用户   1购买商品     2消费金额
+	//0 新注册用户   1购买商品     2消费金额 3兑换码兑换
 	private Integer couponGroup;
 	//过期显示
 	private String usecoupon;

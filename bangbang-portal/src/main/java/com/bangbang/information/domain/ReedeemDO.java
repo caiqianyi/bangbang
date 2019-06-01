@@ -30,6 +30,8 @@ public class ReedeemDO implements Serializable {
 	private Long courseId;
 	//0已使用   1未使用 2已过期
 	private Integer ifUsed;
+	//优惠券编号
+	private Long couponId;
 	//余额
 	private Integer reedeemBalance;
 	//有效期
@@ -142,6 +144,12 @@ public class ReedeemDO implements Serializable {
 	}
 	public void setCourseId(Long courseId) {
 		this.courseId = courseId;
+	}
+	public Long getCouponId() {
+		return couponId;
+	}
+	public void setCouponId(Long couponId) {
+		this.couponId = couponId;
 	}
 	
 }

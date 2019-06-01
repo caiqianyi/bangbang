@@ -58,5 +58,7 @@ public class CouponServiceImpl implements CouponService {
 	public void updateBycouponId(Long couponId,Integer length) {
 		couponDao.updateBycouponId(couponId,length);
 	}
+
+	
 	
 }

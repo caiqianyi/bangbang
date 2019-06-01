@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.domain.ReedeemDO;
 
 /**
@@ -36,4 +37,5 @@ public interface ReedeemDao {
 	void updateByReemId(@Param("id") Long id, @Param("length") int length);
 
 	int savelist(List<ReedeemDO> list);
+	List<CouponDO> getCoupon();
 }

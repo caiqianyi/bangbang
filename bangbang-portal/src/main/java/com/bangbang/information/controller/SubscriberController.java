@@ -3,6 +3,7 @@ package com.bangbang.information.controller;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.Multipart;
@@ -19,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bangbang.common.annotation.Log;
 import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.utils.FileUtil;
+import com.bangbang.information.domain.LeaveMessageDO;
+import com.bangbang.information.domain.QuestioneAnswersDO;
 import com.bangbang.information.domain.SubscriberDO;
 import com.bangbang.information.service.SubscriberService;
 
@@ -30,17 +33,19 @@ public class SubscriberController {
 	@Autowired
 	private SubscriberService subscriberService;
 	
-//	/**
-//	 * 查询用户的信息
-//	 */
-//	@Log("用户信息查询接口")
-//	@GetMapping("/info")
-//	public Map<String,Object> getSubscriberInfo(String phone){
-//		SubscriberDO subscriberDO = subscriberService.getInfo(phone);
-//		Map<String,Object> map = new HashMap<String,Object>();
-//		map.put("data", subscriberDO);
-//		return map;
-//	}
+	/**
+	 * 查询用户的信息
+	 */
+	@Log("用户信息查询接口")
+	@GetMapping("/info")
+	public Map<String,Object> getSubscriberInfo(String phone){
+		SubscriberDO subscriberDO = subscriberService.getInfo(phone);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", 0);
+		map.put("msg","");
+		map.put("data", subscriberDO);
+		return map;
+	}
 	
 	/**
 	 * 更改昵称
@@ -50,10 +55,14 @@ public class SubscriberController {
 	public Map<String,Object> updateNickname(Long id,String nickname){
 		int result=subscriberService.updateNickname(id,nickname);
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(result>0)
+		if(result>0){
+			map.put("code", 0);
 			map.put("msg","昵称修改成功");
-		else
+		}
+		else{
+			map.put("code", 1);
 			map.put("msg","昵称修改失败");
+		}
 		return map;
 	}
 	
@@ -65,10 +74,15 @@ public class SubscriberController {
 	public Map<String,Object> updatePhone(Long id,String phone){
 		int result=subscriberService.updatePhone(id,phone);
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(result>0)
+		if(result>0){
+			map.put("code", 0);
 			map.put("msg","手机号修改成功");
-		else
+		}
+			
+		else{
+			map.put("code", 1);
 			map.put("msg","手机号修改失败");
+		}
 		return map;
 	}
 	
@@ -80,10 +94,16 @@ public class SubscriberController {
 	public Map<String,Object> updateSignName(Long id,String signName){
 		int result=subscriberService.updateSignName(id,signName);
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(result>0)
+		if(result>0){
+			map.put("code", 0);
 			map.put("msg","签名修改成功");
-		else
+		}
+			
+		else{
+			map.put("code", 1);
 			map.put("msg","签名修改失败");
+		}
+			
 		return map;
 	}
 	
@@ -95,10 +115,14 @@ public class SubscriberController {
 	public Map<String,Object> updateBirthday(Long id,Date birthday){
 		int result=subscriberService.updateBirthday(id,birthday);
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(result>0)
+		if(result>0){
+			map.put("code", 0);
 			map.put("msg","修改成功");
-		else
+		}	
+		else{
+			map.put("code", 1);
 			map.put("msg","修改失败");
+		}
 		return map;
 	}
 	
@@ -110,10 +134,15 @@ public class SubscriberController {
 	public Map<String,Object> updateSex(Long id,Integer sex){
 		int result=subscriberService.updateSex(id,sex);
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(result>0)
+		if(result>0){
+			map.put("code", 0);
 			map.put("msg","修改成功");
-		else
+		}
+			
+		else{
+			map.put("code", 1);
 			map.put("msg","修改失败");
+		}
 		return map;
 	}
 	
@@ -137,12 +166,15 @@ public class SubscriberController {
 	                e.printStackTrace();
 	            }
 
-	            if (subscriberService.updateHeadUrl(id,"/files/" + fileName)>0) {
+	            if (subscriberService.updateHeadUrl(id,"/files/bangbang/" + fileName)>0) {
+	            	map.put("code", 0);
 	                map.put("msg", "头像保存成功");
 	            } else {
+	            	map.put("code", 1);
 	                map.put("msg", "头像保存失败");
 	            }
 	        }else{
+	        	map.put("code", 1);
 	            map.put("msg", "头像附件为空");
 	        }
 	        return map;

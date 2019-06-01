@@ -37,6 +37,8 @@ public class ReedeemDO implements Serializable {
 	private String reedeemName;
 	//课程编号
 	private Long courseId;
+	//优惠券编号
+	private Long couponId;
 	//发放数量
 	private Integer reedeemCount;
 	//剩余数量
@@ -165,6 +167,12 @@ public class ReedeemDO implements Serializable {
 	}
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
+	}
+	public Long getCouponId() {
+		return couponId;
+	}
+	public void setCouponId(Long couponId) {
+		this.couponId = couponId;
 	}
 	
 	

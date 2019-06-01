@@ -22,12 +22,13 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">课程分类：</label>
 								<div class="col-sm-8">
-								<select class="form-control" name="courseName" required>
+								<select class="form-control" name="sortId" required>
 										<option value="">请选择课程分类</option>
 										<option th:each="cn:${courseName}"
 										 th:text="${cn.sortName}"
-										 th:value="${cn.sortName}"></option>
+										 th:value="${cn.id}"></option>
 								</select>
+								<input type="hidden" name="courseName">
 								</div>
 							</div>
 							<div class="form-group">
@@ -299,6 +300,13 @@
 			}
 								
 		}
+		
+		
+		$("[name='sortId']").change(function(){
+			var courseName = $(this).children(":selected").text();
+			$("[name='courseName']").val(courseName);
+		});
+
 		function removeQuestions(){
 			var questions = $("input[name='questions']:checked").val(); 
 			if(questions == 0){

@@ -70,9 +70,9 @@ function load() {
 										if(value==1)
 											return '兑换余额   <font color="green">面值' +row.reedeemBalance+'元</font>';
 										if(value==2)
-											return '兑换优惠券，一次使用';
+											return '兑换优惠券  <font color="green">' +row.couponId+'</font>，一次使用';
 										if(value==3)
-											return '兑换优惠券，多次使用';
+											return '兑换优惠券，<font color="green">' +row.couponId+'</font>，多次使用';
 									}
 								},
 								 

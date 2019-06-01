@@ -4,6 +4,7 @@ package com.bangbang.information.service;
 import java.util.List;
 import java.util.Map;
 
+import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.domain.ReedeemDO;
 
 /**
@@ -32,4 +33,5 @@ public interface ReedeemService {
 	void updateByReemId(Long id, int length);
 
 	int savelist(List<ReedeemDO> list);
+	List<CouponDO> getCoupon();
 }

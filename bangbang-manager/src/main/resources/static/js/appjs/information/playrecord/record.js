@@ -66,7 +66,7 @@ function load() {
 									title : '课程名称' 
 								},
 																{
-									field : 'chaptersName', 
+									field : 'chapterName', 
 									title : '章节名称' 
 								},
 																{

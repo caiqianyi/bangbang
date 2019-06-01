@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bangbang.information.dao.ReedeemDao;
+import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.domain.ReedeemDO;
 import com.bangbang.information.service.ReedeemService;
 
@@ -64,4 +65,8 @@ public class ReedeemServiceImpl implements ReedeemService {
 		return reedeemDao.savelist(list);
 	}
 	
+	@Override
+	public List<CouponDO> getCoupon() {
+		return reedeemDao.getCoupon();
+	}
 }

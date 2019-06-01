@@ -85,9 +85,9 @@ function load() {
 									title : '是否使用',
 									formatter : function(value, row, index) {
 										if(value==0)
-											return "未使用 ， "+row.usecoupon;
+											return "已使用 ";
 										if(value==1)
-											return "已使用";
+											return "未使用， "+row.usecoupon;
 									}
 								}
 																/*{

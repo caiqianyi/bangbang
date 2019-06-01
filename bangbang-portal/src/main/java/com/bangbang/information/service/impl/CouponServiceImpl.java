@@ -26,8 +26,18 @@ public class CouponServiceImpl implements CouponService{
 		return couponDao.getReedeem(id,reedeemCode);
 	}
 	@Override
-	public void updateReedeemIfUsed(Long id, String reedeemCode) {
-		 couponDao.updateReedeemIfUsed(id,reedeemCode);
+	public int updateReedeemIfUsed(Long id, String reedeemCode) {
+		 return couponDao.updateReedeemIfUsed(id,reedeemCode);
+	}
+	@Override
+	public CouponDO getCouponByCouponId(Long couponId) {
+	
+		return  couponDao.getCouponByCouponId(couponId);
+	}
+	@Override
+	public int saveSendoutCoupon(CouponDO couponDO) {
+		
+		return couponDao.saveSendoutCoupon(couponDO);
 	}
 
 }

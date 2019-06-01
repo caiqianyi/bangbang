@@ -1,5 +1,6 @@
 package com.bangbang.information.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +24,7 @@ import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
 import com.bangbang.course.domain.CourseDO;
 import com.bangbang.course.service.CourseService;
+import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.domain.SendoutCouponDO;
 import com.bangbang.information.domain.SubscriberDO;
 import com.bangbang.information.service.CouponService;
@@ -91,9 +93,12 @@ public class SendoutCouponController {
 		model.addAttribute("list", list);
 		model.addAttribute("validity",validity);
 		model.addAttribute("couponSurplus",couponSurplus);
+		
+	
 	    return "information/sendoutcoupon/sendoutadd";
 	}
 
+	
 	@GetMapping("/edit/{id}")
 	@RequiresPermissions("information:coupon:sendout")
 	String edit(@PathVariable("id") Long id,Model model){
@@ -157,4 +162,5 @@ public class SendoutCouponController {
 		sendoutcouponService.batchRemove(ids);
 		return R.ok();
 	}
+	
 }

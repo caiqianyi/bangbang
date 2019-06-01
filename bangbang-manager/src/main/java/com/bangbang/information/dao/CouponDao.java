@@ -33,4 +33,6 @@ public interface CouponDao {
 	int batchRemove(Long[] ids);
 
 	void updateBycouponId(@Param("couponId") Long couponId,@Param("length") Integer length);
+
+	
 }
