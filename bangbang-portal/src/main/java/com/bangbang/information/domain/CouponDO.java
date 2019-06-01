@@ -23,7 +23,7 @@ public class CouponDO {
 		private Date sendoutTime;
 		//有效期
 		private Date validityTime;
-		//0 新注册用户   1购买商品     2消费金额
+		//0 新注册用户   1购买商品     2消费金额 3兑换码兑换
 		private Integer couponGroup;
 		public Long getId() {
 			return id;

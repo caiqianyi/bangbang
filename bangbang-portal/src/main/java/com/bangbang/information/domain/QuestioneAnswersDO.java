@@ -31,8 +31,7 @@ public class QuestioneAnswersDO implements Serializable {
 	private Date addTime;
 	//回复时间
 	private Date replyTime;
-	//课程名
-	private String courseName;
+	
 	//问答老师
 	private String questionsTeacher;
 	//课程名
@@ -43,6 +42,7 @@ public class QuestioneAnswersDO implements Serializable {
 	private String courseCover;
 	//问答图片
 	private MultipartFile[] askimgs;
+
 	
 	/**
 	 * 设置：id
@@ -127,12 +127,6 @@ public class QuestioneAnswersDO implements Serializable {
 	 */
 	public Date getReplyTime() {
 		return replyTime;
-	}
-	public String getCourseName() {
-		return courseName;
-	}
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
 	}
 	public String getQuestionsTeacher() {
 		return questionsTeacher;

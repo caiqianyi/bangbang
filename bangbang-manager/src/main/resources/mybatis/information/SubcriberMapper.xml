@@ -4,11 +4,11 @@
 <mapper namespace="com.bangbang.information.dao.SubscriberDao">
 
 	<select id="get" resultType="com.bangbang.information.domain.SubscriberDO">
-		select `id`,`heard_url`,registration_source,phone_system,`username`,`sign_name`,`sex`,`birthday`,`login_time`,`used_time`,`balance`,`nickname`,`user_id`,`open_id`,`password`,`phone`,`name`,`register_time`,`update_time`,`delete_flag` from t_user where id = #{value}
+		select `id`,`heard_url`,registration_source,phone_system,`username`,`sign_name`,`sex`,`birthday`,`login_time`,`used_time`,`balance`,`nickname`,`open_id`,`password`,`phone`,`name`,`register_time`,`update_time`,`delete_flag` from t_user where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.SubscriberDO">
-		select `id`,`heard_url`,phone_system,`username`,registration_source,`sign_name`,`sex`,`birthday`,`login_time`,`used_time`,`balance`,`nickname`,`user_id`,`open_id`,`password`,`phone`,`name`,`register_time`,`update_time`,`delete_flag` from t_user
+		select `id`,`heard_url`,phone_system,`username`,registration_source,`sign_name`,`sex`,`birthday`,`login_time`,`used_time`,`balance`,`nickname`,`open_id`,`password`,`phone`,`name`,`register_time`,`update_time`,`delete_flag` from t_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="signName != null and signName != ''"> and sign_name = #{signName} </if>
@@ -76,7 +76,7 @@
 		  		  <if test="usedTime != null and usedTime != ''"> and used_time = #{usedTime} </if>
 		  		  <if test="balance != null and balance != ''"> and balance = #{balance} </if>
 		  		  <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
-		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		
 		  		 
 		  		 
 		  		
@@ -99,7 +99,7 @@
 			`used_time`, 
 			`balance`, 
 			`nickname`, 
-			`user_id`, 
+		
 			`open_id`, 
 			`password`, 
 			`phone`, 
@@ -121,7 +121,7 @@
 			#{usedTime}, 
 			#{balance}, 
 			#{nickname}, 
-			#{userId}, 
+		
 			#{openId}, 
 			#{password}, 
 			#{phone}, 
@@ -146,7 +146,6 @@
 			<if test="usedTime != null">`used_time` = #{usedTime}, </if>
 			<if test="balance != null">`balance` = #{balance}, </if>
 			<if test="nickname != null">`nickname` = #{nickname}, </if>
-			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="openId != null">`open_id` = #{openId}, </if>
 			
 			

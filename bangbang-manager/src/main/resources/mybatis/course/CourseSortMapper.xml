@@ -79,7 +79,7 @@
 		</foreach>
 	</delete>
 	<select id="queryName" resultType="com.bangbang.course.domain.CourseSortDO">
-		SELECT `sort_name` FROM course_sort
+		SELECT id, `sort_name` FROM course_sort
 	</select>
 
 </mapper>

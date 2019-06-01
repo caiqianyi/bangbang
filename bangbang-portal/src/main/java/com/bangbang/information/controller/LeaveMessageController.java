@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,19 +23,19 @@ import com.bangbang.information.service.SubscriberService;
 public class LeaveMessageController { 
 	@Autowired
 	private LeaveMessageService leaveMessageService;
-	@Autowired
-	private SubscriberService subscriberService;
+	
 	
 	/**
 	 * 留言新增
 	 */
 	
 	@Log("留言新增接口")
-	@RequestMapping("/saveLeaveMessage")
+	@PostMapping("/saveLeaveMessage")
 	public Map<String,Object> saveLeaveMessage(LeaveMessageDO leaveMessageDO){
 		leaveMessageDO.setPublishTime(new Date());
 		leaveMessageDO.setShowhide(0);
 		leaveMessageDO.setIfanswer(1);
+		leaveMessageDO.setCount(0l);
 		int result = leaveMessageService.saveLeaveMessage(leaveMessageDO);
 
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -49,15 +51,42 @@ public class LeaveMessageController {
 	 */
 	
 	@Log("获取我的留言接口")
-	@RequestMapping("/getAllLeaveMessage")
-	public Map<String,Object> getAllLeaveMessage(String phone){
+	@GetMapping("/getAllLeaveMessage")
+	public Map<String,Object> getAllLeaveMessage(Long userId){
 		Map<String,Object> map = new HashMap<String,Object>();
-		SubscriberDO subscriberDO = subscriberService.getInfo(phone);
-		map.put("subscriber", subscriberDO);
-		List<LeaveMessageDO> list= leaveMessageService.getAllLeaveMessage(subscriberDO.getId());
-		map.put("leaveMessage", list);
-		List<QuestioneAnswersDO> list1=leaveMessageService.getAllQuestioneAnswers(subscriberDO.getId());
-		map.put("questioneAnswers", list1);
+		List<LeaveMessageDO> list= leaveMessageService.getAllLeaveMessage(userId);
+		if(list.size()==0){
+			map.put("code", 1);
+			map.put("msg","没有留言");
+			map.put("data", list);
+		}
+		else{
+			map.put("code",0);
+			map.put("msg","");
+			map.put("data", list);
+		}
+		return map;
+	}
+	
+	/**
+	 * 获取我的问答
+	 */
+	
+	@Log("获取我的问答接口")
+	@GetMapping("/getAllWenda")
+	public Map<String,Object> getAllWenda(Long userId){
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<QuestioneAnswersDO> list= leaveMessageService.getAllQuestioneAnswers(userId);
+		if(list.size()==0){
+			map.put("code", 1);
+			map.put("msg","没有问答");
+			map.put("data", list);
+		}
+		else{
+			map.put("code",0);
+			map.put("msg","");
+			map.put("data", list);
+		}
 		return map;
 	}
 }

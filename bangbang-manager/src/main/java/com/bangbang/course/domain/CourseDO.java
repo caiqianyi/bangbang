@@ -21,6 +21,8 @@ public class CourseDO implements Serializable {
 	private Long id;
 	//课程编号
 	private Long courseId;
+	//课程分类id
+	private Long sortId;
 	//课程分类
 	private String courseName;
 	//课程名称
@@ -234,5 +236,12 @@ public class CourseDO implements Serializable {
 	public void setChapterNum(Integer chapterNum) {
 		this.chapterNum = chapterNum;
 	}
+	public Long getSortId() {
+		return sortId;
+	}
+	public void setSortId(Long sortId) {
+		this.sortId = sortId;
+	}
+	
 	
 }

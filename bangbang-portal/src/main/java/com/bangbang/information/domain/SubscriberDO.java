@@ -34,8 +34,6 @@ public class SubscriberDO implements Serializable {
 	private Double balance;
 	//昵称
 	private String nickname;
-	//用户id
-	private Long userId;
 	//微信id
 	private String openId;
 	
@@ -160,18 +158,6 @@ public class SubscriberDO implements Serializable {
 	 */
 	public String getNickname() {
 		return nickname;
-	}
-	/**
-	 * 设置：用户id
-	 */
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-	/**
-	 * 获取：用户id
-	 */
-	public Long getUserId() {
-		return userId;
 	}
 	/**
 	 * 设置：微信id

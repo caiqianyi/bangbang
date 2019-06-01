@@ -58,7 +58,15 @@ function load() {
 								},*/
 																{
 									field : 'heardUrl', 
-									title : '头像' 
+									title : '头像',
+									formatter : function(value, row, index) {
+										if(value!=null){
+											var e = '<div class="image"><img width="90" height="100" alt="image" class="img-responsive" src="' + value + '"></div>'
+											return e;
+										}
+										else
+											return "";
+									}
 								},
 																{
 									field : 'username', 

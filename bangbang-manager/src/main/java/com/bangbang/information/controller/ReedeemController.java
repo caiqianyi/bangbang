@@ -23,8 +23,9 @@ import com.bangbang.common.utils.R;
 import com.bangbang.common.utils.ShiroUtils;
 import com.bangbang.course.domain.CourseDO;
 import com.bangbang.course.service.CourseService;
+import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.domain.ReedeemDO;
-import com.bangbang.information.domain.SendoutReedeemDO;
+import com.bangbang.information.service.CouponService;
 import com.bangbang.information.service.ReedeemService;
 import com.bangbang.information.service.SendoutReedeemService;
 
@@ -46,7 +47,8 @@ public class ReedeemController {
 	@Autowired
 	private CourseService courseServcie;
 	@Autowired
-	private SendoutReedeemService sendoutReedeemService;
+	private CouponService couponService;
+	
 	@GetMapping()
 	@RequiresPermissions("information:reedeem:reedeem")
 	String Reedeem(){
@@ -70,6 +72,8 @@ public class ReedeemController {
 	String add(Model model){
 		List<CourseDO> courseDOs=courseServcie.list(new HashMap<String,Object>());
 		model.addAttribute("courseDOs", courseDOs);
+		List<CouponDO> couponDOs=reedeemService.getCoupon();
+		model.addAttribute("clist",change(couponDOs));
 	    return "information/reedeem/add";
 	}
 
@@ -116,6 +120,7 @@ public class ReedeemController {
 					return R.error("兑换码编号重复了多次，创建兑换码失败！！");
 				
 				r.setReedeemName(reedeem.getReedeemName());
+				r.setCouponId(reedeem.getCouponId());
 				r.setReedeemType(reedeem.getReedeemType());
 				r.setReedeemBalance(reedeem.getReedeemBalance());
 				r.setCourseId(reedeem.getCourseId());
@@ -134,6 +139,7 @@ public class ReedeemController {
 		}
 		
 		if(reedeemService.savelist(list)>0){
+			couponService.updateBycouponId(reedeem.getCouponId(), length);
 			return R.ok();
 		}
 		return R.error();
@@ -275,6 +281,42 @@ public class ReedeemController {
 		reedeemDO.setId(id);
 		reedeemService.update(reedeemDO);
 		return R.ok();
+		
+	}
+    
+    private List<Couponduihuan> change(List<CouponDO> list){
+		List<Couponduihuan> clist=new ArrayList<Couponduihuan>();
+		if(list!=null && list.size()>0){
+			for(CouponDO c:list){
+				Couponduihuan couponduihuan = new Couponduihuan();
+				couponduihuan.setCouponId(c.getCouponId());
+				if(c.getUsageScenario()==0){
+					couponduihuan.setDisplay(c.getCouponId()+"--------问答 使用，剩余"+c.getCouponSurplus()+"张");
+				}
+				else{
+					couponduihuan.setDisplay(c.getCouponId()+"--------"+c.getKechengName()+" 使用，剩余"+c.getCouponSurplus()+"张");
+				}
+				clist.add(couponduihuan);
+			}
+		}
+		return clist;
+	}
+	
+	static class Couponduihuan{
+		private Long couponId;
+		private String display;
+		public void setCouponId(Long couponId) {
+			this.couponId = couponId;
+		}
+		public void setDisplay(String display) {
+			this.display = display;
+		}
+		public Long getCouponId() {
+			return couponId;
+		}
+		public String getDisplay() {
+			return display;
+		}
 		
 	}
 }

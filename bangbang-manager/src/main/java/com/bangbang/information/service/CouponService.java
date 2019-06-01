@@ -30,4 +30,6 @@ public interface CouponService {
 	int batchRemove(Long[] ids);
 
 	void updateBycouponId(Long couponId,Integer length);
+
+
 }

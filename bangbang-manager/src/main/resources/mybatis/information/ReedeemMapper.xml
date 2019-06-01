@@ -8,7 +8,7 @@
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.ReedeemDO">
-		select t.id,t.validity,t.reedeem_code,t.reedeem_name,t.course_id,t.reedeem_count,t.reedeem_surplus,t.reedeem_balance,t.create_time,t.reedeem_type,t.create_id,t.create_name,t.delete_flag,t.if_stop,c.name courseName from t_reedeem t left join course c
+		select t.id,t.validity,t.coupon_id,t.reedeem_code,t.reedeem_name,t.course_id,t.reedeem_count,t.reedeem_surplus,t.reedeem_balance,t.create_time,t.reedeem_type,t.create_id,t.create_name,t.delete_flag,t.if_stop,c.name courseName from t_reedeem t left join course c
         on t.course_id=c.course_id
         <where>  
 		  		  <if test="id != null and id != ''"> and t.id = #{id} </if>
@@ -131,7 +131,7 @@
 			`reedeem_count`,
 			`reedeem_surplus`,
 			`reedeem_balance`,
-			validity) values
+			validity,coupon_id) values
          <foreach collection="list" item="item" index="index" separator=",">
             (#{item.reedeemCode}, 
 			#{item.createTime}, 
@@ -146,7 +146,11 @@
 			#{item.reedeemCount},
 			#{item.reedeemSurplus},
 			#{item.reedeemBalance},
-			#{item.validity})
+			#{item.validity},#{item.couponId})
          </foreach>
 	</insert>
+	
+	<select id="getCoupon" resultType="com.bangbang.information.domain.CouponDO">
+		select t.coupon_id,t.coupon_surplus,t.usage_scenario,s.name kechengName,t.course_id from t_coupon t left join course s on t.course_id=s.course_id
+	</select>
 </mapper>

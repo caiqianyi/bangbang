@@ -102,6 +102,8 @@ function load() {
 											return "购买商品";
 										if(value==2)
 											return "消费金额";
+										if(value==3)
+											return "兑换码兑换";
 									}
 								},
 																/*{

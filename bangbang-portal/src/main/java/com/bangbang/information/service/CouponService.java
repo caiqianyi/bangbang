@@ -11,6 +11,10 @@ public interface CouponService {
 
 	ReedeemDO getReedeem(Long id,String reedeemCode);
 
-	void updateReedeemIfUsed(Long id, String reedeemCode);
+	int updateReedeemIfUsed(Long id, String reedeemCode);
+
+	CouponDO getCouponByCouponId(Long couponId);
+
+	int saveSendoutCoupon(CouponDO couponDO);
 
 }

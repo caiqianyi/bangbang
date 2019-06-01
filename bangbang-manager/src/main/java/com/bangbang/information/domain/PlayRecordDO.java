@@ -24,7 +24,7 @@ public class PlayRecordDO implements Serializable {
 	//课程名称
 	private String name;
 	//章节名称
-	private String chaptersName;
+	private String chapterName;
 	//上次播放时间
 	private Date playedTime;
 
@@ -84,14 +84,14 @@ public class PlayRecordDO implements Serializable {
 	/**
 	 * 设置：章节名称
 	 */
-	public void setChaptersName(String chaptersName) {
-		this.chaptersName = chaptersName;
+	public void setChapterName(String chapterName) {
+		this.chapterName = chapterName;
 	}
 	/**
 	 * 获取：章节名称
 	 */
-	public String getChaptersName() {
-		return chaptersName;
+	public String getChapterName() {
+		return chapterName;
 	}
 	/**
 	 * 设置：上次播放时间

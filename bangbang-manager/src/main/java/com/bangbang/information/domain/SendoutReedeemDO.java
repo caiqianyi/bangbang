@@ -33,7 +33,7 @@ public class SendoutReedeemDO implements Serializable {
 	private Long userId;
 	//删除标志  0 未删除   1已删除
 	private Integer deleteFlag;
-	//0未使用   1已使用
+	//0已使用   1未使用
 	private Integer ifUsed;
 	private Long[] userIdArray;
 	//课程名

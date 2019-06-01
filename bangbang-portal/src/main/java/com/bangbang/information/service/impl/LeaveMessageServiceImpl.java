@@ -2,6 +2,7 @@ package com.bangbang.information.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import com.bangbang.information.service.LeaveMessageService;
 @Transactional
 public class LeaveMessageServiceImpl implements LeaveMessageService{
 
+	@Autowired
 	private LeaveMessageDao leaveMessageDao;
 	@Override
 	public int saveLeaveMessage(LeaveMessageDO leaveMessageDO) {

@@ -15,6 +15,10 @@ public interface CouponDao {
 
 	ReedeemDO getReedeem(@Param("id") Long id, @Param("reedeemCode") String reedeemCode);
 
-	Object updateReedeemIfUsed(@Param("id") Long id,@Param("reedeemCode") String reedeemCode);
+	int updateReedeemIfUsed(@Param("id") Long id,@Param("reedeemCode") String reedeemCode);
+
+	CouponDO getCouponByCouponId(Long couponId);
+
+	int saveSendoutCoupon(CouponDO couponDO);
 
 }

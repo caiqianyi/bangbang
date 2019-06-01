@@ -9,13 +9,29 @@
 	</select>
 	
 	<select id="getReedeem" resultType="com.bangbang.information.domain.ReedeemDO">
-		select id ,reedeem_code,sendout_time,user_id,if_used,validity,reedeem_type,reedeem_name,course_id,reedeem_balance,name,phone from sendout_reedeem where 
+		select id ,reedeem_code,sendout_time,user_id,if_used,validity,reedeem_type,reedeem_name,course_id,reedeem_balance,name,phone,coupon_id from sendout_reedeem where 
 		reedeem_code=#{reedeemCode} and user_id=#{id}
 	</select>
 	
 	<update id="updateReedeemIfUsed">
-		update sendout_reedeem set if_used==0 where reedeem_code=#{reedeemCode} and user_id=#{id}
+		update sendout_reedeem set if_used=0 where reedeem_code=#{reedeemCode} and user_id=#{id}
 	
 	</update>
 	
+	<select id="getCouponByCouponId" resultType="com.bangbang.information.domain.CouponDO">
+		select * from t_coupon where coupon_id=#{value}
+	</select>
+	
+	<insert id="saveSendoutCoupon" parameterType="com.bangbang.information.domain.CouponDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sendout_coupon
+		(
+		coupon_id,
+  		`user_id`,
+  		`validity` ,
+  		`if_user`,
+  		`sendout_time`,
+  		coupon_group)
+  		values(#{couponId},#{userId},#{validity},#{ifUser},#{sendoutTime},#{couponGroup})
+  
+	</insert>
 </mapper>

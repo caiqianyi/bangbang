@@ -8,6 +8,21 @@ $.validator.setDefaults({
 	}
 });
 function save() {
+	if($("#reedeemType").val()==2 || $("#reedeemType").val()==3){
+		if(parseInt($("#shengyuyouhuiquan").val())<parseInt($("#reedeemCount").val())){
+			alert("优惠券剩余数量不足");
+			return;
+		}
+	}
+	if($("#reedeemType").val()==0 && $("#courseId").val()==''){
+		alert("请选择课程");
+		return;
+	}
+	
+	if($("#reedeemType").val()==1 && $("#reedeemBalance").val()==''){
+		alert("请输入兑换码面值");
+		return;
+	}
 	$.ajax({
 		cache : true,
 		type : "POST",
