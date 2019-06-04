@@ -1,12 +1,19 @@
 package com.bangbang.information.controller;
 
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -17,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bangbang.common.utils.ExcelExportUtil4DIY;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
@@ -48,6 +56,8 @@ public class ReedeemController {
 	private CourseService courseServcie;
 	@Autowired
 	private CouponService couponService;
+	
+	private static Logger logger = LoggerFactory.getLogger(ReedeemController.class);
 	
 	@GetMapping()
 	@RequiresPermissions("information:reedeem:reedeem")
@@ -104,13 +114,14 @@ public class ReedeemController {
 				return R.error("兑换码编号重复了多次，创建兑换码失败！！");
 			reedeem.setReedeemCode(createReemCode());
 			reedeem.setIfStop(0);
+			reedeem.setIfUsed(1);
 			reedeem.setCreateTime(new Date());
-			reedeem.setReedeemSurplus(reedeem.getReedeemCount());
 			reedeem.setReedeemCode(code);
 			reedeem.setCreateId(ShiroUtils.getUserId());
 			reedeem.setCreateName(ShiroUtils.getUser().getName());
 			reedeem.setDeleteFlag(0);
-			list.add(reedeem);
+			for(int i=0;i<length;i++)
+				list.add(reedeem);
 		}
 		else{
 			for(int i=0;i<length;i++){
@@ -127,9 +138,10 @@ public class ReedeemController {
 				r.setValidity(reedeem.getValidity());
 				r.setReedeemCode(code);
 				r.setIfStop(0);
+				r.setIfUsed(1);
 				r.setCreateTime(new Date());
-				r.setReedeemCount(1);
-				r.setReedeemSurplus(1);
+			
+				
 				r.setReedeemCode(code);
 				r.setCreateId(ShiroUtils.getUserId());
 				r.setCreateName(ShiroUtils.getUser().getName());
@@ -144,6 +156,47 @@ public class ReedeemController {
 		}
 		return R.error();
 	}
+	
+	/**
+	 * 导出
+	 * */
+	@RequestMapping(value="/exportExcel")
+	public void exportExcel(@RequestParam Map<String, Object> params,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String filename = "帮邦兑换码列表"+format.format(new Date().getTime())+".xls";
+		response.setContentType("application/ms-excel;charset=UTF-8");
+		response.setHeader("Content-Disposition", "attachment;filename="+new String(filename.getBytes(),"iso-8859-1"));
+		OutputStream out = response.getOutputStream();
+		System.out.println("==============================="+params);
+	try {
+		Query query = new Query(params);
+		String type = request.getParameter("type");
+		
+		//导出全部数据
+		if(type.equals("2")){
+			List<Map<String, Object>> XxxDOs = reedeemService.exeList(params);
+			if( XxxDOs == null){
+				R.error("当前数据为空");
+			}
+			ExcelExportUtil4DIY.exportToFile(XxxDOs,out);
+		}
+		
+		//导选中部分
+		if(type.equals("4")){
+			query.remove("offset");
+			query.remove("limit");
+			System.out.println("========================================ids:"+query.get("ids"));
+			List<Map<String, Object>> XxxDOs = reedeemService.exeList(query);
+			ExcelExportUtil4DIY.exportToFile(XxxDOs,out);
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+		logger.info("exportExcel出错"+e.getMessage());
+		}finally{
+			out.close();
+		}
+	}
+	
 	
 	/**
 	 * 生成兑换码编号

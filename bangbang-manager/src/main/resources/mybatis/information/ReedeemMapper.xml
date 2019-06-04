@@ -8,16 +8,16 @@
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.ReedeemDO">
-		select t.id,t.validity,t.coupon_id,t.reedeem_code,t.reedeem_name,t.course_id,t.reedeem_count,t.reedeem_surplus,t.reedeem_balance,t.create_time,t.reedeem_type,t.create_id,t.create_name,t.delete_flag,t.if_stop,c.name courseName from t_reedeem t left join course c
+		select t.id,t.validity,t.coupon_id,t.reedeem_code,t.reedeem_name,t.course_id,t.reedeem_balance,t.create_time,t.reedeem_type,t.create_id,t.create_name,t.delete_flag,t.if_stop,c.name courseName from t_reedeem t left join course c
         on t.course_id=c.course_id
         <where>  
-		  		  <if test="id != null and id != ''"> and t.id = #{id} </if>
+		  		
 		  		  <if test="reedeemCode != null and reedeemCode != ''"> and t.reedeem_code = #{reedeemCode} </if>
 		  		   <if test="createTime != null and createTime != ''"> and date_format(t.create_time,'%Y-%m') = #{createTime} </if>
 		  			<if test="reedeemType != null and reedeemType != ''"> and t.reedeem_type = #{reedeemType} </if>
-		  		  <if test="deleteFlag != null and deleteFlag != ''"> and t.delete_flag = #{deleteFlag} </if>
-		  		    <if test="ifStop != null and ifStop != ''"> and t.if_stop = #{ifStop} </if>
+
 		  		</where>
+		  		group by t.reedeem_code
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
@@ -25,11 +25,37 @@
 			<otherwise>
                 order by id desc
 			</otherwise>
+			
         </choose>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
 	</select>
+	
+	<!-- 导出列表 -->
+	<select id="exeList" resultType="java.util.Map">
+		select 
+		IFNULL(id,'')  as id,
+		IFNULL(reedeem_code,'') as 兑换码,
+		IFNULL(create_time,'') as 创建时间,
+		IFNULL(create_name,'') as 创建者,
+		IFNULL(create_id,'') as 创建者id,
+		IFNULL(if_stop,'') as 启用状态0启用1停用,
+		IFNULL(delete_flag,'') as 删除状态0未删除1已删除,
+		IFNULL(reedeem_type,'') as 兑换类型0兑换课程1兑换余额2兑换优惠券,
+		IFNULL(reedeem_name,'') as 兑换码名称,
+		IFNULL(course_id,'') as 课程编号,
+		IFNULL(reedeem_balance,'') as 兑换码面值,
+		IFNULL(validity,'') as 兑换码有效期,
+		IFNULL(coupon_id,'') as 优惠券编号,
+		IFNULL(if_used,'') as 是否兑换0已兑换1未兑换,
+		IFNULL(user_id,'') as 用户id from t_reedeem
+		<where>
+			<if test="ids != null and ids != ''"> and id in (${ids}) </if>
+		</where> 
+		group by reedeem_code
+	</select>
+	
 	
  	<select id="count" resultType="int">
 		select count(*) from t_reedeem
@@ -128,8 +154,6 @@
 			reedeem_type,
 			`reedeem_name`,
 			`course_id`,
-			`reedeem_count`,
-			`reedeem_surplus`,
 			`reedeem_balance`,
 			validity,coupon_id) values
          <foreach collection="list" item="item" index="index" separator=",">
@@ -143,8 +167,6 @@
 			#{item.reedeemType},
 			#{item.reedeemName},
 			#{item.courseId},
-			#{item.reedeemCount},
-			#{item.reedeemSurplus},
 			#{item.reedeemBalance},
 			#{item.validity},#{item.couponId})
          </foreach>

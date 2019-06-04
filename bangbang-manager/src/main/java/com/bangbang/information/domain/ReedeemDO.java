@@ -49,7 +49,16 @@ public class ReedeemDO implements Serializable {
 	private Integer validity;
 	//课程名
 	private String courseName;
-
+	//用户名
+	private String username;
+	//手机号
+	private String phone;
+	//真实姓名
+	private String name;
+	//是否兑换    0已兑换   1未兑换
+	private Integer ifUsed;
+	//用户id
+	private Long userId;
 	
 	/**
 	 * 设置：id
@@ -173,6 +182,36 @@ public class ReedeemDO implements Serializable {
 	}
 	public void setCouponId(Long couponId) {
 		this.couponId = couponId;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Integer getIfUsed() {
+		return ifUsed;
+	}
+	public void setIfUsed(Integer ifUsed) {
+		this.ifUsed = ifUsed;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 	
 	
