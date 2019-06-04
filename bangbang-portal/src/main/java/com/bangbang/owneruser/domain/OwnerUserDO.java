@@ -61,15 +61,8 @@ public class OwnerUserDO implements Serializable {
 	private Integer sex;
 	//出生年月
 	private Date birthday;
-	//设置模式(0默认模式  1家长模式    2专业模式)
-	private Integer flag;
 
-	public Integer getFlag() {
-		return flag;
-	}
-	public void setFlag(Integer flag) {
-		this.flag = flag;
-	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

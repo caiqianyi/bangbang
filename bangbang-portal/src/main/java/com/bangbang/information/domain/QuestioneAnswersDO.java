@@ -23,7 +23,7 @@ public class QuestioneAnswersDO implements Serializable {
 	private Long userId;
 	//课程编号
 	private Long courseId;
-	//问答老师编号
+	//问答老师id
 	private Long teacherId;
 	//问答内容
 	private String questionsContent;

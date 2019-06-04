@@ -20,7 +20,7 @@ public class TeacherDO implements Serializable {
 	//id
 	private Long id;
 	//讲师编号
-	private Long teacherId;
+	private Long teacherAcc;
 	//讲师姓名
 	private String name;
 	//手机号
@@ -66,14 +66,14 @@ public class TeacherDO implements Serializable {
 	/**
 	 * 设置：讲师编号
 	 */
-	public void setTeacherId(Long teacherId) {
-		this.teacherId = teacherId;
+	public void setTeacherAcc(Long teacherAcc) {
+		this.teacherAcc = teacherAcc;
 	}
 	/**
 	 * 获取：讲师编号
 	 */
-	public Long getTeacherId() {
-		return teacherId;
+	public Long getTeacherAcc() {
+		return teacherAcc;
 	}
 	/**
 	 * 设置：讲师姓名

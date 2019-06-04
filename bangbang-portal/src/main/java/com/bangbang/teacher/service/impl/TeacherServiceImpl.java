@@ -60,8 +60,8 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getTeacherQA(Long teacherId) {
-		return teacherDao.getTeacherQA(teacherId);
+	public List<Map<String, Object>> getTeacherQA(Long id) {
+		return teacherDao.getTeacherQA(id);
 	}
 	
 }

@@ -58,9 +58,9 @@ public class TeacherController {
 	 */
 	@ResponseBody
 	@GetMapping("/quentInfo")
-	Map<String, Object> quentInfo(Long teacherId){
+	Map<String, Object> quentInfo(Long id){
 		Map<String,Object> map = new HashMap<String,Object>();
-		List<Map<String, Object>> teacherQA = teacherService.getTeacherQA(teacherId);
+		List<Map<String, Object>> teacherQA = teacherService.getTeacherQA(id);
 		map.put("code", 0);
 		map.put("msg", "");
 		map.put("data", teacherQA);

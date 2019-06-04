@@ -33,5 +33,5 @@ public interface TeacherDao {
 		
 	TeacherDO getHeadUrl(String name);
 	
-	List<Map<String,Object>> getTeacherQA(Long teacherId);
+	List<Map<String,Object>> getTeacherQA(Long id);
 }

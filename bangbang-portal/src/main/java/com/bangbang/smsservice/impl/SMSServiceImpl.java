@@ -262,7 +262,7 @@ public class SMSServiceImpl implements ISMSService{
 	}
 
 	public static void main(String[] args) {
-		new SMSServiceImpl().sendTongzhi(SMSPlatform.zhenjiu,"15210858517", SMSContent.ZHUCE,"1");
+		new SMSServiceImpl().sendTongzhi(SMSPlatform.bangbang,"15210858517", SMSContent.ZHUCE,"1");
 
 	}
 
