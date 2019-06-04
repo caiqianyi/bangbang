@@ -40,7 +40,7 @@ import com.bangbang.owneruser.comment.GenerateCode;
  */
  
 @Controller
-@RequestMapping("/user/medal")
+@RequestMapping("/bangbang/medal")
 public class MedalController  extends BaseController{
 	@Autowired
 	private MedalService medalService;

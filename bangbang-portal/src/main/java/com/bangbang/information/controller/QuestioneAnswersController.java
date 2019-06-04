@@ -43,7 +43,7 @@ import com.bangbang.teacher.service.TeacherService;
  */
  
 @Controller
-@RequestMapping("/information/questioneAnswers")
+@RequestMapping("/bangbang/questioneAnswers")
 public class QuestioneAnswersController extends BaseController{
 	@Autowired
 	private QuestioneAnswersService questioneAnswersService;

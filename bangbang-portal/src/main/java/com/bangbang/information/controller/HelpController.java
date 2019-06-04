@@ -32,7 +32,7 @@ import com.bangbang.information.service.HelpService;
  */
  
 @Controller
-@RequestMapping("/information/help")
+@RequestMapping("/bangbang/help")
 public class HelpController {
 	@Autowired
 	private HelpService helpService;

@@ -42,7 +42,7 @@ import com.bangbang.teacher.service.TeacherService;
  */
  
 @Controller
-@RequestMapping("/information/teacher")
+@RequestMapping("/bangbang/teacher")
 public class TeacherController {
 	@Autowired
 	private TeacherService teacherService;
