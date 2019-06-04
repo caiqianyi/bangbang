@@ -34,4 +34,6 @@ public interface TeacherDao {
 	List<TeacherDO> queryTeacherName(Map<String,Object> map);
 	
 	TeacherDO queryTeacherId(String name);
+	
+	List<Map<String,Object>> queryQuestioneMoney(Long id);
 }

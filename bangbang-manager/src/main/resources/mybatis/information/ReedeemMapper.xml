@@ -32,6 +32,31 @@
 		</if>
 	</select>
 	
+	<!-- 导出列表 -->
+	<select id="exeList" resultType="java.util.Map">
+		select 
+		IFNULL(id,'')  as id,
+		IFNULL(reedeem_code,'') as 兑换码,
+		IFNULL(create_time,'') as 创建时间,
+		IFNULL(create_name,'') as 创建者,
+		IFNULL(create_id,'') as 创建者id,
+		IFNULL(if_stop,'') as 启用状态0启用1停用,
+		IFNULL(delete_flag,'') as 删除状态0未删除1已删除,
+		IFNULL(reedeem_type,'') as 兑换类型0兑换课程1兑换余额2兑换优惠券,
+		IFNULL(reedeem_name,'') as 兑换码名称,
+		IFNULL(course_id,'') as 课程编号,
+		IFNULL(reedeem_balance,'') as 兑换码面值,
+		IFNULL(validity,'') as 兑换码有效期,
+		IFNULL(coupon_id,'') as 优惠券编号,
+		IFNULL(if_used,'') as 是否兑换0已兑换1未兑换,
+		IFNULL(user_id,'') as 用户id from t_reedeem
+		<where>
+			<if test="ids != null and ids != ''"> and id in (${ids}) </if>
+		</where> 
+		group by reedeem_code
+	</select>
+	
+	
  	<select id="count" resultType="int">
 		select count(distinct reedeem_code) from t_reedeem 
 		 <where>  

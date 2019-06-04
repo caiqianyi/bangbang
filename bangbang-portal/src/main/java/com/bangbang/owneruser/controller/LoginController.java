@@ -79,7 +79,7 @@ public class LoginController extends BaseController {
 	    	return message;
     }
    
- /*   @Log("发送验证码")
+    @Log("发送验证码")
     @PostMapping("/captcha")
     Map<String, String> captcha(String phone, String type) {
         Map<String, String> message = new HashMap<>();
@@ -95,7 +95,7 @@ public class LoginController extends BaseController {
                     contentType = SMSContent.LOGIN;//登录
                 }
                 
-                Map<String, Object> map = sMSService.sendCodeNumber(SMSPlatform.zhenjiu, phone, contentType);
+                Map<String, Object> map = sMSService.sendCodeNumber(SMSPlatform.bangbang, phone, contentType);
                 if (map == null) {
                     message.put("msg", "验证码发送出现问题,请三分钟后再试");
                 } else {
@@ -112,7 +112,7 @@ public class LoginController extends BaseController {
             message.put("msg", "验证码发送出现问题,请三分钟后再试");
         }
         return message;
-    }*/
+    }
     
     /*
     pom.xml
@@ -128,7 +128,7 @@ public class LoginController extends BaseController {
      * @param type  类型 0：注册   1：登录	2：密码重置
      * @说明 发送验证码
      */
-    @Log("发送验证码")
+ /*   @Log("发送验证码")
 	@PostMapping("/getSms")
        static Map<String, String> getSms(String phone,String type){
     		Map<String, String> message = new HashMap<>();
@@ -178,7 +178,7 @@ public class LoginController extends BaseController {
             }
             return message;
     }
-    
+  */  
     
     
 	   @Log("验证码登录")
@@ -203,16 +203,46 @@ public class LoginController extends BaseController {
 	                        mapP.put("username", phone);
 	                        boolean flag = userService.exit(mapP);
 	                        if (!flag) {
-	                            message.put("msg", "该手机号码未注册");
-	                        } else {
-	                            OwnerUserDO udo = userService.getbyname(phone);
-	                            if (udo==null||udo.getDeleteFlag() == 0) {
+	                            //message.put("msg", "该手机号码未注册");
+	                            OwnerUserDO udo = new OwnerUserDO();
+	                            Long userId = GenerateCode.gen16(8);
+	                            udo.setUserId(userId);
+	                            udo.setUsername(phone);
+	                            udo.setPhone(phone);
+	                            udo.setDeleteFlag(0);
+	                            udo.setRegisterTime(new Date());
+	                            userService.save(udo);
+	                            
+	                            OwnerUserDO udos = userService.getbyname(phone);
+	                            if (udos==null||udos.getDeleteFlag() == 1) {
 	                                message.put("msg", "禁止登录，请联系客服");
 	                            } else {
 	                            	
-	                            	String password = udo.getPassword();
-	                            	System.out.println("==================="+password+"========================");
-	                            	UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
+	                            //	String password = udos.getPassword();
+	                            //	System.out.println("==================="+password+"========================");
+	                            	UsernamePasswordToken token = new UsernamePasswordToken(phone, codenum);
+	                            	subject.login(token);
+	                            	
+	                            	udos.setLoginTime(new Date());
+	                                
+	                                userService.update(udos);
+	                                message.put("id", udos.getId());
+	                                message.put("nickname", udos.getNickname());
+	                                message.put("heardUrl", udos.getHeardUrl());
+	                                message.put("loginTime", udos.getLoginTime());
+	                                message.put("msg", "登录成功");
+	                                
+	                            	
+	                            }
+	                        } else {
+	                            OwnerUserDO udo = userService.getbyname(phone);
+	                            if (udo==null||udo.getDeleteFlag() == 1) {
+	                                message.put("msg", "禁止登录，请联系客服");
+	                            } else {
+	                            	
+	                            //	String password = udo.getPassword();
+	                           // 	System.out.println("==================="+password+"========================");
+	                            	UsernamePasswordToken token = new UsernamePasswordToken(phone, codenum);
 	                            	subject.login(token);
 	                            	
 	                                udo.setLoginTime(new Date());
@@ -272,7 +302,6 @@ public class LoginController extends BaseController {
                             udo.setUsername(phone);
                             udo.setPhone(phone);
                             udo.setPassword(password);
-                            udo.setFlag(0);//默认模式
                             udo.setDeleteFlag(1);
                             udo.setRegisterTime(new Date());
                             if (userService.save(udo) > 0) {

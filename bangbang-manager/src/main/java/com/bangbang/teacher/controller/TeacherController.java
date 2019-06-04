@@ -83,8 +83,10 @@ public class TeacherController {
 	String chakan(@PathVariable("id") Long id,Model model){
 		TeacherDO teacher = teacherService.get(id);
 		List<CourseDO> teacherC = courseService.teacherC(id);
+		List<Map<String, Object>> quesMoney = teacherService.queryQuestioneMoney(id);
 		model.addAttribute("teacherC", teacherC);
 		model.addAttribute("teacher", teacher);
+		model.addAttribute("quesMoney", quesMoney);
 	    return "teacher/chakan";
 	}
 	
@@ -105,8 +107,8 @@ public class TeacherController {
 		} catch (Exception e) {
 			return R.error();
 		}
-		Long teacherId = GenerateCode.gen16(8);
-		teacher.setTeacherId(teacherId);
+		Long teacherAcc = GenerateCode.gen16(8);
+		teacher.setTeacherAcc(teacherAcc);
 		if(teacherService.save(teacher)>0){
 			return R.ok();
 		}

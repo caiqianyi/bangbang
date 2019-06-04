@@ -43,7 +43,7 @@ import com.bangbang.teacher.service.TeacherService;
  */
  
 @Controller
-@RequestMapping("/information/questioneAnswers")
+@RequestMapping("/bangbang/questioneAnswers")
 public class QuestioneAnswersController extends BaseController{
 	@Autowired
 	private QuestioneAnswersService questioneAnswersService;
@@ -94,7 +94,7 @@ public class QuestioneAnswersController extends BaseController{
 		String teacher = questioneAnswers.getQuestionsTeacher();
 		questioneA.setQuestionsTeacher(teacher); 
 		TeacherDO tId = teacherService.getHeadUrl(teacher);
-		questioneA.setTeacherId(tId.getTeacherId());
+		questioneA.setTeacherId(tId.getId());
 		questioneA.setCourseId(courseId);
 		if(questioneAnswers.getQuestionsContent() != null){
 			questioneA.setQuestionsContent(questioneAnswers.getQuestionsContent());

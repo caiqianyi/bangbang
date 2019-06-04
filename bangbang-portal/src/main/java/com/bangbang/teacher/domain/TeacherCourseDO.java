@@ -17,7 +17,7 @@ public class TeacherCourseDO implements Serializable {
 	
 	//id
 	private Long id;
-	//讲师编号
+	//讲师id
 	private Long teacherId;
 	//课程编号
 	private Long courseId;

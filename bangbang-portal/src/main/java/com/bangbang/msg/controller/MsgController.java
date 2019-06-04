@@ -27,7 +27,7 @@ import com.bangbang.msg.service.MsgService;
  */
  
 @Controller
-@RequestMapping("/information/msg")
+@RequestMapping("/bangbang/msg")
 public class MsgController extends BaseController{
 	@Autowired
 	private MsgService msgService;

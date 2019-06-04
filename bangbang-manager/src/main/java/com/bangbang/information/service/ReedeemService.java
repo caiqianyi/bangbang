@@ -35,9 +35,14 @@ public interface ReedeemService {
 	void updateByReemId(Long id, int length);
 
 	int savelist(List<ReedeemDO> list);
+	
 	List<CouponDO> getCoupon();
+
 
 	List<ReedeemDO> duihuanyonghulist(Map<String, Object> params);
 
 	List<SendoutReedeemDO> userreedeemlist(Map<String,Object> map);
+
+	List<Map<String, Object>> exeList(Map<String, Object> map);
+
 }

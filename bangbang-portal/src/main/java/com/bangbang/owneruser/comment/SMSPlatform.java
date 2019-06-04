@@ -6,7 +6,7 @@ package com.bangbang.owneruser.comment;
  * @create 2017-4-13
  */
 public enum SMSPlatform {
-	zhenjiu(1,"【针灸】","username=1111&password=xy-11111","name=bjywhy&password=123qaz789");// 腾信、快用云账号配置
+	bangbang(1,"【帮帮】","username=1111&password=xy-11111","name=bjywhy&password=123qaz789");// 腾信、快用云账号配置
 
 	public int code;
 	public String qianming;
