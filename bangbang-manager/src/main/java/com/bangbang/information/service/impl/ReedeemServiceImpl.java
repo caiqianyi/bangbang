@@ -81,7 +81,7 @@ public class ReedeemServiceImpl implements ReedeemService {
 	@Override
 	public List<SendoutReedeemDO> userreedeemlist(Map<String,Object> map) {
 		return reedeemDao.userreedeemlist(map);
-
+	}
 	public List<Map<String, Object>> exeList(Map<String, Object> map) {
 		return reedeemDao.exeList(map);
 
