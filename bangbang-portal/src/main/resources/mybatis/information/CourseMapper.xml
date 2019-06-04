@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="getAllCourseByFlag" resultType="com.bangbang.information.domain.SubcriberLogDO">
-	   select `id`,`course_id`,`course_name`,`name`,`user_id`,`flag`,course_cover,chapter_num from subcriber_log 
+	   select `id`,`course_id`,`course_name`,`name`,`user_id`,`flag`,course_cover,chapter_num ,chapter_name,chapter_id from subcriber_log 
 	     <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
@@ -51,12 +51,14 @@
 			`course_id`, 
 			`course_name`, 
 			`name`, 
-		
+			 update_time,
 			`user_id`, 
 			
 			`flag`, 
 			`course_cover`,
-  			`chapter_num` 
+  			`chapter_num`,
+  			chapter_name,
+  			chapter_id
 		)
 		values
 		(
@@ -64,12 +66,14 @@
 			
 			#{courseName}, 
 			#{name}, 
-		
+		    #{updateTime},
 			#{userId}, 
 		
 			#{flag}, 
-			#{course_cover},
-  			#{chapter_num} 
+			#{courseCover},
+  			#{chapterNum} ,
+  			#{chapterName},
+  			#{chapterId}
 		)
 	</insert>
 	

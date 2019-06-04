@@ -139,10 +139,10 @@ function load() {
 									title : '注册时间<img src="/img/sort_both.png">',
 									sortable : true
 								},
-																{
-									field : 'updateTime', 
-									title : '编辑时间' 
-								},
+//																{
+//									field : 'updateTime', 
+//									title : '编辑时间' 
+//								},
 																
 																{
 									title : '操作',
@@ -248,5 +248,5 @@ function duihuanma(){
 		return;
 	}
 	var id = rows[0]['id'];
-	window.location.href='/information/sendoutreedeem/'+id;
+	window.location.href='/information/reedeem/getSendoutReedeem/'+id;
 }

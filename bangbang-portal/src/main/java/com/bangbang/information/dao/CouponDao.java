@@ -13,7 +13,7 @@ public interface CouponDao {
 
 	List<CouponDO> listCoupon(long id);
 
-	ReedeemDO getReedeem(@Param("id") Long id, @Param("reedeemCode") String reedeemCode);
+	List<ReedeemDO> getReedeem(@Param("id") Long id, @Param("reedeemCode") String reedeemCode);
 
 	int updateReedeemIfUsed(@Param("id") Long id,@Param("reedeemCode") String reedeemCode);
 

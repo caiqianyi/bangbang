@@ -9,12 +9,12 @@
 	</select>
 	
 	<select id="getReedeem" resultType="com.bangbang.information.domain.ReedeemDO">
-		select id ,reedeem_code,sendout_time,user_id,if_used,validity,reedeem_type,reedeem_name,course_id,reedeem_balance,name,phone,coupon_id from sendout_reedeem where 
+		select id,reedeem_code,if_used,reedeem_type,coupon_id from t_reedeem where 
 		reedeem_code=#{reedeemCode} and user_id=#{id}
 	</select>
 	
 	<update id="updateReedeemIfUsed">
-		update sendout_reedeem set if_used=0 where reedeem_code=#{reedeemCode} and user_id=#{id}
+		update t_reedeem set if_used=0 where reedeem_code=#{reedeemCode} and user_id=#{id}
 	
 	</update>
 	

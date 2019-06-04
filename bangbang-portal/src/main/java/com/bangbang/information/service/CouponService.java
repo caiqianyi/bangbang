@@ -9,7 +9,7 @@ public interface CouponService {
 
 	List<CouponDO> listCoupon(long id);
 
-	ReedeemDO getReedeem(Long id,String reedeemCode);
+	List<ReedeemDO> getReedeem(Long id,String reedeemCode);
 
 	int updateReedeemIfUsed(Long id, String reedeemCode);
 

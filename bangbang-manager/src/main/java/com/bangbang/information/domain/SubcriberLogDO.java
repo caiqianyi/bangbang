@@ -23,7 +23,7 @@ public class SubcriberLogDO implements Serializable {
 	private String courseName;
 	//课程名称
 	private String name;
-	//操作时间
+	//购买时间
 	private Date updateTime;
 	//用户id
 	private Long userId;
@@ -31,6 +31,10 @@ public class SubcriberLogDO implements Serializable {
 	private Integer status;
 	//0 购买  1  转发  2收藏
 	private Integer flag;
+	//收藏的章节id
+	private Long chapterId;
+    //收藏的章节名称
+	private String chapterName;
 	//删除标志  0 未删除   1已删除
 	private Integer deleteFlag;
 
@@ -142,4 +146,17 @@ public class SubcriberLogDO implements Serializable {
 	public Integer getDeleteFlag() {
 		return deleteFlag;
 	}
+	public Long getChapterId() {
+		return chapterId;
+	}
+	public void setChapterId(Long chapterId) {
+		this.chapterId = chapterId;
+	}
+	public String getChapterName() {
+		return chapterName;
+	}
+	public void setChapterName(String chapterName) {
+		this.chapterName = chapterName;
+	}
+	
 }

@@ -8,7 +8,7 @@
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.SubcriberLogDO">
-		select `id`,`course_id`,`course_name`,`name`,`update_time`,`user_id`,`status`,`flag`,`delete_flag` from subcriber_log
+		select `id`,`course_id`,`course_name`,chapter_name,`name`,`update_time`,`user_id`,`status`,`flag`,`delete_flag` from subcriber_log
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>

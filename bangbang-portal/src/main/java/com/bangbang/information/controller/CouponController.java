@@ -66,21 +66,14 @@ public class CouponController {
 	@PostMapping("/reedeemDuihuan")
 	public Map<String,Object> reedeemDuihuan(Long id,String reedeemCode){
 		Map<String,Object> map = new HashMap<String,Object>();
-		ReedeemDO reedeemDO= couponService.getReedeem(id,reedeemCode);
-		if(reedeemCode!=null){
+		List<ReedeemDO> reedeemDOs= couponService.getReedeem(id,reedeemCode);
+		if(reedeemDOs.size()>0){
+			ReedeemDO reedeemDO=reedeemDOs.get(0);
 			if(reedeemDO.getIfUsed()==0){
 				map.put("code", 1);
 				map.put("msg","兑换码已经使用");
 			}
 			else{
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(reedeemDO.getSendoutTime());
-				calendar.add(Calendar.DAY_OF_YEAR,reedeemDO.getValidity());
-				if(calendar.getTime().compareTo(new Date())<0){
-					map.put("code",1);
-					map.put("msg","兑换码已过期");
-				}
-				else{
 					int reedeemType=reedeemDO.getReedeemType();
 					if(reedeemType==0||reedeemType==1){
 						map.put("code",1);
@@ -102,7 +95,7 @@ public class CouponController {
 						}
 					}
 					
-				}
+				
 			}
 		}
 		else{

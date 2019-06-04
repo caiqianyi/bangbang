@@ -33,7 +33,11 @@ function load() {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
 								offset:params.offset,
-								createTime:$("#createTime").val()
+								createTime:$("#createTime").val(),
+								ifUsed:$("[name='ifUsed'] option:selected").val(),
+								reedeemType:$("[name='reedeemType'] option:selected").val(),
+								order: params.order,//排序
+								sort:params.sort//排序字段
 					           // name:$('#searchName').val(),
 					           // username:$('#searchName').val()
 							};
@@ -78,7 +82,8 @@ function load() {
 								 
 																{
 									field : 'createTime', 
-									title : '创建时间' 
+									title : '创建时间<img src="/img/sort_both.png">',
+									sortable : true
 								},
 								
 																{
@@ -94,8 +99,15 @@ function load() {
 									title : '未兑换数量' 
 								},
 								{
-									field : 'validity', 
-									title : '是否兑换' 
+									field : 'reedeemSurplus', 
+									title : '是否兑换',
+									formatter : function(value, row, index) {
+										if(value==0)
+											return "已兑换";
+										if(value>0)
+											return "未兑换";
+									}
+									
 								},
 								{
 									field: 'ifStop',
@@ -137,7 +149,7 @@ function load() {
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d ;*/
 										var e='<button type="button" class="btn  btn-xs btn-default" onclick="edit(\''+row.id+'\',\''+row.ifStop+'\',\''+row.reedeemCount+'\',\''+row.reedeemSurplus+'\')">编辑</button>  ';
-										var d='<button type="button" class="btn  btn-xs btn-danger" onclick="zhuanfa(\''+row.id+'\')"> 兑换用户</button>  ';
+										var d='<button type="button" class="btn  btn-xs btn-danger" onclick="duihuanyonghu(\''+row.reedeemCode+'\')"> 兑换用户</button>  ';
 									//	var f= '<button type="button" class="btn btn-xs btn-info" onclick="sendout(\''+row.reedeemCode+'\',\''+row.id+'\',\''+row.reedeemType+'\',\''+row.reedeemSurplus+'\',\''+row.reedeemBalance+'\',\''+row.courseName+'\',\''+row.validity+'\')">&nbsp;&nbsp;&nbsp;发放</button>  ';
 										
 									//	if(row.reedeemSurplus==0)
@@ -165,8 +177,8 @@ function edit(id,ifStop,reedeemCount,reedeemSurplus) {
 		layer.msg("兑换码已经停用，不可编辑！！");
 		return;
 	}
-	if(parseInt(reedeemCount)>parseInt(reedeemSurplus)){
-		layer.msg("兑换码已经发放，不可编辑！！");
+	if(parseInt(reedeemSurplus)==0){
+		layer.msg("兑换码已兑换，不可编辑！！");
 		return;
 	}
 	layer.open({
@@ -174,81 +186,12 @@ function edit(id,ifStop,reedeemCount,reedeemSurplus) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '800px', '300px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }
-function remove(id) {
-	layer.confirm('确定要删除选中的记录？', {
-		btn : [ '确定', '取消' ]
-	}, function() {
-		$.ajax({
-			url : prefix+"/remove",
-			type : "post",
-			data : {
-				'id' : id
-			},
-			success : function(r) {
-				if (r.code==0) {
-					layer.msg(r.msg);
-					reLoad();
-				}else{
-					layer.msg(r.msg);
-				}
-			}
-		});
-	})
-}
 
-function resetPwd(id) {
-}
-function batchRemove() {
-	var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
-	if (rows.length == 0) {
-		layer.msg("请选择要删除的数据");
-		return;
-	}
-	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
-		btn : [ '确定', '取消' ]
-	// 按钮
-	}, function() {
-		var ids = new Array();
-		// 遍历所有选择的行数据，取每条数据对应的ID
-		$.each(rows, function(i, row) {
-			ids[i] = row['id'];
-		});
-		$.ajax({
-			type : 'POST',
-			data : {
-				"ids" : ids
-			},
-			url : prefix + '/batchRemove',
-			success : function(r) {
-				if (r.code == 0) {
-					layer.msg(r.msg);
-					reLoad();
-				} else {
-					layer.msg(r.msg);
-				}
-			}
-		});
-	}, function() {
 
-	});
-}
-
-function sendout(reedeemCode,reedeemId,reedeemType,reedeemSurplus,reedeemBalance,courseName,validity){
-	if(reedeemBalance=='null') reedeemBalance=0
-	if(courseName=='null') courseName=0;
-	layer.open({
-		type : 2,
-		title : '兑换码发放',
-		maxmin : true,
-		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
-		content : '/information/sendoutreedeem/add/'+reedeemCode+'/'+reedeemId+'/'+reedeemType+'/'+reedeemSurplus+'/'+reedeemBalance+'/'+courseName+'/'+validity// iframe的url
-	});
-}
 function updateIfstop(id,enable){
 	var isEnable = 1;
 	if($(enable).prop("checked")){
@@ -270,5 +213,16 @@ function updateIfstop(id,enable){
 				layer.msg(r.msg);
 			}
 		}
+	});
+}
+
+function duihuanyonghu(reedeemCode){
+	layer.open({
+		type : 2,
+		title : '兑换用户',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '800px', '480px' ],
+		content : prefix + '/duihuanyonghu/'+ reedeemCode// iframe的url
 	});
 }

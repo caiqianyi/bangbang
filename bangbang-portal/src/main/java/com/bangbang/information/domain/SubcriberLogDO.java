@@ -37,6 +37,10 @@ public class SubcriberLogDO implements Serializable {
 	private String courseCover;
 	//章节个数
 	private Integer chapterNum;
+	//收藏的章节id
+	private Long chapterId;
+	//收藏的章节名称
+    private String chapterName;
 
 	/**
 	 * 设置：id
@@ -157,6 +161,18 @@ public class SubcriberLogDO implements Serializable {
 	}
 	public void setChapterNum(Integer chapterNum) {
 		this.chapterNum = chapterNum;
+	}
+	public Long getChapterId() {
+		return chapterId;
+	}
+	public void setChapterId(Long chapterId) {
+		this.chapterId = chapterId;
+	}
+	public String getChapterName() {
+		return chapterName;
+	}
+	public void setChapterName(String chapterName) {
+		this.chapterName = chapterName;
 	}
 	
 }

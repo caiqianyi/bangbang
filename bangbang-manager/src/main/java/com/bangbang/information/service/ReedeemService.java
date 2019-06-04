@@ -4,8 +4,10 @@ package com.bangbang.information.service;
 import java.util.List;
 import java.util.Map;
 
+import com.bangbang.common.utils.Query;
 import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.domain.ReedeemDO;
+import com.bangbang.information.domain.SendoutReedeemDO;
 
 /**
  * 兑换码表
@@ -34,4 +36,8 @@ public interface ReedeemService {
 
 	int savelist(List<ReedeemDO> list);
 	List<CouponDO> getCoupon();
+
+	List<ReedeemDO> duihuanyonghulist(Map<String, Object> params);
+
+	List<SendoutReedeemDO> userreedeemlist(Map<String,Object> map);
 }

@@ -1,5 +1,5 @@
 
-var prefix = "/information/subcriberlog"
+var prefix = "/information/reedeem"
 $(function() {
 	load();
 });
@@ -9,7 +9,7 @@ function load() {
 			.bootstrapTable(
 					{
 						method : 'get', // 服务器数据的请求方式 get or post
-						url : prefix + "/list", // 服务器数据的加载地址
+						url : prefix + "/userreedeemlist", // 服务器数据的加载地址
 					//	showRefresh : true,
 					//	showToggle : true,
 					//	showColumns : true,
@@ -33,8 +33,8 @@ function load() {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
 								offset:params.offset,
-								flag:$("#flag").val(),
-								userId:$("#userId").val()
+								userId:$("#userId").val(),
+								sendoutTime:$("#outTime").val()
 					           // name:$('#searchName').val(),
 					           // username:$('#searchName').val()
 							};
@@ -54,57 +54,43 @@ function load() {
 									title : 'id' 
 								},
 																{
-									field : 'courseId', 
-									title : '课程编号' 
-								},
-																{
-									field : 'courseName', 
-									title : '课程分类' 
-								},
-																{
-									field : 'name', 
-									title : '课程名称' 
-								},
-								{
-									field : 'chapterName', 
-									title : '章节名称' 
-								},
-																{
-									field : 'updateTime', 
-									title : '操作时间' 
-								},
-																
-																{
-									field : 'flag', 
-									title : ' 购买 /转发 /收藏',
+									field : 'reedeemCode', 
+									title : '兑换码' 
+								},{
+									field:'reedeemType',
+									title:'兑换特性',
 									formatter : function(value, row, index) {
 										if(value==0)
-											return '购买';
+											return '兑换课程 <font color="green">' +row.courseName+'</font>';
 										if(value==1)
-											return '转发';
-										if(value==2)
-											return '收藏';
+											return '兑换余额   <font color="green">面值' +row.reedeemBalance+'元</font>';
+										if(value==2|| value==3)
+											return '兑换优惠券  <font color="green">' +row.couponId+'</font>';
 									}
-									
-								}
-																
-								/*								{
-									title : '操作',
-									field : 'id',
-									align : 'center',
+								},
+																{
+									field : 'username', 
+									title : '用户名' 
+								},
+								{
+									field : 'name', 
+									title : '姓名' 
+								},
+								{
+									field : 'phone', 
+									title : '手机号' 
+								},
+																{
+									field : 'ifUsed', 
+									title : '是否使用',
 									formatter : function(value, row, index) {
-										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
-												+ row.id
-												+ '\')"><i class="fa fa-edit"></i></a> ';
-										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
-												+ row.id
-												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
-												+ row.id
-												+ '\')"><i class="fa fa-key"></i></a> ';
-										return e + d ;
+										if(value==0)
+											return "已兑换 ";
+										if(value==1)
+											return "未兑换";
 									}
-								} */]
+								}
+						]
 					});
 }
 function reLoad() {
@@ -126,7 +112,7 @@ function edit(id) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '800px', '300px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }

@@ -22,7 +22,7 @@ public class CouponServiceImpl implements CouponService{
 		return couponDao.listCoupon(id);
 	}
 	@Override
-	public ReedeemDO getReedeem(Long id,String reedeemCode) {
+	public List<ReedeemDO> getReedeem(Long id,String reedeemCode) {
 		return couponDao.getReedeem(id,reedeemCode);
 	}
 	@Override

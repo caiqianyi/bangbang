@@ -1,6 +1,7 @@
 package com.bangbang.information.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import com.bangbang.course.domain.CourseDO;
 import com.bangbang.course.service.CourseService;
 import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.domain.ReedeemDO;
+import com.bangbang.information.domain.SendoutReedeemDO;
 import com.bangbang.information.service.CouponService;
 import com.bangbang.information.service.ReedeemService;
 import com.bangbang.information.service.SendoutReedeemService;
@@ -266,15 +268,6 @@ public class ReedeemController {
        return str;
    }
 
-   
-  /* @ResponseBody
-   @PostMapping("/checkIfStop")
-   public List<SendoutReedeemDO> checkIfStop(String reedeemCode){
-	   Map<String,Object> map = new HashMap<String,Object>();
-	   map.put("reedeemCode", reedeemCode);
-	   return sendoutReedeemService.list(map);
-   }*/
-
     @PostMapping( "/updateIfStop")
 	@ResponseBody
 	public R  updateIfStop( Long id,Integer enable){
@@ -320,5 +313,37 @@ public class ReedeemController {
 			return display;
 		}
 		
+	}
+	
+	@GetMapping("/duihuanyonghu/{reedeemCode}")
+	@RequiresPermissions("information:reedeem:edit")
+	public String duihuanyonghu(@PathVariable("reedeemCode") String reedeemCode,Model model){
+		 model.addAttribute("reedeemCode",reedeemCode);
+		 return "information/reedeem/duihuanyonghu";
+	}
+	
+	@GetMapping("/duihuanyonghulist")
+	@ResponseBody
+	public PageUtils duihuanyonghulist(@RequestParam Map<String, Object> params){
+		List<ReedeemDO> list=reedeemService.duihuanyonghulist(params);
+		
+		return  new PageUtils(list, 1);
+	}
+	
+	@GetMapping("/getSendoutReedeem/{id}")
+	String Reedeem(@PathVariable("id") Integer id,Model model){
+		model.addAttribute("userId",id);
+	    return "information/reedeem/userreedeem";
+	}
+	
+	@ResponseBody
+	@GetMapping("/userreedeemlist")
+	public PageUtils userreedeemlist(@RequestParam Map<String, Object> params){
+		//查询列表数据
+        Query query = new Query(params);
+		List<SendoutReedeemDO> reedeemList = reedeemService.userreedeemlist(query);
+//		int total = sendoutReedeemService.count(query);
+		PageUtils pageUtils = new PageUtils(reedeemList, 1);
+		return pageUtils;
 	}
 }

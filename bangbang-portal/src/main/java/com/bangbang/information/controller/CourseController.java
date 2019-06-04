@@ -113,9 +113,33 @@ public class CourseController {
 	/**
 	 * 已购买的课程接口
 	 */
-	@Log("已购买/收藏的课程接口")
+	@Log("已购买课程接口")
 	@GetMapping("/getBuyedCourse")
-	public Map<String,Object> getBuyedCourse(Long userId,Integer flag){
+	public Map<String,Object> getBuyedCourse(Long userId){
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("userId", userId);
+		params.put("flag", 0);
+		List<SubcriberLogDO> list = courseService.getAllCourseByFlag(params);
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		if(list.size()==0){
+			resultMap.put("code", 1);
+			resultMap.put("msg","购买课程为空!");
+			resultMap.put("data",list);
+		}
+		else{
+			resultMap.put("code", 0);
+			resultMap.put("msg","");
+			resultMap.put("data",list);
+		}
+		return  resultMap;
+	}
+	
+	/**
+	 * 已转发/收藏的课程接口
+	 */
+	@Log("已转发/收藏课程接口")
+	@GetMapping("/getCollectOrRelay")
+	public Map<String,Object> getCollectOrRelay(Long userId,Integer flag){
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("userId", userId);
 		params.put("flag", flag);
@@ -159,10 +183,10 @@ public class CourseController {
 	}
 	
 	/**
-	 * 购买/转发/收藏新增
+	 * 新增购买课程接口
 	 */
 	
-	@Log("购买/转发/收藏  接口")
+	@Log("新增购买课程接口")
 	@PostMapping("/saveSubcriberLog")
 	public Map<String,Object> saveSubcriberLog(SubcriberLogDO subcriberLogDO){
 		Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -172,6 +196,34 @@ public class CourseController {
 			resultMap.put("msg","该课程缺失");
 		}
 		else{
+			subcriberLogDO.setFlag(0);
+			subcriberLogDO.setUpdateTime(new Date());
+			subcriberLogDO.setCourseCover(courseDO.getCourseCover());
+			subcriberLogDO.setName(courseDO.getName());
+			subcriberLogDO.setChapterNum(courseDO.getChapterNum());
+			subcriberLogDO.setCourseName(courseDO.getCourseName());
+			subcriberLogDO.setUpdateTime(new Date());
+			int result=courseService.saveSubcriberLog(subcriberLogDO);
+			if(result>0){
+				resultMap.put("code", 0);
+				resultMap.put("msg","保存成功");
+			}
+		}
+		
+		return resultMap;
+	}
+	
+	@Log("新增转发收藏的课程章节接口")
+	@PostMapping("/saveCollectOrRelay")
+	public Map<String,Object> saveCollectOrRelay(SubcriberLogDO subcriberLogDO){
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		CourseDO courseDO=courseService.getCourseByCourseId(subcriberLogDO.getCourseId());
+		if(courseDO==null){
+			resultMap.put("code", 1);
+			resultMap.put("msg","该课程缺失");
+		}
+		else{
+			subcriberLogDO.setUpdateTime(new Date());
 			subcriberLogDO.setCourseCover(courseDO.getCourseCover());
 			subcriberLogDO.setName(courseDO.getName());
 			subcriberLogDO.setChapterNum(courseDO.getChapterNum());

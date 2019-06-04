@@ -9,39 +9,22 @@
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
 						<div class="columns pull-left">
-							<button shiro:hasPermission="information:reedeem:add" type="button" class="btn  btn-primary" onclick="add()">
-								添加兑换码
+							<!-- <button shiro:hasPermission="information:reedeem:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
 							</button>
 							<button shiro:hasPermission="information:reedeem:batchRemove" type="button" class="btn  btn-danger"
 								onclick="batchRemove()">
 								<i class="fa fa-trash" aria-hidden="true"></i>删除
-							</button>
+							</button> -->
 						</div>
 						<div class="columns pull-right">
 							<button class="btn btn-success" onclick="reLoad()">查询</button>
 						</div>
 						<div class="columns pull-right col-md-2 nopadding">
-  								<input id="createTime" placeholder="选择兑换码创建月份：" class="form-control">
+  								<input id="outTime" placeholder="选择查看月份：" class="form-control">
   						</div>
-  						<div class="columns pull-right col-md-2 nopadding">
-							<select name="ifUsed" class="form-control chosen-select" tabindex="2" style="width: 100%">
-								<option value="">是否兑换</option>
-								<option value="">全部</option>
-								<option value="0">已兑换</option>
-								<option value="1">未兑换</option>
-							</select>
-						</div>
-						
-						<div class="columns pull-right col-md-2 nopadding">
-							<select class="form-control"  id="reedeemType" name="reedeemType">
-	                        			<option value="">全部</option>
-	                        			<option value="0">兑换课程</option>
-	                        			<option value="1">兑换余额</option>
-	                        			<option value="2">兑换优惠券，一次使用</option>
-	                        			<option value="3">兑换优惠券，多次使用</option>
-	                    		</select>
-						</div>
 					</div>
+					<input type="hidden" th:value="${userId}" id="userId">
 					<table id="exampleTable" data-mobile-responsive="true">
 					</table>
 				</div>
@@ -75,8 +58,8 @@
 	<div th:include="include :: footer"></div>
 	<script type="text/javascript">
 	laydate.render({
-		elem: '#createTime',
-		type: 'month'
+		elem: '#outTime',
+		type: 'month',
 		/* done: function(value, date){
 			$("#lessonTime").val(value);
 			reLoad2();
@@ -84,6 +67,6 @@
 	});
 	
 	</script>
-	<script type="text/javascript" src="/js/appjs/information/reedeem/reedeem.js"></script>
+	<script type="text/javascript" src="/js/appjs/information/reedeem/userreedeem.js"></script>
 </body>
 </html>

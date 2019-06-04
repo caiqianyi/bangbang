@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<input type="hidden" th:value="${reedeemCode}" id="reedeemCode">
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript">
+	laydate.render({
+		elem: '#createTime',
+		type: 'month'
+		/* done: function(value, date){
+			$("#lessonTime").val(value);
+			reLoad2();
+		} */
+	});
+	
+	</script>
+	<script type="text/javascript" src="/js/appjs/information/reedeem/duihuanyonghu.js"></script>
+</body>
+</html>

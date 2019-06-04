@@ -3,9 +3,11 @@ package com.bangbang.information.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bangbang.common.utils.Query;
 import com.bangbang.information.dao.ReedeemDao;
 import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.domain.ReedeemDO;
+import com.bangbang.information.domain.SendoutReedeemDO;
 import com.bangbang.information.service.ReedeemService;
 
 import java.util.List;
@@ -68,5 +70,15 @@ public class ReedeemServiceImpl implements ReedeemService {
 	@Override
 	public List<CouponDO> getCoupon() {
 		return reedeemDao.getCoupon();
+	}
+
+	@Override
+	public List<ReedeemDO> duihuanyonghulist(Map<String, Object> params) {
+		return reedeemDao.duihuanyonghulist(params);
+	}
+
+	@Override
+	public List<SendoutReedeemDO> userreedeemlist(Map<String,Object> map) {
+		return reedeemDao.userreedeemlist(map);
 	}
 }

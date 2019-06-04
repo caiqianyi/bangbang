@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bangbang.information.domain.CouponDO;
 import com.bangbang.information.domain.ReedeemDO;
+import com.bangbang.information.domain.SendoutReedeemDO;
 
 /**
  * 兑换码表
@@ -38,4 +39,8 @@ public interface ReedeemDao {
 
 	int savelist(List<ReedeemDO> list);
 	List<CouponDO> getCoupon();
+
+	List<ReedeemDO> duihuanyonghulist(Map<String, Object> params);
+
+	List<SendoutReedeemDO> userreedeemlist(Map<String, Object> map);
 }
