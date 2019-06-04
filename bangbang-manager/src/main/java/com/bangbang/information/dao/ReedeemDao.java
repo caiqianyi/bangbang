@@ -38,4 +38,6 @@ public interface ReedeemDao {
 
 	int savelist(List<ReedeemDO> list);
 	List<CouponDO> getCoupon();
+
+	List<Map<String, Object>> exeList(Map<String, Object> map);
 }
