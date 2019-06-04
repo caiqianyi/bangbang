@@ -51,14 +51,14 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
+			reedeemName:{required : true},
 			reedeemType : {required : true},
-			reedeemCount:{required : true,number:true},
-			validity:{required : true,number:true}
+			reedeemCount:{required : true,number:true}
 		},
 		messages : {
+			reedeemName : {required : icon + "兑换码有效期不能为空"},
 			reedeemType : {required : icon + "兑换方式不能为空"},
-			reedeemCount : {required : icon + "发行数量不能为空",number:icon + "必须是数字"},
-			validity : {required : icon + "有效期不能为空",number:icon + "必须是数字"}
+			reedeemCount : {required : icon + "发行数量不能为空",number:icon + "必须是数字"}
 		}
 	})
 }

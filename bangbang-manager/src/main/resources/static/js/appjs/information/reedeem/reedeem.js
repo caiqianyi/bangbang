@@ -87,15 +87,15 @@ function load() {
 								},
 								{
 									field : 'reedeemCount', 
-									title : '总数量' 
+									title : '兑换总数量' 
 								},
 								{
 									field : 'reedeemSurplus', 
-									title : '未发放数量' 
+									title : '未兑换数量' 
 								},
 								{
 									field : 'validity', 
-									title : '有效期（天）' 
+									title : '是否兑换' 
 								},
 								{
 									field: 'ifStop',
@@ -137,12 +137,12 @@ function load() {
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d ;*/
 										var e='<button type="button" class="btn  btn-xs btn-default" onclick="edit(\''+row.id+'\',\''+row.ifStop+'\',\''+row.reedeemCount+'\',\''+row.reedeemSurplus+'\')">编辑</button>  ';
-									/*	var d='<button type="button" class="btn  btn-xs btn-danger" onclick="zhuanfa(\''+row.id+'\')"> 删除</button>  ';*/
+										var d='<button type="button" class="btn  btn-xs btn-danger" onclick="zhuanfa(\''+row.id+'\')"> 兑换用户</button>  ';
 									//	var f= '<button type="button" class="btn btn-xs btn-info" onclick="sendout(\''+row.reedeemCode+'\',\''+row.id+'\',\''+row.reedeemType+'\',\''+row.reedeemSurplus+'\',\''+row.reedeemBalance+'\',\''+row.courseName+'\',\''+row.validity+'\')">&nbsp;&nbsp;&nbsp;发放</button>  ';
 										
 									//	if(row.reedeemSurplus==0)
 									//		f= '<button type="button" class="btn btn-xs btn-info" disabled="disabled">发放</button>  ';
-								        return e;
+								        return e+d;
 									}
 								} ]
 					});

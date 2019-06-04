@@ -104,13 +104,14 @@ public class ReedeemController {
 				return R.error("兑换码编号重复了多次，创建兑换码失败！！");
 			reedeem.setReedeemCode(createReemCode());
 			reedeem.setIfStop(0);
+			reedeem.setIfUsed(1);
 			reedeem.setCreateTime(new Date());
-			reedeem.setReedeemSurplus(reedeem.getReedeemCount());
 			reedeem.setReedeemCode(code);
 			reedeem.setCreateId(ShiroUtils.getUserId());
 			reedeem.setCreateName(ShiroUtils.getUser().getName());
 			reedeem.setDeleteFlag(0);
-			list.add(reedeem);
+			for(int i=0;i<length;i++)
+				list.add(reedeem);
 		}
 		else{
 			for(int i=0;i<length;i++){
@@ -127,9 +128,10 @@ public class ReedeemController {
 				r.setValidity(reedeem.getValidity());
 				r.setReedeemCode(code);
 				r.setIfStop(0);
+				r.setIfUsed(1);
 				r.setCreateTime(new Date());
-				r.setReedeemCount(1);
-				r.setReedeemSurplus(1);
+			
+				
 				r.setReedeemCode(code);
 				r.setCreateId(ShiroUtils.getUserId());
 				r.setCreateName(ShiroUtils.getUser().getName());
