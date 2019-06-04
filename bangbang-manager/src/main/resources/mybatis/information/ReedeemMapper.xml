@@ -8,16 +8,16 @@
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.ReedeemDO">
-		select t.id,t.validity,t.coupon_id,t.reedeem_code,t.reedeem_name,t.course_id,t.reedeem_count,t.reedeem_surplus,t.reedeem_balance,t.create_time,t.reedeem_type,t.create_id,t.create_name,t.delete_flag,t.if_stop,c.name courseName from t_reedeem t left join course c
+		select t.id,t.validity,t.coupon_id,t.reedeem_code,t.reedeem_name,t.course_id,t.reedeem_balance,t.create_time,t.reedeem_type,t.create_id,t.create_name,t.delete_flag,t.if_stop,c.name courseName from t_reedeem t left join course c
         on t.course_id=c.course_id
         <where>  
-		  		  <if test="id != null and id != ''"> and t.id = #{id} </if>
+		  		
 		  		  <if test="reedeemCode != null and reedeemCode != ''"> and t.reedeem_code = #{reedeemCode} </if>
 		  		   <if test="createTime != null and createTime != ''"> and date_format(t.create_time,'%Y-%m') = #{createTime} </if>
 		  			<if test="reedeemType != null and reedeemType != ''"> and t.reedeem_type = #{reedeemType} </if>
-		  		  <if test="deleteFlag != null and deleteFlag != ''"> and t.delete_flag = #{deleteFlag} </if>
-		  		    <if test="ifStop != null and ifStop != ''"> and t.if_stop = #{ifStop} </if>
+
 		  		</where>
+		  		group by t.reedeem_code
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
@@ -25,6 +25,7 @@
 			<otherwise>
                 order by id desc
 			</otherwise>
+			
         </choose>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
@@ -152,8 +153,6 @@
 			reedeem_type,
 			`reedeem_name`,
 			`course_id`,
-			`reedeem_count`,
-			`reedeem_surplus`,
 			`reedeem_balance`,
 			validity,coupon_id) values
          <foreach collection="list" item="item" index="index" separator=",">
@@ -167,8 +166,6 @@
 			#{item.reedeemType},
 			#{item.reedeemName},
 			#{item.courseId},
-			#{item.reedeemCount},
-			#{item.reedeemSurplus},
 			#{item.reedeemBalance},
 			#{item.validity},#{item.couponId})
          </foreach>
