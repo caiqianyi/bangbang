@@ -51,11 +51,11 @@ function load() {
 									field : 'id', 
 									title : 'id' 
 								},
-								*/								{
-									field : 'teacherId',
+																{
+									field : 'teacherAcc',
 									align : 'center',
 									title : '讲师编号' 
-								},
+								},*/
 																{
 									field : 'name', 
 									align : 'center',

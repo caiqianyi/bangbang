@@ -146,6 +146,6 @@
 	
 	<select id="teacherC" resultType="com.bangbang.course.domain.CourseDO">
 		select tt.id,c.course_id,c.course_name,c.`name` from t_teacher_course ttc ,t_teacher tt, course c 
-		where ttc.course_id = c.course_id and tt.teacher_id = ttc.teacher_id and tt.id=#{id}
+		where ttc.course_id = c.course_id and tt.id = ttc.teacher_id and tt.id=#{id}
 	</select>
 </mapper>

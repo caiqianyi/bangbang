@@ -63,5 +63,10 @@ public class TeacherServiceImpl implements TeacherService {
 	public TeacherDO queryTeacherId(String name) {
 		return teacherDao.queryTeacherId(name);
 	}
+
+	@Override
+	public List<Map<String, Object>> queryQuestioneMoney(Long id) {
+		return teacherDao.queryQuestioneMoney(id);
+	}
 	
 }

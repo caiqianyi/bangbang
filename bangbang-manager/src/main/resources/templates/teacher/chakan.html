@@ -17,14 +17,16 @@
 									<label for="imgFile"><img width="100" height="100" id="fileImgimgFile" alt="" th:src="${teacher.headUrl}"></label>
 								</div>
 							</div>
+							<!-- 
 							<div class="form-group">
 								<label class="col-sm-3 control-label">讲师编号：</label>
 								<div class="col-sm-4">
-									<input id="teacherId" name="teacherId"
-										th:value="${teacher.teacherId}" class="form-control"
+									<input id="teacherAcc" name="teacherAcc"
+										th:value="${teacher.teacherAcc}" class="form-control"
 										type="text" readonly="readonly">
 								</div>
 							</div>
+							 -->
 							<div class="form-group">
 								<label class="col-sm-3 control-label">讲师姓名：</label>
 								<div class="col-sm-4">
@@ -128,7 +130,33 @@
 					</tbody>
 				</table>
 			</div>
+			
+			<div style="position:relative; left:200px;top: 15px">
+				<h4>讲师问答金额</h4>
+			</div>
+			<div style="width: 1050px; height: 200px;position:relative; left:200px; overflow: scroll;"
+				align="center">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>问答用户</th>
+							<th>问答课程</th>
+							<th>问答金额</th>
+						</tr>
+					</thead>
+					<tbody>
+					<label th:each="qm:${quesMoney}" class="checkbox-inline">
+						<tr>
+							<td th:text="${qm.uName}"></td>
+							<td th:text="${qm.cName}"></td>
+							<td th:text="${qm.questionsMoney}"></td>
+						</tr>
+					</label>
+					</tbody>
+				</table>
+			</div>
 		</div>
+		
 	</div>
 	<div th:include="include::footer"></div>
 	<script type="text/javascript">

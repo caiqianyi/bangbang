@@ -4,14 +4,14 @@
 <mapper namespace="com.bangbang.teacher.dao.TeacherDao">
 
 	<select id="get" resultType="com.bangbang.teacher.domain.TeacherDO">
-		select `id`,`teacher_id`,`name`,`phone`,`password`,`sex`,`speak_course`,`head_url`,`teacher_school`,`add_time`,`update_time`,status from t_teacher where id = #{value}
+		select `id`,`teacher_acc`,`name`,`phone`,`password`,`sex`,`speak_course`,`head_url`,`teacher_school`,`add_time`,`update_time`,status from t_teacher where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.teacher.domain.TeacherDO">
-		select `id`,`teacher_id`,`name`,`phone`,`password`,`sex`,`speak_course`,`head_url`,`teacher_school`,`add_time`,`update_time`,status from t_teacher
+		select `id`,`teacher_acc`,`name`,`phone`,`password`,`sex`,`speak_course`,`head_url`,`teacher_school`,`add_time`,`update_time`,status from t_teacher
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="teacherId != null and teacherId != ''"> and teacher_id = #{teacherId} </if>
+		  		  <if test="teacherAcc != null and teacherAcc != ''"> and teacher_acc = #{teacherAcc} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
 		  		  <if test="password != null and password != ''"> and password = #{password} </if>
@@ -40,7 +40,7 @@
 		select count(*) from t_teacher
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="teacherId != null and teacherId != ''"> and teacher_id = #{teacherId} </if>
+		  		  <if test="teacherAcc != null and teacherAcc != ''"> and teacher_acc = #{teacherAcc} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
 		  		  <if test="password != null and password != ''"> and password = #{password} </if>
@@ -57,7 +57,7 @@
 	<insert id="save" parameterType="com.bangbang.teacher.domain.TeacherDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_teacher
 		(
-			`teacher_id`, 
+			`teacher_acc`, 
 			`name`, 
 			`phone`, 
 			`password`, 
@@ -71,7 +71,7 @@
 		)
 		values
 		(
-			#{teacherId}, 
+			#{teacherAcc}, 
 			#{name}, 
 			#{phone}, 
 			#{password}, 
@@ -88,7 +88,7 @@
 	<update id="update" parameterType="com.bangbang.teacher.domain.TeacherDO">
 		update t_teacher 
 		<set>
-			<if test="teacherId != null">`teacher_id` = #{teacherId}, </if>
+			<if test="teacherAcc != null">`teacher_acc` = #{teacherAcc}, </if>
 			<if test="name != null">`name` = #{name}, </if>
 			<if test="phone != null">`phone` = #{phone}, </if>
 			<if test="password != null">`password` = #{password}, </if>
@@ -117,6 +117,13 @@
 		SELECT `name` FROM t_teacher
 	</select>
 	<select id="queryTeacherId" resultType="com.bangbang.teacher.domain.TeacherDO">
-		SELECT teacher_id FROM t_teacher where name = #{name}
+		SELECT id FROM t_teacher where name = #{name}
+	</select>
+	
+	<select id="queryQuestioneMoney" resultType="java.util.Map">
+		SELECT tu.name uName , c.name cName , tqa.questions_money questionsMoney 
+		FROM t_questione_answers tqa , t_teacher tt, course c , t_user tu
+		where tqa.course_id = c.course_id and tt.id = tqa.teacher_id and tqa.user_id = tu.id and tqa.ifreply = 0
+		and tt.id = #{id}
 	</select>
 </mapper>

@@ -151,9 +151,9 @@ public class CourseController {
 			String[] arr = teacher.split(",");
 			for (String string : arr) {
 				TeacherDO tch = teacherService.queryTeacherId(string);
-				Long teacherId = tch.getTeacherId();
+				Long id = tch.getId();
 				//System.out.println(teacherId);
-				tcDO.setTeacherId(teacherId);
+				tcDO.setTeacherId(id);
 				tcDO.setCourseId(course.getCourseId());
 				teacherCourseService.save(tcDO);
 			}									
@@ -206,7 +206,7 @@ public class CourseController {
 		String[] arr = teacher.split(",");
 		for (String string : arr) {
 			TeacherDO tch = teacherService.queryTeacherId(string);
-			Long teacherId = tch.getTeacherId();
+			Long teacherId = tch.getId();
 			//System.out.println(teacherId);
 			tcDO.setTeacherId(teacherId);
 			tcDO.setCourseId(course.getCourseId());
