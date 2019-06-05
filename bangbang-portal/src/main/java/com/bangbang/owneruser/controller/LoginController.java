@@ -185,6 +185,7 @@ public class LoginController extends BaseController {
 	   @PostMapping("/loginC")
 	    Map<String, Object> loginC(String phone, String codenum) {
 	        Map<String, Object> message = new HashMap<>();
+	        Map<String, Object> map = new HashMap<>();
 	        String msg = "";
 	        Subject subject = SecurityUtils.getSubject();
 	        
@@ -226,11 +227,13 @@ public class LoginController extends BaseController {
 	                            	udos.setLoginTime(new Date());
 	                                
 	                                userService.update(udos);
-	                                message.put("id", udos.getId());
-	                                message.put("nickname", udos.getNickname());
-	                                message.put("heardUrl", udos.getHeardUrl());
-	                                message.put("loginTime", udos.getLoginTime());
+	                                map.put("id", udos.getId());
+	                                map.put("nickname", udos.getNickname());
+	                                map.put("heardUrl", udos.getHeardUrl());
+	                                map.put("loginTime", udos.getLoginTime());
+	                                message.put("code", 0);
 	                                message.put("msg", "登录成功");
+	                                message.put("data", map);
 	                                
 	                            	
 	                            }
@@ -248,11 +251,13 @@ public class LoginController extends BaseController {
 	                                udo.setLoginTime(new Date());
 	                                
 	                                userService.update(udo);
-	                                message.put("id", udo.getId());
-	                                message.put("nickname", udo.getNickname());
-	                                message.put("heardUrl", udo.getHeardUrl());
-	                                message.put("loginTime", udo.getLoginTime());
+	                                map.put("id", udo.getId());
+	                                map.put("nickname", udo.getNickname());
+	                                map.put("heardUrl", udo.getHeardUrl());
+	                                map.put("loginTime", udo.getLoginTime());
+	                                message.put("code", 0);
 	                                message.put("msg", "登录成功");
+	                                message.put("data", map);
 	                                
 	                            	
 	                            }
