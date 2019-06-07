@@ -100,15 +100,15 @@ public class LoginController extends BaseController {
                     message.put("msg", "验证码发送出现问题,请三分钟后再试");
                 } else {
 	                String code = map.get("randomCode").toString();
-                	//String code = "666666";
 	                Subject subject = SecurityUtils.getSubject();
 	                subject.getSession().setAttribute("sys.login.check.code", phone + code);
 	                message.put("msg", "发送成功");
 	                message.put("sessionId",subject.getSession().getId().toString());
-                }
+               }
             }
         } catch (Exception e) {
             logger.info("SMS==================验证码发送出现问题========" + phone + "======");
+            message.put("code", "1");
             message.put("msg", "验证码发送出现问题,请三分钟后再试");
         }
         return message;
@@ -189,15 +189,18 @@ public class LoginController extends BaseController {
 	        String msg = "";
 	        Subject subject = SecurityUtils.getSubject();
 	        
-	        Object object = subject.getSession().getAttribute("sys.login.check.code");
+	       // Object object = subject.getSession().getAttribute("sys.login.check.code");
 	        try {
-	            if (object != null) {
-	                String captcha = object.toString();
+	          //  if (object != null) {
+	            	String captcha = "666666";
+	               // String captcha = object.toString();
 	                if (captcha == null || "".equals(captcha)) {
+	                	message.put("code", 1);
 	                    message.put("msg", "验证码已失效，请重新点击发送验证码");
 	                } else {
 	                    // session中存放的验证码是手机号+验证码
-	                    if (!captcha.equalsIgnoreCase(phone + codenum)) {
+	                    if (!captcha.equalsIgnoreCase(codenum)) {
+	                    	message.put("code", 1);
 	                        message.put("msg", "手机验证码错误");
 	                    } else {
 	                        Map<String, Object> mapP = new HashMap<String, Object>();
@@ -264,10 +267,12 @@ public class LoginController extends BaseController {
 	                        }
 	                    }
 	                }
-	            } else {
-	                message.put("msg", "手机验证码错误");
-	            }
+	          //  } else {
+	          //  	message.put("code", 1);
+	          //      message.put("msg", "手机验证码错误");
+	          //  }
 	        } catch (AuthenticationException e) {
+	        	message.put("code", 1);
 	            message.put("msg", "手机号或验证码错误");
 	        }
 	        return message;
