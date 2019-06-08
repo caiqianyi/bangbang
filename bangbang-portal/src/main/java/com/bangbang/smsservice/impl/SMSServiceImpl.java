@@ -152,7 +152,14 @@ public class SMSServiceImpl implements ISMSService{
 				//String password = MD5.MD5(MD5.MD5("123qaz789")+send);
 				String kuaiyongyun = "https://sdk2.028lk.com/sdk2/BatchSend2.aspx?CorpID=sjzjs004976&Pwd=zm0513@&Mobile=#MOBILES#&Content=#SMS_CONTENT#&Cell=&SendTime=";
 			//https://sdk2.028lk.com/sdk2/BatchSend2.aspx?CorpID=*&Pwd=*&Mobile=*&Content=*&Cell=&SendTime=
+			  String aliyun=	"http://dysmsapi.aliyuncs.com?PhoneNumbers=#MOBILES#&SignName=时光机&TemplateCode=SMS_166315791";//&<公共请求参数>";
+				
 				kuaiyongyun =kuaiyongyun
+						.replaceAll("#MOBILES#", URLEncoder.encode(mobile,"GBK"))
+			//			.replaceAll("#SMS_CONTENT#", URLEncoder.encode(content,"GBK"))
+						.replaceAll("#.*#", "");
+				
+				aliyun =aliyun
 						.replaceAll("#MOBILES#", URLEncoder.encode(mobile,"GBK"))
 						.replaceAll("#SMS_CONTENT#", URLEncoder.encode(content,"GBK"))
 						.replaceAll("#.*#", "");
