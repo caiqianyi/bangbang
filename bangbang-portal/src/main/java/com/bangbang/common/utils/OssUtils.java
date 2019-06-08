@@ -21,6 +21,11 @@ public class OssUtils {
 	public static final String BUCKET_URL="bangbangapp.oss-cn-beijing.aliyuncs.com";
 	public static final String BUCKET_NAME="bangbangapp";
 //	public static final String FILEDIR="images/";
+	private String fileName;
+	
+	public OssUtils(String fileName){
+		this.fileName=fileName;
+	}
 	
 	/**
 	 * 创建OSSClient对象
@@ -33,12 +38,10 @@ public class OssUtils {
 	 * 图片上传OSS
 	 */
 	
-	public static String uploadObject2OSS(OSSClient ossClient,MultipartFile file,String bucketName){
+	public  String uploadObject2OSS(OSSClient ossClient,MultipartFile file,String bucketName){
 		String resultStr=null;
 		try {
-			String fileName=file.getOriginalFilename();
-			
-			fileName = FileUtil.renameToUUID(fileName);
+//			String fileName=file.getOriginalFilename();
 			Long fileSize=file.getSize();
 			ObjectMetadata metadata= new ObjectMetadata();
 			metadata.setContentLength(fileSize);
@@ -48,7 +51,7 @@ public class OssUtils {
 			metadata.setContentType("");
 			metadata.setContentDisposition("filename/filesize=" +fileName+"/"+fileSize+"Byte.");
 			//文件上传
-			ossClient.putObject(bucketName,fileName,file.getInputStream(),metadata);
+			ossClient.putObject(bucketName,this.fileName,file.getInputStream(),metadata);
 			ossClient.shutdown();
 			resultStr="http://"+OssUtils.BUCKET_NAME+"."+OssUtils.ENDPOINT+"/"+fileName;
 		} catch (OSSException | ClientException | IOException e) {
@@ -81,7 +84,7 @@ public class OssUtils {
 	 * 文件上传OSS
 	 */
 	
-	public static String uploadObject(MultipartFile headPic){
+	public  String uploadObject(MultipartFile headPic){
 		OSSClient ossClient=getOSSClient();
 		return uploadObject2OSS(ossClient,headPic, OssUtils.BUCKET_NAME);
 	}

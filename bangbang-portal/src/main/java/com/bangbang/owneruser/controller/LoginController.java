@@ -187,17 +187,17 @@ public class LoginController extends BaseController {
 	        String msg = "";
 	        Subject subject = SecurityUtils.getSubject();
 	        
-	       // Object object = subject.getSession().getAttribute("sys.login.check.code");
+	        Object object = subject.getSession().getAttribute("sys.login.check.code");
 	        try {
-	          //  if (object != null) {
-	            	String captcha = "666666";
-	               // String captcha = object.toString();
+	            if (object != null) {
+	           
+	                String captcha = object.toString();
 	                if (captcha == null || "".equals(captcha)) {
 	                	message.put("code", 1);
 	                    message.put("msg", "验证码已失效，请重新点击发送验证码");
 	                } else {
 	                    // session中存放的验证码是手机号+验证码
-	                    if (!captcha.equalsIgnoreCase(codenum)) {
+	                    if (!captcha.equalsIgnoreCase(phone+codenum)) {
 	                    	message.put("code", 1);
 	                        message.put("msg", "手机验证码错误");
 	                    } else {
@@ -265,10 +265,10 @@ public class LoginController extends BaseController {
 	                        }
 	                    }
 	                }
-	          //  } else {
-	          //  	message.put("code", 1);
-	          //      message.put("msg", "手机验证码错误");
-	          //  }
+	            } else {
+	            	message.put("code", 1);
+	                message.put("msg", "手机验证码错误");
+	            }
 	        } catch (AuthenticationException e) {
 	        	message.put("code", 1);
 	            message.put("msg", "手机号或验证码错误");
