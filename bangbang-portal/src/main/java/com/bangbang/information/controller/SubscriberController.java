@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bangbang.common.annotation.Log;
 import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.utils.FileUtil;
+import com.bangbang.common.utils.OssUtils;
 import com.bangbang.information.domain.LeaveMessageDO;
 import com.bangbang.information.domain.QuestioneAnswersDO;
 import com.bangbang.information.domain.SubscriberDO;
@@ -158,20 +159,23 @@ public class SubscriberController {
 	          
 	            String fileName = file.getOriginalFilename();
 	            fileName = FileUtil.renameToUUID(fileName);
-	            try {
+	            String headurl =  OssUtils.uploadObject(file);
+	           /* try {
 	                FileUtil.uploadFile(file.getBytes(), bootdoConfig.getUploadPath(), fileName);
 	            } catch (IOException e) {
 	                e.printStackTrace();
 	            } catch (Exception e) {
 	                e.printStackTrace();
 	            }
-
-	            if (subscriberService.updateHeadUrl(id,"/files/bangbang/" + fileName)>0) {
+*/
+	            if (subscriberService.updateHeadUrl(id,headurl)>0) {
 	            	map.put("code", 0);
 	                map.put("msg", "头像保存成功");
+	                map.put("data", headurl);
 	            } else {
 	            	map.put("code", 1);
 	                map.put("msg", "头像保存失败");
+	                map.put("data","");
 	            }
 	        }else{
 	        	map.put("code", 1);

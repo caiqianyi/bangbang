@@ -79,7 +79,7 @@ public class LoginController extends BaseController {
 	    	return message;
     }
    
-    @Log("发送验证码")
+   /* @Log("发送验证码")
     @PostMapping("/captcha")
     Map<String, String> captcha(String phone, String type) {
         Map<String, String> message = new HashMap<>();
@@ -112,7 +112,7 @@ public class LoginController extends BaseController {
             message.put("msg", "验证码发送出现问题,请三分钟后再试");
         }
         return message;
-    }
+    }*/
     
     /*
     pom.xml
@@ -128,8 +128,8 @@ public class LoginController extends BaseController {
      * @param type  类型 0：注册   1：登录	2：密码重置
      * @说明 发送验证码
      */
- /*   @Log("发送验证码")
-	@PostMapping("/getSms")
+    @Log("发送验证码")
+	@PostMapping("/captcha")
        static Map<String, String> getSms(String phone,String type){
     		Map<String, String> message = new HashMap<>();
     		
@@ -137,7 +137,7 @@ public class LoginController extends BaseController {
     			if (phone == null || "".equals(phone)) {
 	                message.put("msg", "手机号码不能为空");
 	            }else {
-	            	DefaultProfile profile = DefaultProfile.getProfile("default", "LTAIAkQWYVSC6h4A", "WIOQfNmfV5p0rGF6ovgcmwIDdzRzfI");
+	            	DefaultProfile profile = DefaultProfile.getProfile("default", "LTAI8vH63loOPvE8", "Cg5DIuEkqYjIJ1dYoU7FNsMapAPNtz");
 		            IAcsClient client = new DefaultAcsClient(profile);
 		            
 		            Integer templateParam = (int)((Math.random()*9+1)*100000);
@@ -151,14 +151,13 @@ public class LoginController extends BaseController {
 		             
 		            request.putQueryParameter("PhoneNumbers", phone);
 		           
-		            request.putQueryParameter("SignName", "新视能");
-		            
+		            request.putQueryParameter("SignName", "时光机");
 		            if ("0".equals(type)) {
-		            	request.putQueryParameter("TemplateCode", "SMS_162732611");
+		            	request.putQueryParameter("TemplateCode", "SMS_166315791");
 	                }else if ("1".equals(type)) {			//登陆
-	                	 request.putQueryParameter("TemplateCode", "SMS_163720480");
+	                	 request.putQueryParameter("TemplateCode", "SMS_166315793");
 	                }else if ("2".equals(type)){			//重置密码
-	                	request.putQueryParameter("TemplateCode", "SMS_163720481");
+	                	request.putQueryParameter("TemplateCode", "SMS_166315790");
 	                }
 		           
 		            request.putQueryParameter("TemplateParam",  "{\"code\":\""+templateParam+"\"}");
@@ -177,8 +176,7 @@ public class LoginController extends BaseController {
                 e.printStackTrace();
             }
             return message;
-    }
-  */  
+    } 
     
     
 	   @Log("验证码登录")
