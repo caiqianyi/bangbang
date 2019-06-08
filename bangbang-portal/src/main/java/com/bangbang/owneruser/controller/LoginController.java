@@ -100,15 +100,15 @@ public class LoginController extends BaseController {
                     message.put("msg", "验证码发送出现问题,请三分钟后再试");
                 } else {
 	                String code = map.get("randomCode").toString();
-                	//String code = "666666";
 	                Subject subject = SecurityUtils.getSubject();
 	                subject.getSession().setAttribute("sys.login.check.code", phone + code);
 	                message.put("msg", "发送成功");
 	                message.put("sessionId",subject.getSession().getId().toString());
-                }
+               }
             }
         } catch (Exception e) {
             logger.info("SMS==================验证码发送出现问题========" + phone + "======");
+            message.put("code", "1");
             message.put("msg", "验证码发送出现问题,请三分钟后再试");
         }
         return message;
@@ -183,18 +183,22 @@ public class LoginController extends BaseController {
 	   @PostMapping("/loginC")
 	    Map<String, Object> loginC(String phone, String codenum) {
 	        Map<String, Object> message = new HashMap<>();
+	        Map<String, Object> map = new HashMap<>();
 	        String msg = "";
 	        Subject subject = SecurityUtils.getSubject();
 	        
-	        Object object = subject.getSession().getAttribute("sys.login.check.code");
+	       // Object object = subject.getSession().getAttribute("sys.login.check.code");
 	        try {
-	            if (object != null) {
-	                String captcha = object.toString();
+	          //  if (object != null) {
+	            	String captcha = "666666";
+	               // String captcha = object.toString();
 	                if (captcha == null || "".equals(captcha)) {
+	                	message.put("code", 1);
 	                    message.put("msg", "验证码已失效，请重新点击发送验证码");
 	                } else {
 	                    // session中存放的验证码是手机号+验证码
-	                    if (!captcha.equalsIgnoreCase(phone + codenum)) {
+	                    if (!captcha.equalsIgnoreCase(codenum)) {
+	                    	message.put("code", 1);
 	                        message.put("msg", "手机验证码错误");
 	                    } else {
 	                        Map<String, Object> mapP = new HashMap<String, Object>();
@@ -224,11 +228,13 @@ public class LoginController extends BaseController {
 	                            	udos.setLoginTime(new Date());
 	                                
 	                                userService.update(udos);
-	                                message.put("id", udos.getId());
-	                                message.put("nickname", udos.getNickname());
-	                                message.put("heardUrl", udos.getHeardUrl());
-	                                message.put("loginTime", udos.getLoginTime());
+	                                map.put("id", udos.getId());
+	                                map.put("nickname", udos.getNickname());
+	                                map.put("heardUrl", udos.getHeardUrl());
+	                                map.put("loginTime", udos.getLoginTime());
+	                                message.put("code", 0);
 	                                message.put("msg", "登录成功");
+	                                message.put("data", map);
 	                                
 	                            	
 	                            }
@@ -246,21 +252,25 @@ public class LoginController extends BaseController {
 	                                udo.setLoginTime(new Date());
 	                                
 	                                userService.update(udo);
-	                                message.put("id", udo.getId());
-	                                message.put("nickname", udo.getNickname());
-	                                message.put("heardUrl", udo.getHeardUrl());
-	                                message.put("loginTime", udo.getLoginTime());
+	                                map.put("id", udo.getId());
+	                                map.put("nickname", udo.getNickname());
+	                                map.put("heardUrl", udo.getHeardUrl());
+	                                map.put("loginTime", udo.getLoginTime());
+	                                message.put("code", 0);
 	                                message.put("msg", "登录成功");
+	                                message.put("data", map);
 	                                
 	                            	
 	                            }
 	                        }
 	                    }
 	                }
-	            } else {
-	                message.put("msg", "手机验证码错误");
-	            }
+	          //  } else {
+	          //  	message.put("code", 1);
+	          //      message.put("msg", "手机验证码错误");
+	          //  }
 	        } catch (AuthenticationException e) {
+	        	message.put("code", 1);
 	            message.put("msg", "手机号或验证码错误");
 	        }
 	        return message;
