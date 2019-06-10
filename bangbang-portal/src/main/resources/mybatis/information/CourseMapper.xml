@@ -28,11 +28,12 @@
 	</select>
 	
 	<select id="getPlayRecord" resultType="com.bangbang.information.domain.PlayRecordDO">
-	  select `character_id`,name,`chapter_name`,`played_time`,`surplus_time`,chapter_num,course_cover  from play_record
+	  select p.character_id,c.url,p.name,p.chapter_name,p.played_time,p.surplus_time,p.chapter_num,p.course_cover  from play_record p,course_chapter c
 	    <where>  
-		  	<if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
-		  	<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  	<if test="courseId != null and courseId != ''"> and p.course_id = #{courseId} </if>
+		  	<if test="userId != null and userId != ''"> and p.user_id = #{userId} </if>
 		</where>
+		and p.character_id=c.id
 	</select>
 	
 	<select id="getCourseCharacterByCourseId" resultType="com.bangbang.information.domain.CourseChapterDO">
