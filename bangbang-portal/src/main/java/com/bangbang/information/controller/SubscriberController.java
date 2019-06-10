@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aliyun.oss.internal.OSSUtils;
 import com.bangbang.common.annotation.Log;
 import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.utils.FileUtil;
+import com.bangbang.common.utils.OssUtils;
 import com.bangbang.information.domain.LeaveMessageDO;
 import com.bangbang.information.domain.QuestioneAnswersDO;
+import com.bangbang.information.domain.SubcriberLogDO;
 import com.bangbang.information.domain.SubscriberDO;
 import com.bangbang.information.service.SubscriberService;
 
@@ -151,27 +154,23 @@ public class SubscriberController {
 	 */
 	@Log("修改用户头像")
 	@PostMapping("/updateHeadSculpture")
-	public Map<String,Object> updateHeadSculpture(Long id,MultipartFile file){
+	public Map<String,Object> updateHeadSculpture(SubscriberDO subscriberDO,MultipartFile file){
 		  Map<String, Object> map = new HashMap<>();
 	    
 	        if (file != null && file.getSize() > 0) {
-	          
-	            String fileName = file.getOriginalFilename();
-	            fileName = FileUtil.renameToUUID(fileName);
-	            try {
-	                FileUtil.uploadFile(file.getBytes(), bootdoConfig.getUploadPath(), fileName);
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-
-	            if (subscriberService.updateHeadUrl(id,"/files/bangbang/" + fileName)>0) {
+	        	String fileName=file.getOriginalFilename();
+	        	fileName=subscriberDO.getId()+"_"+subscriberDO.getPhone()+fileName.substring(fileName.lastIndexOf("."));
+	            OssUtils ossUtils=new OssUtils(fileName);
+	            String headurl =  ossUtils.uploadObject(file);
+	        
+	            if (subscriberService.updateHeadUrl(subscriberDO.getId(),headurl)>0) {
 	            	map.put("code", 0);
 	                map.put("msg", "头像保存成功");
+	                map.put("data", headurl);
 	            } else {
 	            	map.put("code", 1);
 	                map.put("msg", "头像保存失败");
+	                map.put("data","");
 	            }
 	        }else{
 	        	map.put("code", 1);

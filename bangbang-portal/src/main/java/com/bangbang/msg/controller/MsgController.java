@@ -37,10 +37,10 @@ public class MsgController extends BaseController{
 	 */
 	@ResponseBody
 	@GetMapping("/list")
-	public Map<String, Object> list(){
+	public Map<String, Object> list(Long userId){
 		//查询列表数据
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<MsgDO> msgList = msgService.queryMsgList(getUserId());
+		List<MsgDO> msgList = msgService.queryMsgList(userId);
 		map.put("code", 0);
 		map.put("msg", "");
 		map.put("data", msgList);
