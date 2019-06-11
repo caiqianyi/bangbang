@@ -90,24 +90,27 @@ public class CourseController {
 	@Log("查询的章节接口")
 	@GetMapping("/getAllCharacterByCourseId")
 	public Map<String,Object> getAllCharacterByCourseId(Long courseId,Long userId){
+		Map<String,Object> resultMap = new HashMap<String,Object>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<CourseChapterDO> list = courseService.getCourseCharacterByCourseId(courseId);
+		
 		if(list.size()==0){
-			map.put("code", 1);
-			map.put("msg","课程章节缺失...");
-			map.put("data",list);
+			resultMap.put("code", 1);
+			resultMap.put("msg","课程章节缺失...");
+			resultMap.put("data","");
 		}
 		else{
 			PlayRecordDO playRecordDO=courseService.getPlayRecordByUserIdAndCourseId(courseId,userId);
-			if(playRecordDO!=null)
-				map.put("playRecord",playRecordDO);
-			else
-				map.put("playRecord", new PlayRecordDO());
-			map.put("code", 0);
-			map.put("msg","");
-			map.put("data",list);
+			if(playRecordDO==null)
+				playRecordDO=new PlayRecordDO();
+			map.put("list",list);
+			map.put("chapterName",playRecordDO.getChapterName());
+			map.put("characterId",playRecordDO.getCharacterId());
+			resultMap.put("code", 0);
+			resultMap.put("msg", "");
+			resultMap.put("data", map);
 		}
-		return map;
+		return resultMap;
 	}
 	
 	/**

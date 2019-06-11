@@ -38,6 +38,9 @@ public class PlayRecordDO implements Serializable {
 	private Integer chapterNum;
 	//课程封面
 	private String courseCover;
+	
+	//课程url
+	private String url;
 	/**
 	 * 设置：id
 	 */
@@ -154,6 +157,13 @@ public class PlayRecordDO implements Serializable {
 	public void setCourseCover(String courseCover) {
 		this.courseCover = courseCover;
 	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
 	
 	
 }

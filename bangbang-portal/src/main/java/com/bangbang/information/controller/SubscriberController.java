@@ -159,9 +159,9 @@ public class SubscriberController {
 	    
 	        if (file != null && file.getSize() > 0) {
 	        	String fileName=file.getOriginalFilename();
-	        	fileName=subscriberDO.getId()+"_"+subscriberDO.getPhone()+fileName.substring(fileName.lastIndexOf("."));
-	            OssUtils ossUtils=new OssUtils(fileName);
-	            String headurl =  ossUtils.uploadObject(file);
+	        	fileName = FileUtil.renameToUUID(fileName);
+				OssUtils ossUtils=new OssUtils(fileName);
+		        String headurl =  ossUtils.uploadObject(file);
 	        
 	            if (subscriberService.updateHeadUrl(subscriberDO.getId(),headurl)>0) {
 	            	map.put("code", 0);
