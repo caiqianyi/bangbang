@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.controller.BaseController;
 import com.bangbang.common.utils.FileUtil;
+import com.bangbang.common.utils.OssUtils;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
@@ -74,10 +75,10 @@ public class QuestioneAnswersController extends BaseController{
 			mapP.put(string, url);
 			mapT.putAll(mapP);
 		}
+		mapT.put("quent", quentList);
 		map.put("code", 0);
 		map.put("msg", "");
-		map.put("teacherHead", mapT);
-		map.put("data", quentList);
+		map.put("data", mapT);
 		return map;
 	}
 		
@@ -107,10 +108,11 @@ public class QuestioneAnswersController extends BaseController{
 			try {
 				for (MultipartFile file : files) {
 					String fileName = file.getOriginalFilename();
-					fileName = FileUtil.renameToUUID(fileName);	
-					FileUtil.uploadFile(file.getBytes(), bootdoConfig.getUploadPath(), fileName);
+					fileName = FileUtil.renameToUUID(fileName);
+					OssUtils ossUtils=new OssUtils(fileName);
+			        String headurl =  ossUtils.uploadObject(file);
 					QuestioneAnswersImageDO img = new QuestioneAnswersImageDO();
-					img.setPicImg("/files/" +fileName);
+					img.setPicImg(headurl);
 					img.setQuestionAnswersId(questioneA.getId());
 					img.setStatus(0);
 					questioneAnswersImageService.save(img);

@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.utils.FileUtil;
+import com.bangbang.common.utils.OssUtils;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
@@ -87,9 +88,10 @@ public class TeacherController {
 				for (MultipartFile file : files) {
 					String fileName = file.getOriginalFilename();
 					fileName = FileUtil.renameToUUID(fileName);	
-					FileUtil.uploadFile(file.getBytes(), bootdoConfig.getUploadPath(), fileName);
+					OssUtils ossUtils=new OssUtils(fileName);
+			        String headurl =  ossUtils.uploadObject(file);
 					QuestioneAnswersImageDO img = new QuestioneAnswersImageDO();
-					img.setPicImg("/files/" +fileName);
+					img.setPicImg(headurl);
 					img.setQuestionAnswersId(AnswersDO.getId());
 					img.setStatus(1);
 					questioneAnswersImageService.save(img);
