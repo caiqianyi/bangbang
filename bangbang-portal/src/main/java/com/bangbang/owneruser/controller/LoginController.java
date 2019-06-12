@@ -27,6 +27,8 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.bangbang.common.annotation.Log;
 import com.bangbang.common.controller.BaseController;
 import com.bangbang.common.utils.ShiroUtils;
+import com.bangbang.information.domain.SubscriberDO;
+import com.bangbang.information.service.SubscriberService;
 import com.bangbang.owneruser.comment.GenerateCode;
 import com.bangbang.owneruser.comment.SMSContent;
 import com.bangbang.owneruser.comment.SMSPlatform;
@@ -45,7 +47,8 @@ public class LoginController extends BaseController {
     OwnerUserService userService;
     @Autowired
     private ISMSService sMSService;
-	
+    @Autowired
+	private SubscriberService subscriberService;
    
     @Log("密码登录")  
 	@PostMapping("/loginP")
@@ -228,13 +231,14 @@ public class LoginController extends BaseController {
 	                            	udos.setLoginTime(new Date());
 	                                
 	                                userService.update(udos);
-	                                map.put("id", udos.getId());
-	                                map.put("nickname", udos.getNickname());
-	                                map.put("heardUrl", udos.getHeardUrl());
-	                                map.put("loginTime", udos.getLoginTime());
+	                                SubscriberDO info = subscriberService.getInfo(phone);
+	                               // map.put("id", udos.getId());
+	                               // map.put("nickname", udos.getNickname());
+	                              //  map.put("heardUrl", udos.getHeardUrl());
+	                               // map.put("loginTime", udos.getLoginTime());
 	                                message.put("code", 0);
 	                                message.put("msg", "登录成功");
-	                                message.put("data", map);
+	                                message.put("data", info);
 	                                
 	                            	
 	                            }
@@ -252,13 +256,14 @@ public class LoginController extends BaseController {
 	                                udo.setLoginTime(new Date());
 	                                
 	                                userService.update(udo);
-	                                map.put("id", udo.getId());
-	                                map.put("nickname", udo.getNickname());
-	                                map.put("heardUrl", udo.getHeardUrl());
-	                                map.put("loginTime", udo.getLoginTime());
+	                                SubscriberDO info = subscriberService.getInfo(phone);
+	                               // map.put("id", udo.getId());
+	                               // map.put("nickname", udo.getNickname());
+	                               // map.put("heardUrl", udo.getHeardUrl());
+	                               // map.put("loginTime", udo.getLoginTime());
 	                                message.put("code", 0);
 	                                message.put("msg", "登录成功");
-	                                message.put("data", map);
+	                                message.put("data", info);
 	                                
 	                            	
 	                            }
