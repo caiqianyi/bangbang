@@ -141,6 +141,7 @@ public class LoginController extends BaseController {
 		            IAcsClient client = new DefaultAcsClient(profile);
 		            
 		            Integer templateParam = (int)((Math.random()*9+1)*100000);
+		            System.out.println("============验证码===================="+templateParam);
 		            
 		            CommonRequest request = new CommonRequest();
 		            //request.setProtocol(ProtocolType.HTTPS);
