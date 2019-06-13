@@ -237,7 +237,7 @@
 
         <!--war包部署需要-->
             <!--&lt;!&ndash; 移除嵌入式tomcat插件 &ndash;&gt;-->
-
+<!-- 
              <dependency>
 
 	            <groupId>org.springframework.boot</groupId>
@@ -254,8 +254,8 @@
 	            <artifactId>javax.servlet-api</artifactId>
 	            <version>3.1.0</version>
 	            <scope>provided</scope>
-	        </dependency>
-    </dependencies>
+	        </dependency>-->
+    </dependencies> 
     <build>
     <finalName>ROOT</finalName>
         <plugins>
