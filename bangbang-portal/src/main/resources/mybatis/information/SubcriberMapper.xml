@@ -5,7 +5,7 @@
 
 	<select id="getInfo" resultType="com.bangbang.information.domain.SubscriberDO">
   
-		 select id, `heard_url`,`username`,`sign_name`,`sex`,`birthday`,`balance`,`nickname`,`phone`,`name`, leaveMessage_count,ask_count,study_continuity,
+		 select id,phone, `heard_url`,`username`,`sign_name`,`sex`,`birthday`,`balance`,`nickname`,`phone`,`name`, leaveMessage_count,ask_count,study_continuity,
 		`ask_count` ,`study_continuity`,`study_time`,`leaveMessage_count`,study_time from t_user where phone = #{value}
 	</select>
 	
