@@ -67,13 +67,15 @@ public class QuestioneAnswersController extends BaseController{
 		Map<String, Object> mapT = new HashMap<String, Object>();
 		QuestionsMoneyNotesDO quentList = questionsMoneyNotesService.get(courseId);
 		String questionsTeacher = quentList.getQuestionsTeacher();
-		String[] split = questionsTeacher.split(",");
-		for (String string : split) {
-			Map<String, Object> mapP = new HashMap<String, Object>();
-			TeacherDO headUrl = teacherService.getHeadUrl(string);
-			String url = headUrl.getHeadUrl();
-			mapP.put(string, url);
-			mapT.putAll(mapP);
+		if(questionsTeacher != null && questionsTeacher.length()>0){
+			String[] split = questionsTeacher.split(",");
+			for (String string : split) {
+				Map<String, Object> mapP = new HashMap<String, Object>();
+				TeacherDO headUrl = teacherService.getHeadUrl(string);
+				String url = headUrl.getHeadUrl();
+				mapP.put(string, url);
+				mapT.putAll(mapP);
+			}
 		}
 		mapT.put("quent", quentList);
 		map.put("code", 0);
