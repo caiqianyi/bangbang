@@ -204,7 +204,7 @@ public class WxpayController {
 	                String totalFee = notifyMap.get("total_fee").toString();//实际支付的订单金额:单位 分
 	                OrderDO order = orderService.getbyno(ordersSn);
 	                if(order!=null){
-	                	order.setCreateTime(new Date());
+	                	order.setPayTime(new Date());
 	                	order.setStatus(1);
 	                	order.setTotalFee(new BigDecimal(totalFee).divide(new BigDecimal(100)));
 	        		orderService.update(order);

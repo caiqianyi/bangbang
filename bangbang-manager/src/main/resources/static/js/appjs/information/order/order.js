@@ -65,15 +65,15 @@ function load() {
 								},
 																{
 									field : 'body', 
-									title : 'descr' 
+									title : '商品描述' 
 								},
-																{
-									field : 'attach', 
-									title : 'attach' 
-								},
+//																{
+//									field : 'attach', 
+//									title : 'attach' 
+//								},
 																{
 									field : 'createTime', 
-									title : '购买时间' 
+									title : '创建时间' 
 								},
 																{
 									field : 'createUser', 
@@ -81,11 +81,11 @@ function load() {
 								},
 																{
 									field : 'payTime', 
-									title : '购买时间' 
+									title : '支付时间' 
 								},
 																{
 									field : 'payWay', 
-									title : 'ZFB、WX',
+									title : '支付方式',
 									formatter : function(value, row, index) {
 										if(value=="ZFB")
 											return "支付宝支付";
@@ -93,40 +93,40 @@ function load() {
 											return "微信支付";
 									}
 								},
-																{
-									field : 'tradeType', 
-									title : 'ZFB、WX' 
-								},
+//																{
+//									field : 'tradeType', 
+//									title : 'ZFB、WX' 
+//								},
 																{
 									field : 'status', 
-									title : '订单状态,
+									title : '订单状态',
 									formatter : function(value, row, index){
 										if(value==0)
-											return "待支付",
+											return "待支付";
 										if(value==1)
-											return "已支付",
+											return "已支付";
 										if(value==-1)
-											return "支付异常"
+											return "支付异常";
 										if(value==2)
-											return "已退款"
+											return "已退款";
 									} 	
 								},
 																{
 									field : 'tradeNo', 
 									title : '第三方支付订单号' 
 								},
-																{
-									field : 'spbillCreateIp', 
-									title : '支付ip' 
-								},
-																{
-									field : 'notifyUrl', 
-									title : '回调地址' 
-								},
-																{
-									field : 'queueKey', 
-									title : '队列key' 
-								},
+//																{
+//									field : 'spbillCreateIp', 
+//									title : '支付ip' 
+//								},
+//																{
+//									field : 'notifyUrl', 
+//									title : '回调地址' 
+//								},
+//																{
+//									field : 'queueKey', 
+//									title : '队列key' 
+//								},
 																{
 									field : 'appid', 
 									title : 'appid' 
@@ -135,26 +135,26 @@ function load() {
 									field : 'mchId', 
 									title : '商户id' 
 								},
-																{
-									field : 'callRequestBody', 
-									title : '回调参数（JSON）' 
-								},
-																{
-									field : 'group', 
-									title : '分组' 
-								},
+//																{
+//									field : 'callRequestBody', 
+//									title : '回调参数（JSON）' 
+//								},
+//																{
+//									field : 'group', 
+//									title : '分组' 
+//								},
 																{
 									field : 'rechargeFee', 
-									title : '价值数，便于计算' 
+									title : '价值' 
 								},
-																{
-									field : 'scene', 
-									title : '场景，用途' 
-								},
-																{
-									field : 'outRefundNo', 
-									title : '商户退款单号' 
-								},
+//																{
+//									field : 'scene', 
+//									title : '场景，用途' 
+//								},
+//																{
+//									field : 'outRefundNo', 
+//									title : '商户退款单号' 
+//								},
 																{
 									title : '操作',
 									field : 'id',

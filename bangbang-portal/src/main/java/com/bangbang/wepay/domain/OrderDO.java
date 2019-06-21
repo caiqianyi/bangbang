@@ -32,8 +32,8 @@ public class OrderDO implements Serializable {
 	private Date createTime;
 	//支付用户
 	private Long createUser;
-	//购买时间
-	private Long payTime;
+	//支付时间
+	private Date payTime;
 	//ZFB、WX
 	private String payWay;
 	//ZFB、WX
@@ -162,13 +162,13 @@ public class OrderDO implements Serializable {
 	/**
 	 * 设置：购买时间
 	 */
-	public void setPayTime(Long payTime) {
+	public void setPayTime(Date payTime) {
 		this.payTime = payTime;
 	}
 	/**
 	 * 获取：购买时间
 	 */
-	public Long getPayTime() {
+	public Date getPayTime() {
 		return payTime;
 	}
 	/**
