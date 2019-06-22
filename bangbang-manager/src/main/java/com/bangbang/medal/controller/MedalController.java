@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.utils.FileUtil;
+import com.bangbang.common.utils.OssUtils;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
@@ -86,11 +88,14 @@ public class MedalController {
 		Long MedalId = GenerateCode.gen16(6);
 		medal.setMedalId(MedalId);
 		
-		String fileName = medal.getImgFile().getOriginalFilename();
+		MultipartFile imgFile = medal.getImgFile();
+		String fileName = imgFile.getOriginalFilename();
 		fileName = FileUtil.renameToUUID(fileName);		
-		try {					
-			FileUtil.uploadFile(medal.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-			medal.setMedalIco("/files/" + fileName);
+		try {	
+			OssUtils ossUtils=new OssUtils(fileName);
+	        String headurl =  ossUtils.uploadObject(imgFile);
+			//FileUtil.uploadFile(medal.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
+			medal.setMedalIco(headurl);
 			medal.setAddTime(new Date());
 		} catch (Exception e) {
 			return R.error();
@@ -108,11 +113,14 @@ public class MedalController {
 	@RequiresPermissions("information:medal:edit")
 	public R update( MedalDO medal){
 		if(medal.getImgFile() != null && medal.getImgFile().getSize() > 0){
-			String fileName = medal.getImgFile().getOriginalFilename();
+			MultipartFile imgFile = medal.getImgFile();
+			String fileName = imgFile.getOriginalFilename();
 			fileName = FileUtil.renameToUUID(fileName);
 			try {
-				FileUtil.uploadFile(medal.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-				medal.setMedalIco("/files/" + fileName);
+				OssUtils ossUtils=new OssUtils(fileName);
+		        String headurl =  ossUtils.uploadObject(imgFile);
+				//FileUtil.uploadFile(medal.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
+				medal.setMedalIco(headurl);
 			} catch (Exception e) {
 				return R.error();
 			}

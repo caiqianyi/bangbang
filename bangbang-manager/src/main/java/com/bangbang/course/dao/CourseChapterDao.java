@@ -36,4 +36,8 @@ public interface CourseChapterDao {
 	
 	int queryCourse(Long courseId);
 	
+	CourseChapterDO queryCtag();
+	
+	void deleteZJ();
+	
 }

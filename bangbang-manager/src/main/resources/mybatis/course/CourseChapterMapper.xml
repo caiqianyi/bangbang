@@ -4,11 +4,11 @@
 <mapper namespace="com.bangbang.course.dao.CourseChapterDao">
 
 	<select id="get" resultType="com.bangbang.course.domain.CourseChapterDO">
-		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_num`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time` from course_chapter where id = #{value}
+		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_num`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time`,c_tag,duration from course_chapter where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.course.domain.CourseChapterDO">
-		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_num`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time` from course_chapter
+		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_num`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time`,c_tag,duration from course_chapter
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
@@ -24,6 +24,8 @@
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
 		  		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  		  <if test="Ctag != null and Ctag != ''"> and c_tag = #{Ctag} </if>
+		  		  <if test="duration != null and duration != ''"> and duration = #{duration} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -55,6 +57,8 @@
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
 		  		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  		  <if test="Ctag != null and Ctag != ''"> and c_tag = #{Ctag} </if>
+		  		  <if test="duration != null and duration != ''"> and duration = #{duration} </if>
 		  		</where>
 	</select>
 	 
@@ -74,7 +78,9 @@
 			`chapter_status`, 
 			`add_time`, 
 			`start_time`, 
-			`end_time`
+			`end_time`,
+			`c_tag`,
+			`duration`
 		)
 		values
 		(
@@ -91,7 +97,9 @@
 			#{chapterStatus}, 
 			#{addTime}, 
 			#{startTime}, 
-			#{endTime}
+			#{endTime},
+			#{Ctag},
+			#{duration}
 		)
 	</insert>
 	 
@@ -110,7 +118,9 @@
 			<if test="chapterStatus != null">`chapter_status` = #{chapterStatus}, </if>
 			<if test="addTime != null">`add_time` = #{addTime}, </if>
 			<if test="startTime != null">`start_time` = #{startTime}, </if>
-			<if test="endTime != null">`end_time` = #{endTime}</if>
+			<if test="endTime != null">`end_time` = #{endTime},</if>
+			<if test="Ctag != null">`c_tag` = #{Ctag},</if>
+			<if test="duration != null">`duration` = #{duration}</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -133,4 +143,11 @@
 	<select id="queryCourse" resultType="int">
 		select count(*) from course_chapter where course_id = #{course_id}
 	</select>
+	<select id="queryCtag" resultType="com.bangbang.course.domain.CourseChapterDO">
+		select `id`,`parent_id`,`course_id`,`course_name`,`name`,`chapter_num`,`chapter_name`,`chapter_notes`,`type`,`url`,`chapter_status`,`add_time`,`start_time`,`end_time`,c_tag from course_chapter where c_tag = 0
+	</select>
+	<delete id="deleteZJ">
+		delete from course_chapter where c_tag = 0
+	</delete>
+	
 </mapper>

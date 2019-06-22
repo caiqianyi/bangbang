@@ -75,7 +75,7 @@
 		values
 		(
 			#{medalId}, 
-			#{medalNumber}
+			#{medalNumber},
 			#{medalName}, 
 			#{medalIco}, 
 			#{gainRequire}, 

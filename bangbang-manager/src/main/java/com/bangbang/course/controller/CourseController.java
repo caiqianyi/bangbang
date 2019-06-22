@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.utils.FileUtil;
+import com.bangbang.common.utils.OssUtils;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
@@ -121,12 +123,14 @@ public class CourseController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:course:add")
 	public R save( CourseDO course,Long courseId,QuestionsMoneyNotesDO qmn){
-
-		String fileName = course.getImgFile().getOriginalFilename();
+		MultipartFile imgFile = course.getImgFile();
+		String fileName = imgFile.getOriginalFilename();
 		fileName = FileUtil.renameToUUID(fileName);		
-		try {					
-			FileUtil.uploadFile(course.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-			course.setCourseCover("/files/" + fileName);
+		try {	
+			OssUtils ossUtils=new OssUtils(fileName);
+	        String headurl =  ossUtils.uploadObject(imgFile);
+			//FileUtil.uploadFile(course.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
+			course.setCourseCover(headurl);
 			course.setAddTime(new Date());
 		} catch (Exception e) {
 			return R.error();
@@ -170,11 +174,14 @@ public class CourseController {
 	public R update( CourseDO course,QuestionsMoneyNotesDO qmn,Long id){
 		
 		if(course.getImgFile() != null && course.getImgFile().getSize() > 0){
-			String fileName = course.getImgFile().getOriginalFilename();
+			MultipartFile imgFile = course.getImgFile();
+			String fileName = imgFile.getOriginalFilename();
 			fileName = FileUtil.renameToUUID(fileName);
 			try {
-				FileUtil.uploadFile(course.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-				course.setCourseCover("/files/" + fileName);
+				OssUtils ossUtils=new OssUtils(fileName);
+		        String headurl =  ossUtils.uploadObject(imgFile);
+				//FileUtil.uploadFile(course.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
+				course.setCourseCover(headurl);
 			} catch (Exception e) {
 				return R.error();
 			}
