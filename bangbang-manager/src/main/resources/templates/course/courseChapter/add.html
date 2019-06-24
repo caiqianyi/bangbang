@@ -145,121 +145,25 @@
 	</script>
 	<script type="text/javascript">
 		
-	
-	//每100ms获取一次图片上传进度
-	var intervalId;
-	function interval(){
-	    intervalId = window.setInterval(showPercent, 100);
-	}
-	
-	//获取图片进度数据
-	function showPercent(){
-		var formData = new FormData(document.getElementById("signupForm"));
-		$.ajax({
-			cache : true,
-			type : "POST",
-			url : "/information/courseChapter/percent",
-			data : formData, // $('#signupForm').serialize(),// 你的formid
-			async : false,
-		    processData:false,
-			contentType:false,
-			success : function(data) {
-				//console.log(data);
-				var end = 0;
-	            var per = 0;
-	            end = data.end;
-	            per = data.percent + "%";
-	            console.log(per);
-	            console.log("end:" + end);
-	            $("#percent").val(data.percent);//图片上传进度
-	            $("#per").html(per);
-	            if (per == '100%'){ //图片上传结束标识
-	                stopInterval();
-	                //图片上传完成session重置
-	            	clearPercent();
-	        	}
-
-			},
-			error : function(request) {
-				stopInterval();
-				clearPercent();
-				parent.layer.alert("文件太大");
-			}
-		});
-	}
-	
-	//清除进度数据
-	function clearPercent(){
-		$.ajax({
-		        type : "POST",
-		        contentType : false,
-		        async : false,
-		        cache : false,
-		        url : "/information/courseChapter/percent/reset",
-		        dataType : "json",
-		        success : function(data) {
-		        console.log("ddd:"+data);
-		        }
-		    });
-	}
-	
-	//清除时间
-	function stopInterval(){
-	  window.clearInterval(intervalId);
-	}
-	
 	function udpateFileUrl(obj) {
 		var fileURL = getObjectURL(obj.files[0]);
 		if (fileURL) {
 			$("#fileImgimgFile").attr("src", fileURL);
 		}		
-		interval();
-		saveFile();
+		fileType();
 	}
 	
-	function saveFile(){
-		
+	function fileType(){
 		var wp = $("input[name='imgFile']").val();
 		var index1=wp.lastIndexOf(".");
 		var index2=wp.length;
 		var suffix=wp.substring(index1+1,index2);
 		if(suffix != "mp3" && suffix != "mp4"){
 			alert("文件格式不正确，请上传MP3/MP4格式文件。");
-			stopInterval();
 			$("input[name='imgFile']").val("");
-		}else{
-			var formData = new FormData();
-			formData.append("imgFile",wp);
-			formData.append("imgFile",$("#imgFile")[0].files[0]);
-			$.ajax({
-				cache : true,
-				type : "POST",
-				url : "/information/courseChapter/beforeSave",
-				data : formData, //$('#signupForm').serialize(),// 你的formid
-				processData:false,
-				contentType:false,
-				async : true,
-				error : function(request) {
-					parent.layer.alert("文件太大");
-				},
-				success : function(data) {
-					if (data.code == 0) {
-						parent.layer.msg("上传成功");
-						//reLoad();
-						//var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
-						//parent.layer.close(index);
-
-					} else {
-						parent.layer.alert(data.msg)
-					}
-
-				}
-			});
-		}
-			
+		}	
 	}
-
-		
+			
 	//建立一個可存取到該file的url
 	function getObjectURL(file) {
 		var url = null;
@@ -274,14 +178,8 @@
 	}
 	
 		$("#closePage").click(function(){
-			$.ajax({
-				url : "/information/courseChapter/deleteZJ",
-				type : "post",
-				success : function(r){
-					var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-				    parent.layer.close(index);//关闭弹出的子页面窗口
-				}
-			});
+			var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+			parent.layer.close(index);//关闭弹出的子页面窗口
 	       
 	    });
 		

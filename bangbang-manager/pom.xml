@@ -126,7 +126,13 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
-        </dependency>
+        </dependency> 
+        <!-- https://mvnrepository.com/artifact/ws.schild/jave-all-deps -->
+		<dependency>
+		    <groupId>ws.schild</groupId>
+		    <artifactId>jave-all-deps</artifactId>
+		    <version>2.5.0</version>
+		</dependency>
         <!-- ehchache -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

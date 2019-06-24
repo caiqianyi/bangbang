@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +34,9 @@ import com.bangbang.course.domain.CourseChapterDO;
 import com.bangbang.course.domain.CourseDO;
 import com.bangbang.course.service.CourseChapterService;
 import com.bangbang.course.service.CourseService;
+
+import ws.schild.jave.MultimediaInfo;
+import ws.schild.jave.MultimediaObject;
 
 
 
@@ -100,28 +102,6 @@ public class CourseChapterController {
 	    return "course/courseChapter/cha";
 	}
 	
-	/**
-	 * 文件上传
-	 */
-	@ResponseBody
-	@PostMapping("/beforeSave")
-	public R beforeSave(CourseChapterDO courseChapter,HttpServletRequest request,HttpServletResponse response){
-		MultipartFile imgFile = courseChapter.getImgFile();
-		String fileName = imgFile.getOriginalFilename();
-		fileName = FileUtil.renameToUUID(fileName);	
-		try {			
-			//OssUtils ossUtils=new OssUtils(fileName);
-			String url = OssUtils.uploadObject2OSS2(OssUtils.BUCKET_NAME,imgFile,fileName,request);
-			courseChapter.setUrl(url);
-			courseChapter.setCtag(0);
-		} catch (Exception e) {
-			return R.error();
-		}
-		if(courseChapterService.save(courseChapter)>0){
-			return R.ok("上传成功");
-		}
-		return R.error();
-	}
 	
 	/**
 	 * 保存
@@ -129,19 +109,40 @@ public class CourseChapterController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("information:courseChapter:add")
-	public R save( CourseChapterDO courseChapter){
-
-		CourseChapterDO Ctag = courseChapterService.queryCtag();
-		Ctag.setCourseId(courseChapter.getCourseId());
-		Ctag.setCourseName(courseChapter.getCourseName());
-		Ctag.setName(courseChapter.getName());
-		Ctag.setChapterNum(courseChapter.getChapterNum());
-		Ctag.setChapterName(courseChapter.getChapterName());
-		Ctag.setChapterNotes(courseChapter.getChapterNotes());
-		Ctag.setCtag(1);
-		Ctag.setAddTime(new Date());
+	public R save( CourseChapterDO courseChapter,HttpServletRequest request,HttpServletResponse response)throws IOException{
+		MultipartFile imgFile = courseChapter.getImgFile();
+		String fileName = imgFile.getOriginalFilename();
+		fileName = FileUtil.renameToUUID(fileName);	
+		File f = null;
+		String time = "";
+		try {			
+			//OssUtils ossUtils=new OssUtils(fileName);
+			String url = OssUtils.uploadObject2OSS2(OssUtils.BUCKET_NAME,imgFile,fileName,request);
+			try {
+				f = File.createTempFile("tmp", null);
+				imgFile.transferTo(f);
+				MultimediaObject instance = new MultimediaObject(f);
+			    MultimediaInfo result = instance.getInfo();
+			    long l = result.getDuration();
+			    if(l / 60000 != 0){
+			    	time = l / 60000 +":"+ (l % 60000) / 1000;
+			    }else{
+			    	time = "00:"+ (l % 60000) / 1000;
+			    }
+			    //System.out.println(time);
+				f.delete();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			courseChapter.setDuration(time);
+			courseChapter.setUrl(url);
+		} catch (Exception e) {
+			return R.error();
+		}
+		courseChapter.setAddTime(new Date());
 		
-		if(courseChapterService.update(Ctag)>0){
+		if(courseChapterService.save(courseChapter)>0){
 			Map<String, Object> params = new HashMap<String, Object>();
 			Long courseId = courseChapter.getCourseId();
 			int courseNum = courseChapterService.queryCourse(courseId);
@@ -181,16 +182,7 @@ public class CourseChapterController {
 		HttpSession session = request.getSession();
 		session.setAttribute("upload_percent",0);		
 		
-	}
-	
-	/**
-	 * 取消章节添加
-	 */
-	@ResponseBody
-	@PostMapping("/deleteZJ")
-	public void deleteZJ(){
-		courseChapterService.deleteZJ();
-	}
+	}	
 	
 	/**
 	 * 修改

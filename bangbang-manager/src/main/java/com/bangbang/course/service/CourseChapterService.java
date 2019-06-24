@@ -33,9 +33,5 @@ public interface CourseChapterService {
 	List<CourseChapterDO> queryCId(Long courseId);
 	
 	int queryCourse(Long courseId);
-
-	CourseChapterDO queryCtag();
 	
-	void deleteZJ();
-
 }
