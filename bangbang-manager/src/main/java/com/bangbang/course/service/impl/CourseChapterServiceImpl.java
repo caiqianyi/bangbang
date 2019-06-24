@@ -64,5 +64,15 @@ public class CourseChapterServiceImpl implements CourseChapterService {
 	public int queryCourse(Long courseId) {
 		return courseChapterDao.queryCourse(courseId);
 	}
+
+	@Override
+	public CourseChapterDO queryCtag() {
+		return courseChapterDao.queryCtag();
+	}
+
+	@Override
+	public void deleteZJ() {
+		courseChapterDao.deleteZJ();
+	}
 	
 }

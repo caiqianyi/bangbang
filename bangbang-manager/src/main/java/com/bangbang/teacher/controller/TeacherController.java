@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.utils.FileUtil;
+import com.bangbang.common.utils.OssUtils;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
@@ -97,12 +99,13 @@ public class TeacherController {
 	@PostMapping("/save")
 	@RequiresPermissions("information:teacher:add")
 	public R save( TeacherDO teacher){
-		
-		String fileName = teacher.getImgFile().getOriginalFilename();
+		MultipartFile imgFile = teacher.getImgFile();
+		String fileName = imgFile.getOriginalFilename();
 		fileName = FileUtil.renameToUUID(fileName);		
 		try {					
-			FileUtil.uploadFile(teacher.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-			teacher.setHeadUrl("/files/" + fileName);
+			OssUtils ossUtils=new OssUtils(fileName);
+	        String headurl =  ossUtils.uploadObject(imgFile);
+			teacher.setHeadUrl(headurl);
 			teacher.setAddTime(new Date());
 		} catch (Exception e) {
 			return R.error();
@@ -122,11 +125,13 @@ public class TeacherController {
 	@RequiresPermissions("information:teacher:edit")
 	public R update( TeacherDO teacher){
 		if(teacher.getImgFile() != null && teacher.getImgFile().getSize() > 0){
-			String fileName = teacher.getImgFile().getOriginalFilename();
+			MultipartFile imgFile = teacher.getImgFile();
+			String fileName = imgFile.getOriginalFilename();
 			fileName = FileUtil.renameToUUID(fileName);
 			try {
-				FileUtil.uploadFile(teacher.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-				teacher.setHeadUrl("/files/" + fileName);
+				OssUtils ossUtils=new OssUtils(fileName);
+		        String headurl =  ossUtils.uploadObject(imgFile);
+				teacher.setHeadUrl(headurl);
 			} catch (Exception e) {
 				return R.error();
 			}

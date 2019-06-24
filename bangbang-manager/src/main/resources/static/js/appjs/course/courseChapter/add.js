@@ -19,12 +19,13 @@ $().ready(function() {
 	});
 	validateRule();
 });
-
 $.validator.setDefaults({
 	submitHandler : function() {
 		save();
 	}
 });
+
+
 function save() {
 	var content_sn = $("#content_sn").summernote('code');
 	$("#chapterNotes").val(content_sn);
@@ -39,10 +40,8 @@ function save() {
 		async : false,
 	    processData:false,
 		contentType:false,
-		error : function(request) {
-			parent.layer.alert("Connection error");
-		},
 		success : function(data) {
+			console.log(data);
 			if (data.code == 0) {
 				parent.layer.msg("操作成功");
 				parent.reLoad();
@@ -53,6 +52,9 @@ function save() {
 				parent.layer.alert(data.msg)
 			}
 
+		},
+		error : function(request) {
+			parent.layer.alert("文件太大");
 		}
 	});
 

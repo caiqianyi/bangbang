@@ -34,5 +34,8 @@ public interface CourseChapterService {
 	
 	int queryCourse(Long courseId);
 
+	CourseChapterDO queryCtag();
+	
+	void deleteZJ();
 
 }
