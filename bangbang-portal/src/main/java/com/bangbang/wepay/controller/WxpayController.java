@@ -46,16 +46,16 @@ public class WxpayController {
 	private OrderService orderService;
 	@RequestMapping(value="/wxpay/payment/app", method = RequestMethod.POST)
 	Map<String,Object> appPayment(
-								  @RequestParam("spbill_create_ip")String spbill_create_ip, 
-								  @RequestParam("orderNo")String orderNo, 
-								  @RequestParam("body")String body, 
-								  @RequestParam("totalFee")BigDecimal totalFee, 
+								  String spbill_create_ip, 
+								  String orderNo, 
+								  String body, 
+								  BigDecimal totalFee, 
 							
-								  @RequestParam("userId") Long userId,
-								  @RequestParam("appid")String appid,
-								  @RequestParam("mch_id") String mch_id,
-								  @RequestParam("secret") String secret,
-								  @RequestParam("balance") Integer balance//时光贝
+								  Long userId,
+								  String appid,
+								  String mch_id,
+								  String secret,
+								  Integer balance//时光贝
 								 
 								 ) {
 		Map<String, Object> ret = new HashMap<String, Object>();
