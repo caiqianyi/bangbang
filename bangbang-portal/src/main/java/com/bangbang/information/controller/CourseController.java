@@ -1,6 +1,6 @@
 package com.bangbang.information.controller;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.bangbang.common.annotation.Log;
 import com.bangbang.information.domain.CourseChapterDO;
@@ -19,7 +18,9 @@ import com.bangbang.information.domain.CourseDO;
 import com.bangbang.information.domain.CourseSortDO;
 import com.bangbang.information.domain.PlayRecordDO;
 import com.bangbang.information.domain.SubcriberLogDO;
+import com.bangbang.information.domain.SubscriberDO;
 import com.bangbang.information.service.CourseServcie;
+import com.bangbang.information.service.SubscriberService;
 
 @RestController
 @RequestMapping("/bangbang/course")
@@ -27,6 +28,8 @@ public class CourseController {
 
 	@Autowired
 	private CourseServcie courseService;
+	@Autowired
+	private SubscriberService subscriberService;
 	/**
 	 * 查询课程分类接口
 	 */
@@ -240,5 +243,46 @@ public class CourseController {
 		}
 		
 		return resultMap;
+	}
+	
+	/**
+	 * 添加播放记录
+	 */
+	@Log("新增播放记录")
+	@PostMapping("/savePlayRecord")
+	public Map<String,Object> savePlayRecord(PlayRecordDO playRecordDO){
+		PlayRecordDO po = courseService.getLastPlayRecord(playRecordDO.getUserId());//获取最后一次记录数据
+		playRecordDO.setCreateTime(new Date());
+		playRecordDO.setDeleteFlag(0);
+		courseService.savePlayRecord(playRecordDO);
+		subscriberService.updateStudyTime(playRecordDO.getPlayedTime(),playRecordDO.getUserId());
+		Calendar calendar = Calendar.getInstance();
+		int day = calendar.get(Calendar.DAY_OF_YEAR);
+		calendar.setTime(po.getCreateTime());
+		int day1=calendar.get(Calendar.DAY_OF_YEAR);
+		if(day!=day1){//新的一天，啊 哇嘎嘎嘎
+			subscriberService.updateIfContinue(playRecordDO.getUserId(),playRecordDO.getCreateTime());
+		}
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", 0);
+		map.put("msg","succes");
+		return map;
+	}
+	
+	/**
+	 * 根据输入模糊查询课程名
+	 */
+	@Log("根据输入模糊查询课程名")
+	@GetMapping("/getCourseDim")
+	public Map<String,Object> getCourseDim(String input){
+		Map<String,Object> map=new HashMap<String,Object>();
+		List<CourseDO> list = courseService.getCourseDim(input);
+	
+			map.put("code", 0);
+			map.put("msg","sucess");
+			map.put("data",list);
+		
+		
+		return map;
 	}
 }

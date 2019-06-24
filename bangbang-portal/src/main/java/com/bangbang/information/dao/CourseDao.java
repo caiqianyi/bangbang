@@ -33,6 +33,12 @@ public interface CourseDao {
 
 	CourseDO getCourseByCourseId(Long courseId);
 
+	void savePlayRecord(PlayRecordDO playRecordDO);
+
+	PlayRecordDO getLastPlayRecord(Long userId);
+
+	List<CourseDO> getCourseDim(String input);
+
 
 
 }

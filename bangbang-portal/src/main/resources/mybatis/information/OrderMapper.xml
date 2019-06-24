@@ -4,11 +4,11 @@
 <mapper namespace="com.bangbang.wepay.dao.OrderDao">
 
 	<select id="get" resultType="com.bangbang.wepay.domain.OrderDO">
-		select `id`,`order_no`,`out_order_no`,`total_fee`,`body`,`attach`,`create_time`,`create_user`,`pay_time`,`pay_way`,`trade_type`,`status`,`trade_no`,`spbill_create_ip`,`notify_url`,`queue_key`,`appid`,`mch_id`,`call_request_body`,`group`,`recharge_fee`,`scene`,`out_refund_no` from pay_order where out_order_no = #{value}
+		select `id`,`order_no`,balance,`out_order_no`,`total_fee`,`body`,`attach`,`create_time`,`create_user`,`pay_time`,`pay_way`,`trade_type`,`status`,`trade_no`,`spbill_create_ip`,`notify_url`,`queue_key`,`appid`,`mch_id`,`call_request_body`,`group`,`recharge_fee`,`scene`,`out_refund_no` from pay_order where out_order_no = #{value}
 	</select>
 
 	<select id="list" resultType="com.bangbang.wepay.domain.OrderDO">
-		select `id`,`order_no`,`out_order_no`,`total_fee`,`body`,`attach`,`create_time`,`create_user`,`pay_time`,`pay_way`,`trade_type`,`status`,`trade_no`,`spbill_create_ip`,`notify_url`,`queue_key`,`appid`,`mch_id`,`call_request_body`,`group`,`recharge_fee`,`scene`,`out_refund_no` from pay_order
+		select `id`,`order_no`,balance  ,course_id,name,`out_order_no`,`total_fee`,`body`,`attach`,`create_time`,`create_user`,`pay_time`,`pay_way`,`trade_type`,`status`,`trade_no`,`spbill_create_ip`,`notify_url`,`queue_key`,`appid`,`mch_id`,`call_request_body`,`group`,`recharge_fee`,`scene`,`out_refund_no` from pay_order
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
@@ -100,7 +100,8 @@
 			`group`, 
 			`recharge_fee`, 
 			`scene`, 
-			`out_refund_no`
+			`out_refund_no`,
+			balance
 		)
 		values
 		(
@@ -125,7 +126,8 @@
 			#{group}, 
 			#{rechargeFee}, 
 			#{scene}, 
-			#{outRefundNo}
+			#{outRefundNo},
+			#{balance}
 		)
 	</insert>
 	 
@@ -157,7 +159,9 @@
 		</set>
 		where id = #{id}
 	</update>
-	
+	<select id="getOrderStatus" resultType="com.bangbang.wepay.domain.OrderDO">
+		  select `id`,`order_no`,`status` where order_no=#{value}
+	</select>
 	<delete id="remove">
 		delete from pay_order where id = #{value}
 	</delete>

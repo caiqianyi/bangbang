@@ -1,7 +1,9 @@
 package com.bangbang.information.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +33,7 @@ public class SubscriberDO implements Serializable {
 	private Date birthday;
 
 	//时光贝
-	private Double balance;
+	private Integer balance;
 	//昵称
 	private String nickname;
 	//微信id
@@ -58,8 +60,13 @@ public class SubscriberDO implements Serializable {
 	private Integer askCount;
 	//连续学习天数
 	private Long studyContinuity ;
-    //学习总的时间（单位  ：hour）
+    //学习总的时间（单位  ：分钟）
 	private Long studyTime;
+	//优惠券的数量
+	private Integer couponCount;
+	
+	private List<String> days = new ArrayList<String>();
+	private List<String> hours = new ArrayList<String>();
 	
 	/**
 	 * 设置：id
@@ -138,13 +145,13 @@ public class SubscriberDO implements Serializable {
 	/**
 	 * 设置：时光贝
 	 */
-	public void setBalance(Double balance) {
+	public void setBalance(Integer balance) {
 		this.balance = balance;
 	}
 	/**
 	 * 获取：时光贝
 	 */
-	public Double getBalance() {
+	public Integer getBalance() {
 		return balance;
 	}
 	/**
@@ -251,6 +258,25 @@ public class SubscriberDO implements Serializable {
 	public void setStudyTime(Long studyTime) {
 		this.studyTime = studyTime;
 	}
+	public Integer getCouponCount() {
+		return couponCount;
+	}
+	public void setCouponCount(Integer couponCount) {
+		this.couponCount = couponCount;
+	}
+	public List<String> getDays() {
+		return days;
+	}
+	public void setDays(List<String> days) {
+		this.days = days;
+	}
+	public List<String> getHours() {
+		return hours;
+	}
+	public void setHours(List<String> hours) {
+		this.hours = hours;
+	}
+	
 	
 	
 }

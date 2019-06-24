@@ -71,7 +71,7 @@ function load() {
 								},
 																{
 									field : 'playedTime', 
-									title : '上次播放时间' 
+									title : '播放时长' 
 								}
 																
 																

@@ -1,10 +1,12 @@
 package com.bangbang.information.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.bangbang.information.domain.ChartData;
 import com.bangbang.information.domain.SubscriberDO;
 
 @Mapper
@@ -23,6 +25,9 @@ public interface SubscriberDao {
 	int updateSex(@Param("id") Long id,@Param("sex") Integer sex);
 
 	int updateHeadUrl(@Param("id") Long id, @Param("headUrl") String headUrl);
+	void updateStudyTime(@Param("userId") Long userId,@Param("playedTime") long playedTime);
 
-	/*int update(SubscriberDO subscriberDO);*/
+	void updateIfContinue(@Param("userId") Long userId, @Param("createTime") Date createTime);
+
+	List<ChartData> getDaysPlayedTime(@Param("userId") Long userId, @Param("date1") Date date1, @Param("date2") Date date2);
 }

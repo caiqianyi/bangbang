@@ -28,22 +28,39 @@
 	</select>
 	
 	<select id="getPlayRecord" resultType="com.bangbang.information.domain.PlayRecordDO">
-	  select p.character_id,c.url,p.name,p.chapter_name,p.played_time,p.surplus_time,p.chapter_num,p.course_cover  from play_record p,course_chapter c
-	    <where>  
-		  	<if test="courseId != null and courseId != ''"> and p.course_id = #{courseId} </if>
-		  	<if test="userId != null and userId != ''"> and p.user_id = #{userId} </if>
-		</where>
-		and p.character_id=c.id
+					 SELECT
+					pr.user_id,
+					pr.character_id,
+					pr.played_time,
+					cc.url,
+					cc.course_id ,
+					cc.course_name,
+					cc.name,
+					cc.chapter_name,
+					co.course_cover ,
+					co.chapter_num 
+				FROM
+					play_record pr,
+					course_chapter cc,
+					course co
+				WHERE
+					pr.character_id = cc.id
+				AND pr.course_id = co.course_id
+		  
+		  	<if test="courseId != null and courseId != ''"> and pr.course_id = #{courseId} </if>
+		  	<if test="userId != null and userId != ''"> and pr.user_id = #{userId} </if>
+		
+	
 	</select>
 	
 	<select id="getCourseCharacterByCourseId" resultType="com.bangbang.information.domain.CourseChapterDO">
-		select id,course_id,chapter_num,chapter_name,chapter_notes,url from course_chapter where course_id=#{courseId}
+		select id,course_id,chapter_num,chapter_name,chapter_notes,url,duration from course_chapter where course_id=#{courseId}
 	</select>
 	
 	
 	<select id="getPlayRecordByUserIdAndCourseId" resultType="com.bangbang.information.domain.PlayRecordDO">
-		select `character_id`,`chapter_name`,`played_time`,`surplus_time` from play_record
-		where course_id=#{courseId} and user_id=#{userId}
+		select pr.character_id,cc.chapter_name,pr.played_time from play_record pr,course_chapter cc
+		where pr.character_id=cc.id and  pr.course_id=#{courseId} and pr.user_id=#{userId}
 	</select>
 	
 	<insert id="saveSubcriberLog" parameterType="com.bangbang.information.domain.SubcriberLogDO" useGeneratedKeys="true" keyProperty="id">
@@ -78,9 +95,39 @@
 		)
 	</insert>
 	
-	<select id="getCourseByCourseId" resultType="com.bangbang.information.domain.CourseDO">
+	<select id="getCourseByCourseId" resultType="com.bangbang.information.domain.CourseDO" >
 		  select `id`,`course_id`,`name`,`course_notes`,`money_type`,`money`,`questions`,`course_cover`,`teacher`,`chapter_num`,course_name
 	   from course where course_id=#{value}
 	 </select>
 	
+	<insert id="savePlayRecord" parameterType="com.bangbang.information.domain.PlayRecordDO" useGeneratedKeys="true" keyProperty="id">
+		insert into play_record
+		(
+			`course_id`,
+  			`played_time`,
+  			`user_id`,
+  			`delete_flag`,
+  			`character_id`,
+  			 create_time
+		)
+		values
+		(
+			#{courseId},
+			#{playedTime},
+			#{userId},
+			#{deleteFlag},
+			#{characterId},
+			#{createTime}
+		)
+	</insert>
+	
+	<select id="getLastPlayRecord" resultType="com.bangbang.information.domain.PlayRecordDO">
+		select * from play_record where create_time=(	select max(create_time) from play_record where user_id=#{userId})
+		and user_id=#{userId}
+	</select>
+	
+	<select id="getCourseDim" resultType="com.bangbang.information.domain.CourseDO">
+		  select `id`,`course_id`,`name`,`course_notes`,`money_type`,`money`,`questions`,`course_cover`,`teacher`,`chapter_num`,course_name
+	   from course where name like concat('%', #{value},'%')
+	</select>
 </mapper>

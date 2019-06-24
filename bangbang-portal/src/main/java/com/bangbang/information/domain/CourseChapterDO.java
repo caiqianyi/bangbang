@@ -33,7 +33,8 @@ public class CourseChapterDO implements Serializable {
 	private String chapterNotes;
 	//课程url
 	private String url;
-	
+	//章节的播放时间
+	private String duration;
 	/**
 	 * 设置：id
 	 */
@@ -130,4 +131,12 @@ public class CourseChapterDO implements Serializable {
 	public String getUrl() {
 		return url;
 	}
+	public String getDuration() {
+		return duration;
+	}
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+	
+	
 }

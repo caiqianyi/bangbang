@@ -30,4 +30,6 @@ public interface OrderDao {
 	int remove(Integer id);
 	
 	int batchRemove(Integer[] ids);
+
+	OrderDO getOrderStatus(String orderNo);
 }

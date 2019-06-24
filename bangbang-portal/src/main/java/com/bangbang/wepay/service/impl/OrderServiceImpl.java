@@ -29,5 +29,10 @@ public class OrderServiceImpl implements OrderService {
 	public OrderDO getbyno(String no) {
 		return orderDao.get(no);
 	}
+
+	@Override
+	public OrderDO getOrderStatus(String orderNo) {
+		return orderDao.getOrderStatus(orderNo);
+	}
 	
 }

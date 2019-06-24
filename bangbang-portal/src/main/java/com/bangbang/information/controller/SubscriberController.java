@@ -1,38 +1,35 @@
 package com.bangbang.information.controller;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import javax.mail.Multipart;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.aliyun.oss.internal.OSSUtils;
 import com.bangbang.common.annotation.Log;
-import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.utils.FileUtil;
 import com.bangbang.common.utils.OssUtils;
-import com.bangbang.information.domain.LeaveMessageDO;
-import com.bangbang.information.domain.QuestioneAnswersDO;
-import com.bangbang.information.domain.SubcriberLogDO;
+import com.bangbang.information.domain.ChartData;
 import com.bangbang.information.domain.SubscriberDO;
 import com.bangbang.information.service.SubscriberService;
 
 @RestController
 @RequestMapping("/bangbang/subscriber")
 public class SubscriberController {
-	@Autowired
-	private BootdoConfig bootdoConfig;
+	
 	@Autowired
 	private SubscriberService subscriberService;
 	
@@ -43,13 +40,56 @@ public class SubscriberController {
 	@GetMapping("/info")
 	public Map<String,Object> getSubscriberInfo(String phone){
 		SubscriberDO subscriberDO = subscriberService.getInfo(phone);
+		/**
+		 * 获取前七天的播放数据
+		 */
+		Calendar calendar =Calendar.getInstance();
+		Date date1=calendar.getTime();//当前的
+		calendar.add(Calendar.DAY_OF_YEAR, -6);
+		Date date2=calendar.getTime();//七天前
+		List<ChartData> list = subscriberService.getDaysPlayedTime(subscriberDO.getId(),date1,date2);
+		chatdatamanager(subscriberDO,list);
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("code", 0);
-		map.put("msg","");
+		map.put("msg","success");
 		map.put("data", subscriberDO);
 		return map;
 	}
 	
+	
+
+	/**
+	 * 显示数据拼装
+	 */
+	private void chatdatamanager(SubscriberDO subscriberDO, List<ChartData> list) {
+		Calendar calendar = Calendar.getInstance();
+		Map<String,Long> map = new LinkedHashMap<String,Long>();
+		calendar.add(Calendar.DAY_OF_YEAR,-6);
+		Date date=  calendar.getTime();
+		map.put(new SimpleDateFormat("MM/dd").format(date),0l);
+		for(int i=0;i<6;i++){
+			calendar.add(Calendar.DAY_OF_YEAR,1);
+			date=  calendar.getTime();
+			map.put(new SimpleDateFormat("MM/dd").format(date),0l);
+		}
+		for(ChartData c: list){
+			map.put(c.getStr(), c.getSumPlayedTime());
+		}
+		
+		 List<String> days=new ArrayList<String>();
+		 List<String> hours=new ArrayList<String>();
+		 DecimalFormat df = new DecimalFormat("0.00");
+		 for(Entry<String, Long> e: map.entrySet()){
+			 days.add(e.getKey());
+			 hours.add(df.format((float)e.getValue()/(float)60));
+		 }
+		 subscriberDO.setDays(days);
+		 subscriberDO.setHours(hours);
+	}
+
+
+
+
 	/**
 	 * 更改昵称
 	 */
@@ -178,4 +218,6 @@ public class SubscriberController {
 	        }
 	        return map;
 	}
+	
+	
 }

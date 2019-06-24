@@ -27,6 +27,7 @@ import com.bangbang.common.controller.BaseController;
 import com.bangbang.common.domain.FileDO;
 import com.bangbang.common.utils.FileType;
 import com.bangbang.common.utils.FileUtil;
+import com.bangbang.common.utils.OssUtils;
 import com.bangbang.common.utils.PageUtils;
 import com.bangbang.common.utils.Query;
 import com.bangbang.common.utils.R;
@@ -111,13 +112,12 @@ public class BannerController extends BaseController {
 		if(total >= 5 && sysFile.getIsEnable() == 0){
 			return R.error("最多显示5张轮播图!");
 		}
-		
-		
-		String fileName = sysFile.getImgFile().getOriginalFilename();
-		fileName = FileUtil.renameToUUID(fileName);
 		try {
-			FileUtil.uploadFile(sysFile.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-			sysFile.setUrl("/files/" + fileName);
+			String fileName = sysFile.getImgFile().getOriginalFilename();
+			fileName = FileUtil.renameToUUID(fileName);
+			OssUtils ossUtils= new OssUtils(fileName);
+	        String headurl =  ossUtils.uploadObject(sysFile.getImgFile());
+			sysFile.setUrl(headurl);
 			sysFile.setAddTime(new Date());
 			sysFile.setUpdateTime(new Date());
 			sysFile.setUserId(this.getUserId());
@@ -161,13 +161,13 @@ public class BannerController extends BaseController {
 	@RequestMapping("/update")
 	//@RequiresPermissions("carousel:update")
 	public R update( BannerDO sysFile) {
-		System.out.println("================");
 		if(sysFile.getImgFile() != null && sysFile.getImgFile().getSize() > 0){
-			String fileName = sysFile.getImgFile().getOriginalFilename();
-			fileName = FileUtil.renameToUUID(fileName);
 			try {
-				FileUtil.uploadFile(sysFile.getImgFile().getBytes(), bootdoConfig.getUploadPath(), fileName);
-				sysFile.setUrl("/files/" + fileName);
+				String fileName = sysFile.getImgFile().getOriginalFilename();
+				fileName = FileUtil.renameToUUID(fileName);
+				OssUtils ossUtils= new OssUtils(fileName);
+				String headurl =  ossUtils.uploadObject(sysFile.getImgFile());
+				sysFile.setUrl(headurl);
 			} catch (Exception e) {
 				return R.error();
 			}
@@ -175,7 +175,7 @@ public class BannerController extends BaseController {
 		}
 		sysFile.setUserId(this.getUserId());
 		sysFile.setUpdateTime(new Date());
-		sysFile.setUserId(this.getUserId());
+	
 		bannerService.update(sysFile);
 		
 		return R.ok();

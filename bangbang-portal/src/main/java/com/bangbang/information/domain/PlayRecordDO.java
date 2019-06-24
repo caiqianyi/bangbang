@@ -18,7 +18,7 @@ public class PlayRecordDO implements Serializable {
 	//id
 	private Integer id;
 	//课程编号
-	private Integer courseId;
+	private Long courseId;
 	//课程分类
 	private String courseName;
 	//课程名称
@@ -28,7 +28,7 @@ public class PlayRecordDO implements Serializable {
 	//章节名称
 	private String chapterName;
 	//上次播放时间
-	private Date playedTime;
+	private long playedTime;
 
 	//用户id
 	private Long userId;
@@ -38,6 +38,8 @@ public class PlayRecordDO implements Serializable {
 	private Integer chapterNum;
 	//课程封面
 	private String courseCover;
+	//记录添加时间
+	private Date createTime;
 	
 	//课程url
 	private String url;
@@ -56,13 +58,13 @@ public class PlayRecordDO implements Serializable {
 	/**
 	 * 设置：课程编号
 	 */
-	public void setCourseId(Integer courseId) {
+	public void setCourseId(Long courseId) {
 		this.courseId = courseId;
 	}
 	/**
 	 * 获取：课程编号
 	 */
-	public Integer getCourseId() {
+	public Long getCourseId() {
 		return courseId;
 	}
 	/**
@@ -104,13 +106,13 @@ public class PlayRecordDO implements Serializable {
 	/**
 	 * 设置：上次播放时间
 	 */
-	public void setPlayedTime(Date playedTime) {
+	public void setPlayedTime(long playedTime) {
 		this.playedTime = playedTime;
 	}
 	/**
 	 * 获取：上次播放时间
 	 */
-	public Date getPlayedTime() {
+	public long getPlayedTime() {
 		return playedTime;
 	}
 	
@@ -162,6 +164,12 @@ public class PlayRecordDO implements Serializable {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	
 	

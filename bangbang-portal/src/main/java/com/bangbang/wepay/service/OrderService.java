@@ -17,4 +17,5 @@ public interface OrderService {
 	int save(OrderDO order);
 	int update(OrderDO order);
 	OrderDO getbyno(String tno);
+	OrderDO getOrderStatus(String orderNo);
 }

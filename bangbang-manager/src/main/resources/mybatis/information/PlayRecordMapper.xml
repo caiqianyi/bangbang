@@ -8,24 +8,42 @@
 	</select>
 
 	<select id="list" resultType="com.bangbang.information.domain.PlayRecordDO">
-		select `id`,`course_id`,`course_name`,`name`,`chapters_name`,`played_time`,`user_id`,`delete_flag` from play_record
-        <where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="courseId != null and courseId != ''"> and course_id = #{courseId} </if>
-		  		  <if test="courseName != null and courseName != ''"> and course_name = #{courseName} </if>
-		  		  <if test="name != null and name != ''"> and name = #{name} </if>
-		  		  <if test="chaptersName != null and chaptersName != ''"> and chapters_name = #{chaptersName} </if>
-		  		  <if test="playedTime != null and playedTime != ''"> and played_time = #{playedTime} </if>
-		  		  <if test="surplusTime != null and surplusTime != ''"> and surplus_time = #{surplusTime} </if>
-		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
-		  		  <if test="deleteFlag != null and deleteFlag != ''"> and delete_flag = #{deleteFlag} </if>
-		  		</where>
+	 				SELECT
+					pr.user_id,
+					pr.character_id,
+					pr.played_time,
+					cc.url,
+					cc.course_id ,
+					cc.course_name,
+					cc.name,
+					cc.chapter_name,
+					co.course_cover ,
+					co.chapter_num 
+				FROM
+					play_record pr,
+					course_chapter cc,
+					course co
+				WHERE
+					pr.character_id = cc.id
+				AND pr.course_id = co.course_id
+		 
+		
+       
+		  		  <if test="courseId != null and courseId != ''"> and pr.course_id = #{courseId} </if>
+		  		  <if test="courseName != null and courseName != ''"> and cc.course_name = #{courseName} </if>
+		  		  <if test="name != null and name != ''"> and cc.name = #{name} </if>
+		  		  <if test="chaptersName != null and chaptersName != ''"> and cc.chapters_name = #{chaptersName} </if>
+		  		  <if test="playedTime != null and playedTime != ''"> and pr.played_time = #{playedTime} </if>
+		  		 
+		  		  <if test="userId != null and userId != ''"> and pr.user_id = #{userId} </if>
+		  		  <if test="deleteFlag != null and deleteFlag != ''"> and pr.delete_flag = #{deleteFlag} </if>
+		  		
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
             </when>
 			<otherwise>
-                order by id desc
+                order by pr.id desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">

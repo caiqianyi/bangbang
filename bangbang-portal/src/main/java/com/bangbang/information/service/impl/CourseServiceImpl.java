@@ -55,5 +55,17 @@ public class CourseServiceImpl implements CourseServcie{
 		
 		return courseDao.getCourseByCourseId(courseId);
 	}
+	@Override
+	public void savePlayRecord(PlayRecordDO playRecordDO) {
+		courseDao.savePlayRecord(playRecordDO);
+	}
+	@Override
+	public PlayRecordDO getLastPlayRecord(Long userId) {
+		return courseDao.getLastPlayRecord(userId);
+	}
+	@Override
+	public List<CourseDO> getCourseDim(String input) {
+		return courseDao.getCourseDim(input);
+	}
 	
 }

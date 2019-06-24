@@ -27,5 +27,11 @@ public interface CourseServcie {
 
 	CourseDO getCourseByCourseId(Long courseId);
 
+	void savePlayRecord(PlayRecordDO playRecordDO);
+
+	PlayRecordDO getLastPlayRecord(Long userId);
+
+	List<CourseDO> getCourseDim(String input);
+
 	
 }

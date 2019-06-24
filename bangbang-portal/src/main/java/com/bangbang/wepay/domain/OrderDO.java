@@ -23,7 +23,7 @@ public class OrderDO implements Serializable {
 	//支付项目订单号
 	private String outOrderNo;
 	//支付金额
-	private BigDecimal totalFee;
+	private Integer totalFee;
 	//descr
 	private String body;
 	//attach
@@ -63,6 +63,8 @@ public class OrderDO implements Serializable {
 	//商户退款单号
 	private String outRefundNo;
 
+	//时光贝
+	private Integer balance;
 	/**
 	 * 设置：
 	 */
@@ -102,13 +104,13 @@ public class OrderDO implements Serializable {
 	/**
 	 * 设置：支付金额
 	 */
-	public void setTotalFee(BigDecimal totalFee) {
+	public void setTotalFee(Integer totalFee) {
 		this.totalFee = totalFee;
 	}
 	/**
 	 * 获取：支付金额
 	 */
-	public BigDecimal getTotalFee() {
+	public Integer getTotalFee() {
 		return totalFee;
 	}
 	/**
@@ -339,4 +341,12 @@ public class OrderDO implements Serializable {
 	public String getOutRefundNo() {
 		return outRefundNo;
 	}
+	public Integer getBalance() {
+		return balance;
+	}
+	public void setBalance(Integer balance) {
+		this.balance = balance;
+	}
+	
+	
 }

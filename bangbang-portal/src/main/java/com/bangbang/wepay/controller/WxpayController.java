@@ -15,12 +15,14 @@ import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bangbang.common.annotation.Log;
 import com.bangbang.owneruser.comment.GenerateCode;
 import com.bangbang.wepay.domain.OrderDO;
 import com.bangbang.wepay.domain.PayOrderEntity;
@@ -44,17 +46,18 @@ public class WxpayController {
 	private OrderService orderService;
 	@RequestMapping(value="/wxpay/payment/app", method = RequestMethod.POST)
 	Map<String,Object> appPayment(
-								 @RequestParam("spbill_create_ip")String spbill_create_ip, 
+								  @RequestParam("spbill_create_ip")String spbill_create_ip, 
 								  @RequestParam("orderNo")String orderNo, 
 								  @RequestParam("body")String body, 
-								  @RequestParam("totalFee")Integer totalFee, 
-								  @RequestParam("attach")String attach, 
+								  @RequestParam("totalFee")BigDecimal totalFee, 
+							
 								  @RequestParam("userId") Long userId,
 								  @RequestParam("appid")String appid,
 								  @RequestParam("mch_id") String mch_id,
 								  @RequestParam("secret") String secret,
-								  @RequestParam(value="rechargeFee",required=false)Integer rechargeFee,
-								  @RequestParam(value="scene",required=false)String scene) {
+								  @RequestParam("balance") Integer balance//时光贝
+								 
+								 ) {
 		Map<String, Object> ret = new HashMap<String, Object>();
 		String tradeType = "APP";
 		
@@ -67,7 +70,7 @@ public class WxpayController {
 		// 参数：开始生成签名
 		SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
 		parameters.put("appid", appid);//应用ID
-		parameters.put("attach", attach);//附加数据
+		
 		parameters.put("body", body);//商品描述
 		parameters.put("mch_id", mch_id);//商户号
 		parameters.put("nonce_str", nonce_str);//随机字符串
@@ -81,14 +84,14 @@ public class WxpayController {
 
 		Unifiedorder unifiedorder = new Unifiedorder();
 		unifiedorder.setAppid(appid);
-		unifiedorder.setAttach(attach);
+	
 		unifiedorder.setBody(body);
 		unifiedorder.setMch_id(mch_id);
 		unifiedorder.setNonce_str(nonce_str);
 		unifiedorder.setNotify_url(notify_url);
 		unifiedorder.setOut_trade_no(out_trade_no);
 		unifiedorder.setSpbill_create_ip(spbill_create_ip);
-		unifiedorder.setTotal_fee(totalFee);
+		unifiedorder.setTotal_fee(totalFee.intValue());
 		unifiedorder.setTrade_type(tradeType);
 		unifiedorder.setSign(sign);
 
@@ -135,10 +138,11 @@ public class WxpayController {
 		
 		OrderDO order = new OrderDO();
 		order.setAppid(appid);
-		order.setAttach(attach);
+	
 		order.setBody(body);
 		order.setCreateTime(new Date());
 		order.setCreateUser(userId);
+		order.setBalance(balance);
 //		order.setGroup(group);
 		order.setMchId(mch_id);
 		order.setNotifyUrl(notify_url);
@@ -147,10 +151,8 @@ public class WxpayController {
 		order.setPayWay("WX");
 		order.setSpbillCreateIp(spbill_create_ip);
 		order.setStatus(0);
-		order.setTotalFee(new BigDecimal(totalFee).divide(new BigDecimal(rechargeFee)));
-		order.setRechargeFee(rechargeFee);
+		order.setTotalFee(totalFee.divide(new BigDecimal(100)).intValue());
 		order.setTradeType(tradeType);
-		order.setScene(scene);
 		orderService.save(order);
 		
 		nonce_str = RandCharsUtils.getRandomString(16);
@@ -184,7 +186,19 @@ public class WxpayController {
 		return ret;
 	}
 	
-	
+	/**
+	 * 根据订单号查询订单状态
+	 */
+	@Log("根据订单号查询订单状态")
+	@GetMapping("/getOrderStatus")
+	public Map<String,Object> getOrderStatus(String orderNo){
+		OrderDO orderDO = orderService.getOrderStatus(orderNo);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("code", 0);
+		map.put("msg","success");
+		map.put("data",orderDO);
+		return map;
+	}
 	
 	/**
 	 * 保存
@@ -203,13 +217,13 @@ public class WxpayController {
 	                String ordersSn = notifyMap.get("out_trade_no").toString();//商户订单号 
 	                String totalFee = notifyMap.get("total_fee").toString();//实际支付的订单金额:单位 分
 	                OrderDO order = orderService.getbyno(ordersSn);
+	                /**********************修改订单信息************************/
 	                if(order!=null){
 	                	order.setPayTime(new Date());
 	                	order.setStatus(1);
-	                	order.setTotalFee(new BigDecimal(totalFee).divide(new BigDecimal(100)));
-	        		orderService.update(order);
+	        		   orderService.update(order);
 	              }
-	                  
+	                /**********************添加够买的课程*****************************/
 	            }  
 	        }
 	        //告诉微信服务器收到信息了，不要在调用回调action了========这里很重要回复微信服务器信息用流发送一个xml即可

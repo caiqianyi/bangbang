@@ -265,8 +265,7 @@ public class LoginController extends BaseController {
 	                                message.put("code", 0);
 	                                message.put("msg", "登录成功");
 	                                message.put("data", info);
-	                                
-	                            	
+	                             
 	                            }
 	                        }
 	                    }
