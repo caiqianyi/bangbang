@@ -14,8 +14,10 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.event.ProgressEvent;
 import com.aliyun.oss.event.ProgressEventType;
 import com.aliyun.oss.event.ProgressListener;
+import com.aliyun.oss.model.Bucket;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
+import com.aliyun.oss.model.PutObjectResult;
 import com.bangbang.information.domain.SubscriberDO;
 
 /**
@@ -42,11 +44,24 @@ public class OssUtils {
 		return new OSSClient(OssUtils.ENDPOINT,OssUtils.ACCESSKEY,OssUtils.ACCESS_SECRET);
 	}
 	
+	/**    
+	 * 新建Bucket  --Bucket权限:私有    
+	 * @param bucketName bucket名称     
+	 * @return true 新建Bucket成功  
+	 */
+	public static final boolean createBucket(OSSClient client){
+		String bucketName = "oss-bangbang-my";
+		Bucket bucket = client.createBucket(bucketName);
+		return bucketName.equals(bucket.getName());
+	}
+
+	
 	/**
 	 * 图片上传OSS
 	 */
 	
 	public  String uploadObject2OSS(OSSClient ossClient,MultipartFile file,String bucketName){
+		String diskName = "bangbang/datas/";
 		String resultStr=null;
 		try {
 //			String fileName=file.getOriginalFilename();
@@ -59,9 +74,9 @@ public class OssUtils {
 			metadata.setContentType("");
 			metadata.setContentDisposition("filename/filesize=" +fileName+"/"+fileSize+"Byte.");
 			//文件上传
-			ossClient.putObject(bucketName,this.fileName,file.getInputStream(),metadata);
+			ossClient.putObject(bucketName,diskName + this.fileName,file.getInputStream(),metadata);
 			ossClient.shutdown();
-			resultStr="http://"+OssUtils.BUCKET_NAME+"."+OssUtils.ENDPOINT+"/"+fileName;
+			resultStr="http://"+OssUtils.BUCKET_NAME+"."+OssUtils.ENDPOINT+"/"+diskName + fileName;
 		} catch (OSSException | ClientException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,7 +93,9 @@ public class OssUtils {
 		String resultStr=null;
 		// 创建OSSClient实例
         OSSClient ossClient = new OSSClient(ENDPOINT, ACCESSKEY, ACCESS_SECRET);
+        createBucket(ossClient);
         
+        String diskName = "bangbang/datas/";
 		try {
 //			String fileName=file.getOriginalFilename();
 			Long fileSize=file.getSize();
@@ -99,8 +116,8 @@ public class OssUtils {
 				e.printStackTrace();
 			}
 			//文件上传带进度条
-			ossClient.putObject(new PutObjectRequest(bucketName,fileName,f).<PutObjectRequest>withProgressListener(new PutObjectProgressListener(request.getSession())));
-			resultStr="http://"+OssUtils.BUCKET_NAME+"."+OssUtils.ENDPOINT+"/"+fileName;
+			ossClient.putObject(new PutObjectRequest(bucketName,diskName + fileName,f).<PutObjectRequest>withProgressListener(new PutObjectProgressListener(request.getSession())));
+			resultStr="http://"+OssUtils.BUCKET_NAME+"."+OssUtils.ENDPOINT+"/"+diskName + fileName;
 		} catch (OSSException | ClientException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,6 +165,7 @@ public class OssUtils {
 	
 	public  String uploadObject(MultipartFile headPic){
 		OSSClient ossClient=getOSSClient();
+		createBucket(ossClient);
 		return uploadObject2OSS(ossClient,headPic, OssUtils.BUCKET_NAME);
 	}
 	

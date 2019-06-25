@@ -21,11 +21,72 @@ $().ready(function() {
 });
 $.validator.setDefaults({
 	submitHandler : function() {
+		interval();
 		save();
 	}
 });
 
+//每100ms获取一次图片上传进度
+var intervalId;
+function interval(){
+    intervalId = window.setInterval(showPercent, 100);
+}
 
+//获取图片进度数据
+function showPercent(){
+	var formData = new FormData(document.getElementById("signupForm"));
+	$.ajax({
+		cache : true,
+		type : "POST",
+		url : "/information/courseChapter/percent",
+		data : formData, // $('#signupForm').serialize(),// 你的formid
+		async : false,
+	    processData:false,
+		contentType:false,
+		success : function(data) {
+			//console.log(data);
+			var end = 0;
+            var per = 0;
+            end = data.end;
+            per = data.percent + "%";
+            console.log(per);
+            console.log("end:" + end);
+            $("#percent").val(data.percent);//图片上传进度
+            $("#per").html(per);
+            if (per == '100%'){ //图片上传结束标识
+                stopInterval();
+                //图片上传完成session重置
+            	clearPercent();
+        	}
+
+		},
+		error : function(request) {
+			stopInterval();
+			clearPercent();
+			parent.layer.alert("文件太大");
+		}
+	});
+}
+
+//清除进度数据
+function clearPercent(){
+	$.ajax({
+	        type : "POST",
+	        contentType : false,
+	        async : false,
+	        cache : false,
+	        url : "/information/courseChapter/percent/reset",
+	        dataType : "json",
+	        success : function(data) {
+	        console.log("ddd:"+data);
+	        }
+	    });
+}
+
+//清除时间
+function stopInterval(){
+  window.clearInterval(intervalId);
+}
 function save() {
 	var content_sn = $("#content_sn").summernote('code');
 	$("#chapterNotes").val(content_sn);
@@ -37,7 +98,7 @@ function save() {
 		type : "POST",
 		url : "/information/courseChapter/save",
 		data : formData, // $('#signupForm').serialize(),// 你的formid
-		async : false,
+		async : true,
 	    processData:false,
 		contentType:false,
 		success : function(data) {

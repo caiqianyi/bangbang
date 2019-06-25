@@ -45,8 +45,6 @@ public class CourseChapterDO implements Serializable {
 	private Date startTime;
 	//结束时间
 	private Date endTime;
-	//上传标签
-	private Integer Ctag;
 	//文件时长
 	private String duration;
 	
@@ -58,12 +56,6 @@ public class CourseChapterDO implements Serializable {
 	}
 	public void setDuration(String duration) {
 		this.duration = duration;
-	}
-	public Integer getCtag() {
-		return Ctag;
-	}
-	public void setCtag(Integer ctag) {
-		Ctag = ctag;
 	}
 	public MultipartFile getImgFile() {
 		return imgFile;

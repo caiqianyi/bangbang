@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aliyun.oss.OSSClient;
 import com.bangbang.common.config.BootdoConfig;
 import com.bangbang.common.utils.FileUtil;
 import com.bangbang.common.utils.OssUtils;
@@ -125,7 +126,7 @@ public class CourseController {
 	public R save( CourseDO course,Long courseId,QuestionsMoneyNotesDO qmn){
 		MultipartFile imgFile = course.getImgFile();
 		String fileName = imgFile.getOriginalFilename();
-		fileName = FileUtil.renameToUUID(fileName);		
+		fileName = FileUtil.renameToUUID(fileName);	
 		try {	
 			OssUtils ossUtils=new OssUtils(fileName);
 	        String headurl =  ossUtils.uploadObject(imgFile);
