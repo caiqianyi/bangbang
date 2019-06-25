@@ -1,6 +1,7 @@
 package com.bangbang.owneruser.comment;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -102,8 +103,15 @@ public class GenerateCode {
     	Random random = new Random();
     	return random.nextInt(max);
     }
-    public static void main(String[] a){
-    	System.out.println(gen16(6));
+    
+    public static String getOrderIdByTime(Long userId) {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+        String newDate=sdf.format(new Date());
+        String result="";
+        Random random=new Random();
+        for(int i=0;i<3;i++){
+            result+=random.nextInt(10);
+        }
+        return newDate+result+userId;
     }
-
 }

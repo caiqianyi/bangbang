@@ -1,10 +1,15 @@
 package com.bangbang.wepay.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 
 public class GenerateCode {
 
@@ -102,7 +107,31 @@ public class GenerateCode {
     	return random.nextInt(max);
     }
     public static void main(String[] a){
-    	System.out.println(gen16(6));
+		System.out.println(getOrderNo(33l));
     }
 
+    
+    public static String format1(Integer value, int minLength) {
+		StringBuffer st = new StringBuffer(value.toString());
+		if (st.length() < minLength) {
+			int len = minLength - st.length();
+			for (int i = 0; i < len; i++) {
+				st.insert(0, "0");
+			}
+		}
+		return st.toString();
+	}
+    
+    /**
+     * 生成订单号
+     */
+    
+    public static String getOrderNo(Long userId){
+    	String date = DateFormatUtils.format(new Date(), "yyyyMMdd");
+	    Integer inr = RandomUtils.nextInt(10000);
+		String orderNo = userId + date + format1(inr, 5);
+		return orderNo;
+    }
+    
+    
 }

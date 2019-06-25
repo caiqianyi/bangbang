@@ -132,35 +132,10 @@
 	</insert>
 	 
 	<update id="update" parameterType="com.bangbang.wepay.domain.OrderDO">
-		update pay_order 
-		<set>
-			<if test="orderNo != null">`order_no` = #{orderNo}, </if>
-			<if test="outOrderNo != null">`out_order_no` = #{outOrderNo}, </if>
-			<if test="totalFee != null">`total_fee` = #{totalFee}, </if>
-			<if test="body != null">`body` = #{body}, </if>
-			<if test="attach != null">`attach` = #{attach}, </if>
-			<if test="createTime != null">`create_time` = #{createTime}, </if>
-			<if test="createUser != null">`create_user` = #{createUser}, </if>
-			<if test="payTime != null">`pay_time` = #{payTime}, </if>
-			<if test="payWay != null">`pay_way` = #{payWay}, </if>
-			<if test="tradeType != null">`trade_type` = #{tradeType}, </if>
-			<if test="status != null">`status` = #{status}, </if>
-			<if test="tradeNo != null">`trade_no` = #{tradeNo}, </if>
-			<if test="spbillCreateIp != null">`spbill_create_ip` = #{spbillCreateIp}, </if>
-			<if test="notifyUrl != null">`notify_url` = #{notifyUrl}, </if>
-			<if test="queueKey != null">`queue_key` = #{queueKey}, </if>
-			<if test="appid != null">`appid` = #{appid}, </if>
-			<if test="mchId != null">`mch_id` = #{mchId}, </if>
-			<if test="callRequestBody != null">`call_request_body` = #{callRequestBody}, </if>
-			<if test="group != null">`group` = #{group}, </if>
-			<if test="rechargeFee != null">`recharge_fee` = #{rechargeFee}, </if>
-			<if test="scene != null">`scene` = #{scene}, </if>
-			<if test="outRefundNo != null">`out_refund_no` = #{outRefundNo}</if>
-		</set>
-		where id = #{id}
+		update pay_order  set pay_time=#{payTime},status=1 where out_order_no = #{value}
 	</update>
 	<select id="getOrderStatus" resultType="com.bangbang.wepay.domain.OrderDO">
-		  select `id`,`order_no`,`status` where order_no=#{value}
+		  select `id`,`order_no`,`status` from pay_order  where out_order_no=#{value}
 	</select>
 	<delete id="remove">
 		delete from pay_order where id = #{value}
