@@ -40,15 +40,17 @@ public class VersionManagementController {
 	Map<String,Object> getNewAppVersion(VersionManagementDO versionManagementDO){
 		VersionManagementDO versionManagement = versionManagementService.get(versionManagementDO.getPhoneSystem());
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(versionManagement.getAppNum().compareTo(versionManagementDO.getAppNum())>0){//App版本需要更新
-			map.put("code", 0);
-			map.put("msg","出现更高版本App");
-			map.put("data", versionManagement);
-		}
-		else{
-			map.put("code", 1);
-			map.put("msg","当前App已是最高版本");
-//			map.put("data", versionManagement);
+		if(versionManagement!=null){
+			if(versionManagement.getAppNum().compareTo(versionManagementDO.getAppNum())>0){//App版本需要更新
+				map.put("code", 0);
+				map.put("msg","出现更高版本App");
+				map.put("data", versionManagement);
+			}
+			else{
+				map.put("code", 1);
+				map.put("msg","当前App已是最高版本");
+	//			map.put("data", versionManagement);
+			}
 		}
 		return map;
 	}

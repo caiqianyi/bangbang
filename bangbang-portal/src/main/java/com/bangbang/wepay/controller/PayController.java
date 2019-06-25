@@ -57,7 +57,7 @@ public class PayController {
 	private OrderService orderService;
 	@PostMapping(value="/pay/payment/app")
 	 Map<String,Object> appPayment(
-								  @RequestParam("spbill_create_ip") String spbill_create_ip, 
+								  @RequestParam(value="spbill_create_ip",required=false) String spbill_create_ip, 
 								  @RequestParam("body") String body, 
 								  @RequestParam("totalFee") BigDecimal totalFee, 
 								  @RequestParam("userId") Long userId, 
@@ -94,7 +94,7 @@ public class PayController {
 		parameters.put("notify_url", WxpayConfig.NOTIFY_URL);//通知地址	
 		parameters.put("out_trade_no", out_trade_no);//商户订单号	
 		parameters.put("spbill_create_ip", spbill_create_ip);//终端IP
-		parameters.put("total_fee", totalFee);//总金额	
+		parameters.put("total_fee", totalFee.intValue());//总金额	
 		parameters.put("trade_type", WxpayConfig.TRADE_TYPE);//交易类型	
 		String sign = WXSignUtils.createSign("UTF-8", parameters, WxpayConfig.SECRET);//生成签名
 		

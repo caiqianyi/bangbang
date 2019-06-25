@@ -172,9 +172,9 @@ public class HttpXmlUtils {
 //				bf.append(unifiedorder.getDetail());
 //				bf.append("]]></detail>");
 	//
-	            bf.append("<attach>");
-	            bf.append(unifiedorder.getAttach());
-	            bf.append("</attach>");
+//	            bf.append("<attach>");
+//	            bf.append(unifiedorder.getAttach());
+//	            bf.append("</attach>");
 
 	            bf.append("<out_trade_no>");
 	            bf.append(unifiedorder.getOut_trade_no());

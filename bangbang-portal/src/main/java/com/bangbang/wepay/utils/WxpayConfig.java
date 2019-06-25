@@ -10,7 +10,7 @@ public class WxpayConfig implements Serializable{
 	private static final long serialVersionUID = 3033022900682925884L;
 	
 	public static final String APP_ID="wx604c7cc43b3300e4";
-	public static final String MEH_ID="XXXXXXXXXXX";
+	public static final String MEH_ID="1529320981";
 	public  static final String SECRET="4eb1166c2980c78d2f5fe07dedcb157d";
 	public  static final String NOTIFY_URL="https://nmgshiguangji.com/notifycallback";
 	public static final  String TRADE_TYPE = "APP";
